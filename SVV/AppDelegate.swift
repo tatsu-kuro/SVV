@@ -7,13 +7,26 @@
 //
 
 import UIKit
+var Globalmode:Int=0//main:0 svv:1
+var GlobalLastyv0:Float=0.0//for mode0
+var GlobalLastyv1:Float=0.0//for mode1
+var GlobalLastav:Float=0.0
+var Globalrx:Float=0.0
+var Globalry:Float=0.0
+var Globallx:Float=0.0
+var Globally:Float=0.0
+var Globalpx:Float=0.0
+var Globalpy:Float=0.0
+var Globalav:Float=0.0
+var Globalbv:Float=0.0
+var Globalxv:Float=0.0
+var Globalyv:Float=0.0
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+ 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true

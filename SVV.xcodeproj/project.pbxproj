@@ -7,14 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6930FC3323B55940004D6BCF /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6930FC3223B55940004D6BCF /* GameController.framework */; };
+		6937E9F923B7A83D000A55F3 /* GameCont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6937E9F823B7A83D000A55F3 /* GameCont.swift */; };
 		8E1CFDFE22CC8926008FF15A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1CFDFD22CC8926008FF15A /* AppDelegate.swift */; };
 		8E1CFE0022CC8926008FF15A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1CFDFF22CC8926008FF15A /* ViewController.swift */; };
 		8E1CFE0322CC8926008FF15A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E1CFE0122CC8926008FF15A /* Main.storyboard */; };
 		8E1CFE0522CC8927008FF15A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E1CFE0422CC8927008FF15A /* Assets.xcassets */; };
 		8E1CFE0822CC8927008FF15A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E1CFE0622CC8927008FF15A /* LaunchScreen.storyboard */; };
+		8E1CFE1022CC8970008FF15A /* SVVViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1CFE0F22CC8970008FF15A /* SVVViewController.swift */; };
+		8E30F4F822E2834B00739638 /* SetteiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E30F4F722E2834B00739638 /* SetteiViewController.swift */; };
+		8E5DC54022CCD7450033B059 /* HeipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5DC53F22CCD7450033B059 /* HeipViewController.swift */; };
+		8EE2DF6D22D2040000207F87 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE2DF6C22D2040000207F87 /* ImagePickerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6930FC3223B55940004D6BCF /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
+		6937E9F823B7A83D000A55F3 /* GameCont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCont.swift; sourceTree = "<group>"; };
 		8E1CFDFA22CC8926008FF15A /* SVV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SVV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E1CFDFD22CC8926008FF15A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E1CFDFF22CC8926008FF15A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +30,10 @@
 		8E1CFE0422CC8927008FF15A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E1CFE0722CC8927008FF15A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E1CFE0922CC8927008FF15A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E1CFE0F22CC8970008FF15A /* SVVViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVVViewController.swift; sourceTree = "<group>"; };
+		8E30F4F722E2834B00739638 /* SetteiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetteiViewController.swift; sourceTree = "<group>"; };
+		8E5DC53F22CCD7450033B059 /* HeipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeipViewController.swift; sourceTree = "<group>"; };
+		8EE2DF6C22D2040000207F87 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +41,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6930FC3323B55940004D6BCF /* GameController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6930FC3123B55940004D6BCF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6930FC3223B55940004D6BCF /* GameController.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8E1CFDF122CC8926008FF15A = {
 			isa = PBXGroup;
 			children = (
 				8E1CFDFC22CC8926008FF15A /* SVV */,
 				8E1CFDFB22CC8926008FF15A /* Products */,
+				6930FC3123B55940004D6BCF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,7 +77,12 @@
 			isa = PBXGroup;
 			children = (
 				8E1CFDFD22CC8926008FF15A /* AppDelegate.swift */,
+				8E1CFE0F22CC8970008FF15A /* SVVViewController.swift */,
+				8E5DC53F22CCD7450033B059 /* HeipViewController.swift */,
 				8E1CFDFF22CC8926008FF15A /* ViewController.swift */,
+				6937E9F823B7A83D000A55F3 /* GameCont.swift */,
+				8E30F4F722E2834B00739638 /* SetteiViewController.swift */,
+				8EE2DF6C22D2040000207F87 /* ImagePickerViewController.swift */,
 				8E1CFE0122CC8926008FF15A /* Main.storyboard */,
 				8E1CFE0422CC8927008FF15A /* Assets.xcassets */,
 				8E1CFE0622CC8927008FF15A /* LaunchScreen.storyboard */,
@@ -135,8 +162,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E5DC54022CCD7450033B059 /* HeipViewController.swift in Sources */,
+				8EE2DF6D22D2040000207F87 /* ImagePickerViewController.swift in Sources */,
+				8E30F4F822E2834B00739638 /* SetteiViewController.swift in Sources */,
+				6937E9F923B7A83D000A55F3 /* GameCont.swift in Sources */,
 				8E1CFE0022CC8926008FF15A /* ViewController.swift in Sources */,
 				8E1CFDFE22CC8926008FF15A /* AppDelegate.swift in Sources */,
+				8E1CFE1022CC8970008FF15A /* SVVViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +245,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -268,7 +300,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -283,12 +315,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = SVV/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.SVV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -301,12 +336,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = SVV/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.SVV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
