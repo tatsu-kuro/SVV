@@ -81,10 +81,10 @@ class SetteiViewController: UIViewController {
         let ww=view.bounds.width
         let wh=view.bounds.height
         let x0=(ww/2+wh/2)+(ww-ww/2-wh/2)/10
-        var bw=(ww-ww/2-wh/2)*8/10
-        var bh=(ww/6)*15/44
-        var sp=(ww/6)/6
-        var by=wh-bh-sp*2/3
+        let bw=(ww-ww/2-wh/2)*8/10
+        let bh=(ww/6)*15/44
+        let sp=(ww/6)/6
+        let by=wh-bh-sp*2/3
         let bdy=(by-bh*5)/15
         
         self.circleDiameter.frame = CGRect(x:x0, y: bdy*3, width: bw, height: bh)
