@@ -33,7 +33,7 @@ extension ViewController {
    // Connection
    func registerGameController(_ gameController: GCController){
        print("ゲームコントローラーが接続されました")
-       print("Name: \(gameController.vendorName!)")
+//       print("Name: \(gameController.vendorName!)")
        //print("Category: \(gameController.productCategory)")
        var leftThumbstick:  GCControllerDirectionPad?
        var rightThumbstick: GCControllerDirectionPad?

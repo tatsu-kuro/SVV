@@ -136,7 +136,7 @@ class SetteiViewController: UIViewController {
         let sp=bh/10
 //        let by=wh-bh-sp*2/3
         VROnSwitch.frame = CGRect(x:x0,y:sp*3,width:bw/3,height: bh)
-        VROnText.frame = CGRect(x:x0+bw/3,y:sp*3,width:bw*2/3,height:bh)
+        VROnText.frame = CGRect(x:x0+bw/2,y:sp*3,width:bw/2,height:bh)
         VROnText.text="for VR"
         VRLocationXSlider.frame = CGRect(x:x0,y:bh*1+sp,width:bw,height: bh)
         circleDiameter.frame = CGRect(x:x0, y: bh*2+sp*5, width: bw, height: bh)

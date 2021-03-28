@@ -14,6 +14,8 @@ class SVVViewController: UIViewController {
     let motionManager = CMMotionManager()
     var cirDiameter:CGFloat = 0
     var lineWidth:Int=0
+    var locationX:Int=0
+    var VROnOff:Int=0
     var circleDiameter:Int=0
     var timer: Timer!
     var lbf:Bool=false
@@ -280,6 +282,8 @@ class SVVViewController: UIViewController {
         super.viewDidLoad()
         circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
         lineWidth=UserDefaults.standard.integer(forKey: "lineWidth")
+        locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
+        VROnOff=UserDefaults.standard.integer(forKey:"VROnOff")
         //circleDiameter=getUserDefault(str: "circleDiameter", ret: dia0)
         //lineWidth=getUserDefault(str: "lineWidth", ret: width0)
         UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -407,7 +411,7 @@ class SVVViewController: UIViewController {
         }
         drawLine(degree:Float(degree),remove:true)
     }
-    
+    /*
     func drawLine(degree:Float,remove:Bool){
         //線を引く
         if remove==true{
@@ -465,6 +469,111 @@ class SVVViewController: UIViewController {
         circleLayer.lineWidth = 0.5// 輪郭の太さ
         circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
         self.view.layer.addSublayer(circleLayer)
+        //線を引く
+        let shapeLayer = CAShapeLayer.init()
+        let uiPath = UIBezierPath()
+        uiPath.move(to:CGPoint.init(x: ww/2,y: wh/2-r/2))
+        uiPath.addLine(to: CGPoint(x:ww/2,y:wh/2+r/2))
+        shapeLayer.strokeColor = UIColor.blue.cgColor
+        shapeLayer.path = uiPath.cgPath
+        self.view.layer.addSublayer(shapeLayer)
+    }*/
+    var initFlag:Bool=true
+    func drawLine(degree:Float,remove:Bool){
+        //線を引く
+        if initFlag==true{
+            initFlag=false
+            view.layer.sublayers?.removeLast()
+
+        }else if remove==true{
+            view.layer.sublayers?.removeLast()
+            if VROnOff==1{
+            view.layer.sublayers?.removeLast()
+            }
+        }
+        let ww=view.bounds.width
+        let wh=view.bounds.height
+        var x0=ww/2
+        if VROnOff == 1{
+            x0=ww*3/4 - CGFloat(locationX)
+        }
+        let y0=wh/2
+        let r=wh*(100+10*CGFloat(circleDiameter))/400
+        let dd:Double=3.14159/900//3600//1800//900
+        let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
+        let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
+        let shapeLayer = CAShapeLayer.init()
+        let uiPath = UIBezierPath()
+        uiPath.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
+        uiPath.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
+        if mbf==true {
+            shapeLayer.strokeColor = UIColor.red.cgColor
+        } else {
+            shapeLayer.strokeColor = UIColor.blue.cgColor
+        }
+        shapeLayer.path = uiPath.cgPath
+        shapeLayer.lineWidth=CGFloat(lineWidth)/10.0
+        self.view.layer.addSublayer(shapeLayer)
+        if VROnOff==1{
+            x0=ww/4 + CGFloat(locationX)
+            let shapeLayer1 = CAShapeLayer.init()
+            let uiPath1 = UIBezierPath()
+            uiPath1.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
+            uiPath1.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
+            if mbf==true {
+                shapeLayer1.strokeColor = UIColor.red.cgColor
+            } else {
+                shapeLayer1.strokeColor = UIColor.blue.cgColor
+            }
+            shapeLayer1.path = uiPath1.cgPath
+            shapeLayer1.lineWidth=CGFloat(lineWidth)/10.0
+            self.view.layer.addSublayer(shapeLayer1)
+        }
+    }
+
+    func drawBack(){
+
+        let ww=view.bounds.width
+        let wh=view.bounds.height
+        // 四角形を描画
+        let rectangleLayer = CAShapeLayer.init()
+        let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww, height: wh)
+        rectangleLayer.frame = rectangleFrame
+        rectangleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
+        rectangleLayer.fillColor = UIColor.black.cgColor// 四角形の中の色
+        rectangleLayer.lineWidth = 2.5
+        
+        rectangleLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: rectangleFrame.size.width, height: rectangleFrame.size.height)).cgPath
+        self.view.layer.addSublayer(rectangleLayer)
+        // --- 円を描画 ---
+        let circleLayer = CAShapeLayer.init()
+        let circleLayer1 = CAShapeLayer.init()
+        //let r=wh*180/200
+        let r=wh*(100+10*CGFloat(circleDiameter))/200
+        var x0=ww/2-r/2
+        if VROnOff == 1{
+            x0=ww/4 + CGFloat(locationX) - r/2
+        }
+        let y0=wh/2-r/2
+        //print(r,x0,y0)
+        var circleFrame = CGRect.init(x:x0,y:y0,width:r,height:r)
+        circleLayer.frame = circleFrame
+        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
+        circleLayer.fillColor = UIColor.white.cgColor// 円の中の色
+        circleLayer.lineWidth = 0.5// 輪郭の太さ
+        circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
+        self.view.layer.addSublayer(circleLayer)
+        if VROnOff == 1{
+            x0=ww*3/4 - CGFloat(locationX) - r/2
+            circleFrame = CGRect.init(x:x0,y:y0,width:r,height:r)
+            circleLayer1.frame=circleFrame
+            circleLayer1.strokeColor = UIColor.black.cgColor// 輪郭の色
+            circleLayer1.fillColor = UIColor.white.cgColor// 円の中の色
+            circleLayer1.lineWidth = 0.5// 輪郭の太さ
+       
+            circleLayer1.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
+            self.view.layer.addSublayer(circleLayer1)
+        }
         //線を引く
         let shapeLayer = CAShapeLayer.init()
         let uiPath = UIBezierPath()
