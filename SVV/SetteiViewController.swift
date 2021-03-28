@@ -136,8 +136,8 @@ class SetteiViewController: UIViewController {
         let sp=bh/10
         let by=wh-bh-sp*2/3
         VROnSwitch.frame = CGRect(x:x0,y:sp*3,width:bw/3,height: bh)
-        VROnText.frame = CGRect(x:x0+bw/3,y:sp*3,width:bw*2/2,height:bh)
-        VROnText.text="2 lines for VR"
+        VROnText.frame = CGRect(x:x0+bw/2,y:sp*3,width:bw*2/2,height:bh)
+        VROnText.text="for VR"
         VRLocationXSlider.frame = CGRect(x:x0,y:bh*1+sp,width:bw,height: bh)
         circleDiameter.frame = CGRect(x:x0, y: bh*2+sp*5, width: bw, height: bh)
         diameterSlider.frame = CGRect(x:x0,y:bh*3+sp*3,width:bw,height:bh)
@@ -186,7 +186,7 @@ class SetteiViewController: UIViewController {
             x0=ww/4 + CGFloat(locationX)
         }
         let y0=wh/2
-        let r=wh*(150+5*CGFloat(diameter))/400
+        let r=wh*(100+10*CGFloat(diameter))/400
         let dd:Double=3.14159/900
         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
         let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
@@ -225,7 +225,7 @@ class SetteiViewController: UIViewController {
         self.view.layer.addSublayer(rectangleLayer)
         // --- 円を描画 ---
         let circleLayer = CAShapeLayer.init()
-        let r=wh*(150+5*CGFloat(diameter))/200
+        let r=wh*(100+10*CGFloat(diameter))/200
         var x0=ww/2-r/2
         if VROnSwitch.isOn == true{
             x0=ww/4 + CGFloat(locationX) - r/2

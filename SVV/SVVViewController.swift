@@ -418,7 +418,7 @@ class SVVViewController: UIViewController {
         let x0=ww/2
         let y0=wh/2
         //let r=wh*90/200
-        let r=wh*(150+5*CGFloat(circleDiameter))/400
+        let r=wh*(100+10*CGFloat(circleDiameter))/400
         let dd:Double=3.14159/900//3600//1800//900
  //       if(Globalef==false){
    //         dd=3.14159/900
@@ -454,7 +454,7 @@ class SVVViewController: UIViewController {
         // --- 円を描画 ---
         let circleLayer = CAShapeLayer.init()
         //let r=wh*180/200
-        let r=wh*(150+5*CGFloat(circleDiameter))/200
+        let r=wh*(100+10*CGFloat(circleDiameter))/200
         let x0=ww/2-r/2
         let y0=wh/2-r/2
         //print(r,x0,y0)
