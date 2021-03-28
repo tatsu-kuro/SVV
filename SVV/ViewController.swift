@@ -258,6 +258,8 @@ class ViewController: UIViewController {
         sound(snd:"silence")
         _ = getUserDefault(str:"circleDiameter",ret:dia0)
         _ = getUserDefault(str:"lineWidth",ret:width0)
+        _ = getUserDefault(str:"VROnOff",ret:0)
+        _ = getUserDefault(str:"VRLocationX",ret:0)
         setupGameController()
  //       let text:String=loadSVVdata(filename: "SVVdata.txt")
  //       print(text)

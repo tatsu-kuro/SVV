@@ -320,6 +320,9 @@ class SVVViewController: UIViewController {
             return ret
         }
     }
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
     override var prefersStatusBarHidden: Bool {
         return true
     }

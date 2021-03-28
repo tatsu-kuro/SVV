@@ -19,10 +19,16 @@ class SetteiViewController: UIViewController {
     var time=CFAbsoluteTimeGetCurrent()
     var degree:Int=0
     var tempdiameter:Int=0
+    var VROnOff:Int = 0
+    var locationX:Int = 0
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var circleDiameter: UILabel!
-    @IBOutlet weak var lineSlider: UISlider!
-    @IBOutlet weak var circleSlider: UISlider!
+    @IBOutlet weak var VRLocationXSlider: UISlider!
+    
+    @IBOutlet weak var VROnText: UILabel!
+    @IBOutlet weak var VROnSwitch: UISwitch!
+    @IBOutlet weak var lineWidthSlider: UISlider!
+    @IBOutlet weak var diameterSlider: UISlider!
     @IBOutlet weak var lineWidth: UILabel!
     @IBOutlet weak var defaultButton: UIButton!
     @IBAction func setDiameter(_ sender: UISlider) {
@@ -30,11 +36,36 @@ class SetteiViewController: UIViewController {
         diameter=Int(sender.value*10)
         if(diameter != tempdiameter){
             UserDefaults.standard.set(diameter,forKey: "circleDiameter")
-            drawBack()
+            drawBack(remove:true)
         }
         tempdiameter=diameter
     }
+    func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
+        if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
+            return UserDefaults.standard.integer(forKey:str)
+        }else{
+            UserDefaults.standard.set(ret, forKey: str)
+            return ret
+        }
+    }
+ 
+    @IBAction func onVROnSwitch(_ sender: Any) {
+        if VROnSwitch.isOn == true{
+            VROnOff=1
+        }else{
+            VROnOff=0
+        }
+        UserDefaults.standard.set(VROnOff, forKey: "VROnOff")
+        drawBack(remove: true)
+    }
     
+    @IBAction func onChangeVRslider(_ sender: UISlider) {
+        locationX=Int(sender.value)
+        UserDefaults.standard.set(locationX,forKey: "VRLocationX")
+//            view.layer.sublayers?.removeLast()
+        view.layer.sublayers?.removeLast()
+        drawBack(remove:true)
+    }
     @IBAction func setWidth(_ sender: UISlider) {
         lineWidth.text="LineWidth:" + String(Int(sender.value*98)+1)
         width=Int(sender.value*98)+1
@@ -51,24 +82,43 @@ class SetteiViewController: UIViewController {
     @IBAction func setDefault(_ sender: Any) {
         UserDefaults.standard.set(dia0,forKey: "circleDiameter")
         UserDefaults.standard.set(width0,forKey: "lineWidth")
-        circleSlider.value=Float(dia0)/10
+        UserDefaults.standard.set(0,forKey: "VROnOff")
+        UserDefaults.standard.set(0,forKey: "VRLocationX")
+        VRLocationXSlider.value=0
+        VROnSwitch.isOn=false
+        diameterSlider.value=Float(dia0)/10
         circleDiameter.text="Diameter:" + String(dia0)
-        lineSlider.value=Float(width0-1)/98
+        lineWidthSlider.value=Float(width0-1)/98
         lineWidth.text="LineWidth:" + String(width0)
         diameter=dia0
         width=width0
-        drawBack()
+        drawBack(remove:true)
+    }
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         diameter=UserDefaults.standard.integer(forKey: "circleDiameter")
         width=UserDefaults.standard.integer(forKey: "lineWidth")
-        circleSlider.value=Float(diameter)/10
-        lineSlider.value=Float(width-1)/98
+        locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
+        VROnOff=UserDefaults.standard.integer(forKey:"VROnOff")
+        if VROnOff==0{
+            VROnSwitch.isOn=false
+        }else{
+            VROnSwitch.isOn=true
+        }
+        diameterSlider.value=Float(diameter)/10
+        lineWidthSlider.value=Float(width-1)/98
+        VRLocationXSlider.value=Float(locationX)
         circleDiameter.text="Diameter:" + String(diameter)
         lineWidth.text="lineWidth:" + String(width)
         time=CFAbsoluteTimeGetCurrent()
-        drawBack()
+        drawBack(remove:false)
+        drawLine(degree: 0, remove: false)
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         setButtons()
     }
@@ -82,28 +132,19 @@ class SetteiViewController: UIViewController {
         let wh=view.bounds.height
         let x0=(ww/2+wh/2)+(ww-ww/2-wh/2)/10
         let bw=(ww-ww/2-wh/2)*8/10
-        let bh=(ww/6)*15/44
-        let sp=(ww/6)/6
+        let bh=wh/9
+        let sp=bh/10
         let by=wh-bh-sp*2/3
-        let bdy=(by-bh*5)/15
-        
-        self.circleDiameter.frame = CGRect(x:x0, y: bdy*3, width: bw, height: bh)
-        self.circleSlider.frame = CGRect(x:x0,y:bdy*3+bh,width:bw,height:bh)
-        self.lineWidth.frame = CGRect(x:x0, y:bdy*6+bh*2, width: bw, height: bh)
-        self.lineSlider.frame = CGRect(x:x0, y: bdy*6+bh*3, width: bw, height: bh)
-        self.defaultButton.frame = CGRect(x:x0, y: bdy*10+bh*4, width: bw, height: bh)
-        
-        
-        // bw=ww/6
-        // bh=bw*15/44
-        // sp=(ww/6)/6
-        // by=wh-bh-sp*2/3
-         //self.changeButton.frame = CGRect(x: sp, y: by, width: bw, height: bh)
-         //self.mailButton.frame = CGRect(x:sp*2+bw*1,y:by,width:bw,height:bh)
-         //self.gomiButton.frame = CGRect(x: sp*3+bw*2, y: by, width: bw, height: bh)//440*150
-        // self.exitButton.frame = CGRect(x:sp*5+bw*4, y: by, width:bw, height: bh)
-        //self.exitButton.frame = CGRect(x: ww-sp-bh, y: by, width: bh, height: bh)
-        setRight(but: exitButton, x0:x0, w:bw)
+        VROnSwitch.frame = CGRect(x:x0,y:sp*3,width:bw/3,height: bh)
+        VROnText.frame = CGRect(x:x0+bw/3,y:sp*3,width:bw*2/2,height:bh)
+        VROnText.text="2 lines for VR"
+        VRLocationXSlider.frame = CGRect(x:x0,y:bh*1+sp,width:bw,height: bh)
+        circleDiameter.frame = CGRect(x:x0, y: bh*2+sp*5, width: bw, height: bh)
+        diameterSlider.frame = CGRect(x:x0,y:bh*3+sp*3,width:bw,height:bh)
+        lineWidth.frame = CGRect(x:x0, y:bh*4+sp*7, width: bw, height: bh)
+        lineWidthSlider.frame = CGRect(x:x0, y: bh*5+sp*5, width: bw, height: bh)
+        defaultButton.frame = CGRect(x:x0, y: bh*6+sp*7, width: bw, height: bh)
+        exitButton.frame = CGRect(x:x0,y:bh*7+sp*8,width:bw,height:bh)
     }
     func setRight(but:UIButton,x0:CGFloat,w:CGFloat){
         let ww=view.bounds.width
@@ -140,7 +181,10 @@ class SetteiViewController: UIViewController {
         }
         let ww=view.bounds.width
         let wh=view.bounds.height
-        let x0=ww/2
+        var x0=ww/2
+        if VROnSwitch.isOn == true{
+            x0=ww/4 + CGFloat(locationX)
+        }
         let y0=wh/2
         let r=wh*(150+5*CGFloat(diameter))/400
         let dd:Double=3.14159/900
@@ -161,7 +205,12 @@ class SetteiViewController: UIViewController {
         shapeLayer.path = uiPath.cgPath
         self.view.layer.addSublayer(shapeLayer)
     }
-    func drawBack(){
+    func drawBack(remove:Bool){
+        if remove==true{
+            view.layer.sublayers?.removeLast()
+//            view.layer.sublayers?.removeLast()
+//            view.layer.sublayers?.removeLast()
+         }
         let ww=view.bounds.width
         let wh=view.bounds.height
         // 四角形を描画
@@ -177,7 +226,10 @@ class SetteiViewController: UIViewController {
         // --- 円を描画 ---
         let circleLayer = CAShapeLayer.init()
         let r=wh*(150+5*CGFloat(diameter))/200
-        let x0=ww/2-r/2
+        var x0=ww/2-r/2
+        if VROnSwitch.isOn == true{
+            x0=ww/4 + CGFloat(locationX) - r/2
+        }
         let y0=wh/2-r/2
         //print(r,x0,y0)
         let circleFrame = CGRect.init(x:x0,y:y0,width:r,height:r)
@@ -188,12 +240,12 @@ class SetteiViewController: UIViewController {
         circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
         self.view.layer.addSublayer(circleLayer)
         //線を引く
-        let shapeLayer = CAShapeLayer.init()
-        let uiPath = UIBezierPath()
-        uiPath.move(to:CGPoint.init(x: ww/2,y: wh/2-r/2))
-        uiPath.addLine(to: CGPoint(x:ww/2,y:wh/2+r/2))
-        shapeLayer.strokeColor = UIColor.blue.cgColor
-        shapeLayer.path = uiPath.cgPath
+       let shapeLayer = CAShapeLayer.init()
+//        let uiPath = UIBezierPath()
+//        uiPath.move(to:CGPoint.init(x: ww/2,y: wh/2-r/2))
+//        uiPath.addLine(to: CGPoint(x:ww/2,y:wh/2+r/2))
+//        shapeLayer.strokeColor = UIColor.blue.cgColor
+//        shapeLayer.path = uiPath.cgPath
         self.view.layer.addSublayer(shapeLayer)
     }
     /*
