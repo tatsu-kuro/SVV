@@ -11,12 +11,16 @@ import UIKit
 class HeipViewController: UIViewController {
 
     var englishF:Bool=false
-    @IBOutlet weak var helpButton: UIButton!
+    @IBOutlet weak var exitButton: UIButton!
+    @IBOutlet weak var engButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         englishF=true
         japanEnglish(0)
-        // Do any additional setup after loading the view.
+        setButtons()
+    }
+    @IBAction func engJapan(_ sender: Any) {
+        japanEnglish(0)
     }
     
     @IBOutlet weak var helpTexteng: UIImageView!
@@ -31,38 +35,20 @@ class HeipViewController: UIViewController {
             helpText.alpha=0
             helpTexteng.alpha=1.0
         }
- //       print("engjap")
     }
-    func setRight(but:UIButton){
+    func setButtons(){
         let ww=view.bounds.width
         let wh=view.bounds.height
-        let bw=ww/6
+        let bw=ww/8
         let bh=bw*15/44
-        let sp=(ww/6)/6
+        let sp=(ww/8)/8
         let by=wh-bh-sp*2/3
-        but.frame = CGRect(x: sp*5+bw*4, y: by, width: bw, height: bh)
+        exitButton.frame = CGRect(x: ww - bw - sp, y: by, width: bw, height: bh)
+        engButton.frame = CGRect(x:sp,y:by,width:bw,height:bh)
+        exitButton.layer.cornerRadius=5
+        engButton.layer.cornerRadius=5
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-   //     let ww=view.bounds.width
-   //     let wh=view.bounds.height
-  //      let bw=ww/20
-  //      let bh=bw//*15/20
-  //      let x0=ww-ww/36-ww*5/88
-  //      let h=ww*5/88
-  //      let y0=wh-ww*5/88-ww/48
-        //self.helpButton.frame = CGRect(x:x0,y:y0,width: h,height: h)
-        setRight(but: helpButton)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

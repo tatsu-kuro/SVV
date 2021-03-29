@@ -134,7 +134,7 @@ class SetteiViewController: UIViewController {
         let bw=(ww-ww/2-wh/2)*8/10
         let bh=wh/9
         let sp=bh/10
-//        let by=wh-bh-sp*2/3
+        let by=wh-bh-sp*2/3
         VROnSwitch.frame = CGRect(x:x0,y:sp*3,width:bw/3,height: bh)
         VROnText.frame = CGRect(x:x0+bw/2,y:sp*3,width:bw/2,height:bh)
         VROnText.text="for VR"
@@ -145,21 +145,10 @@ class SetteiViewController: UIViewController {
         lineWidthSlider.frame = CGRect(x:x0, y: bh*5+sp*5, width: bw, height: bh)
         defaultButton.frame = CGRect(x:x0, y: bh*6+sp*7, width: bw, height: bh)
         exitButton.frame = CGRect(x:x0,y:bh*7+sp*8,width:bw,height:bh)
+        exitButton.layer.cornerRadius=5
+        defaultButton.layer.cornerRadius=5
     }
-    func setRight(but:UIButton,x0:CGFloat,w:CGFloat){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
-        let bw=ww/6
-        let bh=bw*15/44
-        let sp=(ww/6)/6
-        let by=wh-bh-sp*2/3
-        //let x0=(ww/2+wh/2)+(ww-ww/2-wh/2)/10//default button x
-   //     if sp*5+bw*4<x0{
-            but.frame = CGRect(x:x0,y:by,width:w,height:bh)
-   //     }else{
-   //         but.frame = CGRect(x: sp*5+bw*4, y: by, width: bw, height: bh)
-   //     }
-    }
+
      @objc func update(tm: Timer) {
             if(degree>100){
                 directionR=false

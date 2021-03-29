@@ -261,8 +261,6 @@ class ViewController: UIViewController {
         _ = getUserDefault(str:"VROnOff",ret:0)
         _ = getUserDefault(str:"VRLocationX",ret:0)
         setupGameController()
- //       let text:String=loadSVVdata(filename: "SVVdata.txt")
- //       print(text)
     }
     func loadSVVdata(filename:String)->String{
         if let dir = FileManager.default.urls( for: .documentDirectory, in: .userDomainMask ).first {
@@ -313,14 +311,18 @@ class ViewController: UIViewController {
         let bh=bw*15/44
         let sp=(ww/6)/6
         let by=wh-bh-sp*2/3
-        self.logoImage.frame = CGRect(x:0,y:0,width:ww,height:logoh)
-        self.listButton.frame = CGRect(x: sp, y: by, width: bw, height: bh)
-        self.saveButton.frame = CGRect(x:sp*2+bw*1,y:by,width:bw,height:bh)
-        self.startButton.frame = CGRect(x: sp*3+bw*2, y: by, width: bw, height: bh)//440*150
-        self.setteiButton.frame = CGRect(x:sp*4+bw*3,y:by,width:bw,height:bh)
-        setRight(but: helpButton)
-//        self.helpButton.frame = CGRect(x: sp*5+bw*4, y: by, width: bw, height: bh)
-        self.titleImage.frame = CGRect(x: 0, y: logoh, width: ww, height: wh-logoh-bh*3/2)
+        logoImage.frame = CGRect(x:0,y:0,width:ww,height:logoh)
+        listButton.frame = CGRect(x: sp, y: by, width: bw, height: bh)
+        saveButton.frame = CGRect(x:sp*2+bw*1,y:by,width:bw,height:bh)
+        startButton.frame = CGRect(x: sp*3+bw*2, y: by, width: bw, height: bh)//440*150
+        setteiButton.frame = CGRect(x:sp*4+bw*3,y:by,width:bw,height:bh)
+        helpButton.frame = CGRect(x:sp*5+bw*4,y:by,width:bw,height:bh)
+        titleImage.frame = CGRect(x: 0, y: logoh, width: ww, height: wh-logoh-bh*3/2)
+        listButton.layer.cornerRadius=5
+        saveButton.layer.cornerRadius=5
+        startButton.layer.cornerRadius=5
+        setteiButton.layer.cornerRadius=5
+        helpButton.layer.cornerRadius=5
     }
     func setViews(){
         if(sArray.count<1){

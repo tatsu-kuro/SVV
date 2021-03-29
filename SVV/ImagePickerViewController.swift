@@ -89,11 +89,14 @@ class ImagePickerViewController: UIViewController, MFMailComposeViewControllerDe
         let bh=bw*15/44
         var sp=(ww/6)/6
         let by=wh-bh-sp*2/3
-        self.changeButton.frame = CGRect(x: sp, y: by, width: bw, height: bh)
-        self.mailButton.frame = CGRect(x:sp*2+bw*1,y:by,width:bw,height:bh)
-        self.gomiButton.frame = CGRect(x: sp*3+bw*2, y: by, width: bw, height: bh)//440*150
-        self.exitButton.frame = CGRect(x:sp*5+bw*4, y: by, width:bw, height: bh)
-        
+        changeButton.frame = CGRect(x: sp, y: by, width: bw, height: bh)
+        mailButton.frame = CGRect(x:sp*2+bw*1,y:by,width:bw,height:bh)
+        gomiButton.frame = CGRect(x: sp*3+bw*2, y: by, width: bw, height: bh)//440*150
+        exitButton.frame = CGRect(x:sp*5+bw*4, y: by, width:bw, height: bh)
+        changeButton.layer.cornerRadius=5
+        mailButton.layer.cornerRadius=5
+        gomiButton.layer.cornerRadius=5
+        exitButton.layer.cornerRadius=5
         sp = sp/2
         self.textView.frame = CGRect(x:sp,y:sp,width:ww-2*sp,height:wh-4*sp-bh)
         let text:String=loadSVVdata(filename: "SVVdata.txt")

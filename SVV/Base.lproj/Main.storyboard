@@ -20,8 +20,10 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q3E-ZC-G65">
                                 <rect key="frame" x="178" y="252" width="58" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" backgroundImage="mail">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Mail All">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -31,8 +33,10 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pd3-ht-XgA">
                                 <rect key="frame" x="289" y="256" width="44" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" backgroundImage="erase">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Erase All">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -42,7 +46,10 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="duo-58-VTk">
                                 <rect key="frame" x="474" y="254" width="55" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="exit"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="EXIT"/>
                                 <connections>
                                     <segue destination="d83-C8-cEP" kind="unwind" unwindAction="returnToMeWithSegue:" id="cMI-ra-QWL"/>
                                 </connections>
@@ -59,8 +66,10 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="smz-W6-L5q">
                                 <rect key="frame" x="29" y="276" width="38" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" backgroundImage="type">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Format">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -88,6 +97,17 @@
         <!--View Controller-->
         <scene sceneID="263-FO-vQd">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U83-C4-0TU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="xfS-fv-NRj">
+                    <connections>
+                        <action selector="singleTap:" destination="z3d-C3-FPM" id="gc7-5S-MUq"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="IEv-3o-rzZ">
+                    <connections>
+                        <action selector="longPress:" destination="z3d-C3-FPM" id="cCZ-jJ-mzI"/>
+                    </connections>
+                </pongPressGestureRecognizer>
                 <viewController storyboardIdentifier="SVV" modalPresentationStyle="fullScreen" id="z3d-C3-FPM" customClass="SVVViewController" customModule="SVV" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ayb-5G-6Gv">
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
@@ -101,17 +121,6 @@
                         </connections>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="U83-C4-0TU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="xfS-fv-NRj">
-                    <connections>
-                        <action selector="singleTap:" destination="z3d-C3-FPM" id="gc7-5S-MUq"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="IEv-3o-rzZ">
-                    <connections>
-                        <action selector="longPress:" destination="z3d-C3-FPM" id="cCZ-jJ-mzI"/>
-                    </connections>
-                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="132" y="-610"/>
         </scene>
@@ -126,7 +135,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YZc-ha-bip">
                                 <rect key="frame" x="444" y="283" width="114" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Exit"/>
@@ -225,23 +234,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1O-pE-Slv">
-                                <rect key="frame" x="1272" y="950" width="74" height="54"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="help"/>
-                                <connections>
-                                    <segue destination="Quz-u5-g5L" kind="show" id="gaX-98-C5u"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qaQ-C5-xTS">
-                                <rect key="frame" x="20" y="950" width="143" height="54"/>
+                                <rect key="frame" x="20" y="280" width="100" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="list"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="LIST"/>
                                 <connections>
                                     <segue destination="O9I-eP-yzr" kind="show" id="BjO-WI-4ta"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logomejiron" translatesAutoresizingMaskIntoConstraints="NO" id="weW-Lh-j06">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logomejiro" translatesAutoresizingMaskIntoConstraints="NO" id="weW-Lh-j06">
                                 <rect key="frame" x="0.0" y="0.0" width="667" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -250,9 +254,12 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Wm-Ro-07q">
-                                <rect key="frame" x="209" y="950" width="151" height="54"/>
+                                <rect key="frame" x="128" y="280" width="101" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="save"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="SAVE"/>
                                 <connections>
                                     <action selector="saveData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dc5-Yr-vP6"/>
                                 </connections>
@@ -264,19 +271,35 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B8n-PG-c3m">
-                                <rect key="frame" x="425" y="950" width="136" height="54"/>
+                                <rect key="frame" x="239" y="284" width="91" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="start"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="START"/>
                                 <connections>
                                     <action selector="startSVV:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5n9-9S-Am6"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHR-Nz-yFv">
-                                <rect key="frame" x="657" y="950" width="172" height="54"/>
+                            <button opaque="NO" contentMode="scaleAspectFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHR-Nz-yFv">
+                                <rect key="frame" x="377" y="290" width="21" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="settei"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="gearshape" catalog="system"/>
                                 <connections>
                                     <segue destination="5V4-Ka-gbw" kind="show" id="CrY-3D-ha1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1O-pE-Slv">
+                                <rect key="frame" x="441" y="278" width="107" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="HELP"/>
+                                <connections>
+                                    <segue destination="Quz-u5-g5L" kind="show" id="gaX-98-C5u"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -301,7 +324,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="497.65739385065882" y="0.0"/>
+            <point key="canvasLocation" x="497.53521126760563" y="0.0"/>
         </scene>
         <!--Heip View Controller-->
         <scene sceneID="rk9-Tn-fTY">
@@ -318,11 +341,24 @@
                                 <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oYK-qV-wQg">
-                                <rect key="frame" x="562" y="314" width="1" height="1"/>
+                                <rect key="frame" x="513" y="265" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="exit"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="EXIT"/>
                                 <connections>
                                     <segue destination="rXQ-0O-1zE" kind="unwind" unwindAction="returnToMeWithSegue:" id="lPd-8P-OzV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ue-Cf-Mj7">
+                                <rect key="frame" x="63" y="279" width="20" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="globe" catalog="system"/>
+                                <connections>
+                                    <action selector="engJapan:" destination="Quz-u5-g5L" eventType="touchUpInside" id="qP8-vV-aLD"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -344,7 +380,8 @@
                         </connections>
                     </view>
                     <connections>
-                        <outlet property="helpButton" destination="oYK-qV-wQg" id="KJo-dA-lVF"/>
+                        <outlet property="engButton" destination="0Ue-Cf-Mj7" id="NJE-Wr-JmS"/>
+                        <outlet property="exitButton" destination="oYK-qV-wQg" id="KJo-dA-lVF"/>
                         <outlet property="helpText" destination="eYu-lY-XWz" id="KzZ-Bn-2sS"/>
                         <outlet property="helpTexteng" destination="0hS-eY-OKk" id="XNn-Jc-PVf"/>
                     </connections>
@@ -361,19 +398,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="erase" width="440" height="150"/>
-        <image name="exit" width="440" height="150"/>
-        <image name="help" width="440" height="150"/>
-        <image name="list" width="440" height="150"/>
-        <image name="logomejiron" width="1300" height="84"/>
-        <image name="mail" width="440" height="150"/>
-        <image name="save" width="440" height="150"/>
-        <image name="settei" width="440" height="150"/>
-        <image name="start" width="440" height="150"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="globe" catalog="system" width="128" height="121"/>
+        <image name="logomejiro" width="1300" height="84"/>
         <image name="svvhead" width="1100" height="500"/>
         <image name="svvhelpengwide" width="1024" height="724"/>
         <image name="svvhelpwide" width="1024" height="724"/>
-        <image name="type" width="440" height="150"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
