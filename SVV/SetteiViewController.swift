@@ -62,7 +62,6 @@ class SetteiViewController: UIViewController {
     @IBAction func onChangeVRslider(_ sender: UISlider) {
         locationX=Int(sender.value)
         UserDefaults.standard.set(locationX,forKey: "VRLocationX")
-//            view.layer.sublayers?.removeLast()
         view.layer.sublayers?.removeLast()
         drawBack(remove:true)
     }
@@ -71,14 +70,7 @@ class SetteiViewController: UIViewController {
         width=Int(sender.value*98)+1
         UserDefaults.standard.set(width,forKey: "lineWidth")
     }
-//    func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
-//        if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
-//            return UserDefaults.standard.integer(forKey:str)
-//        }else{
-//            UserDefaults.standard.set(ret, forKey: str)
-//            return ret
-//        }
-//    }
+
     @IBAction func setDefault(_ sender: Any) {
         UserDefaults.standard.set(dia0,forKey: "circleDiameter")
         UserDefaults.standard.set(width0,forKey: "lineWidth")
@@ -122,11 +114,7 @@ class SetteiViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         setButtons()
     }
-    /* @IBOutlet weak var exitButton: UIButton!
-       @IBOutlet weak var circleDiameter: UILabel!
-       @IBOutlet weak var lineSlider: UISlider!
-       @IBOutlet weak var circleSlider: UISlider!
-       @IBOutlet weak var lineWidth: UILabel!*/
+  
     func setButtons(){
         let ww=view.bounds.width
         let wh=view.bounds.height
@@ -134,7 +122,7 @@ class SetteiViewController: UIViewController {
         let bw=(ww-ww/2-wh/2)*8/10
         let bh=wh/9
         let sp=bh/10
-        let by=wh-bh-sp*2/3
+
         VROnSwitch.frame = CGRect(x:x0,y:sp*3,width:bw/3,height: bh)
         VROnText.frame = CGRect(x:x0+bw/2,y:sp*3,width:bw/2,height:bh)
         VROnText.text="for VR"
@@ -149,17 +137,17 @@ class SetteiViewController: UIViewController {
         defaultButton.layer.cornerRadius=5
     }
 
-     @objc func update(tm: Timer) {
-            if(degree>100){
-                directionR=false
-            }else if(degree < -100){
-                directionR=true
-            }
-            if(directionR){
-                degree += 2
-            }else{
-                degree -= 2
-            }
+    @objc func update(tm: Timer) {
+        if(degree>100){
+            directionR=false
+        }else if(degree < -100){
+            directionR=true
+        }
+        if(directionR){
+            degree += 2
+        }else{
+            degree -= 2
+        }
         drawLine(degree:degree,remove:true)
     }
     
@@ -175,21 +163,16 @@ class SetteiViewController: UIViewController {
             x0=ww/4 + CGFloat(locationX)
         }
         let y0=wh/2
-        let r=wh*(100+10*CGFloat(diameter))/400
+        let r=wh*(70+13*CGFloat(diameter))/400
         let dd:Double=3.14159/900
         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
         let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
         let shapeLayer = CAShapeLayer.init()
         let uiPath = UIBezierPath()
-    //    uiPath.lineWidth=CGFloat(35)
         uiPath.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
         uiPath.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
         uiPath.lineWidth=5.0
- //       if mbf==true {
-//            shapeLayer.strokeColor = UIColor.red.cgColor
-///        } else {
-            shapeLayer.strokeColor = UIColor.blue.cgColor
-//        }
+        shapeLayer.strokeColor = UIColor.blue.cgColor
         shapeLayer.lineWidth=CGFloat(width)/10.0
         shapeLayer.path = uiPath.cgPath
         self.view.layer.addSublayer(shapeLayer)
@@ -197,8 +180,6 @@ class SetteiViewController: UIViewController {
     func drawBack(remove:Bool){
         if remove==true{
             view.layer.sublayers?.removeLast()
-//            view.layer.sublayers?.removeLast()
-//            view.layer.sublayers?.removeLast()
          }
         let ww=view.bounds.width
         let wh=view.bounds.height
@@ -214,7 +195,7 @@ class SetteiViewController: UIViewController {
         self.view.layer.addSublayer(rectangleLayer)
         // --- 円を描画 ---
         let circleLayer = CAShapeLayer.init()
-        let r=wh*(100+10*CGFloat(diameter))/200
+        let r=wh*(70+13*CGFloat(diameter))/200
         var x0=ww/2-r/2
         if VROnSwitch.isOn == true{
             x0=ww/4 + CGFloat(locationX) - r/2
@@ -230,21 +211,6 @@ class SetteiViewController: UIViewController {
         self.view.layer.addSublayer(circleLayer)
         //線を引く
        let shapeLayer = CAShapeLayer.init()
-//        let uiPath = UIBezierPath()
-//        uiPath.move(to:CGPoint.init(x: ww/2,y: wh/2-r/2))
-//        uiPath.addLine(to: CGPoint(x:ww/2,y:wh/2+r/2))
-//        shapeLayer.strokeColor = UIColor.blue.cgColor
-//        shapeLayer.path = uiPath.cgPath
         self.view.layer.addSublayer(shapeLayer)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
