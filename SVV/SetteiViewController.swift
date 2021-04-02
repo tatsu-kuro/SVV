@@ -12,8 +12,6 @@ class SetteiViewController: UIViewController {
     var cirDiameter:CGFloat = 0
     var diameter:Int = 0
     var width:Int = 0
-    let dia0:Int = 7
-    let width0:Int = 10
     var timer: Timer!
     var directionR:Bool=true
     var time=CFAbsoluteTimeGetCurrent()
@@ -52,14 +50,19 @@ class SetteiViewController: UIViewController {
     @IBAction func onVROnSwitch(_ sender: Any) {
         if VROnSwitch.isOn == true{
             VROnOff=1
+            VRLocationXSlider.isHidden=false
         }else{
             VROnOff=0
+            VRLocationXSlider.isHidden=true
         }
         UserDefaults.standard.set(VROnOff, forKey: "VROnOff")
         drawBack(remove: true)
     }
     
     @IBAction func onChangeVRslider(_ sender: UISlider) {
+        if VROnOff == 0{
+            return
+        }
         locationX=Int(sender.value)
         UserDefaults.standard.set(locationX,forKey: "VRLocationX")
         view.layer.sublayers?.removeLast()
@@ -70,22 +73,42 @@ class SetteiViewController: UIViewController {
         width=Int(sender.value*98)+1
         UserDefaults.standard.set(width,forKey: "lineWidth")
     }
-
     @IBAction func setDefault(_ sender: Any) {
-        UserDefaults.standard.set(dia0,forKey: "circleDiameter")
-        UserDefaults.standard.set(width0,forKey: "lineWidth")
-        UserDefaults.standard.set(0,forKey: "VROnOff")
-        UserDefaults.standard.set(0,forKey: "VRLocationX")
-        VRLocationXSlider.value=0
-        VROnSwitch.isOn=false
-        diameterSlider.value=Float(dia0)/10
-        circleDiameter.text="Diameter:" + String(dia0)
-        lineWidthSlider.value=Float(width0-1)/98
-        lineWidth.text="LineWidth:" + String(width0)
-        diameter=dia0
-        width=width0
-        drawBack(remove:true)
-    }
+            locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
+            if VROnOff == 0{
+                diameter=7
+                width=10
+            }else{
+                locationX=15
+                VRLocationXSlider.value=Float(15)
+                diameter=5
+                width=5
+            }
+            UserDefaults.standard.set(diameter,forKey: "circleDiameter")
+            UserDefaults.standard.set(width,forKey: "lineWidth")
+            UserDefaults.standard.set(locationX,forKey: "VRLocationX")
+            diameterSlider.value=Float(diameter)/10
+            circleDiameter.text="Diameter:" + String(diameter)
+            lineWidthSlider.value=Float(width-1)/98
+            lineWidth.text="LineWidth:" + String(width)
+            drawBack(remove:true)
+        }
+
+//    @IBAction func setDefault(_ sender: Any) {
+//        UserDefaults.standard.set(dia0,forKey: "circleDiameter")
+//        UserDefaults.standard.set(width0,forKey: "lineWidth")
+//        UserDefaults.standard.set(0,forKey: "VROnOff")
+//        UserDefaults.standard.set(0,forKey: "VRLocationX")
+//        VRLocationXSlider.value=0
+//        VROnSwitch.isOn=false
+//        diameterSlider.value=Float(dia0)/10
+//        circleDiameter.text="Diameter:" + String(dia0)
+//        lineWidthSlider.value=Float(width0-1)/98
+//        lineWidth.text="LineWidth:" + String(width0)
+//        diameter=dia0
+//        width=width0
+//        drawBack(remove:true)
+//    }
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
