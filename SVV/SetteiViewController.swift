@@ -77,12 +77,12 @@ class SetteiViewController: UIViewController {
             locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
             if VROnOff == 0{
                 diameter=7
-                width=10
+                width=15
             }else{
                 locationX=15
                 VRLocationXSlider.value=Float(15)
                 diameter=5
-                width=5
+                width=15
             }
             UserDefaults.standard.set(diameter,forKey: "circleDiameter")
             UserDefaults.standard.set(width,forKey: "lineWidth")
