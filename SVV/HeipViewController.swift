@@ -22,7 +22,12 @@ class HeipViewController: UIViewController {
     @IBAction func engJapan(_ sender: Any) {
         japanEnglish(0)
     }
-    
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     @IBOutlet weak var helpTexteng: UIImageView!
     @IBOutlet weak var helpText: UIImageView!
     @IBAction func japanEnglish(_ sender: Any) {

@@ -94,21 +94,6 @@ class SetteiViewController: UIViewController {
             drawBack(remove:true)
         }
 
-//    @IBAction func setDefault(_ sender: Any) {
-//        UserDefaults.standard.set(dia0,forKey: "circleDiameter")
-//        UserDefaults.standard.set(width0,forKey: "lineWidth")
-//        UserDefaults.standard.set(0,forKey: "VROnOff")
-//        UserDefaults.standard.set(0,forKey: "VRLocationX")
-//        VRLocationXSlider.value=0
-//        VROnSwitch.isOn=false
-//        diameterSlider.value=Float(dia0)/10
-//        circleDiameter.text="Diameter:" + String(dia0)
-//        lineWidthSlider.value=Float(width0-1)/98
-//        lineWidth.text="LineWidth:" + String(width0)
-//        diameter=dia0
-//        width=width0
-//        drawBack(remove:true)
-//    }
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }

@@ -262,6 +262,12 @@ class ViewController: UIViewController {
         _ = getUserDefault(str:"VRLocationX",ret:0)
         setupGameController()
     }
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     func loadSVVdata(filename:String)->String{
         if let dir = FileManager.default.urls( for: .documentDirectory, in: .userDomainMask ).first {
 

@@ -70,6 +70,12 @@ class ImagePickerViewController: UIViewController, MFMailComposeViewControllerDe
         setButtons_init()
         typeButton(1)
     }
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     func loadSVVdata(filename:String)->String{
         if let dir = FileManager.default.urls( for: .documentDirectory, in: .userDomainMask ).first {
             let path_file_name = dir.appendingPathComponent( filename )
