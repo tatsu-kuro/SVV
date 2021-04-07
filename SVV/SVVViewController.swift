@@ -83,7 +83,7 @@ class SVVViewController: UIViewController {
         }
         self.present(mainView, animated: false, completion: nil)
         Globalmode=0
-        return//iranasasou?
+        return//iranasasou? <-kokotouruyo?
     }
     @IBAction func singleTap(_ sender: UITapGestureRecognizer) {
        // if sender.accessibilityValue.

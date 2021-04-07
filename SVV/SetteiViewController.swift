@@ -18,13 +18,27 @@ class SetteiViewController: UIViewController {
     var degree:Int=0
     var tempdiameter:Int=0
     var VROnOff:Int = 0
+    var tenTimesOnOff:Int = 1
     var locationX:Int = 0
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var circleDiameter: UILabel!
     @IBOutlet weak var VRLocationXSlider: UISlider!
     
+    @IBOutlet weak var tenTimesText: UILabel!
+    @IBAction func onTenTimesSwitch(_ sender: Any) {
+        if tenTimesSwitch.isOn{
+            tenTimesOnOff=1
+        }else{
+            tenTimesOnOff=0
+        }
+        UserDefaults.standard.set(tenTimesOnOff, forKey: "tenTimesOnOff")
+    }
+    @IBOutlet weak var tenTimesSwitch: UISwitch!
     @IBOutlet weak var VROnText: UILabel!
     @IBOutlet weak var VROnSwitch: UISwitch!
+    
+    
+    
     @IBOutlet weak var lineWidthSlider: UISlider!
     @IBOutlet weak var diameterSlider: UISlider!
     @IBOutlet weak var lineWidth: UILabel!
@@ -74,25 +88,28 @@ class SetteiViewController: UIViewController {
         UserDefaults.standard.set(width,forKey: "lineWidth")
     }
     @IBAction func setDefault(_ sender: Any) {
-            locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
-            if VROnOff == 0{
-                diameter=7
-                width=15
-            }else{
-                locationX=15
-                VRLocationXSlider.value=Float(15)
-                diameter=5
-                width=15
-            }
-            UserDefaults.standard.set(diameter,forKey: "circleDiameter")
-            UserDefaults.standard.set(width,forKey: "lineWidth")
-            UserDefaults.standard.set(locationX,forKey: "VRLocationX")
-            diameterSlider.value=Float(diameter)/10
-            circleDiameter.text="Diameter:" + String(diameter)
-            lineWidthSlider.value=Float(width-1)/98
-            lineWidth.text="LineWidth:" + String(width)
-            drawBack(remove:true)
+        locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
+        if VROnOff == 0{
+            diameter=7
+            width=15
+        }else{
+            locationX=15
+            VRLocationXSlider.value=Float(15)
+            diameter=5
+            width=15
         }
+        tenTimesSwitch.isOn=true
+        tenTimesOnOff=1
+        UserDefaults.standard.set(tenTimesOnOff,forKey: "tenTimesOnOff")
+        UserDefaults.standard.set(diameter,forKey: "circleDiameter")
+        UserDefaults.standard.set(width,forKey: "lineWidth")
+        UserDefaults.standard.set(locationX,forKey: "VRLocationX")
+        diameterSlider.value=Float(diameter)/10
+        circleDiameter.text="Diameter:" + String(diameter)
+        lineWidthSlider.value=Float(width-1)/98
+        lineWidth.text="LineWidth:" + String(width)
+        drawBack(remove:true)
+    }
 
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
@@ -106,11 +123,8 @@ class SetteiViewController: UIViewController {
         width=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
         VROnOff=UserDefaults.standard.integer(forKey:"VROnOff")
-        if VROnOff==0{
-            VROnSwitch.isOn=false
-        }else{
-            VROnSwitch.isOn=true
-        }
+        tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
+ 
         diameterSlider.value=Float(diameter)/10
         lineWidthSlider.value=Float(width-1)/98
         VRLocationXSlider.value=Float(locationX)
@@ -122,29 +136,41 @@ class SetteiViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         setButtons()
     }
-  
+ 
     func setButtons(){
         let ww=view.bounds.width
         let wh=view.bounds.height
         let x0=(ww/2+wh/2)+(ww-ww/2-wh/2)/10
         let bw=(ww-ww/2-wh/2)*8/10
-        let bh=wh/9
-        let sp=bh/10
-
+        let bh=wh/10
+        let sp=bh/11
+        
         VROnSwitch.frame = CGRect(x:x0,y:sp*3,width:bw/3,height: bh)
         VROnText.frame = CGRect(x:x0+bw/2,y:sp*3,width:bw/2,height:bh)
-        VROnText.text="for VR"
         VRLocationXSlider.frame = CGRect(x:x0,y:bh*1+sp,width:bw,height: bh)
-        circleDiameter.frame = CGRect(x:x0, y: bh*2+sp*5, width: bw, height: bh)
-        diameterSlider.frame = CGRect(x:x0,y:bh*3+sp*3,width:bw,height:bh)
-        lineWidth.frame = CGRect(x:x0, y:bh*4+sp*7, width: bw, height: bh)
-        lineWidthSlider.frame = CGRect(x:x0, y: bh*5+sp*5, width: bw, height: bh)
-        defaultButton.frame = CGRect(x:x0, y: bh*6+sp*7, width: bw, height: bh)
-        exitButton.frame = CGRect(x:x0,y:bh*7+sp*8,width:bw,height:bh)
+        tenTimesSwitch.frame = CGRect(x:x0,y:bh*2+sp*3,width:bw/3,height: bh)
+        tenTimesText.frame = CGRect(x:x0+bw/2,y:bh*2+sp*3,width:bw/2,height:bh)
+        circleDiameter.frame = CGRect(x:x0, y: bh*3+sp*5, width: bw, height: bh)
+        diameterSlider.frame = CGRect(x:x0,y:bh*4+sp*3,width:bw,height:bh)
+        lineWidth.frame = CGRect(x:x0, y:bh*5+sp*7, width: bw, height: bh)
+        lineWidthSlider.frame = CGRect(x:x0, y: bh*6+sp*5, width: bw, height: bh)
+        defaultButton.frame = CGRect(x:x0, y: bh*7+sp*7, width: bw, height: bh)
+        exitButton.frame = CGRect(x:x0,y:bh*8+sp*8,width:bw,height:bh)
         exitButton.layer.cornerRadius=5
         defaultButton.layer.cornerRadius=5
+        if VROnOff==0{
+            VRLocationXSlider.isHidden=true
+            VROnSwitch.isOn=false
+        }else{
+            VRLocationXSlider.isHidden=false
+            VROnSwitch.isOn=true
+        }
+        if tenTimesOnOff==0{
+            tenTimesSwitch.isOn=false
+        }else{
+            tenTimesSwitch.isOn=true
+        }
     }
-
     @objc func update(tm: Timer) {
         if(degree>100){
             directionR=false

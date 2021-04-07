@@ -97,17 +97,6 @@
         <!--View Controller-->
         <scene sceneID="263-FO-vQd">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="U83-C4-0TU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="xfS-fv-NRj">
-                    <connections>
-                        <action selector="singleTap:" destination="z3d-C3-FPM" id="gc7-5S-MUq"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="IEv-3o-rzZ">
-                    <connections>
-                        <action selector="longPress:" destination="z3d-C3-FPM" id="cCZ-jJ-mzI"/>
-                    </connections>
-                </pongPressGestureRecognizer>
                 <viewController storyboardIdentifier="SVV" modalPresentationStyle="fullScreen" id="z3d-C3-FPM" customClass="SVVViewController" customModule="SVV" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ayb-5G-6Gv">
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
@@ -121,6 +110,17 @@
                         </connections>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U83-C4-0TU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="xfS-fv-NRj">
+                    <connections>
+                        <action selector="singleTap:" destination="z3d-C3-FPM" id="gc7-5S-MUq"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="IEv-3o-rzZ">
+                    <connections>
+                        <action selector="longPress:" destination="z3d-C3-FPM" id="cCZ-jJ-mzI"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="132" y="-610"/>
         </scene>
@@ -205,6 +205,21 @@
                                     <action selector="onChangeVRslider:" destination="5V4-Ka-gbw" eventType="valueChanged" id="FG3-Te-OYI"/>
                                 </connections>
                             </slider>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Whx-g6-fan">
+                                <rect key="frame" x="444" y="68" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="onTenTimesSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="zls-wj-DIU"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10 times" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dud-CL-8h4">
+                                <rect key="frame" x="516" y="78" width="64" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -219,6 +234,8 @@
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
                         <outlet property="lineWidth" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
                         <outlet property="lineWidthSlider" destination="rHK-EU-rNc" id="Muo-Fp-TyC"/>
+                        <outlet property="tenTimesSwitch" destination="Whx-g6-fan" id="Fxv-nw-cpC"/>
+                        <outlet property="tenTimesText" destination="Dud-CL-8h4" id="E8I-iG-OC9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nSs-1G-QWg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -409,6 +426,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

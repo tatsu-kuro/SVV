@@ -260,6 +260,7 @@ class ViewController: UIViewController {
         _ = getUserDefault(str:"lineWidth",ret:width0)
         _ = getUserDefault(str:"VROnOff",ret:0)
         _ = getUserDefault(str:"VRLocationX",ret:0)
+        _ = getUserDefault(str:"tenTimesOnOff",ret:1)
         setupGameController()
     }
     override var prefersHomeIndicatorAutoHidden: Bool {
