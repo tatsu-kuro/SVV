@@ -77,40 +77,12 @@ class ViewController: UIViewController {
         let saveAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) -> Void in
             // 入力したテキストをコンソールに表示
             let textField = alert.textFields![0] as UITextField
- //           let str = textField.text?.components(separatedBy: " ")
-            //print("input lengs",str?.count)
-//            if str!.count>1 {
-//                self.idString=""
-//                for i in 0..<str!.count{
-//                    self.idString += str![i]
-//                }
-//            }else{
-                self.idString=textField.text!
-//            }
-            //print("\(String(describing: self.idString))")
-            //print(self.idString)
-            //idString=textField.text
-      //      let drawImage = self.drawWaves(width:500,height:100)
+            self.idString=textField.text!
             self.viewDidAppear(true)
             // イメージビューに設定する
-     //       UIImageWriteToSavedPhotosAlbum(drawImage, nil, nil, nil)
             self.savedFlag = true //解析結果がsaveされた
             self.setViews()
-       //     self.resultView.image=drawImage
-            //self.resultView.alpha=0
-            //self.titleImage.alpha=0
-            //self.vArray.removeAll()
-            //self.dArray.removeAll()
-            //self.sArray.removeAll()
-            //while self.savedFlag==false{
-            //    sleep(1)
-            //}
-         //   self.viewDidAppear(false)
-
-//            let file_name = "SVVdata.txt"
-//            let text1:String=self.loadSVVdata(filename: "SVVdata.txt")
             var text:String=""
-   //         var text:String = "12345SVV\nkurodatatsuki\nwatasino\nstring?" //保存する内容
             //let str = self.dateString.components(separatedBy: " ")
             text += self.dateString + ","//str[0] + "," + str[1] + ","
             text += self.idString + ","
@@ -140,15 +112,15 @@ class ViewController: UIViewController {
             text += dStr + sStr + vStr + "\n"
             let file_name = "SVVdata.txt"
             text += self.loadSVVdata(filename: "SVVdata.txt")
-
+            
             if let dir = FileManager.default.urls( for: .documentDirectory, in: .userDomainMask ).first {
-
+                
                 let path_file_name = dir.appendingPathComponent( file_name )
-
+                
                 do {
-
+                    
                     try text.write( to: path_file_name, atomically: false, encoding: String.Encoding.utf8 )
-
+                    
                 } catch {
                     print("SVVdata.txt write err")//エラー処理
                 }
@@ -156,7 +128,7 @@ class ViewController: UIViewController {
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (action:UIAlertAction!) -> Void in
-   //         self.idNumber = 1//キャンセルしてもここは通らない？
+            //         self.idNumber = 1//キャンセルしてもここは通らない？
         }
         
         // UIAlertControllerにtextFieldを追加
@@ -350,21 +322,6 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         setButtons()
         setViews()
-/*        if(sArray.count<1){
-            titleImage.alpha=1
-            resultView.alpha=0
-        }else{
-            if savedFlag==false{
-                titleImage.alpha=0
-                resultView.alpha=1
-            }else{
-                titleImage.alpha=0.1
-                resultView.alpha=0.8
-            }
-            resultView.image=drawWaves(width: 500, height: 100)
-        }*/
- //       print(savedFlag)
- //       print(sArray.count)
     }
     func sound(snd:String){
         if let soundharu = NSDataAsset(name: snd) {
@@ -405,26 +362,23 @@ class ViewController: UIViewController {
         let nextView = storyboard?.instantiateViewController(withIdentifier: "SVV") as! SVVViewController
         self.present(nextView, animated: true, completion: nil)
     }
-//    @objc func viewWillEnterForeground(_ notification: Notification?) {
-//        print("viewWillEnterForground")
-//        sound(snd:"silence")
-//    }
+
     override func remoteControlReceived(with event: UIEvent?) {
         guard event?.type == .remoteControl else { return }
         if let event = event {
             switch event.subtype {
-                
+            
             case .remoteControlPlay:
- //               print("Play")
+                //               print("Play")
                 startSVV(1)
             case .remoteControlPause:
                 print("Pause")
             case .remoteControlStop:
                 print("Stop")
             case .remoteControlTogglePlayPause:
-   //             print("TogglePlayPause")
+                //             print("TogglePlayPause")
                 startSVV(1)
-           case .remoteControlNextTrack:
+            case .remoteControlNextTrack:
                 print("NextTrack")
             case .remoteControlPreviousTrack:
                 print("PreviousTrack")
