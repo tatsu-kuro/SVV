@@ -46,6 +46,10 @@ class ViewController: UIViewController {
     var avesdStr:String=""
     var aveStr:String=""
     var sdStr:String=""
+    var svvStrNor:String = ""
+    var svvStrNeg:String = ""
+    var svvStrPos:String = ""
+
     @IBOutlet weak var resultView: UIImageView!
     var idString:String = ""
     @IBOutlet weak var listButton: UIButton!
@@ -76,10 +80,11 @@ class ViewController: UIViewController {
             self.setViews()
             var text:String=""
             //let str = self.dateString.components(separatedBy: " ")
-            text += self.dateString + ","//str[0] + "," + str[1] + ","
+            text += self.dateString + ","
             text += self.idString + ","
-            text += self.aveStr + ","
-            text += self.sdStr + ","
+            text += self.svvStrNor + ","
+            text += self.svvStrNeg + ","
+            text += self.svvStrPos + ","
             var dStr:String=""
             var sStr:String=""
             var vStr:String=""
@@ -152,20 +157,38 @@ class ViewController: UIViewController {
         // イメージ処理の開始
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
 
-        var svvAv:Double = 0
-        var svvSd:Double = 0
+        var svvAvNor:Double = 0
+        var svvSdNor:Double = 0
         var svvAvNeg:Double = 0
         var svvSdNeg:Double = 0
         var svvAvPos:Double = 0
         var svvSdPos:Double = 0
         if svvArray.count > 0 && svvArray.count < 11{
-            svvAv=getAve(array: svvArray)
-            svvSd=getSD(array:svvArray,svvAv: svvAv)
-            aveStr = String(format:"%.2f",svvAv)
-            sdStr = String(format:"%.2f(%d)",svvSd,svvArray.count)
-            avesdStr = "AVE:" + aveStr + "  SD:" + sdStr
+            svvAvNor=getAve(array: svvArray)
+            svvSdNor=getSD(array:svvArray,svvAv: svvAvNor)
+            svvStrNor = String(format: "AVE:%.2f SD:%.2f(%d)",svvAvNor,svvSdNor,svvArray.count)
         }else if svvArray.count>10{
-            
+            var svvArrayNor = Array<Double>()
+            var svvArrayNeg = Array<Double>()
+            var svvArrayPos = Array<Double>()
+            for i in 0..<senArray.count{
+                if senArray[i] < -10{
+                    svvArrayNeg.append(svvArray[i])
+                }else if senArray[i] < 10{
+                    svvArrayNor.append(svvArray[i])
+                }else{
+                    svvArrayPos.append(svvArray[i])
+                }
+            }
+            svvAvNor=getAve(array: svvArrayNor)
+            svvSdNor=getSD(array:svvArrayNor,svvAv: svvAvNor)
+            svvStrNor = String(format: "AVE:%.2f SD:%.2f(%d)",svvAvNor,svvSdNor,svvArrayNor.count)
+            svvAvNeg=getAve(array: svvArrayNeg)
+            svvSdNeg=getSD(array:svvArrayNeg,svvAv: svvAvNeg)
+            svvStrNeg = String(format: "AVE:%.2f SD:%.2f(%d)",svvAvNeg,svvSdNeg,svvArrayNeg.count)
+            svvAvPos=getAve(array: svvArrayPos)
+            svvSdPos=getSD(array:svvArrayPos,svvAv: svvAvPos)
+            svvStrPos = String(format: "AVE:%.2f SD:%.2f(%d)",svvAvPos,svvSdPos,svvArrayPos.count)
         }
         idStr = "ID:" + idString + "  "
         dateString.draw(at: CGPoint(x: 25, y: 60), withAttributes: [
@@ -175,22 +198,22 @@ class ViewController: UIViewController {
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
         
-        avesdStr.draw(at: CGPoint(x: 300, y: 60), withAttributes: [
+        svvStrNor.draw(at: CGPoint(x: 300, y: 60), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-        avesdStr.draw(at: CGPoint(x: 300, y: 75), withAttributes: [
+        "<-20".draw(at: CGPoint(x: 240, y: 75), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-        ">+20".draw(at: CGPoint(x: 240, y: 75), withAttributes: [
+        svvStrNeg.draw(at: CGPoint(x: 300, y: 75), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-        avesdStr.draw(at: CGPoint(x: 300, y: 90), withAttributes: [
+        ">+20".draw(at: CGPoint(x: 240, y: 90), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-        "<-20".draw(at: CGPoint(x: 240, y: 90), withAttributes: [
+        svvStrPos.draw(at: CGPoint(x: 300, y: 90), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-        UIColor.black.setStroke()
+         UIColor.black.setStroke()
 
         var dStr:String="angle "// + String(dArray[0]) + " " + String(dArray[1])
         var sStr:String="sensor"// + String(sArray[0]) + " " + String(sArray[1])
