@@ -68,13 +68,13 @@ class SVVViewController: UIViewController {
     }
     func returnMain(){
         let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
-        mainView.vArray.removeAll()
-        mainView.dArray.removeAll()
-        mainView.sArray.removeAll()
+        mainView.svvArray.removeAll()
+        mainView.degArray.removeAll()
+        mainView.senArray.removeAll()
         for i in 0..<dArray.count{
-            mainView.vArray.append(vArray[i])
-            mainView.dArray.append(dArray[i])
-            mainView.sArray.append(sArray[i])
+            mainView.svvArray.append(vArray[i])
+            mainView.degArray.append(dArray[i])
+            mainView.senArray.append(sArray[i])
         }
         setDate()
         mainView.dateString=dateString

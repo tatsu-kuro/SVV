@@ -31,16 +31,14 @@ extension DateFormatter {
 // テンプレートから時刻を表示
 class ViewController: UIViewController {
  //let fromAppDelegate: AppDelegate = NSApplication.shared().delegate as! AppDelegate
-
-//    let fromAppDelegate = AppDelegate()
     let dia0:Int = 7
     let width0:Int = 10
     var diameter:Int = 0
     var width:Int = 0
     var soundPlayer: AVAudioPlayer? = nil
-    var sArray = Array<Double>()//sensor
-    var dArray = Array<Double>()//degree
-    var vArray = Array<Double>()//delta Subjective Visual Vertical
+    var senArray = Array<Double>()//sensor
+    var degArray = Array<Double>()//degree
+    var svvArray = Array<Double>()//delta Subjective Visual Vertical
     var savedFlag:Bool = true
     var dateString:String = ""
     var idStr:String=""
@@ -48,13 +46,7 @@ class ViewController: UIViewController {
     var avesdStr:String=""
     var aveStr:String=""
     var sdStr:String=""
-  //  var lastYvalue:Float=0.0
     @IBOutlet weak var resultView: UIImageView!
-//    var vHITboxView: UIImageView?
-//    var vHITlineView: UIImageView?
- //   var slowvideoAdd:String = ""
-  //  var calcDate:String = ""
- //   var idNumber:Int = 0
     var idString:String = ""
     @IBOutlet weak var listButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
@@ -70,7 +62,7 @@ class ViewController: UIViewController {
     }
     @IBAction func saveData(_ sender: Any) {
         sound(snd:"silence")
-        if vArray.count<1 {
+        if svvArray.count<1 {
             return
         }
         let alert = UIAlertController(title: "SVV96da", message: "Input ID without space", preferredStyle: .alert)
@@ -92,14 +84,14 @@ class ViewController: UIViewController {
             var sStr:String=""
             var vStr:String=""
             for i in 0..<10{//vArray.count{
-                if(i<self.dArray.count){
-                    dStr += String(format:"%.1f",self.dArray[i]) + ","
-                    sStr += String(self.sArray[i]) + ","
+                if(i<self.degArray.count){
+                    dStr += String(format:"%.1f",self.degArray[i]) + ","
+                    sStr += String(self.senArray[i]) + ","
                     if i<9 {
-                        vStr += String(self.vArray[i]) + ","
+                        vStr += String(self.svvArray[i]) + ","
                     }
                     else{
-                        vStr += String(self.vArray[i])
+                        vStr += String(self.svvArray[i])
                     }
                 }else{
                     dStr += ","
@@ -139,29 +131,41 @@ class ViewController: UIViewController {
         alert.addAction(saveAction)
         present(alert, animated: true, completion: nil)
     }
-
-    func drawWaves(width w:CGFloat,height h:CGFloat) -> UIImage {
+    func getAve(array:Array<Double>)->Double{
+        var ave:Double=0
+        for i in 0..<array.count{
+            ave += array[i]
+        }
+        return ave/Double(array.count)
+    }
+    func getSD(array:Array<Double>,svvAv:Double)->Double{
+        var svvSd:Double=0
+        for i in 0..<array.count {
+            svvSd += (array[i]-svvAv)*(array[i]-svvAv)
+        }
+        svvSd=svvSd/Double(array.count)
+        svvSd = sqrt(svvSd)
+        return svvSd
+    }
+    func drawData(width w:CGFloat,height h:CGFloat) -> UIImage {
         let size = CGSize(width:w, height:h)
         // イメージ処理の開始
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
 
-        //var aveSd:String = ""
-        if vArray.count != 0 {
-            var vav:Double=0//average
-            var vsd:Double=0//standard deviation
-            for i in 0..<vArray.count{
-                vav += vArray[i]
-    //            print(vArray[i])
-            }
-            vav = vav/Double(vArray.count)
-            for i in 0..<vArray.count {
-                vsd += (vArray[i]-vav)*(vArray[i]-vav)
-            }
-            vsd=vsd/Double(vArray.count)
-            vsd = sqrt(vsd)
-            aveStr = String(format:"%.2f",vav)
-            sdStr = String(format:"%.2f",vsd)
+        var svvAv:Double = 0
+        var svvSd:Double = 0
+        var svvAvNeg:Double = 0
+        var svvSdNeg:Double = 0
+        var svvAvPos:Double = 0
+        var svvSdPos:Double = 0
+        if svvArray.count > 0 && svvArray.count < 11{
+            svvAv=getAve(array: svvArray)
+            svvSd=getSD(array:svvArray,svvAv: svvAv)
+            aveStr = String(format:"%.2f",svvAv)
+            sdStr = String(format:"%.2f(%d)",svvSd,svvArray.count)
             avesdStr = "AVE:" + aveStr + "  SD:" + sdStr
+        }else if svvArray.count>10{
+            
         }
         idStr = "ID:" + idString + "  "
         dateString.draw(at: CGPoint(x: 25, y: 60), withAttributes: [
@@ -170,9 +174,22 @@ class ViewController: UIViewController {
         idStr.draw(at: CGPoint(x: 25, y: 80), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-        avesdStr.draw(at: CGPoint(x: 230, y: 70), withAttributes: [
+        
+        avesdStr.draw(at: CGPoint(x: 300, y: 60), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 25, weight: UIFont.Weight.regular)])
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
+        avesdStr.draw(at: CGPoint(x: 300, y: 75), withAttributes: [
+            NSAttributedString.Key.foregroundColor : UIColor.black,
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
+        ">+20".draw(at: CGPoint(x: 240, y: 75), withAttributes: [
+            NSAttributedString.Key.foregroundColor : UIColor.black,
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
+        avesdStr.draw(at: CGPoint(x: 300, y: 90), withAttributes: [
+            NSAttributedString.Key.foregroundColor : UIColor.black,
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
+        "<-20".draw(at: CGPoint(x: 240, y: 90), withAttributes: [
+            NSAttributedString.Key.foregroundColor : UIColor.black,
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
         UIColor.black.setStroke()
 
         var dStr:String="angle "// + String(dArray[0]) + " " + String(dArray[1])
@@ -189,10 +206,10 @@ class ViewController: UIViewController {
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 13, weight: UIFont.Weight.regular)])
         
         for i in 0..<10{//vArray.count{
-            if(i<dArray.count){
-                dStr=String(format:"%.1f",dArray[i])
-                sStr=String(sArray[i])
-                vStr=String(vArray[i])
+            if(i<degArray.count){
+                dStr=String(format:"%.1f",degArray[i])
+                sStr=String(senArray[i])
+                vStr=String(svvArray[i])
             }else{
                 dStr="---"
                 sStr="---"
@@ -304,22 +321,23 @@ class ViewController: UIViewController {
         helpButton.layer.cornerRadius=5
     }
     func setViews(){
-        if(sArray.count<1){
-               titleImage.alpha=1
-               resultView.alpha=0
-           }else{
-               if savedFlag==false{
-                   titleImage.alpha=0
-                   resultView.alpha=1
-               }else{
-                   titleImage.alpha=0.1
-                   resultView.alpha=0.8
-               }
-               resultView.image=drawWaves(width: 500, height: 100)
-           }
+        if(senArray.count<1){
+            titleImage.alpha=1
+            resultView.alpha=0
+        }else{
+            if savedFlag==false{
+                titleImage.alpha=0
+                resultView.alpha=1
+            }else{
+                titleImage.alpha=0.1
+                resultView.alpha=0.8
+            }
+            resultView.image=drawData(width: 500, height: 110)
+        }
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        print("viewDidAppear")
         setButtons()
         setViews()
     }
@@ -396,6 +414,6 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func returnToMe(segue: UIStoryboardSegue) {
-        print("rewind")
+        print("returnToMe")
     }
 }

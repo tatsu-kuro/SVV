@@ -124,17 +124,17 @@ class SetteiViewController: UIViewController {
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
         VROnOff=UserDefaults.standard.integer(forKey:"VROnOff")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
- 
         diameterSlider.value=Float(diameter)/10
         lineWidthSlider.value=Float(width-1)/98
         VRLocationXSlider.value=Float(locationX)
         circleDiameter.text="Diameter:" + String(diameter)
         lineWidth.text="lineWidth:" + String(width)
         time=CFAbsoluteTimeGetCurrent()
-        drawBack(remove:false)
+//        drawBack(remove:false)
         drawLine(degree: 0, remove: false)
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         setButtons()
+        drawBack(remove: false)
     }
  
     func setButtons(){
@@ -244,7 +244,7 @@ class SetteiViewController: UIViewController {
         circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
         self.view.layer.addSublayer(circleLayer)
         //線を引く
-       let shapeLayer = CAShapeLayer.init()
+        let shapeLayer = CAShapeLayer.init()
         self.view.layer.addSublayer(shapeLayer)
     }
 }
