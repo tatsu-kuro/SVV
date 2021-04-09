@@ -98,9 +98,9 @@ class SetteiViewController: UIViewController {
             diameter=5
             width=15
         }
-        tenTimesSwitch.isOn=true
-        tenTimesOnOff=1
-        UserDefaults.standard.set(tenTimesOnOff,forKey: "tenTimesOnOff")
+//        tenTimesSwitch.isOn=true
+//        tenTimesOnOff=1
+//        UserDefaults.standard.set(tenTimesOnOff,forKey: "tenTimesOnOff")
         UserDefaults.standard.set(diameter,forKey: "circleDiameter")
         UserDefaults.standard.set(width,forKey: "lineWidth")
         UserDefaults.standard.set(locationX,forKey: "VRLocationX")

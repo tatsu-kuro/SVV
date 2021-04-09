@@ -82,9 +82,9 @@ class ViewController: UIViewController {
             //let str = self.dateString.components(separatedBy: " ")
             text += self.dateString + ","
             text += self.idString + "\n"
-            text += "[-10<<+10]" + self.svvStrNor + ","
-            text += "[<-10]" + self.svvStrNeg + ","
-            text += "[+10<]" + self.svvStrPos + "\n"
+            text += "[-10<= <+10]" + self.svvStrNor + ","
+            text += "[ <-10]" + self.svvStrNeg + ","
+            text += "[+10<= ]" + self.svvStrPos + "\n"
             var dStr:String="angle,"
             var sStr:String="sensor,"
             var vStr:String="SVV,"
@@ -211,7 +211,7 @@ class ViewController: UIViewController {
         svvStrNeg.draw(at: CGPoint(x: 300, y: 75), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-        ">+10".draw(at: CGPoint(x: 240, y: 90), withAttributes: [
+        "+10<=".draw(at: CGPoint(x: 240, y: 90), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
         svvStrPos.draw(at: CGPoint(x: 300, y: 90), withAttributes: [
