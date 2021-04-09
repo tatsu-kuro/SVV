@@ -81,32 +81,33 @@ class ViewController: UIViewController {
             var text:String=""
             //let str = self.dateString.components(separatedBy: " ")
             text += self.dateString + ","
-            text += self.idString + ","
-            text += self.svvStrNor + ","
-            text += self.svvStrNeg + ","
-            text += self.svvStrPos + ","
-            var dStr:String=""
-            var sStr:String=""
-            var vStr:String=""
-            for i in 0..<10{//vArray.count{
-                if(i<self.degArray.count){
+            text += self.idString + "\n"
+            text += "[-10<<+10]" + self.svvStrNor + ","
+            text += "[<-10]" + self.svvStrNeg + ","
+            text += "[+10<]" + self.svvStrPos + "\n"
+            var dStr:String="angle,"
+            var sStr:String="sensor,"
+            var vStr:String="SVV,"
+            for i in 0..<self.degArray.count{
+                if(i<self.degArray.count-1){
                     dStr += String(format:"%.1f",self.degArray[i]) + ","
-                    sStr += String(self.senArray[i]) + ","
-                    if i<9 {
-                        vStr += String(self.svvArray[i]) + ","
-                    }
-                    else{
-                        vStr += String(self.svvArray[i])
-                    }
+                    sStr += String(format:"%.1f",self.self.senArray[i]) + ","
+//                    if i<9 {
+                        vStr += String(format:"%.1f",self.self.svvArray[i]) + ","
+//                    }
+//                    else{
+//                        vStr += String(format:"%.2f",self.self.svvArray[i])
+//                    }
                 }else{
-                    dStr += ","
-                    sStr += ","
-                    if i<9 {
-                        vStr += ","
-                    }
+                    dStr += String(format:"%.1f",self.degArray[i]) + "\n"
+                    sStr += String(format:"%.1f",self.self.senArray[i]) + "\n"
+//                    if i<9 {
+                        vStr += String(format:"%.1f",self.self.svvArray[i]) + "\n"
+
                 }
             }
             text += dStr + sStr + vStr + "\n"
+            print(text)
             let file_name = "SVVdata.txt"
             text += self.loadSVVdata(filename: "SVVdata.txt")
             

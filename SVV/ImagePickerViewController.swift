@@ -10,65 +10,66 @@ import UIKit
 import MessageUI
 
 class ImagePickerViewController: UIViewController, MFMailComposeViewControllerDelegate{
-    @IBOutlet weak var changeButton: UIButton!
+//    @IBOutlet weak var changeButton: UIButton!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var gomiButton: UIButton!
     @IBOutlet weak var mailButton: UIButton!
     @IBOutlet weak var exitButton: UIButton!
-    var type:Int=0
-    @IBAction func typeButton(_ sender: Any) {
-        let text=loadSVVdata(filename: "SVVdata.txt")
-        if text.count<10 {
-            return
-        }
-        let str = text.components(separatedBy: "\n")
-        var strView:String=""
-        if(type%3<2){
-            for i in 0..<str.count-1{
-                let str1 = str[i].components(separatedBy:",")
-                var n:Int=0
-                for j in 4..<14{
-                    if str1[j] != ""{
-                        n += 1
-                    }
-                }
-                strView += str1[0] + " ID:" + str1[1] +  " AVE:" + str1[2] + " SD:" + str1[3] +  " (\(n))" + "\n"
-                if type%3==1{
-                    strView += "angle:"
-                    for j in 4..<14{
-                        if str1[j] != ""{
-                        strView += str1[j] + ","
-                        }
-                    }
-                    strView += "\n"
-                    strView += "sensor:"
-                    for j in 14..<24{
-                        if str1[j] != ""{
-                            strView += str1[j] + ","
-                        }
-                    }
-                    strView += "\n"
-                    strView += "SVV:"
-                    for j in 24..<34{
-                        if str1[j] != ""{
-                            strView += str1[j] + ","
-                        }
-                    }
-                    strView += "\n\n"
-                }
-            }
-        }
-        else if(type%3==2){
-            strView=text
-        }
-        textView.text=strView
-        type += 1
+//    var type:Int=0
+//    @IBAction func typeButton(_ sender: Any) {
+//        let text=loadSVVdata(filename: "SVVdata.txt")
+//        if text.count<10 {
+//            return
+//        }
+//        let str = text.components(separatedBy: "\n")
+//        var strView:String=""
+//        if(type%3<2){
+//            for i in 0..<str.count-1{
+//                let str1 = str[i].components(separatedBy:",")
+//                var n:Int=0
+//                for j in 4..<14{
+//                    if str1[j] != ""{
+//                        n += 1
+//                    }
+//                }
+//                strView += str1[0] + " ID:" + str1[1] +  " AVE:" + str1[2] + " SD:" + str1[3] +  " (\(n))" + "\n"
+//                if type%3==1{
+//                    strView += "angle:"
+//                    for j in 4..<14{
+//                        if str1[j] != ""{
+//                        strView += str1[j] + ","
+//                        }
+//                    }
+//                    strView += "\n"
+//                    strView += "sensor:"
+//                    for j in 14..<24{
+//                        if str1[j] != ""{
+//                            strView += str1[j] + ","
+//                        }
+//                    }
+//                    strView += "\n"
+//                    strView += "SVV:"
+//                    for j in 24..<34{
+//                        if str1[j] != ""{
+//                            strView += str1[j] + ","
+//                        }
+//                    }
+//                    strView += "\n\n"
+//                }
+//            }
+//        }
+//        else if(type%3==2){
+//            strView=text
+//        }
+//        textView.text=text//strView
+//        type += 1
  //       print(type%3)
-    }
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setButtons_init()
-        typeButton(1)
+//        typeButton(1)
+        textView.text=loadSVVdata(filename: "SVVdata.txt")
     }
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
@@ -95,11 +96,11 @@ class ImagePickerViewController: UIViewController, MFMailComposeViewControllerDe
         let bh=bw*15/44
         var sp=(ww/6)/6
         let by=wh-bh-sp*2/3
-        changeButton.frame = CGRect(x: sp, y: by, width: bw, height: bh)
-        mailButton.frame = CGRect(x:sp*2+bw*1,y:by,width:bw,height:bh)
-        gomiButton.frame = CGRect(x: sp*3+bw*2, y: by, width: bw, height: bh)//440*150
+//        changeButton.frame = CGRect(x: sp, y: by, width: bw, height: bh)
+        mailButton.frame = CGRect(x:sp,y:by,width:bw,height:bh)
+        gomiButton.frame = CGRect(x: sp*2+bw*1, y: by, width: bw, height: bh)//440*150
         exitButton.frame = CGRect(x:sp*5+bw*4, y: by, width:bw, height: bh)
-        changeButton.layer.cornerRadius=5
+//        changeButton.layer.cornerRadius=5
         mailButton.layer.cornerRadius=5
         gomiButton.layer.cornerRadius=5
         exitButton.layer.cornerRadius=5

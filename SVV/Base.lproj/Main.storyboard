@@ -63,26 +63,12 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="smz-W6-L5q">
-                                <rect key="frame" x="29" y="276" width="38" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Format">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="typeButton:" destination="O9I-eP-yzr" eventType="touchUpInside" id="mrf-hZ-qbC"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="C73-WS-s1g"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                     </view>
                     <connections>
-                        <outlet property="changeButton" destination="smz-W6-L5q" id="JeX-u4-ch3"/>
                         <outlet property="exitButton" destination="duo-58-VTk" id="AWH-8f-Lfn"/>
                         <outlet property="gomiButton" destination="Pd3-ht-XgA" id="9Sj-bY-aNq"/>
                         <outlet property="mailButton" destination="Q3E-ZC-G65" id="vdb-Mw-xDR"/>
