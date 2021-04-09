@@ -36,6 +36,7 @@ class SVVViewController: UIViewController {
     var tapInterval=CFAbsoluteTimeGetCurrent()
     var time=CFAbsoluteTimeGetCurrent()
     var verticalLinef:Bool=false
+    var tenTimesOnOff:Int = 1
 //    var lastYvalue:Float=0.0
     func setDate(){
         let dateFormatter = DateFormatter()
@@ -86,16 +87,12 @@ class SVVViewController: UIViewController {
         return//iranasasou? <-kokotouruyo?
     }
     @IBAction func singleTap(_ sender: UITapGestureRecognizer) {
-       // if sender.accessibilityValue.
-        
         if sender.location(in: self.view).x < self.view.bounds.width/3{
             mbf=false
             degree -= 1
-       //     print("tapPrevious")
         }else if sender.location(in: self.view).x < self.view.bounds.width*2/3{
             if(mbf==true){
                 if (CFAbsoluteTimeGetCurrent()-buttonInterval)<0.3{
-        //            print("doubleTap")
                     returnMain()
                 }
                 buttonInterval=CFAbsoluteTimeGetCurrent()
@@ -103,17 +100,15 @@ class SVVViewController: UIViewController {
             }
             mbf=true
             appendData()
-            if(sArray.count==10){
+            if(tenTimesOnOff==1 && sArray.count==10){
                 if timer?.isValid == true {
                     timer.invalidate()
                 }
                 returnMain()
-//                self.dismiss(animated: false, completion: nil)
             }
         }else{
             mbf=false
             degree += 1
- //           print("tapNext")
         }
     }
  /// 画面が閉じる直前に呼ばれる
@@ -181,7 +176,7 @@ class SVVViewController: UIViewController {
                 }
                 mbf=true
                 appendData()
-                if(sArray.count==10){
+                if(tenTimesOnOff==1 && sArray.count==10){
                     if timer?.isValid == true {
                         timer.invalidate()
                     }
@@ -276,6 +271,8 @@ class SVVViewController: UIViewController {
         lineWidth=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
         VROnOff=UserDefaults.standard.integer(forKey:"VROnOff")
+        tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
+
         //circleDiameter=getUserDefault(str: "circleDiameter", ret: dia0)
         //lineWidth=getUserDefault(str: "lineWidth", ret: width0)
         UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -338,9 +335,9 @@ class SVVViewController: UIViewController {
       //      print("svvpx:",Globalpx)
       //  }
         if (mbf) {
-            if(degree>100){
+            if(degree>200){
                 directionR=false
-            }else if(degree < -100){
+            }else if(degree < -200){
                 directionR=true
             }
             if(directionR){

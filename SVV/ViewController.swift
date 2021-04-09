@@ -163,11 +163,11 @@ class ViewController: UIViewController {
         var svvSdNeg:Double = 0
         var svvAvPos:Double = 0
         var svvSdPos:Double = 0
-        if svvArray.count > 0 && svvArray.count < 11{
-            svvAvNor=getAve(array: svvArray)
-            svvSdNor=getSD(array:svvArray,svvAv: svvAvNor)
-            svvStrNor = String(format: "AVE:%.2f SD:%.2f(%d)",svvAvNor,svvSdNor,svvArray.count)
-        }else if svvArray.count>10{
+        if svvArray.count > 0 {
+//            svvAvNor=getAve(array: svvArray)
+//            svvSdNor=getSD(array:svvArray,svvAv: svvAvNor)
+//            svvStrNor = String(format: "AVE:%.2f SD:%.2f(%d)",svvAvNor,svvSdNor,svvArray.count)
+//        }else if svvArray.count>10{
             var svvArrayNor = Array<Double>()
             var svvArrayNeg = Array<Double>()
             var svvArrayPos = Array<Double>()
@@ -182,13 +182,16 @@ class ViewController: UIViewController {
             }
             svvAvNor=getAve(array: svvArrayNor)
             svvSdNor=getSD(array:svvArrayNor,svvAv: svvAvNor)
-            svvStrNor = String(format: "AVE:%.2f SD:%.2f(%d)",svvAvNor,svvSdNor,svvArrayNor.count)
+            svvStrNor = String(format: "AVE:%.02f SD:%.02f(%d)",svvAvNor,svvSdNor,svvArrayNor.count)
+            if svvArrayNor.count==0{svvStrNor = "(0)"}
             svvAvNeg=getAve(array: svvArrayNeg)
             svvSdNeg=getSD(array:svvArrayNeg,svvAv: svvAvNeg)
-            svvStrNeg = String(format: "AVE:%.2f SD:%.2f(%d)",svvAvNeg,svvSdNeg,svvArrayNeg.count)
+            svvStrNeg = String(format: "AVE:%.02f SD:%.02f(%d)",svvAvNeg,svvSdNeg,svvArrayNeg.count)
+            if svvArrayNeg.count==0{svvStrNeg = "(0)"}
             svvAvPos=getAve(array: svvArrayPos)
             svvSdPos=getSD(array:svvArrayPos,svvAv: svvAvPos)
-            svvStrPos = String(format: "AVE:%.2f SD:%.2f(%d)",svvAvPos,svvSdPos,svvArrayPos.count)
+            svvStrPos = String(format: "AVE:%.02f SD:%.02f(%d)",svvAvPos,svvSdPos,svvArrayPos.count)
+            if svvArrayPos.count==0{svvStrPos = "(0)"}
         }
         idStr = "ID:" + idString + "  "
         dateString.draw(at: CGPoint(x: 25, y: 60), withAttributes: [
@@ -201,13 +204,13 @@ class ViewController: UIViewController {
         svvStrNor.draw(at: CGPoint(x: 300, y: 60), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-        "<-20".draw(at: CGPoint(x: 240, y: 75), withAttributes: [
+        "<-10".draw(at: CGPoint(x: 240, y: 75), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
         svvStrNeg.draw(at: CGPoint(x: 300, y: 75), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-        ">+20".draw(at: CGPoint(x: 240, y: 90), withAttributes: [
+        ">+10".draw(at: CGPoint(x: 240, y: 90), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
         svvStrPos.draw(at: CGPoint(x: 300, y: 90), withAttributes: [
