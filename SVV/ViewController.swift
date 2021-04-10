@@ -36,8 +36,8 @@ class ViewController: UIViewController {
     var diameter:Int = 0
     var width:Int = 0
     var soundPlayer: AVAudioPlayer? = nil
-    var senArray = Array<Double>()//sensor
-    var degArray = Array<Double>()//degree
+    var sensorArray = Array<Double>()//sensor
+    var degreeArray = Array<Double>()//degree
     var svvArray = Array<Double>()//delta Subjective Visual Vertical
     var savedFlag:Bool = true
     var dateString:String = ""
@@ -88,10 +88,10 @@ class ViewController: UIViewController {
             var dStr:String="angle,"
             var sStr:String="sensor,"
             var vStr:String="SVV,"
-            for i in 0..<self.degArray.count{
-                if(i<self.degArray.count-1){
-                    dStr += String(format:"%.1f",self.degArray[i]) + ","
-                    sStr += String(format:"%.1f",self.self.senArray[i]) + ","
+            for i in 0..<self.degreeArray.count{
+                if(i<self.degreeArray.count-1){
+                    dStr += String(format:"%.1f",self.degreeArray[i]) + ","
+                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + ","
 //                    if i<9 {
                         vStr += String(format:"%.1f",self.self.svvArray[i]) + ","
 //                    }
@@ -99,8 +99,8 @@ class ViewController: UIViewController {
 //                        vStr += String(format:"%.2f",self.self.svvArray[i])
 //                    }
                 }else{
-                    dStr += String(format:"%.1f",self.degArray[i]) + "\n"
-                    sStr += String(format:"%.1f",self.self.senArray[i]) + "\n"
+                    dStr += String(format:"%.1f",self.degreeArray[i]) + "\n"
+                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + "\n"
 //                    if i<9 {
                         vStr += String(format:"%.1f",self.self.svvArray[i]) + "\n"
 
@@ -172,10 +172,10 @@ class ViewController: UIViewController {
             var svvArrayNor = Array<Double>()
             var svvArrayNeg = Array<Double>()
             var svvArrayPos = Array<Double>()
-            for i in 0..<senArray.count{
-                if senArray[i] < -10{
+            for i in 0..<sensorArray.count{
+                if sensorArray[i] < -10{
                     svvArrayNeg.append(svvArray[i])
-                }else if senArray[i] < 10{
+                }else if sensorArray[i] < 10{
                     svvArrayNor.append(svvArray[i])
                 }else{
                     svvArrayPos.append(svvArray[i])
@@ -233,9 +233,9 @@ class ViewController: UIViewController {
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 13, weight: UIFont.Weight.regular)])
         
         for i in 0..<10{//vArray.count{
-            if(i<degArray.count){
-                dStr=String(format:"%.1f",degArray[i])
-                sStr=String(senArray[i])
+            if(i<degreeArray.count){
+                dStr=String(format:"%.1f",degreeArray[i])
+                sStr=String(sensorArray[i])
                 vStr=String(svvArray[i])
             }else{
                 dStr="---"
@@ -348,7 +348,7 @@ class ViewController: UIViewController {
         helpButton.layer.cornerRadius=5
     }
     func setViews(){
-        if(senArray.count<1){
+        if(sensorArray.count<1){
             titleImage.alpha=1
             resultView.alpha=0
         }else{

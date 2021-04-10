@@ -20,7 +20,7 @@ class SVVViewController: UIViewController {
     var timer: Timer!
     var lbf:Bool=false
     var rbf:Bool=false
-    var mbf:Bool=false
+    var movingBarFlag:Bool=false
     var resultf:Bool=false
     var directionR:Bool=true
     var dateString:String=""
@@ -28,9 +28,9 @@ class SVVViewController: UIViewController {
     var tcount: Int = 0
     var degree:Double=0.0
     var curAcc:Double=0
-    var sArray = Array<Double>()//sensor
-    var dArray = Array<Double>()//degree
-    var vArray = Array<Double>()//delta Subjective Visual Vertical
+    var sensorArray = Array<Double>()//sensor
+    var degreeArray = Array<Double>()//degree
+    var svvArray = Array<Double>()//delta Subjective Visual Vertical
     var buttonInterval=CFAbsoluteTimeGetCurrent()
     var gamepadInterval=CFAbsoluteTimeGetCurrent()
     var tapInterval=CFAbsoluteTimeGetCurrent()
@@ -50,11 +50,11 @@ class SVVViewController: UIViewController {
         if(sender.state == UIGestureRecognizer.State.began) {
             if sender.location(in: self.view).x<self.view.bounds.width/3{
                 lbf=true
-                mbf=false
+                movingBarFlag=false
            //     print("longPressBeginLeft")
              }else if sender.location(in: self.view).x>self.view.bounds.width*2/3{
                 rbf=true
-                mbf=false
+                movingBarFlag=false
             //    print("longPressBeginRight")
             }
         } else if (sender.state == UIGestureRecognizer.State.ended) {
@@ -70,16 +70,16 @@ class SVVViewController: UIViewController {
     func returnMain(){
         let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
         mainView.svvArray.removeAll()
-        mainView.degArray.removeAll()
-        mainView.senArray.removeAll()
-        for i in 0..<dArray.count{
-            mainView.svvArray.append(vArray[i])
-            mainView.degArray.append(dArray[i])
-            mainView.senArray.append(sArray[i])
+        mainView.degreeArray.removeAll()
+        mainView.sensorArray.removeAll()
+        for i in 0..<degreeArray.count{
+            mainView.svvArray.append(svvArray[i])
+            mainView.degreeArray.append(degreeArray[i])
+            mainView.sensorArray.append(sensorArray[i])
         }
         setDate()
         mainView.dateString=dateString
-        if dArray.count>0 {
+        if degreeArray.count>0 {
             mainView.savedFlag=false
         }
         self.present(mainView, animated: false, completion: nil)
@@ -88,26 +88,26 @@ class SVVViewController: UIViewController {
     }
     @IBAction func singleTap(_ sender: UITapGestureRecognizer) {
         if sender.location(in: self.view).x < self.view.bounds.width/3{
-            mbf=false
+            movingBarFlag=false
             degree -= 1
         }else if sender.location(in: self.view).x < self.view.bounds.width*2/3{
-            if(mbf==true){
+            if(movingBarFlag==true){
                 if (CFAbsoluteTimeGetCurrent()-buttonInterval)<0.3{
                     returnMain()
                 }
                 buttonInterval=CFAbsoluteTimeGetCurrent()
                 return
             }
-            mbf=true
+            movingBarFlag=true
             appendData()
-            if(tenTimesOnOff==1 && sArray.count==10){
+            if(tenTimesOnOff==1 && sensorArray.count==10){
                 if timer?.isValid == true {
                     timer.invalidate()
                 }
                 returnMain()
             }
         }else{
-            mbf=false
+            movingBarFlag=false
             degree += 1
         }
     }
@@ -131,11 +131,11 @@ class SVVViewController: UIViewController {
     }
     func appendData(){
         let s=round(curAcc*10)//shishagonyuu 90degree
-        sArray.append(-s/10.0)
-        dArray.append(degree/5.0)
+        sensorArray.append(-s/10.0)
+        degreeArray.append(degree/5.0)
         let v1 = curAcc*10.0 + degree*2.0
         let v2 = round(v1)
-        vArray.append(v2/10.0)
+        svvArray.append(v2/10.0)
    //     vArray.append(degree*10+Int(s))
     }
     override func remoteControlReceived(with event: UIEvent?) {
@@ -145,7 +145,7 @@ class SVVViewController: UIViewController {
                 
             case .remoteControlTogglePlayPause:
   //              print("TogglePlayPause")
-                if(mbf==true){
+                if(movingBarFlag==true){
                     if (CFAbsoluteTimeGetCurrent()-buttonInterval)<0.3{
            //             print("doubleTap")
                         returnMain()
@@ -153,9 +153,9 @@ class SVVViewController: UIViewController {
                     buttonInterval=CFAbsoluteTimeGetCurrent()
                     return
                 }
-                mbf=true
+                movingBarFlag=true
                 appendData()
-                if(sArray.count==10){
+                if(tenTimesOnOff==1 && sensorArray.count==10){
                     if timer?.isValid == true {
                         timer.invalidate()
                     }
@@ -165,7 +165,7 @@ class SVVViewController: UIViewController {
  
             case .remoteControlPlay:
  //               print("Play")
-                if(mbf==true){
+                if(movingBarFlag==true){
                     if (CFAbsoluteTimeGetCurrent()-buttonInterval)<0.3{
  //                       print("doubleTap")
                         returnMain()
@@ -174,9 +174,9 @@ class SVVViewController: UIViewController {
                     buttonInterval=CFAbsoluteTimeGetCurrent()
                     return
                 }
-                mbf=true
+                movingBarFlag=true
                 appendData()
-                if(tenTimesOnOff==1 && sArray.count==10){
+                if(tenTimesOnOff==1 && sensorArray.count==10){
                     if timer?.isValid == true {
                         timer.invalidate()
                     }
@@ -184,23 +184,23 @@ class SVVViewController: UIViewController {
 //                    self.dismiss(animated: true, completion: nil)
                 }
             case .remoteControlNextTrack:
-                mbf=false
+                movingBarFlag=false
                 degree += 1
   //              print("NextTrack")
             case .remoteControlPreviousTrack:
-                mbf=false
+                movingBarFlag=false
                 degree -= 1
  //               print("PreviousTrack")
             case .remoteControlBeginSeekingBackward:
                 lbf=true
-                mbf=false
+                movingBarFlag=false
  //               print("BeginSeekingBackward")
             case .remoteControlEndSeekingBackward:
                 lbf=false
 //                print("EndSeekingBackward")
             case .remoteControlBeginSeekingForward:
                 rbf=true
-                mbf=false
+                movingBarFlag=false
   //              print("BeginSeekingForward")
             case .remoteControlEndSeekingForward:
                 rbf=false
@@ -292,7 +292,7 @@ class SVVViewController: UIViewController {
         drawBack()
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         tcount=0
-        mbf=true
+        movingBarFlag=true
 //        if UIApplication.shared.isIdleTimerDisabled == false{
 //            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
 //        }
@@ -300,8 +300,8 @@ class SVVViewController: UIViewController {
         tapInterval=CFAbsoluteTimeGetCurrent()-1
         self.setNeedsStatusBarAppearanceUpdate()//
         //view.bounds.width
-        sArray.removeAll()
-        dArray.removeAll()
+        sensorArray.removeAll()
+        degreeArray.removeAll()
         Globalmode=1
         //vArray.removeAll()
     }
@@ -325,19 +325,24 @@ class SVVViewController: UIViewController {
             degree += Double(Globalpx)/2
             degree += Double(Globalbv)/2
             degree -= Double(Globalxv)/2
-            if(mbf==true){
+            if(movingBarFlag==true){
                 if(Globallx != 0.0 || Globalpx != 0.0 || Globalbv != 0.0 || Globalxv != 0.0){
-                    mbf=false
+                    movingBarFlag=false
                 }
             }
       //      print("svvA:",Globalav)
       //      print("svvx:",Globallx)
       //      print("svvpx:",Globalpx)
       //  }
-        if (mbf) {
-            if(degree>200){
+        print("last sensor",sensorArray.last,degree)
+        var lastDegree:Double=0
+        if sensorArray.last != nil{
+            lastDegree=sensorArray.last!
+        }
+        if (movingBarFlag) {
+            if(degree > lastDegree*5 + 100){
                 directionR=false
-            }else if(degree < -200){
+            }else if(degree < lastDegree*5 - 100){
                 directionR=true
             }
             if(directionR){
@@ -359,7 +364,7 @@ class SVVViewController: UIViewController {
   //           print("buttonY:",Globalyv,GlobalLastyv1,Globalmode)
         if(Globalav == 0.0 && GlobalLastav != 0.0){
             GlobalLastav=Globalav
-            if mbf==true{
+            if movingBarFlag==true{
                 if (CFAbsoluteTimeGetCurrent()-gamepadInterval)<0.3{
                 //            print("doubleTap")
                     if timer?.isValid == true {
@@ -371,9 +376,9 @@ class SVVViewController: UIViewController {
                 gamepadInterval=CFAbsoluteTimeGetCurrent()
                 return
             }
-            mbf=true
+            movingBarFlag=true
             appendData()
-            if(sArray.count==10){
+            if(tenTimesOnOff==1 && sensorArray.count==10){
                  if timer?.isValid == true {
                      timer.invalidate()
                  }
@@ -386,7 +391,7 @@ class SVVViewController: UIViewController {
         
         if(Globalmode == 1){
             if(Globalyv == 0.0 && GlobalLastyv1 != 0.0){
-                mbf=true
+                movingBarFlag=true
                 GlobalLastyv1 = 0.0
                 if timer?.isValid == true {
                     timer.invalidate()
@@ -429,7 +434,7 @@ class SVVViewController: UIViewController {
         let uiPath = UIBezierPath()
         uiPath.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
         uiPath.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
-        if mbf==true {
+        if movingBarFlag==true {
             shapeLayer.strokeColor = UIColor.red.cgColor
         } else {
             shapeLayer.strokeColor = UIColor.blue.cgColor
@@ -443,7 +448,7 @@ class SVVViewController: UIViewController {
             let uiPath1 = UIBezierPath()
             uiPath1.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
             uiPath1.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
-            if mbf==true {
+            if movingBarFlag==true {
                 shapeLayer1.strokeColor = UIColor.red.cgColor
             } else {
                 shapeLayer1.strokeColor = UIColor.blue.cgColor
