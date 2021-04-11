@@ -11,6 +11,7 @@ import CoreMotion
 class SVVViewController: UIViewController {
 //    let fromAppDelegate = AppDelegate()
 //    var Globalav=0.0
+    var lastSensorDegree:Double=0
     let motionManager = CMMotionManager()
     var cirDiameter:CGFloat = 0
     var lineWidth:Int=0
@@ -128,6 +129,10 @@ class SVVViewController: UIViewController {
         stopAccelerometer()
         Globalmode=0
   //      print("stopSensor")
+    }
+    func getSenserDegree()->Double{
+        let s=round(curAcc*10)//shishagonyuu 90degree
+        return -s/10.0
     }
     func appendData(){
         let s=round(curAcc*10)//shishagonyuu 90degree
@@ -290,6 +295,7 @@ class SVVViewController: UIViewController {
  //       cirDiameter=view.bounds.width/26
         time=CFAbsoluteTimeGetCurrent()
         drawBack()
+        print("last",lastSensorDegree)
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         tcount=0
         movingBarFlag=true
@@ -304,7 +310,7 @@ class SVVViewController: UIViewController {
         degreeArray.removeAll()
         Globalmode=1
         //vArray.removeAll()
-    }
+   }
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
             return UserDefaults.standard.integer(forKey:str)
@@ -334,15 +340,14 @@ class SVVViewController: UIViewController {
       //      print("svvx:",Globallx)
       //      print("svvpx:",Globalpx)
       //  }
-        print("last sensor",sensorArray.last,degree)
-        var lastDegree:Double=0
-        if sensorArray.last != nil{
-            lastDegree=sensorArray.last!
+        let tmpD=getSenserDegree()
+        if lastSensorDegree < tmpD - 5 || lastSensorDegree > tmpD + 5{
+            lastSensorDegree = tmpD
         }
         if (movingBarFlag) {
-            if(degree > lastDegree*5 + 100){
+            if(degree > lastSensorDegree*5 + 150){
                 directionR=false
-            }else if(degree < lastDegree*5 - 100){
+            }else if(degree < lastSensorDegree*5 - 150){
                 directionR=true
             }
             if(directionR){
