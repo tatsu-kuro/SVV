@@ -137,9 +137,22 @@ class SVVViewController: UIViewController {
     func appendData(){
         let s=round(curAcc*10)//shishagonyuu 90degree
         sensorArray.append(-s/10.0)
+//        while degree > 450{
+//            degree -= 900
+//        }
+//        while degree < -450{
+//            degree += 900
+//        }
         degreeArray.append(degree/5.0)
         let v1 = curAcc*10.0 + degree*2.0
         let v2 = round(v1)
+//        var v3 = v2/10.0
+//        if v2 > 900{
+//            v2 -= 1800.0
+//        }
+//        if v2 < -900{
+//            v2 += 1800
+//        }
         svvArray.append(v2/10.0)
    //     vArray.append(degree*10+Int(s))
     }
@@ -258,11 +271,18 @@ class SVVViewController: UIViewController {
         ay=Kalupdate1(measurement: ay)
         let len=sqrt(ax*ax+ay*ay)
         var curAcc_temp=asin(ay/len)
-        if ax<0 {
-            curAcc_temp = 0 - curAcc_temp
-        }
+//        if ax<0 {
+//            curAcc_temp = 0 - curAcc_temp
+//        }
         curAcc_temp=curAcc_temp*90.0/(Double.pi/2)
         curAcc=curAcc_temp
+        if curAcc<0 && ax>0{
+            curAcc = -180 - curAcc
+        }else if curAcc>0 && ax>0{
+            curAcc = 180 - curAcc
+        }
+        curAcc = -curAcc
+        print(String(format:"curAcc:%.1f,%.1f,%.1f",curAcc,ax,ay))
     }
     // センサー取得を止める場合
     func stopAccelerometer(){
@@ -282,16 +302,35 @@ class SVVViewController: UIViewController {
         //lineWidth=getUserDefault(str: "lineWidth", ret: width0)
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
-        if motionManager.isAccelerometerAvailable {
+       if motionManager.isAccelerometerAvailable {
             // intervalの設定 [sec]
-            motionManager.accelerometerUpdateInterval = 0.1
+           motionManager.accelerometerUpdateInterval = 0.1
             // センサー値の取得開始
             motionManager.startAccelerometerUpdates(
                 to: OperationQueue.current!,
                 withHandler: {(accelData: CMAccelerometerData?, errorOC: Error?) in
                     self.outputAccelData(acceleration: accelData!.acceleration)
             })
+       /* guard motionManager.isDeviceMotionAvailable else { return }
+               motionManager.deviceMotionUpdateInterval = 1 / 100
+
+               motionManager.startDeviceMotionUpdates(using: .xMagneticNorthZVertical, to: OperationQueue.current!, withHandler: { [weak self] (motion, error) in
+                   guard let motion = motion, error == nil else { return }
+                   guard let strongSelf = self else { return }
+
+                   let xAngle = motion.attitude.roll * 180 / Double.pi
+                   let yAngle = motion.attitude.pitch * 180 / Double.pi
+
+                   /// 係数を使って感度を調整する
+                   let coefficient: CGFloat = 0.1
+
+                   print("attitude pitch: \(motion.attitude.pitch * 180 / Double.pi)")
+                   print("attitude roll : \(motion.attitude.roll * 180 / Double.pi)")
+                   print("attitude yaw  : \(motion.attitude.yaw * 180 / Double.pi)")
+               })*/
         }
+ 
+        
  //       cirDiameter=view.bounds.width/26
         time=CFAbsoluteTimeGetCurrent()
         drawBack()
@@ -345,9 +384,9 @@ class SVVViewController: UIViewController {
             lastSensorDegree = tmpD
         }
         if (movingBarFlag) {
-            if(degree > lastSensorDegree*5 + 150){
+            if(degree > lastSensorDegree*5 + 150)||degree>600{
                 directionR=false
-            }else if(degree < lastSensorDegree*5 - 150){
+            }else if(degree < lastSensorDegree*5 - 150)||degree < -600{
                 directionR=true
             }
             if(directionR){
@@ -355,15 +394,17 @@ class SVVViewController: UIViewController {
             }else{
                 degree -= 2
             }
-        } else if (rbf) {
-            degree += 1
-        } else if (lbf) {
-            degree -= 1
-        }
-        if(degree > 450){
-            degree -= 900
-        }else if(degree < -450){
-            degree += 900
+        } else{
+            if (rbf) {
+                degree += 1
+            } else if (lbf) {
+                degree -= 1
+            }
+            if(degree > 600){
+                degree = 600
+            }else if(degree < -600){
+                degree = -600
+            }
         }
    //     if(mbf==false){
   //           print("buttonY:",Globalyv,GlobalLastyv1,Globalmode)
