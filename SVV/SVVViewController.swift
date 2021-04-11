@@ -282,7 +282,7 @@ class SVVViewController: UIViewController {
             curAcc = 180 - curAcc
         }
         curAcc = -curAcc
-        print(String(format:"curAcc:%.1f,%.1f,%.1f",curAcc,ax,ay))
+//        print(String(format:"curAcc:%.1f,%.1f,%.1f",curAcc,ax,ay))
     }
     // センサー取得を止める場合
     func stopAccelerometer(){
@@ -384,9 +384,9 @@ class SVVViewController: UIViewController {
             lastSensorDegree = tmpD
         }
         if (movingBarFlag) {
-            if(degree > lastSensorDegree*5 + 150)||degree>600{
+            if(degree > lastSensorDegree*5 + 150){
                 directionR=false
-            }else if(degree < lastSensorDegree*5 - 150)||degree < -600{
+            }else if(degree < lastSensorDegree*5 - 150){
                 directionR=true
             }
             if(directionR){
