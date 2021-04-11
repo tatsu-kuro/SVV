@@ -64,13 +64,61 @@ class ViewController: UIViewController {
         print("prepare")
         sound(snd:"silence")
     }
+    func writeSVVdata(){
+        var text:String=""
+        //let str = self.dateString.components(separatedBy: " ")
+        text += self.dateString + ","
+        text += self.idString + "\n"
+        text += "[-10<= <+10]" + self.svvStrNor + ","
+        text += "[ <-10]" + self.svvStrNeg + ","
+        text += "[+10<= ]" + self.svvStrPos + "\n"
+        var dStr:String="angle,"
+        var sStr:String="sensor,"
+        var vStr:String="SVV,"
+        for i in 0..<self.degreeArray.count{
+            if(i<self.degreeArray.count-1){
+                dStr += String(format:"%.1f",self.degreeArray[i]) + ","
+                sStr += String(format:"%.1f",self.self.sensorArray[i]) + ","
+//                    if i<9 {
+                    vStr += String(format:"%.1f",self.self.svvArray[i]) + ","
+//                    }
+//                    else{
+//                        vStr += String(format:"%.2f",self.self.svvArray[i])
+//                    }
+            }else{
+                dStr += String(format:"%.1f",self.degreeArray[i]) + "\n"
+                sStr += String(format:"%.1f",self.self.sensorArray[i]) + "\n"
+//                    if i<9 {
+                    vStr += String(format:"%.1f",self.self.svvArray[i]) + "\n"
+
+            }
+        }
+        text += dStr + sStr + vStr + "\n"
+        print(text)
+        let file_name = "SVVdata.txt"
+        text += self.loadSVVdata(filename: "SVVdata.txt")
+        
+        if let dir = FileManager.default.urls( for: .documentDirectory, in: .userDomainMask ).first {
+            
+            let path_file_name = dir.appendingPathComponent( file_name )
+            
+            do {
+                
+                try text.write( to: path_file_name, atomically: false, encoding: String.Encoding.utf8 )
+                
+            } catch {
+                print("SVVdata.txt write err")//エラー処理
+            }
+        }
+    }
+    
     @IBAction func saveData(_ sender: Any) {
         sound(snd:"silence")
         if svvArray.count<1 {
             return
         }
         let alert = UIAlertController(title: "SVV96da", message: "Input ID without space", preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) -> Void in
+        let saveAction = UIAlertAction(title: "OK", style: .default) { [self] (action:UIAlertAction!) -> Void in
             // 入力したテキストをコンソールに表示
             let textField = alert.textFields![0] as UITextField
             self.idString=textField.text!
@@ -78,51 +126,52 @@ class ViewController: UIViewController {
             // イメージビューに設定する
             self.savedFlag = true //解析結果がsaveされた
             self.setViews()
-            var text:String=""
-            //let str = self.dateString.components(separatedBy: " ")
-            text += self.dateString + ","
-            text += self.idString + "\n"
-            text += "[-10<= <+10]" + self.svvStrNor + ","
-            text += "[ <-10]" + self.svvStrNeg + ","
-            text += "[+10<= ]" + self.svvStrPos + "\n"
-            var dStr:String="angle,"
-            var sStr:String="sensor,"
-            var vStr:String="SVV,"
-            for i in 0..<self.degreeArray.count{
-                if(i<self.degreeArray.count-1){
-                    dStr += String(format:"%.1f",self.degreeArray[i]) + ","
-                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + ","
-//                    if i<9 {
-                        vStr += String(format:"%.1f",self.self.svvArray[i]) + ","
-//                    }
-//                    else{
-//                        vStr += String(format:"%.2f",self.self.svvArray[i])
-//                    }
-                }else{
-                    dStr += String(format:"%.1f",self.degreeArray[i]) + "\n"
-                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + "\n"
-//                    if i<9 {
-                        vStr += String(format:"%.1f",self.self.svvArray[i]) + "\n"
-
-                }
-            }
-            text += dStr + sStr + vStr + "\n"
-            print(text)
-            let file_name = "SVVdata.txt"
-            text += self.loadSVVdata(filename: "SVVdata.txt")
-            
-            if let dir = FileManager.default.urls( for: .documentDirectory, in: .userDomainMask ).first {
-                
-                let path_file_name = dir.appendingPathComponent( file_name )
-                
-                do {
-                    
-                    try text.write( to: path_file_name, atomically: false, encoding: String.Encoding.utf8 )
-                    
-                } catch {
-                    print("SVVdata.txt write err")//エラー処理
-                }
-            }
+            self.writeSVVdata()
+//            var text:String=""
+//            //let str = self.dateString.components(separatedBy: " ")
+//            text += self.dateString + ","
+//            text += self.idString + "\n"
+//            text += "[-10<= <+10]" + self.svvStrNor + ","
+//            text += "[ <-10]" + self.svvStrNeg + ","
+//            text += "[+10<= ]" + self.svvStrPos + "\n"
+//            var dStr:String="angle,"
+//            var sStr:String="sensor,"
+//            var vStr:String="SVV,"
+//            for i in 0..<self.degreeArray.count{
+//                if(i<self.degreeArray.count-1){
+//                    dStr += String(format:"%.1f",self.degreeArray[i]) + ","
+//                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + ","
+////                    if i<9 {
+//                        vStr += String(format:"%.1f",self.self.svvArray[i]) + ","
+////                    }
+////                    else{
+////                        vStr += String(format:"%.2f",self.self.svvArray[i])
+////                    }
+//                }else{
+//                    dStr += String(format:"%.1f",self.degreeArray[i]) + "\n"
+//                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + "\n"
+////                    if i<9 {
+//                        vStr += String(format:"%.1f",self.self.svvArray[i]) + "\n"
+//
+//                }
+//            }
+//            text += dStr + sStr + vStr + "\n"
+//            print(text)
+//            let file_name = "SVVdata.txt"
+//            text += self.loadSVVdata(filename: "SVVdata.txt")
+//
+//            if let dir = FileManager.default.urls( for: .documentDirectory, in: .userDomainMask ).first {
+//
+//                let path_file_name = dir.appendingPathComponent( file_name )
+//
+//                do {
+//
+//                    try text.write( to: path_file_name, atomically: false, encoding: String.Encoding.utf8 )
+//
+//                } catch {
+//                    print("SVVdata.txt write err")//エラー処理
+//                }
+//            }
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (action:UIAlertAction!) -> Void in
@@ -378,7 +427,9 @@ class ViewController: UIViewController {
     @IBAction func startSVV(_ sender: Any) {
         //print("startSVV : ",savedFlag)
         sound(snd:"silence")
-        if savedFlag == false {
+//リモートコントローラーからは”LIST"button
+        let buttonTitle=(sender as! UIButton).currentTitle
+        if savedFlag == false && buttonTitle=="START"{
             //setButtons(mode: false)
             let alert = UIAlertController(
                 title: "You are erasing SVV Data.",
@@ -388,7 +439,7 @@ class ViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                 //self.setButtons(mode: false)
                 self.savedFlag=false
-                self.startSVV()
+                self.segueSVV()
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel,handler:{ action in
                 //self.setButtons(mode: true)
@@ -397,13 +448,16 @@ class ViewController: UIViewController {
             // アラート表示
             self.present(alert, animated: true, completion: nil)
             //１：直ぐここと２を通る
+        }else if savedFlag == false{
+            idString="temp"
+            writeSVVdata()
+            self.segueSVV()
         }else{
-            //setButtons(mode: false)
-            self.startSVV()
+            self.segueSVV()
         }
         //２：直ぐここを通る
     }
-    func startSVV(){
+    func segueSVV(){
         let nextView = storyboard?.instantiateViewController(withIdentifier: "SVV") as! SVVViewController
         self.present(nextView, animated: true, completion: nil)
     }
@@ -415,14 +469,14 @@ class ViewController: UIViewController {
             
             case .remoteControlPlay:
                 //               print("Play")
-                startSVV(1)
+                startSVV(listButton)
             case .remoteControlPause:
                 print("Pause")
             case .remoteControlStop:
                 print("Stop")
             case .remoteControlTogglePlayPause:
                 //             print("TogglePlayPause")
-                startSVV(1)
+                startSVV(listButton)
             case .remoteControlNextTrack:
                 print("NextTrack")
             case .remoteControlPreviousTrack:

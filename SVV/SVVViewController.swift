@@ -295,7 +295,7 @@ class SVVViewController: UIViewController {
  //       cirDiameter=view.bounds.width/26
         time=CFAbsoluteTimeGetCurrent()
         drawBack()
-        print("last",lastSensorDegree)
+//        print("last",lastSensorDegree)
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         tcount=0
         movingBarFlag=true
