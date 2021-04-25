@@ -18,9 +18,9 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOP-kK-pY8">
                                 <rect key="frame" x="100" y="50" width="368" height="220"/>
-                                <string key="text">SVV for iPhone &amp; iPad  version 1.8
+                                <string key="text">SVV for iPhone &amp; iPad  version 1.9
 
-2020-4-11</string>
+2020-4-25</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>

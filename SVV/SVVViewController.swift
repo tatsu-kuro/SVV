@@ -32,10 +32,10 @@ class SVVViewController: UIViewController {
     var sensorArray = Array<Double>()//sensor
     var degreeArray = Array<Double>()//degree
     var svvArray = Array<Double>()//delta Subjective Visual Vertical
-    var buttonInterval=CFAbsoluteTimeGetCurrent()
-    var gamepadInterval=CFAbsoluteTimeGetCurrent()
-    var tapInterval=CFAbsoluteTimeGetCurrent()
-    var time=CFAbsoluteTimeGetCurrent()
+    var actionTimeLast=CFAbsoluteTimeGetCurrent()//tap or remoteController
+    //var actionTimeLast=CFAbsoluteTimeGetCurrent()
+    //var tapInterval=CFAbsoluteTimeGetCurrent()
+//    var time=CFAbsoluteTimeGetCurrent()
     var verticalLinef:Bool=false
     var tenTimesOnOff:Int = 1
 //    var lastYvalue:Float=0.0
@@ -69,6 +69,9 @@ class SVVViewController: UIViewController {
         }
     }
     func returnMain(){
+        if timer?.isValid == true {
+            timer.invalidate()
+        }
         let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
         mainView.svvArray.removeAll()
         mainView.degreeArray.removeAll()
@@ -94,18 +97,15 @@ class SVVViewController: UIViewController {
             degree -= 1
         }else if sender.location(in: self.view).x < self.view.bounds.width*2/3{
             if(movingBarFlag==true){
-                if (CFAbsoluteTimeGetCurrent()-buttonInterval)<0.3{
+                if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
                     returnMain()
                 }
-                buttonInterval=CFAbsoluteTimeGetCurrent()
+                actionTimeLast=CFAbsoluteTimeGetCurrent()
                 return
             }
             movingBarFlag=true
             appendData()
             if(tenTimesOnOff==1 && sensorArray.count==10){
-                if timer?.isValid == true {
-                    timer.invalidate()
-                }
                 returnMain()
             }
         }else{
@@ -165,19 +165,19 @@ class SVVViewController: UIViewController {
             case .remoteControlTogglePlayPause:
   //              print("TogglePlayPause")
                 if(movingBarFlag==true){
-                    if (CFAbsoluteTimeGetCurrent()-buttonInterval)<0.3{
+                    if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
            //             print("doubleTap")
                         returnMain()
                     }
-                    buttonInterval=CFAbsoluteTimeGetCurrent()
+                    actionTimeLast=CFAbsoluteTimeGetCurrent()
                     return
                 }
                 movingBarFlag=true
                 appendData()
                 if(tenTimesOnOff==1 && sensorArray.count==10){
-                    if timer?.isValid == true {
-                        timer.invalidate()
-                    }
+//                    if timer?.isValid == true {
+//                        timer.invalidate()
+//                    }
                     returnMain()
 //                    self.dismiss(animated: true, completion: nil)
                 }
@@ -185,20 +185,20 @@ class SVVViewController: UIViewController {
             case .remoteControlPlay:
  //               print("Play")
                 if(movingBarFlag==true){
-                    if (CFAbsoluteTimeGetCurrent()-buttonInterval)<0.3{
+                    if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
  //                       print("doubleTap")
                         returnMain()
 //                        self.dismiss(animated: true, completion: nil)
                     }
-                    buttonInterval=CFAbsoluteTimeGetCurrent()
+                    actionTimeLast=CFAbsoluteTimeGetCurrent()
                     return
                 }
                 movingBarFlag=true
                 appendData()
                 if(tenTimesOnOff==1 && sensorArray.count==10){
-                    if timer?.isValid == true {
-                        timer.invalidate()
-                    }
+//                    if timer?.isValid == true {
+//                        timer.invalidate()
+//                    }
                     returnMain()
 //                    self.dismiss(animated: true, completion: nil)
                 }
@@ -333,7 +333,7 @@ class SVVViewController: UIViewController {
         }
  
  //       cirDiameter=view.bounds.width/26
-        time=CFAbsoluteTimeGetCurrent()
+//        time=CFAbsoluteTimeGetCurrent()
         drawBack()
 //        print("last",lastSensorDegree)
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
@@ -342,8 +342,8 @@ class SVVViewController: UIViewController {
 //        if UIApplication.shared.isIdleTimerDisabled == false{
 //            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
 //        }
-        buttonInterval=CFAbsoluteTimeGetCurrent()-1
-        tapInterval=CFAbsoluteTimeGetCurrent()-1
+        actionTimeLast=CFAbsoluteTimeGetCurrent()-1
+//        tapInterval=CFAbsoluteTimeGetCurrent()-1
         self.setNeedsStatusBarAppearanceUpdate()//
         //view.bounds.width
         sensorArray.removeAll()
@@ -366,20 +366,20 @@ class SVVViewController: UIViewController {
         return true
     }
     @objc func update(tm: Timer) {
-       // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
-            degree += Double(Globallx)*2
-            degree += Double(Globalpx)/2
-            degree += Double(Globalbv)/2
-            degree -= Double(Globalxv)/2
-            if(movingBarFlag==true){
-                if(Globallx != 0.0 || Globalpx != 0.0 || Globalbv != 0.0 || Globalxv != 0.0){
-                    movingBarFlag=false
-                }
+        // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
+        degree += Double(GlobalStickXvalue)*2
+        degree += Double(GlobalPadXvalue)/2
+        degree += Double(GlobalButtonBvalue)/2
+        degree -= Double(GlobalButtonXvalue)/2
+        if(movingBarFlag==true){
+            if(GlobalStickXvalue != 0.0 || GlobalPadXvalue != 0.0 || GlobalButtonBvalue != 0.0 || GlobalButtonXvalue != 0.0){
+                movingBarFlag=false
             }
-      //      print("svvA:",Globalav)
-      //      print("svvx:",Globallx)
-      //      print("svvpx:",Globalpx)
-      //  }
+        }
+        //      print("svvA:",Globalav)
+        //      print("svvx:",Globallx)
+        //      print("svvpx:",Globalpx)
+        //  }
         let tmpD=getSenserDegree()
         if lastSensorDegree < tmpD - 5 || lastSensorDegree > tmpD + 5{
             lastSensorDegree = tmpD
@@ -407,50 +407,53 @@ class SVVViewController: UIViewController {
                 degree = -600
             }
         }
-   //     if(mbf==false){
-  //           print("buttonY:",Globalyv,GlobalLastyv1,Globalmode)
-        if(Globalav == 0.0 && GlobalLastav != 0.0){
-            GlobalLastav=Globalav
+        //     if(mbf==false){
+        //           print("buttonY:",Globalyv,GlobalLastyv1,Globalmode)
+        if(GlobalButtonAvalue == 0.0 && GlobalButtonAvalueLast != 0.0){
+            GlobalButtonAvalueLast=GlobalButtonAvalue
             if movingBarFlag==true{
-                if (CFAbsoluteTimeGetCurrent()-gamepadInterval)<0.3{
-                //            print("doubleTap")
-                    if timer?.isValid == true {
-                        timer.invalidate()
-                    }
+                if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
+                    //            print("doubleTap")
+//                    if timer?.isValid == true {
+//                        timer.invalidate()
+//                    }
                     Globalmode=0
                     returnMain()
                 }
-                gamepadInterval=CFAbsoluteTimeGetCurrent()
+                actionTimeLast=CFAbsoluteTimeGetCurrent()
                 return
             }
             movingBarFlag=true
             appendData()
             if(tenTimesOnOff==1 && sensorArray.count==10){
-                 if timer?.isValid == true {
-                     timer.invalidate()
-                 }
-                 Globalmode=0
-                 GlobalLastav=0
-                 returnMain()
+//                if timer?.isValid == true {
+//                    timer.invalidate()
+//                }
+                Globalmode=0
+                GlobalButtonAvalueLast=0
+                returnMain()
             }//self.dismiss(animated: false, completion: nil)
         }
-        GlobalLastav=Globalav
+        GlobalButtonAvalueLast=GlobalButtonAvalue
         
         if(Globalmode == 1){
-            if(Globalyv == 0.0 && GlobalLastyv1 != 0.0){
+            if(GlobalButtonYvalue == 0.0 && GlobalButtonYvalueLast1 != 0.0){
                 movingBarFlag=true
-                GlobalLastyv1 = 0.0
-                if timer?.isValid == true {
-                    timer.invalidate()
-                }
+                GlobalButtonYvalueLast1 = 0.0
+//                if timer?.isValid == true {
+//                    timer.invalidate()
+//                }
                 Globalmode=0
-                    returnMain()
+                returnMain()
             }else{
-                GlobalLastyv1=Globalyv
+                GlobalButtonYvalueLast1=GlobalButtonYvalue
             }
- 
+            
         }
         drawLine(degree:Float(degree),remove:true)
+        if CFAbsoluteTimeGetCurrent()-actionTimeLast>300{
+            returnMain()
+        }
     }
 
     var initFlag:Bool=true

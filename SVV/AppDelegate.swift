@@ -8,19 +8,19 @@
 
 import UIKit
 var Globalmode:Int=0//main:0 svv:1
-var GlobalLastyv0:Float=0.0//for mode0
-var GlobalLastyv1:Float=0.0//for mode1
-var GlobalLastav:Float=0.0
+var GlobalButtonYvalueLast0:Float=0.0//for mode0
+var GlobalButtonYvalueLast1:Float=0.0//for mode1
+var GlobalButtonAvalueLast:Float=0.0
 var Globalrx:Float=0.0
 var Globalry:Float=0.0
-var Globallx:Float=0.0
+var GlobalStickXvalue:Float=0.0
 var Globally:Float=0.0
-var Globalpx:Float=0.0
+var GlobalPadXvalue:Float=0.0
 var Globalpy:Float=0.0
-var Globalav:Float=0.0
-var Globalbv:Float=0.0
-var Globalxv:Float=0.0
-var Globalyv:Float=0.0
+var GlobalButtonAvalue:Float=0.0
+var GlobalButtonBvalue:Float=0.0
+var GlobalButtonXvalue:Float=0.0
+var GlobalButtonYvalue:Float=0.0
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

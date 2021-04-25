@@ -31,38 +31,38 @@ extension ViewController {
    }
 
    // Connection
-   func registerGameController(_ gameController: GCController){
-       print("ゲームコントローラーが接続されました")
-//       print("Name: \(gameController.vendorName!)")
-       //print("Category: \(gameController.productCategory)")
-       var leftThumbstick:  GCControllerDirectionPad?
-       var rightThumbstick: GCControllerDirectionPad?
-       var directionPad:    GCControllerDirectionPad?
-       var buttonA: GCControllerButtonInput?
-       var buttonB: GCControllerButtonInput?
-       var buttonX: GCControllerButtonInput?
-       var buttonY: GCControllerButtonInput?
-       if let gamepad = gameController.extendedGamepad {
-           //print("isSnapshot: \(gameController.isSnapshot)")
-           //print("isAttachedToDevice: \(gameController.isAttachedToDevice)")
-           directionPad    = gamepad.dpad
-           leftThumbstick  = gamepad.leftThumbstick
-           rightThumbstick = gamepad.rightThumbstick
-           buttonA = gamepad.buttonA
-           buttonB = gamepad.buttonB
-           buttonX = gamepad.buttonX
-           buttonY = gamepad.buttonY
-       }
-       leftThumbstick!.valueChangedHandler = printDirectionPadValue("leftThumbstick")
-       rightThumbstick!.valueChangedHandler = printDirectionPadValue("rightThumbstick")
-       directionPad!.valueChangedHandler = printDirectionPadValue("directionPad")
-       buttonA!.valueChangedHandler = printButtonValue("buttonA")
-       buttonB!.valueChangedHandler = printButtonValue("buttonB")
-       buttonX!.valueChangedHandler = printButtonValue("buttonX")
+    func registerGameController(_ gameController: GCController){
+        print("ゲームコントローラーが接続されました")
+        //       print("Name: \(gameController.vendorName!)")
+        //print("Category: \(gameController.productCategory)")
+        var leftThumbstick:  GCControllerDirectionPad?
+        var rightThumbstick: GCControllerDirectionPad?
+        var directionPad:    GCControllerDirectionPad?
+        var buttonA: GCControllerButtonInput?
+        var buttonB: GCControllerButtonInput?
+        var buttonX: GCControllerButtonInput?
+        var buttonY: GCControllerButtonInput?
+        if let gamepad = gameController.extendedGamepad {
+            //print("isSnapshot: \(gameController.isSnapshot)")
+            //print("isAttachedToDevice: \(gameController.isAttachedToDevice)")
+            directionPad    = gamepad.dpad
+            leftThumbstick  = gamepad.leftThumbstick
+            rightThumbstick = gamepad.rightThumbstick
+            buttonA = gamepad.buttonA
+            buttonB = gamepad.buttonB
+            buttonX = gamepad.buttonX
+            buttonY = gamepad.buttonY
+        }
+        leftThumbstick!.valueChangedHandler = printDirectionPadValue("leftThumbstick")
+        rightThumbstick!.valueChangedHandler = printDirectionPadValue("rightThumbstick")
+        directionPad!.valueChangedHandler = printDirectionPadValue("directionPad")
+        buttonA!.valueChangedHandler = printButtonValue("buttonA")
+        buttonB!.valueChangedHandler = printButtonValue("buttonB")
+        buttonX!.valueChangedHandler = printButtonValue("buttonX")
         buttonY!.valueChangedHandler = printButtonValue("buttonY")
         //Globalef=true
-   }
-
+    }
+    
    // Disconnection
    func unregisterGameController() {
        print("ゲームコントローラーが切断されました")
@@ -73,16 +73,16 @@ extension ViewController {
    func printDirectionPadValue(_ text:String) -> GCControllerDirectionPadValueChangedHandler {
        return {(_ dpad: GCControllerDirectionPad, _ xValue: Float, _ yValue: Float) -> Void in
         if(text=="leftThumbstick"){//左右のxだけ利用する
-            Globallx=xValue;
+            GlobalStickXvalue=xValue;
  //           Globally=yValue;
         }
         else if(text=="rightThumbstick"){
-            Globallx=xValue;
+            GlobalStickXvalue=xValue;
  //           Globalrx=xValue;
  //           Globalry=yValue;
          }
          else if(text=="directionPad"){
-            Globalpx=xValue;
+            GlobalPadXvalue=xValue;
  //           Globalpy=yValue;
          }
  //        print("\(text) x:\(xValue), y:\(-yValue)")
@@ -93,19 +93,19 @@ extension ViewController {
    func printButtonValue(_ text:String) -> GCControllerButtonValueChangedHandler {
        return {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
         if(text=="buttonA"){
-            Globalav=value
+            GlobalButtonAvalue=value
         }else if(text=="buttonB"){
-            Globalbv=value
+            GlobalButtonBvalue=value
         }else if(text=="buttonX"){
-            Globalxv=value
+            GlobalButtonXvalue=value
         }else if(text=="buttonY"){
-            Globalyv=value
+            GlobalButtonYvalue=value
              if(Globalmode==0){
-                if(Globalyv == 0.0 && GlobalLastyv0 != 0.0){
-                    GlobalLastyv0=Globalyv
+                if(GlobalButtonYvalue == 0.0 && GlobalButtonYvalueLast0 != 0.0){
+                    GlobalButtonYvalueLast0=GlobalButtonYvalue
                     self.startSVV(1)
                 }
-                GlobalLastyv0=Globalyv
+                GlobalButtonYvalueLast0=GlobalButtonYvalue
             }
 //            print("\(text) value:\(value), pressed:\(pressed)")
         }
