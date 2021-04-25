@@ -83,6 +83,7 @@ class SVVViewController: UIViewController {
         if degreeArray.count>0 {
             mainView.savedFlag=false
         }
+        stopAccelerometer()//version1.9で加えた
         self.present(mainView, animated: false, completion: nil)
         Globalmode=0
         return//iranasasou? <-kokotouruyo?
@@ -289,6 +290,7 @@ class SVVViewController: UIViewController {
         if (motionManager.isAccelerometerActive) {
             motionManager.stopAccelerometerUpdates()
         }
+        print("StopMotionSensor")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -330,7 +332,6 @@ class SVVViewController: UIViewController {
                })*/
         }
  
-        
  //       cirDiameter=view.bounds.width/26
         time=CFAbsoluteTimeGetCurrent()
         drawBack()
@@ -349,7 +350,7 @@ class SVVViewController: UIViewController {
         degreeArray.removeAll()
         Globalmode=1
         //vArray.removeAll()
-   }
+    }
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
             return UserDefaults.standard.integer(forKey:str)
@@ -506,7 +507,6 @@ class SVVViewController: UIViewController {
     }
 
     func drawBack(){
-
         let ww=view.bounds.width
         let wh=view.bounds.height
         // 四角形を描画
