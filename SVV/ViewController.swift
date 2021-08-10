@@ -31,7 +31,7 @@ extension DateFormatter {
 // テンプレートから時刻を表示
 class ViewController: UIViewController {
  //let fromAppDelegate: AppDelegate = NSApplication.shared().delegate as! AppDelegate
-    let dia0:Int = 7
+    let diameter0:Int = 7
     let width0:Int = 10
     var diameter:Int = 0
     var width:Int = 0
@@ -63,6 +63,28 @@ class ViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("prepare")
         sound(snd:"silence")
+    }
+    var topPadding:CGFloat = 0
+    var bottomPadding:CGFloat = 0
+    var leftPadding:CGFloat = 0
+    var rightPadding:CGFloat = 0
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if #available(iOS 11.0, *) {
+            // viewDidLayoutSubviewsではSafeAreaの取得ができている
+            topPadding = self.view.safeAreaInsets.top
+            bottomPadding = self.view.safeAreaInsets.bottom
+            leftPadding = self.view.safeAreaInsets.left
+            rightPadding = self.view.safeAreaInsets.right
+            UserDefaults.standard.set(topPadding,forKey: "topPadding")
+            UserDefaults.standard.set(bottomPadding,forKey: "bottomPadding")
+            UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
+            UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
+            print("in viewDidLayoutSubviews")
+            let left=UserDefaults.standard.integer(forKey:"leftPadding")
+            print(topPadding,bottomPadding,left,rightPadding)    // iPhoneXなら44, その他は20.0
+        }
+//        setButtons()
     }
     func writeSVVdata(){
         var text:String=""
@@ -321,7 +343,7 @@ class ViewController: UIViewController {
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
         sound(snd:"silence")
-        _ = getUserDefault(str:"circleDiameter",ret:dia0)
+        _ = getUserDefault(str:"circleDiameter",ret:diameter0)//if not exist, make
         _ = getUserDefault(str:"lineWidth",ret:width0)
         _ = getUserDefault(str:"VROnOff",ret:0)
         _ = getUserDefault(str:"VRLocationX",ret:0)
@@ -365,31 +387,31 @@ class ViewController: UIViewController {
         }
         registerGameController(controller)
     }
-    func setRight(but:UIButton){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
-        let bw=ww/6
-        let bh=bw*15/44
-        let sp=(ww/6)/6
-        let by=wh-bh-sp*2/3
-        but.frame = CGRect(x: sp*5+bw*4, y: by, width: bw, height: bh)
-    }
+//    func setRight(but:UIButton){
+//        let ww=view.bounds.width
+//        let wh=view.bounds.height
+//        let bw=ww/6
+//        let bh=bw*15/44
+//        let sp=(ww/6)/6
+//        let by=wh-bh-sp*2/3
+//        but.frame = CGRect(x: sp*5+bw*4, y: by, width: bw, height: bh)
+//    }
     func setButtons(){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
+        let ww=view.bounds.width-leftPadding-rightPadding
+        let wh=view.bounds.height-topPadding-bottomPadding//topPadding is 0 anytime?
         let logoh=ww*84/1300
         let bw=ww/6
         //let bw_help=bw/2
         let bh=bw*15/44
         let sp=(ww/6)/6
         let by=wh-bh-sp*2/3
-        logoImage.frame = CGRect(x:0,y:0,width:ww,height:logoh)
-        listButton.frame = CGRect(x: sp, y: by, width: bw, height: bh)
-        saveButton.frame = CGRect(x:sp*2+bw*1,y:by,width:bw,height:bh)
-        startButton.frame = CGRect(x: sp*3+bw*2, y: by, width: bw, height: bh)//440*150
-        setteiButton.frame = CGRect(x:sp*4+bw*3,y:by,width:bw,height:bh)
-        helpButton.frame = CGRect(x:sp*5+bw*4,y:by,width:bw,height:bh)
-        titleImage.frame = CGRect(x: 0, y: logoh, width: ww, height: wh-logoh-bh*3/2)
+        logoImage.frame = CGRect(x:leftPadding+0,y:0,width:ww,height:logoh)
+        listButton.frame = CGRect(x:leftPadding+sp, y: by, width: bw, height: bh)
+        saveButton.frame = CGRect(x:leftPadding+sp*2+bw*1,y:by,width:bw,height:bh)
+        startButton.frame = CGRect(x:leftPadding+sp*3+bw*2, y: by, width: bw, height: bh)//440*150
+        setteiButton.frame = CGRect(x:leftPadding+sp*4+bw*3,y:by,width:bw,height:bh)
+        helpButton.frame = CGRect(x:leftPadding+sp*5+bw*4,y:by,width:bw,height:bh)
+        titleImage.frame = CGRect(x:leftPadding+0, y: logoh, width: ww, height: wh-logoh-bh*3/2)
         listButton.layer.cornerRadius=5
         saveButton.layer.cornerRadius=5
         startButton.layer.cornerRadius=5
@@ -469,14 +491,14 @@ class ViewController: UIViewController {
             
             case .remoteControlPlay:
                 //               print("Play")
-                startSVV(listButton)
+                startSVV(listButton!)
             case .remoteControlPause:
                 print("Pause")
             case .remoteControlStop:
                 print("Stop")
             case .remoteControlTogglePlayPause:
                 //             print("TogglePlayPause")
-                startSVV(listButton)
+                startSVV(listButton!)
             case .remoteControlNextTrack:
                 print("NextTrack")
             case .remoteControlPreviousTrack:

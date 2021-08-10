@@ -90,22 +90,27 @@ class ImagePickerViewController: UIViewController, MFMailComposeViewControllerDe
         return ""
     }
     func setButtons_init(){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
+        let left=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+        let right=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+        let top=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))//anytime 0
+        let bottom=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
+
+        let ww=view.bounds.width-left-right
+        let wh=view.bounds.height-top-bottom
         let bw=ww/6
         let bh=bw*15/44
         var sp=(ww/6)/6
         let by=wh-bh-sp*2/3
 //        changeButton.frame = CGRect(x: sp, y: by, width: bw, height: bh)
-        mailButton.frame = CGRect(x:sp,y:by,width:bw,height:bh)
-        gomiButton.frame = CGRect(x: sp*2+bw*1, y: by, width: bw, height: bh)//440*150
-        exitButton.frame = CGRect(x:sp*5+bw*4, y: by, width:bw, height: bh)
+        mailButton.frame = CGRect(x:left+sp,y:by,width:bw,height:bh)
+        gomiButton.frame = CGRect(x:left+sp*2+bw*1, y: by, width: bw, height: bh)//440*150
+        exitButton.frame = CGRect(x:left+sp*5+bw*4, y: by, width:bw, height: bh)
 //        changeButton.layer.cornerRadius=5
         mailButton.layer.cornerRadius=5
         gomiButton.layer.cornerRadius=5
         exitButton.layer.cornerRadius=5
         sp = sp/2
-        self.textView.frame = CGRect(x:sp,y:sp,width:ww-2*sp,height:wh-4*sp-bh)
+        self.textView.frame = CGRect(x:left+sp,y:sp,width:ww-2*sp,height:wh-4*sp-bh)
         let text:String=loadSVVdata(filename: "SVVdata.txt")
         self.textView.text=text
     }

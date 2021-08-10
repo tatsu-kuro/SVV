@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -337,11 +337,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="svvhelpwide" translatesAutoresizingMaskIntoConstraints="NO" id="eYu-lY-XWz">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="helpj" translatesAutoresizingMaskIntoConstraints="NO" id="eYu-lY-XWz">
                                 <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="svvhelpengwide" translatesAutoresizingMaskIntoConstraints="NO" id="0hS-eY-OKk">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="helpe" translatesAutoresizingMaskIntoConstraints="NO" id="0hS-eY-OKk">
                                 <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oYK-qV-wQg">
                                 <rect key="frame" x="513" y="265" width="50" height="50"/>
@@ -364,25 +366,23 @@
                                     <action selector="engJapan:" destination="Quz-u5-g5L" eventType="touchUpInside" id="qP8-vV-aLD"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2021-08-11" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="me9-QP-GJw">
+                                <rect key="frame" x="327" y="294" width="157" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GBC-6V-aUl"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="0hS-eY-OKk" firstAttribute="leading" secondItem="GBC-6V-aUl" secondAttribute="leading" id="AbM-zT-teU"/>
-                            <constraint firstItem="0hS-eY-OKk" firstAttribute="top" secondItem="GBC-6V-aUl" secondAttribute="top" id="EGe-Vd-NCq"/>
-                            <constraint firstItem="GBC-6V-aUl" firstAttribute="trailing" secondItem="eYu-lY-XWz" secondAttribute="trailing" id="VNA-Ro-pid"/>
-                            <constraint firstItem="GBC-6V-aUl" firstAttribute="trailing" secondItem="0hS-eY-OKk" secondAttribute="trailing" id="X9G-Yz-ufB"/>
-                            <constraint firstItem="GBC-6V-aUl" firstAttribute="bottom" secondItem="eYu-lY-XWz" secondAttribute="bottom" id="aVM-Hv-iTl"/>
-                            <constraint firstItem="eYu-lY-XWz" firstAttribute="leading" secondItem="GBC-6V-aUl" secondAttribute="leading" id="cue-7Z-RDt"/>
-                            <constraint firstItem="GBC-6V-aUl" firstAttribute="bottom" secondItem="0hS-eY-OKk" secondAttribute="bottom" id="iHL-xl-a22"/>
-                            <constraint firstItem="eYu-lY-XWz" firstAttribute="top" secondItem="GBC-6V-aUl" secondAttribute="top" id="vdc-xf-CIh"/>
-                        </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="QWc-Bb-BDO" appends="YES" id="tkz-Kc-mBq"/>
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="dateText" destination="me9-QP-GJw" id="Wcz-uu-4dz"/>
                         <outlet property="engButton" destination="0Ue-Cf-Mj7" id="NJE-Wr-JmS"/>
                         <outlet property="exitButton" destination="oYK-qV-wQg" id="KJo-dA-lVF"/>
                         <outlet property="helpText" destination="eYu-lY-XWz" id="KzZ-Bn-2sS"/>
@@ -403,10 +403,10 @@
     <resources>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="globe" catalog="system" width="128" height="121"/>
+        <image name="helpe" width="829" height="626"/>
+        <image name="helpj" width="841" height="617"/>
         <image name="logomejiro" width="1300" height="84"/>
         <image name="svvhead" width="1100" height="500"/>
-        <image name="svvhelpengwide" width="1024" height="724"/>
-        <image name="svvhelpwide" width="1024" height="724"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
