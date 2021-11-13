@@ -10,7 +10,7 @@ import UIKit
 
 class HeipViewController: UIViewController {
 
-    @IBOutlet weak var dateText: UILabel!
+//    @IBOutlet weak var dateText: UILabel!
     var englishF:Bool=false
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var engButton: UIButton!
@@ -92,7 +92,7 @@ class HeipViewController: UIViewController {
         engButton.frame = CGRect(x:left + sp,y:by,width:bw,height:bh)
         exitButton.layer.cornerRadius=5
         engButton.layer.cornerRadius=5
-        dateText.frame = CGRect(x:left+ww/2,y:by,width: ww/2-bw-right-sp*2,height: bh)
+//        dateText.frame = CGRect(x:left+ww/2,y:by,width: ww/2-bw-right-sp*2,height: bh)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

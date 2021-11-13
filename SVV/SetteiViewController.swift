@@ -138,6 +138,13 @@ class SetteiViewController: UIViewController {
     }
  
     func setButtons(){
+        let left=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+        let right=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+        let top=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
+        let bottom=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
+//        let ww=view.bounds.width - left - right
+//        let wh=view.bounds.height - top - bottom
+
         let ww=view.bounds.width
         let wh=view.bounds.height
         let x0=(ww/2+wh/2)+(ww-ww/2-wh/2)/10
