@@ -132,11 +132,12 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ky-Sm-Vep">
                                 <rect key="frame" x="444" y="245" width="114" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Default"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="1 or 2"/>
                                 <connections>
-                                    <action selector="setDefault:" destination="5V4-Ka-gbw" eventType="touchUpInside" id="S9w-hY-JPO"/>
+                                    <action selector="onUseVRButton:" destination="5V4-Ka-gbw" eventType="touchUpInside" id="bLy-r2-cOW"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="circle size" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Mb-lc-aZQ">
@@ -158,9 +159,6 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bKD-cp-zB1">
                                 <rect key="frame" x="444" y="12" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="onVROnSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="eXV-Sm-WPG"/>
-                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="for VR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JSQ-dt-cC8">
                                 <rect key="frame" x="506" y="17" width="48" height="21"/>
@@ -212,16 +210,14 @@
                     </view>
                     <connections>
                         <outlet property="VRLocationXSlider" destination="gY2-l7-HfV" id="TbP-9b-F03"/>
-                        <outlet property="VROnSwitch" destination="bKD-cp-zB1" id="LoC-4s-2cy"/>
-                        <outlet property="VROnText" destination="JSQ-dt-cC8" id="uUw-G8-PX9"/>
                         <outlet property="circleDiameter" destination="4Mb-lc-aZQ" id="BOv-Fd-kM7"/>
-                        <outlet property="defaultButton" destination="6ky-Sm-Vep" id="sYd-5q-eJy"/>
                         <outlet property="diameterSlider" destination="gyj-8b-ggr" id="Slk-TN-vcb"/>
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
                         <outlet property="lineWidth" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
                         <outlet property="lineWidthSlider" destination="rHK-EU-rNc" id="Muo-Fp-TyC"/>
                         <outlet property="tenTimesSwitch" destination="Whx-g6-fan" id="Fxv-nw-cpC"/>
                         <outlet property="tenTimesText" destination="Dud-CL-8h4" id="E8I-iG-OC9"/>
+                        <outlet property="useVRButton" destination="6ky-Sm-Vep" id="sYd-5q-eJy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nSs-1G-QWg" userLabel="First Responder" sceneMemberID="firstResponder"/>

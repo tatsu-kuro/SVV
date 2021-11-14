@@ -400,11 +400,10 @@ class ViewController: UIViewController {
         let ww=view.bounds.width-leftPadding-rightPadding
         let wh=view.bounds.height-topPadding-bottomPadding//topPadding is 0 anytime?
         let logoh=ww*84/1300
-        let bw=ww/6
-        //let bw_help=bw/2
-        let bh=bw*15/44
-        let sp=(ww/6)/6
-        let by=wh-bh-sp*2/3
+        let sp=ww/120
+        let bw=(ww-sp*6)/5
+        let bh=bw/3.5
+        let by=wh-bh-sp
         logoImage.frame = CGRect(x:leftPadding+0,y:0,width:ww,height:logoh)
         listButton.frame = CGRect(x:leftPadding+sp, y: by, width: bw, height: bh)
         saveButton.frame = CGRect(x:leftPadding+sp*2+bw*1,y:by,width:bw,height:bh)
