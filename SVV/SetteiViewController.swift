@@ -86,12 +86,12 @@ class SetteiViewController: UIViewController {
     @IBAction func onUseVRButton(_ sender: Any) {
         if VROnOff==0{
             VROnOff=1
-            VRLocationXSlider.isEnabled=true// isHidden=false
-            VRLocationXSlider.isHighlighted=true
+//            VRLocationXSlider.isHighlighted=true
+            VRLocationXSlider.isEnabled=true
         }else{
             VROnOff=0
-            VRLocationXSlider.isEnabled=false// isHidden=true
-            VRLocationXSlider.isHighlighted=false
+//            VRLocationXSlider.isHighlighted=false
+            VRLocationXSlider.isEnabled=false
         }
         UserDefaults.standard.set(VROnOff, forKey: "VROnOff")
         reDrawCirclesLines()
@@ -173,10 +173,13 @@ class SetteiViewController: UIViewController {
         useVRButton.layer.cornerRadius=5
         exitButton.layer.cornerRadius=5
         tenTimesText.text="stop after 10"
-        tenTimesText.layer.cornerRadius=5
-        tenTimesText.layer.borderWidth = 1.0
+//        tenTimesText.layer.borderWidth = 1.0
         tenTimesText.layer.masksToBounds = true
         tenTimesText.layer.cornerRadius = 5
+        circleDiameter.layer.masksToBounds = true
+        circleDiameter.layer.cornerRadius = 5
+        lineWidth.layer.masksToBounds = true
+        lineWidth.layer.cornerRadius = 5
         if VROnOff==0{
             VRLocationXSlider.isEnabled=false
         }else{
@@ -192,10 +195,10 @@ class SetteiViewController: UIViewController {
 
     func reDrawCirclesLines(){
         buttonsToBack()
-        view.layer.sublayers?.removeLast()
-        view.layer.sublayers?.removeLast()
-        view.layer.sublayers?.removeLast()
-        view.layer.sublayers?.removeLast()
+        self.view.layer.sublayers?.removeLast()
+        self.view.layer.sublayers?.removeLast()
+        self.view.layer.sublayers?.removeLast()
+        self.view.layer.sublayers?.removeLast()
 
         drawBackCircles()
         drawLines()
@@ -236,7 +239,7 @@ class SetteiViewController: UIViewController {
         let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww/*/2+wh/2*/, height: wh)
         rectangleLayer.frame = rectangleFrame
         rectangleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
-        rectangleLayer.fillColor = UIColor.black.cgColor// 四角形の中の色
+        rectangleLayer.fillColor = UIColor.systemGray4.cgColor// 四角形の中の色
         rectangleLayer.lineWidth = 2.5
         
         rectangleLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: rectangleFrame.size.width, height: rectangleFrame.size.height)).cgPath
@@ -276,11 +279,11 @@ class SetteiViewController: UIViewController {
         //print(r,x0,y0)
         let circleFrame = CGRect.init(x:x0,y:y0,width:r,height:r)
         circleLayer.frame = circleFrame
-        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
+        circleLayer.strokeColor = UIColor.systemGray4.cgColor// 輪郭の色
         if isWhite{
             circleLayer.fillColor = UIColor.white.cgColor// 円の中の色
         }else{
-            circleLayer.fillColor = UIColor.black.cgColor// 円の中の色
+            circleLayer.fillColor = UIColor.systemGray4.cgColor// 円の中の色
         }
         circleLayer.lineWidth = 0.5// 輪郭の太さ
         circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
