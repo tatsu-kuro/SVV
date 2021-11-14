@@ -172,7 +172,7 @@
                                 <rect key="frame" x="442" y="136" width="118" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="setDiameter:" destination="5V4-Ka-gbw" eventType="valueChanged" id="1dt-KW-8KU"/>
+                                    <action selector="changeDiameter:" destination="5V4-Ka-gbw" eventType="valueChanged" id="6ap-9h-bYg"/>
                                 </connections>
                             </slider>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="rHK-EU-rNc">

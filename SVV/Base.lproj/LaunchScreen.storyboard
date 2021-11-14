@@ -18,9 +18,8 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOP-kK-pY8">
                                 <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
-                                <string key="text">Subjective Visual Vertical
-Ver 2.0 2021-11-15
-by
+                                <string key="text">Ver-2.0 2021-11-15
+
 HIroaki Fushiki Akiko Umibe
 Kuroda ENT</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="29"/>
