@@ -172,7 +172,7 @@ class SetteiViewController: UIViewController {
         exitButton.frame = CGRect(x:x0+sp*4+bw*4,y:by,width:bw,height:bh)
         useVRButton.layer.cornerRadius=5
         exitButton.layer.cornerRadius=5
-        tenTimesText.text="stop after 10"
+        tenTimesText.text="stop after 10."
 //        tenTimesText.layer.borderWidth = 1.0
         tenTimesText.layer.masksToBounds = true
         tenTimesText.layer.cornerRadius = 5

@@ -67,29 +67,51 @@ class HeipViewController: UIViewController {
      }
      */
     func setButtons(){
-        let left=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
-        let right=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
-        let top=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))//anytime 0
-        let bottom=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-
-        let ww=view.bounds.width - left - right
-        let wh=view.bounds.height - top - bottom
-//        let bw=ww/8
+//        let left=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+//        let right=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+//        let top=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))//anytime 0
+//        let bottom=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
+//
+//        let ww=view.bounds.width - left - right
+//        let wh=view.bounds.height - top - bottom
+////        let bw=ww/8
+////        let bh=bw*15/44
+////        let sp=(ww/8)/8
+////        let by=wh-bh-sp*2/3
+//
+//        let bw=ww/6
+//        //let bw_help=bw/2
 //        let bh=bw*15/44
-//        let sp=(ww/8)/8
+//        let sp=(ww/6)/6
 //        let by=wh-bh-sp*2/3
         
-        let bw=ww/6
-        //let bw_help=bw/2
-        let bh=bw*15/44
-        let sp=(ww/6)/6
-        let by=wh-bh-sp*2/3
-        
-        helpText.frame = CGRect(x:left+sp,y:top+sp,width: ww-2*sp,height: wh-top-bh-sp*2)
-        helpTexteng.frame = CGRect(x:left+sp,y:top+sp,width: ww-2*sp,height: wh-top-bh-sp*2)
+        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))//anytime 0
+        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
 
-        exitButton.frame = CGRect(x:left + ww - bw - sp, y: by, width: bw, height: bh)
-        engButton.frame = CGRect(x:left + sp,y:by,width:bw,height:bh)
+//        let ww=view.bounds.width-left-right
+//        let wh=view.bounds.height-top-bottom
+//        let bw=ww/6
+//        let bh=bw*15/44
+//        var sp=(ww/6)/6
+//        let by=wh-bh-sp*2/3
+        
+        let ww=view.bounds.width-leftPadding-rightPadding
+        let wh=view.bounds.height-topPadding-bottomPadding//topPadding is 0 anytime?
+//        let logoh=ww*84/1300
+        let sp=ww/120
+        let bw=(ww-sp*6)/5
+        let bh=bw/3.5
+        let by=wh-bh-sp
+        
+        
+        
+        helpText.frame = CGRect(x:leftPadding+sp,y:topPadding+sp,width: ww-2*sp,height: wh-topPadding-bh-sp*2)
+        helpTexteng.frame = CGRect(x:leftPadding+sp,y:topPadding+sp,width: ww-2*sp,height: wh-topPadding-bh-sp*2)
+
+        exitButton.frame = CGRect(x:leftPadding + ww - bw - sp, y: by, width: bw, height: bh)
+        engButton.frame = CGRect(x:leftPadding + sp,y:by,width:bw,height:bh)
         exitButton.layer.cornerRadius=5
         engButton.layer.cornerRadius=5
 //        dateText.frame = CGRect(x:left+ww/2,y:by,width: ww/2-bw-right-sp*2,height: bh)
