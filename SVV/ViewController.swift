@@ -416,6 +416,7 @@ class ViewController: UIViewController {
         startButton.layer.cornerRadius=5
         setteiButton.layer.cornerRadius=5
         helpButton.layer.cornerRadius=5
+        resultView.frame=CGRect(x:leftPadding+sp, y: sp*3, width: ww-sp, height: wh-sp*7-bh)
     }
     func setViews(){
         if(sensorArray.count<1){
