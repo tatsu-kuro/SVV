@@ -235,10 +235,6 @@
                                     <segue destination="O9I-eP-yzr" kind="show" id="BjO-WI-4ta"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logomejiro" translatesAutoresizingMaskIntoConstraints="NO" id="weW-Lh-j06">
-                                <rect key="frame" x="0.0" y="0.0" width="667" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="svvhead" translatesAutoresizingMaskIntoConstraints="NO" id="V9h-VU-DmZ">
                                 <rect key="frame" x="0.0" y="41" width="667" height="207"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -304,7 +300,6 @@
                     <connections>
                         <outlet property="helpButton" destination="W1O-pE-Slv" id="KBd-h8-OO6"/>
                         <outlet property="listButton" destination="qaQ-C5-xTS" id="aU0-5C-TCm"/>
-                        <outlet property="logoImage" destination="weW-Lh-j06" id="kr6-D2-xpD"/>
                         <outlet property="resultView" destination="fgP-6S-r2Z" id="fNA-Gi-c8v"/>
                         <outlet property="saveButton" destination="4Wm-Ro-07q" id="Xgv-hf-thm"/>
                         <outlet property="setteiButton" destination="wHR-Nz-yFv" id="BE2-5d-L97"/>
@@ -384,7 +379,6 @@
         <image name="globe" catalog="system" width="128" height="121"/>
         <image name="helpe" width="829" height="626"/>
         <image name="helpj" width="841" height="617"/>
-        <image name="logomejiro" width="1300" height="84"/>
         <image name="svvhead" width="1100" height="500"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
