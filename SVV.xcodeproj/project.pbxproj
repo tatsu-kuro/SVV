@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		6930FC3323B55940004D6BCF /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6930FC3223B55940004D6BCF /* GameController.framework */; };
 		6937E9F923B7A83D000A55F3 /* GameCont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6937E9F823B7A83D000A55F3 /* GameCont.swift */; };
-		6994B6092744F321004C4563 /* remocon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6994B6082744F321004C4563 /* remocon.png */; };
+		696B04F72746803300B0E3E0 /* remocon.png in Resources */ = {isa = PBXBuildFile; fileRef = 696B04F62746803300B0E3E0 /* remocon.png */; };
 		8E1CFDFE22CC8926008FF15A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1CFDFD22CC8926008FF15A /* AppDelegate.swift */; };
 		8E1CFE0022CC8926008FF15A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1CFDFF22CC8926008FF15A /* ViewController.swift */; };
 		8E1CFE0322CC8926008FF15A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E1CFE0122CC8926008FF15A /* Main.storyboard */; };
@@ -24,7 +24,7 @@
 /* Begin PBXFileReference section */
 		6930FC3223B55940004D6BCF /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		6937E9F823B7A83D000A55F3 /* GameCont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCont.swift; sourceTree = "<group>"; };
-		6994B6082744F321004C4563 /* remocon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = remocon.png; path = Assets.xcassets/remocon.imageset/remocon.png; sourceTree = "<group>"; };
+		696B04F62746803300B0E3E0 /* remocon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = remocon.png; path = Assets.xcassets/remocon.imageset/remocon.png; sourceTree = "<group>"; };
 		8E1CFDFA22CC8926008FF15A /* SVV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SVV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E1CFDFD22CC8926008FF15A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E1CFDFF22CC8926008FF15A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 				8E1CFE0F22CC8970008FF15A /* SVVViewController.swift */,
 				8E5DC53F22CCD7450033B059 /* HeipViewController.swift */,
 				8E1CFDFF22CC8926008FF15A /* ViewController.swift */,
-				6994B6082744F321004C4563 /* remocon.png */,
+				696B04F62746803300B0E3E0 /* remocon.png */,
 				6937E9F823B7A83D000A55F3 /* GameCont.swift */,
 				8E30F4F722E2834B00739638 /* SetteiViewController.swift */,
 				8EE2DF6C22D2040000207F87 /* ImagePickerViewController.swift */,
@@ -153,7 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E1CFE0822CC8927008FF15A /* LaunchScreen.storyboard in Resources */,
-				6994B6092744F321004C4563 /* remocon.png in Resources */,
+				696B04F72746803300B0E3E0 /* remocon.png in Resources */,
 				8E1CFE0522CC8927008FF15A /* Assets.xcassets in Resources */,
 				8E1CFE0322CC8926008FF15A /* Main.storyboard in Resources */,
 			);
@@ -321,7 +321,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0;
+				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = SVV/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -342,7 +342,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0;
+				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = SVV/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
