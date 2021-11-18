@@ -41,7 +41,7 @@ class SVVViewController: UIViewController {
 //    var lastYvalue:Float=0.0
     func setDate(){
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd/HH:mm"
+        dateFormatter.dateFormat = "yyyy-MM-dd/ HH:mm"
         let date = Date()
         dateString = dateFormatter.string(from: date)
  //       print(dateString)

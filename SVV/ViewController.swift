@@ -269,10 +269,10 @@ class ViewController: UIViewController {
         idStr = "ID:" + idString + "  "
         dateString.draw(at: CGPoint(x: x0, y: 0), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 18, weight: UIFont.Weight.regular)])
-        idStr.draw(at: CGPoint(x: x0+200, y: 0), withAttributes: [
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 20, weight: UIFont.Weight.regular)])
+        idStr.draw(at: CGPoint(x: x0+250, y: 0), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 18, weight: UIFont.Weight.regular)])
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 20, weight: UIFont.Weight.regular)])
         
         
         let xd=45

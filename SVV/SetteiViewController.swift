@@ -56,18 +56,6 @@ class SetteiViewController: UIViewController {
             return ret
         }
     }
- 
-//    @IBAction func onVROnSwitch(_ sender: Any) {
-//        if VROnSwitch.isOn == true{
-//            VROnOff=1
-//            VRLocationXSlider.isHidden=false
-//        }else{
-//            VROnOff=0
-//            VRLocationXSlider.isHidden=true
-//        }
-//        UserDefaults.standard.set(VROnOff, forKey: "VROnOff")
-//        drawBack(remove: true)
-//    }
     
     @IBAction func onChangeVRslider(_ sender: UISlider) {
         if VROnOff == 0{
@@ -138,7 +126,7 @@ class SetteiViewController: UIViewController {
         circleDiameter.text="Diameter:" + String(diameter)
         lineWidth.text="lineWidth:" + String(width)
         drawBackCircles()
-        drawLines()
+        drawLines(degree:-10)
         setButtons()
         buttonsToFront()
      }
@@ -192,7 +180,6 @@ class SetteiViewController: UIViewController {
         }
     }
  
-
     func reDrawCirclesLines(){
         buttonsToBack()
         self.view.layer.sublayers?.removeLast()
@@ -201,43 +188,11 @@ class SetteiViewController: UIViewController {
         self.view.layer.sublayers?.removeLast()
 
         drawBackCircles()
-        drawLines()
+        drawLines(degree: -10)
         buttonsToFront()
     }
 
- func drawLine(degree:Int,remove:Bool){
-         //線を引く
-         if remove==true{
-             view.layer.sublayers?.removeLast()
-         }
-         let ww=view.bounds.width
-         let wh=view.bounds.height
-         var x0=ww/2
-//         if VROnSwitch.isOn == true{
-//             x0=ww/4 + CGFloat(locationX)
-//         }
-         let y0=wh/2
-         let r=wh*(100+10*CGFloat(diameter))/400
-         let dd:Double=3.14159/900
-         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
-         let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
-         let shapeLayer = CAShapeLayer.init()
-         let uiPath = UIBezierPath()
-     //    uiPath.lineWidth=CGFloat(35)
-         uiPath.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
-         uiPath.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
-         uiPath.lineWidth=5.0
-  //       if mbf==true {
- //            shapeLayer.strokeColor = UIColor.red.cgColor
- ///        } else {
-             shapeLayer.strokeColor = UIColor.blue.cgColor
- //        }
-         shapeLayer.lineWidth=CGFloat(width)/10.0
-         shapeLayer.path = uiPath.cgPath
-         self.view.layer.addSublayer(shapeLayer)
-     }
- 
-    func drawLines(){//remove:Bool){
+    func drawLines(degree:Int){//remove:Bool){
         //線を引く
         let ww=view.bounds.width
         let wh=view.bounds.height
@@ -248,7 +203,6 @@ class SetteiViewController: UIViewController {
         let r=wh*(70+13*CGFloat(diameter))/400
         
         let dd:Double=3.14159/900
-        let degree = -10
         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
         let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
         let shapeLayer = CAShapeLayer.init()
