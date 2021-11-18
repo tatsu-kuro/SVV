@@ -204,6 +204,39 @@ class SetteiViewController: UIViewController {
         drawLines()
         buttonsToFront()
     }
+
+ func drawLine(degree:Int,remove:Bool){
+         //線を引く
+         if remove==true{
+             view.layer.sublayers?.removeLast()
+         }
+         let ww=view.bounds.width
+         let wh=view.bounds.height
+         var x0=ww/2
+//         if VROnSwitch.isOn == true{
+//             x0=ww/4 + CGFloat(locationX)
+//         }
+         let y0=wh/2
+         let r=wh*(100+10*CGFloat(diameter))/400
+         let dd:Double=3.14159/900
+         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
+         let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
+         let shapeLayer = CAShapeLayer.init()
+         let uiPath = UIBezierPath()
+     //    uiPath.lineWidth=CGFloat(35)
+         uiPath.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
+         uiPath.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
+         uiPath.lineWidth=5.0
+  //       if mbf==true {
+ //            shapeLayer.strokeColor = UIColor.red.cgColor
+ ///        } else {
+             shapeLayer.strokeColor = UIColor.blue.cgColor
+ //        }
+         shapeLayer.lineWidth=CGFloat(width)/10.0
+         shapeLayer.path = uiPath.cgPath
+         self.view.layer.addSublayer(shapeLayer)
+     }
+ 
     func drawLines(){//remove:Bool){
         //線を引く
         let ww=view.bounds.width
@@ -214,16 +247,20 @@ class SetteiViewController: UIViewController {
         let y0=wh/2
         let r=wh*(70+13*CGFloat(diameter))/400
         
+        let dd:Double=3.14159/900
+        let degree = -10
+        let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
+        let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
         let shapeLayer = CAShapeLayer.init()
         let uiPath = UIBezierPath()
         if VROnOff==1{
-            uiPath.move(to:CGPoint.init(x: x0L,y: y0 - r))
-            uiPath.addLine(to: CGPoint(x:x0L,y:y0 + r))
-            uiPath.move(to:CGPoint.init(x: x0R,y: y0 - r))
-            uiPath.addLine(to: CGPoint(x:x0R,y:y0 + r))
+            uiPath.move(to:CGPoint.init(x: x0L+x1,y: y0 - y1))
+            uiPath.addLine(to: CGPoint(x:x0L-x1,y:y0 + y1))
+            uiPath.move(to:CGPoint.init(x: x0R+x1,y: y0 - y1))
+            uiPath.addLine(to: CGPoint(x:x0R-x1,y:y0 + y1))
         }else{
-            uiPath.move(to:CGPoint.init(x: x0M,y: y0 - r))
-            uiPath.addLine(to: CGPoint(x:x0M,y:y0 + r))
+            uiPath.move(to:CGPoint.init(x: x0M+x1,y: y0 - y1))
+            uiPath.addLine(to: CGPoint(x:x0M-x1,y:y0 + y1))
         }
         uiPath.lineWidth=5.0
         shapeLayer.strokeColor = UIColor.blue.cgColor
