@@ -91,9 +91,9 @@ class ViewController: UIViewController {
         //let str = self.dateString.components(separatedBy: " ")
         text += self.dateString + ","
         text += self.idString + "\n"
-        text += "[-10<= <+10]" + self.svvStrNor + ","
         text += "[ <-10]" + self.svvStrNeg + ","
-        text += "[+10<= ]" + self.svvStrPos + "\n"
+        text += "[-10<= <10]" + self.svvStrNor + ","
+        text += "[10<= ]" + self.svvStrPos + "\n"
         var dStr:String="angle,"
         var sStr:String="sensor,"
         var vStr:String="SVV,"
@@ -278,19 +278,20 @@ class ViewController: UIViewController {
         let xd=45
         let x0d=x0+55
         let y0=30
-        "-10<=  <10".draw(at: CGPoint(x: x0, y: y0+99), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
-        svvStrNor.draw(at: CGPoint(x:x0+100, y: y0+99), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
         "<-10".draw(at: CGPoint(x: x0+47, y: y0+75), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
         svvStrNeg.draw(at: CGPoint(x: x0+100, y: y0+75), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
-        "+10<=".draw(at: CGPoint(x: x0, y: y0+123), withAttributes: [
+
+        "-10<=  <10".draw(at: CGPoint(x: x0, y: y0+99), withAttributes: [
+            NSAttributedString.Key.foregroundColor : UIColor.black,
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
+        svvStrNor.draw(at: CGPoint(x:x0+100, y: y0+99), withAttributes: [
+            NSAttributedString.Key.foregroundColor : UIColor.black,
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
+        " 10<=".draw(at: CGPoint(x: x0, y: y0+123), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
         svvStrPos.draw(at: CGPoint(x: x0+100, y: y0+123), withAttributes: [
