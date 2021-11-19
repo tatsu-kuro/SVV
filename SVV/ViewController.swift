@@ -277,24 +277,25 @@ class ViewController: UIViewController {
         
         let xd=90
         let x0d=x0+110
-        let y0=60
-        "<-10".draw(at: CGPoint(x: x0+47*2, y: y0+75*2), withAttributes: [
+        let y0=65//angle, sensor, svv
+        let y1=y0+140//<-10
+        "<-10".draw(at: CGPoint(x: x0+47*2, y: y1), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
-        svvStrNeg.draw(at: CGPoint(x: x0+100*2, y: y0+75*2), withAttributes: [
+        svvStrNeg.draw(at: CGPoint(x: x0+100*2, y: y1), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
 
-        "-10<=  <10".draw(at: CGPoint(x: x0, y: y0+99*2), withAttributes: [
+        "-10<=  <10".draw(at: CGPoint(x: x0, y: y1+24*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
-        svvStrNor.draw(at: CGPoint(x:x0+100*2, y: y0+99*2), withAttributes: [
+        svvStrNor.draw(at: CGPoint(x:x0+100*2, y: y1+24*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
-        " 10<=".draw(at: CGPoint(x: x0, y: y0+123*2), withAttributes: [
+        " 10<=".draw(at: CGPoint(x: x0, y: y1+48*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
-        svvStrPos.draw(at: CGPoint(x: x0+100*2, y: y0+123*2), withAttributes: [
+        svvStrPos.draw(at: CGPoint(x: x0+100*2, y: y1+48*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
             NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
          UIColor.black.setStroke()
