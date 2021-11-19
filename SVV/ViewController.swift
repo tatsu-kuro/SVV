@@ -269,34 +269,34 @@ class ViewController: UIViewController {
         idStr = "ID:" + idString + "  "
         dateString.draw(at: CGPoint(x: x0, y: 0), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 20, weight: UIFont.Weight.regular)])
-        idStr.draw(at: CGPoint(x: x0+250, y: 0), withAttributes: [
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 40, weight: UIFont.Weight.regular)])
+        idStr.draw(at: CGPoint(x: x0+250*2, y: 0), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 20, weight: UIFont.Weight.regular)])
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 40, weight: UIFont.Weight.regular)])
         
         
-        let xd=45
-        let x0d=x0+55
-        let y0=30
-        "<-10".draw(at: CGPoint(x: x0+47, y: y0+75), withAttributes: [
+        let xd=90
+        let x0d=x0+110
+        let y0=60
+        "<-10".draw(at: CGPoint(x: x0+47*2, y: y0+75*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
-        svvStrNeg.draw(at: CGPoint(x: x0+100, y: y0+75), withAttributes: [
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
+        svvStrNeg.draw(at: CGPoint(x: x0+100*2, y: y0+75*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
 
-        "-10<=  <10".draw(at: CGPoint(x: x0, y: y0+99), withAttributes: [
+        "-10<=  <10".draw(at: CGPoint(x: x0, y: y0+99*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
-        svvStrNor.draw(at: CGPoint(x:x0+100, y: y0+99), withAttributes: [
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
+        svvStrNor.draw(at: CGPoint(x:x0+100*2, y: y0+99*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
-        " 10<=".draw(at: CGPoint(x: x0, y: y0+123), withAttributes: [
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
+        " 10<=".draw(at: CGPoint(x: x0, y: y0+123*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
-        svvStrPos.draw(at: CGPoint(x: x0+100, y: y0+123), withAttributes: [
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
+        svvStrPos.draw(at: CGPoint(x: x0+100*2, y: y0+123*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
          UIColor.black.setStroke()
      
         var dStr:String="angle "// + String(dArray[0]) + " " + String(dArray[1])
@@ -304,13 +304,13 @@ class ViewController: UIViewController {
         var vStr:String="S V V"// + String(vArray[0]) + " " + String(vArray[1])
         dStr.draw(at: CGPoint(x: x0, y: y0), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular)])
-        sStr.draw(at: CGPoint(x: x0, y: y0+22), withAttributes: [
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
+        sStr.draw(at: CGPoint(x: x0, y: y0+22*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-        vStr.draw(at: CGPoint(x: x0, y: y0+44), withAttributes: [
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
+        vStr.draw(at: CGPoint(x: x0, y: y0+44*2), withAttributes: [
             NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
+            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
        
         for i in 0..<10{//vArray.count{
             if(i<degreeArray.count){
@@ -324,13 +324,13 @@ class ViewController: UIViewController {
             }
             dStr.draw(at: CGPoint(x: x0d+i*xd, y: y0), withAttributes: [
                 NSAttributedString.Key.foregroundColor : UIColor.black,
-                NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-            sStr.draw(at: CGPoint(x: x0d+i*xd, y: y0+22), withAttributes: [
+                NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
+            sStr.draw(at: CGPoint(x: x0d+i*xd, y: y0+22*2), withAttributes: [
                 NSAttributedString.Key.foregroundColor : UIColor.black,
-                NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
-            vStr.draw(at: CGPoint(x: x0d+i*xd, y: y0+44), withAttributes: [
+                NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
+            vStr.draw(at: CGPoint(x: x0d+i*xd, y: y0+44*2), withAttributes: [
                 NSAttributedString.Key.foregroundColor : UIColor.black,
-                NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 15, weight: UIFont.Weight.regular)])
+                NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
 
         }
       // イメージコンテキストからUIImageを作る
@@ -439,7 +439,7 @@ class ViewController: UIViewController {
 //                titleImage.alpha=0.1
 //                resultView.alpha=0.8
 //            }
-            resultView.image=drawData(width: 500, height: 170)
+            resultView.image=drawData(width: 1000, height: 340)
         }
     }
     override func viewDidAppear(_ animated: Bool) {
