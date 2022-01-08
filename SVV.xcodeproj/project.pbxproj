@@ -22,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		691B8F34278951CF00105E8B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		6930FC3223B55940004D6BCF /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		6937E9F823B7A83D000A55F3 /* GameCont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCont.swift; sourceTree = "<group>"; };
 		696B04FA27468BD800B0E3E0 /* remocon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remocon.png; sourceTree = "<group>"; };
@@ -136,6 +137,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 8E1CFDF122CC8926008FF15A;
 			productRefGroup = 8E1CFDFB22CC8926008FF15A /* Products */;
@@ -183,6 +185,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				8E1CFE0222CC8926008FF15A /* Base */,
+				691B8F34278951CF00105E8B /* ja */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -264,6 +268,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -321,7 +326,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.8;
+				CURRENT_PROJECT_VERSION = 1.1.9;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = SVV/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -342,7 +347,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.8;
+				CURRENT_PROJECT_VERSION = 1.1.9;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = SVV/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

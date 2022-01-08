@@ -40,7 +40,11 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var lineWidth: UILabel!
     @IBOutlet weak var useVRButton: UIButton!
     @IBAction func changeDiameter(_ sender: UISlider) {
-        circleDiameter.text="Diameter:" + String(Int(sender.value*10))
+        if Locale.preferredLanguages.first!.contains("ja"){
+            circleDiameter.text="直径:" + String(Int(sender.value*10))
+        }else{
+            circleDiameter.text="Diameter:" + String(Int(sender.value*10))
+        }
         diameter=Int(sender.value*10)
         if(diameter != tempdiameter){
             UserDefaults.standard.set(diameter,forKey: "circleDiameter")
@@ -66,21 +70,33 @@ class SetteiViewController: UIViewController {
         reDrawCirclesLines()
     }
     @IBAction func setWidth(_ sender: UISlider) {
-        lineWidth.text="LineWidth:" + String(Int(sender.value*98)+1)
+        if Locale.preferredLanguages.first!.contains("ja"){
+            lineWidth.text="線幅:" + String(Int(sender.value*98)+1)
+        }else{
+            lineWidth.text="LineWidth:" + String(Int(sender.value*98)+1)
+        }
         width=Int(sender.value*98)+1
         UserDefaults.standard.set(width,forKey: "lineWidth")
         reDrawCirclesLines()
     }
+    func setVRsliderONOFF(){
+        if VROnOff==1{
+            VRLocationXSlider.isHidden=false
+//            VRLocationXSlider.isEnabled=true
+            VRLocationXSlider.isHighlighted=true
+        }else{
+            VRLocationXSlider.isHidden=true
+//            VRLocationXSlider.isEnabled=false
+        }
+    }
+    
     @IBAction func onUseVRButton(_ sender: Any) {
         if VROnOff==0{
             VROnOff=1
-//            VRLocationXSlider.isHighlighted=true
-            VRLocationXSlider.isEnabled=true
         }else{
             VROnOff=0
-//            VRLocationXSlider.isHighlighted=false
-            VRLocationXSlider.isEnabled=false
         }
+        setVRsliderONOFF()
         UserDefaults.standard.set(VROnOff, forKey: "VROnOff")
         reDrawCirclesLines()
     }
@@ -123,13 +139,27 @@ class SetteiViewController: UIViewController {
         diameterSlider.value=Float(diameter)/10
         lineWidthSlider.value=Float(width-1)/98
         VRLocationXSlider.value=Float(locationX)
-        circleDiameter.text="Diameter:" + String(diameter)
-        lineWidth.text="lineWidth:" + String(width)
+        if Locale.preferredLanguages.first!.contains("ja"){
+            circleDiameter.text="直径:" + String(diameter)
+            lineWidth.text="線幅:" + String(width)
+        }else{
+            circleDiameter.text="Diameter:" + String(diameter)
+            lineWidth.text="lineWidth:" + String(width)
+        }
         drawBackCircles()
         drawLines(degree:-10)
         setButtons()
         buttonsToFront()
+        setVRsliderONOFF()
      }
+    func setLabelProperty(_ label:UILabel,x:CGFloat,y:CGFloat,w:CGFloat,h:CGFloat,_ color:UIColor){
+        label.frame = CGRect(x:x, y:y, width: w, height: h)
+        label.layer.borderColor = UIColor.black.cgColor
+        label.layer.borderWidth = 1.0
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 5
+        label.backgroundColor = color
+    }
     func setButtons(){
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
@@ -149,18 +179,20 @@ class SetteiViewController: UIViewController {
         let switchHeight=tenTimesSwitch.frame.height
         let d=(bh-switchHeight)/2
         tenTimesSwitch.frame = CGRect(x:xCenter+sp,y:by+d,width:switchWidth,height: bh)
-        tenTimesText.frame = CGRect(x:xCenter+sp+switchWidth,y:by,width:x0+sp*2+bw*4-xCenter-switchWidth,height:bh)
+        setLabelProperty(tenTimesText,x:xCenter+sp+switchWidth,y:by,w:x0+sp*2+bw*4-xCenter-switchWidth,h:bh,UIColor.white)
         VRLocationXSlider.frame = CGRect(x:x0,y:by,width:xCenter-bw-sp-x0,height: bh)
-        circleDiameter.frame = CGRect(x:x0+sp*4+bw*4, y: by-bh-sp, width: bw, height: bh)
+        setLabelProperty(circleDiameter,x:x0+sp*4+bw*4, y: by-bh-sp, w: bw, h: bh,UIColor.white)
+//        circleDiameter.frame = CGRect(x:x0+sp*4+bw*4, y: by-bh-sp, width: bw, height: bh)
         diameterSlider.frame = CGRect(x:xCenter+sp,y:by-bh-sp,width:xCenter-bw-sp-x0,height:bh)
-        lineWidth.frame = CGRect(x:xCenter-bw, y:by-bh-sp, width: bw, height: bh)
+ //        setLabelProperty(lightLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
+        setLabelProperty(lineWidth,x:xCenter-bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
         lineWidthSlider.frame = CGRect(x:x0, y: by-bh-sp, width: xCenter-bw-sp-x0, height: bh)
-
+  
         useVRButton.frame = CGRect(x:xCenter-bw,y:by,width:bw,height:bh)
         exitButton.frame = CGRect(x:x0+sp*4+bw*4,y:by,width:bw,height:bh)
         useVRButton.layer.cornerRadius=5
         exitButton.layer.cornerRadius=5
-        tenTimesText.text="stop after 10."
+//        tenTimesText.text="stop after 10."
 //        tenTimesText.layer.borderWidth = 1.0
         tenTimesText.layer.masksToBounds = true
         tenTimesText.layer.cornerRadius = 5
@@ -168,11 +200,11 @@ class SetteiViewController: UIViewController {
         circleDiameter.layer.cornerRadius = 5
         lineWidth.layer.masksToBounds = true
         lineWidth.layer.cornerRadius = 5
-        if VROnOff==0{
-            VRLocationXSlider.isEnabled=false
-        }else{
-            VRLocationXSlider.isEnabled=true
-        }
+//        if VROnOff==0{
+//            VRLocationXSlider.isEnabled=false
+//        }else{
+//            VRLocationXSlider.isEnabled=true
+//        }
         if tenTimesOnOff==0{
             tenTimesSwitch.isOn=false
         }else{

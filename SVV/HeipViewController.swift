@@ -15,8 +15,12 @@ class HeipViewController: UIViewController {
     @IBOutlet weak var engButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        englishF=true
-        japanEnglish(0)
+        if Locale.preferredLanguages.first!.contains("ja"){
+            englishF=false
+        }else{
+            englishF=true
+        }
+        dispHelp()
         setButtons()
     }
     @IBAction func engJapan(_ sender: Any) {
@@ -28,18 +32,22 @@ class HeipViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    @IBOutlet weak var helpTexteng: UIImageView!
+    func dispHelp(){
+        if englishF==false{
+            helpText.image=UIImage(named: "helpj")
+        }else{
+            helpText.image=UIImage(named:"helpe")
+        }
+    }
+//    @IBOutlet weak var helpTexteng: UIImageView!
     @IBOutlet weak var helpText: UIImageView!
     @IBAction func japanEnglish(_ sender: Any) {
         if(englishF){
             englishF=false
-            helpText.alpha=1.0
-            helpTexteng.alpha=0
         }else{
             englishF=true
-            helpText.alpha=0
-            helpTexteng.alpha=1.0
         }
+        dispHelp()
     }
     
     func setButtons(){
@@ -56,8 +64,6 @@ class HeipViewController: UIViewController {
         let by=wh-bh-sp
         
         helpText.frame = CGRect(x:leftPadding+sp,y:topPadding+sp,width: ww-2*sp,height: wh-topPadding-bh-sp*2)
-        helpTexteng.frame = CGRect(x:leftPadding+sp,y:topPadding+sp,width: ww-2*sp,height: wh-topPadding-bh-sp*2)
-
         exitButton.frame = CGRect(x:leftPadding + ww - bw - sp, y: by, width: bw, height: bh)
         engButton.frame = CGRect(x:leftPadding + sp,y:by,width:bw,height:bh)
         exitButton.layer.cornerRadius=5

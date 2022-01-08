@@ -1,0 +1,42 @@
+
+/* Class = "UILabel"; text = "Line width"; ObjectID = "1dS-Ky-GXA"; */
+"1dS-Ky-GXA.text" = "Line width";
+
+/* Class = "UILabel"; text = "circle size"; ObjectID = "4Mb-lc-aZQ"; */
+"4Mb-lc-aZQ.text" = "circle size";
+
+/* Class = "UIButton"; normalTitle = "SAVE"; ObjectID = "4Wm-Ro-07q"; */
+"4Wm-Ro-07q.normalTitle" = "SAVE";
+
+/* Class = "UIButton"; normalTitle = "1 or 2"; ObjectID = "6ky-Sm-Vep"; */
+"6ky-Sm-Vep.normalTitle" = "1 or 2";
+
+/* Class = "UIButton"; normalTitle = "START"; ObjectID = "B8n-PG-c3m"; */
+"B8n-PG-c3m.normalTitle" = "START";
+
+/* Class = "UILabel"; text = "10 times"; ObjectID = "Dud-CL-8h4"; */
+"Dud-CL-8h4.text" = "10 times";
+
+/* Class = "UIButton"; normalTitle = "Erase All"; ObjectID = "Pd3-ht-XgA"; */
+"Pd3-ht-XgA.normalTitle" = "Erase All";
+
+/* Class = "UIButton"; normalTitle = "Mail All"; ObjectID = "Q3E-ZC-G65"; */
+"Q3E-ZC-G65.normalTitle" = "Mail All";
+
+/* Class = "UIButton"; normalTitle = "HELP"; ObjectID = "W1O-pE-Slv"; */
+"W1O-pE-Slv.normalTitle" = "HELP";
+
+/* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "YZc-ha-bip"; */
+"YZc-ha-bip.normalTitle" = "Exit";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "c81-ds-Ih4"; */
+"c81-ds-Ih4.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UIButton"; normalTitle = "EXIT"; ObjectID = "duo-58-VTk"; */
+"duo-58-VTk.normalTitle" = "EXIT";
+
+/* Class = "UIButton"; normalTitle = "EXIT"; ObjectID = "oYK-qV-wQg"; */
+"oYK-qV-wQg.normalTitle" = "EXIT";
+
+/* Class = "UIButton"; normalTitle = "LIST"; ObjectID = "qaQ-C5-xTS"; */
+"qaQ-C5-xTS.normalTitle" = "LIST";
