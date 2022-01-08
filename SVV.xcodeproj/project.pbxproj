@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		691B8F4F2789B09C00105E8B /* svvtop.png in Resources */ = {isa = PBXBuildFile; fileRef = 691B8F4E2789B09C00105E8B /* svvtop.png */; };
 		6930FC3323B55940004D6BCF /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6930FC3223B55940004D6BCF /* GameController.framework */; };
 		6937E9F923B7A83D000A55F3 /* GameCont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6937E9F823B7A83D000A55F3 /* GameCont.swift */; };
 		8E1CFDFE22CC8926008FF15A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1CFDFD22CC8926008FF15A /* AppDelegate.swift */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		691B8F34278951CF00105E8B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		691B8F4E2789B09C00105E8B /* svvtop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = svvtop.png; path = Assets.xcassets/svvtop.imageset/svvtop.png; sourceTree = "<group>"; };
 		6930FC3223B55940004D6BCF /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		6937E9F823B7A83D000A55F3 /* GameCont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCont.swift; sourceTree = "<group>"; };
 		8E1CFDFA22CC8926008FF15A /* SVV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SVV.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +85,7 @@
 				8E1CFDFF22CC8926008FF15A /* ViewController.swift */,
 				6937E9F823B7A83D000A55F3 /* GameCont.swift */,
 				8E30F4F722E2834B00739638 /* SetteiViewController.swift */,
+				691B8F4E2789B09C00105E8B /* svvtop.png */,
 				8EE2DF6C22D2040000207F87 /* ImagePickerViewController.swift */,
 				8E1CFE0122CC8926008FF15A /* Main.storyboard */,
 				8E1CFE0422CC8927008FF15A /* Assets.xcassets */,
@@ -154,6 +157,7 @@
 				8E1CFE0822CC8927008FF15A /* LaunchScreen.storyboard in Resources */,
 				8E1CFE0522CC8927008FF15A /* Assets.xcassets in Resources */,
 				8E1CFE0322CC8926008FF15A /* Main.storyboard in Resources */,
+				691B8F4F2789B09C00105E8B /* svvtop.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
