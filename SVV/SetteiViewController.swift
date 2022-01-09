@@ -15,7 +15,6 @@ class SetteiViewController: UIViewController {
     var timer: Timer!
     var directionR:Bool=true
     var time=CFAbsoluteTimeGetCurrent()
-//    var degree:Int=0
     var tempdiameter:Int=0
     var VROnOff:Int = 0
     var tenTimesOnOff:Int = 1
@@ -82,11 +81,9 @@ class SetteiViewController: UIViewController {
     func setVRsliderONOFF(){
         if VROnOff==1{
             VRLocationXSlider.isHidden=false
-//            VRLocationXSlider.isEnabled=true
             VRLocationXSlider.isHighlighted=true
         }else{
             VRLocationXSlider.isHidden=true
-//            VRLocationXSlider.isEnabled=false
         }
     }
     
@@ -192,19 +189,12 @@ class SetteiViewController: UIViewController {
         exitButton.frame = CGRect(x:x0+sp*4+bw*4,y:by,width:bw,height:bh)
         useVRButton.layer.cornerRadius=5
         exitButton.layer.cornerRadius=5
-//        tenTimesText.text="stop after 10."
-//        tenTimesText.layer.borderWidth = 1.0
         tenTimesText.layer.masksToBounds = true
         tenTimesText.layer.cornerRadius = 5
         circleDiameter.layer.masksToBounds = true
         circleDiameter.layer.cornerRadius = 5
         lineWidth.layer.masksToBounds = true
         lineWidth.layer.cornerRadius = 5
-//        if VROnOff==0{
-//            VRLocationXSlider.isEnabled=false
-//        }else{
-//            VRLocationXSlider.isEnabled=true
-//        }
         if tenTimesOnOff==0{
             tenTimesSwitch.isOn=false
         }else{
