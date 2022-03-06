@@ -63,6 +63,7 @@ class HeipViewController: UIViewController {
         let bh=bw/3.5
         let by=wh-bh-sp
         
+        engButton.isHidden=true
         helpText.frame = CGRect(x:leftPadding+sp,y:topPadding+sp,width: ww-2*sp,height: wh-topPadding-bh-sp*2)
         exitButton.frame = CGRect(x:leftPadding + ww - bw - sp, y: by, width: bw, height: bh)
         engButton.frame = CGRect(x:leftPadding + sp,y:by,width:bw,height:bh)
