@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -148,6 +148,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FX4-j1-neO">
+                                <rect key="frame" x="182" y="163" width="131" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="tMh-dN-1sE">
+                                <rect key="frame" x="182" y="45" width="114" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="one"/>
+                                    <segment title="two"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onCircleNumberSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="OsB-7U-Bz7"/>
+                                </connections>
+                            </segmentedControl>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="gyj-8b-ggr">
                                 <rect key="frame" x="314" y="249" width="118" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -195,13 +214,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="JG9-Bx-DP9">
+                                <rect key="frame" x="182" y="91" width="114" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="plain"/>
+                                    <segment title="dots"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onBackImageSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="bl8-Ua-KeJ"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
                         <outlet property="VRLocationXSlider" destination="gY2-l7-HfV" id="TbP-9b-F03"/>
+                        <outlet property="backImageSwitch" destination="JG9-Bx-DP9" id="Rfa-1D-UYQ"/>
                         <outlet property="circleDiameter" destination="4Mb-lc-aZQ" id="BOv-Fd-kM7"/>
+                        <outlet property="circleNumberControl" destination="FX4-j1-neO" id="Dce-oD-3KG"/>
+                        <outlet property="circleNumberSwitch" destination="tMh-dN-1sE" id="y4S-Yo-8Fo"/>
                         <outlet property="diameterSlider" destination="gyj-8b-ggr" id="Slk-TN-vcb"/>
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
                         <outlet property="lineWidth" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>

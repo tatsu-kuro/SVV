@@ -23,6 +23,16 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var circleDiameter: UILabel!
     @IBOutlet weak var VRLocationXSlider: UISlider!
     
+    @IBAction func onCircleNumberSwitch(_ sender: UISegmentedControl) {
+    }
+    
+    @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
+    }
+    
+    @IBOutlet weak var backImageSwitch: UISegmentedControl!
+    
+    @IBOutlet weak var circleNumberControl: UISegmentedControl!
+    @IBOutlet weak var circleNumberSwitch: UISegmentedControl!
     @IBOutlet weak var tenTimesText: UILabel!
     @IBAction func onTenTimesSwitch(_ sender: Any) {
         if tenTimesSwitch.isOn{
@@ -114,6 +124,7 @@ class SetteiViewController: UIViewController {
         self.view.bringSubviewToFront(diameterSlider)
         self.view.bringSubviewToFront(lineWidthSlider)
         self.view.bringSubviewToFront(VRLocationXSlider)
+        self.view.bringSubviewToFront(circleNumberSwitch)
     }
     func buttonsToBack(){
         self.view.sendSubviewToBack(useVRButton)
@@ -125,6 +136,7 @@ class SetteiViewController: UIViewController {
         self.view.sendSubviewToBack(diameterSlider)
         self.view.sendSubviewToBack(lineWidthSlider)
         self.view.sendSubviewToBack(VRLocationXSlider)
+        self.view.sendSubviewToBack(circleNumberSwitch)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,11 +177,18 @@ class SetteiViewController: UIViewController {
         let ww=view.bounds.width-leftPadding-rightPadding
         let wh=view.bounds.height-topPadding-bottomPadding//topPadding is 0 anytime?
         let sp=ww/120
-        let bw=(ww-sp*6)/5
+//        let bw=(ww-sp*6)/5
+//        let bh=bw/3.5
+//        let by=wh-bh-sp
+//        let x0=leftPadding+sp
+//        let xCenter=view.bounds.width/2
+        let bw=(ww-sp*8)*2/15
         let bh=bw/3.5
         let by=wh-bh-sp
         let x0=leftPadding+sp
         let xCenter=view.bounds.width/2
+        let sliderWidth=(ww-3*bw-sp*6)/3
+
         tenTimesSwitch.frame = CGRect(x:xCenter,y:by,width:bw/3,height: bh)
         //switchの大きさは規定されているので、作ってみてそのサイズを得て、再設定
         let switchWidth=tenTimesSwitch.frame.width
@@ -177,13 +196,14 @@ class SetteiViewController: UIViewController {
         let d=(bh-switchHeight)/2
         tenTimesSwitch.frame = CGRect(x:xCenter+sp,y:by+d,width:switchWidth,height: bh)
         setLabelProperty(tenTimesText,x:xCenter+sp+switchWidth,y:by,w:x0+sp*2+bw*4-xCenter-switchWidth,h:bh,UIColor.white)
-        VRLocationXSlider.frame = CGRect(x:x0,y:by,width:xCenter-bw-sp-x0,height: bh)
-        setLabelProperty(circleDiameter,x:x0+sp*4+bw*4, y: by-bh-sp, w: bw, h: bh,UIColor.white)
-//        circleDiameter.frame = CGRect(x:x0+sp*4+bw*4, y: by-bh-sp, width: bw, height: bh)
-        diameterSlider.frame = CGRect(x:xCenter+sp,y:by-bh-sp,width:xCenter-bw-sp-x0,height:bh)
+        VRLocationXSlider.frame = CGRect(x:x0+sp*4+sliderWidth*2+bw*2,y:by-bh-sp,width:sliderWidth,height: bh)
+        circleNumberSwitch.frame = CGRect(x:x0+sp*5+sliderWidth*3+bw*2,y:by-bh-sp,width:bw,height: bh)
+//        circleNumberControl.frame = CGRect(x:sp,y:sp,width:bw,height: bh)
+        setLabelProperty(circleDiameter,x:x0+sp*3+sliderWidth*2+bw, y: by-bh-sp, w: bw, h: bh,UIColor.white)
+        diameterSlider.frame = CGRect(x:x0+sp*2+sliderWidth+bw,y:by-bh-sp,width:sliderWidth,height:bh)
  //        setLabelProperty(lightLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
-        setLabelProperty(lineWidth,x:xCenter-bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
-        lineWidthSlider.frame = CGRect(x:x0, y: by-bh-sp, width: xCenter-bw-sp-x0, height: bh)
+        setLabelProperty(lineWidth,x:x0+sp+sliderWidth, y:by-bh-sp, w: bw, h: bh,UIColor.white)
+        lineWidthSlider.frame = CGRect(x:x0, y: by-bh-sp, width: sliderWidth, height: bh)
   
         useVRButton.frame = CGRect(x:xCenter-bw,y:by,width:bw,height:bh)
         exitButton.frame = CGRect(x:x0+sp*4+bw*4,y:by,width:bw,height:bh)
