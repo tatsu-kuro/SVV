@@ -16,38 +16,35 @@ class SetteiViewController: UIViewController {
     var directionR:Bool=true
     var time=CFAbsoluteTimeGetCurrent()
     var tempdiameter:Int=0
-    var VROnOff:Int = 0
+    var circleNumber:Int = 0
+    var backImageDots:Int = 0
     var tenTimesOnOff:Int = 1
     var locationX:Int = 0
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var circleDiameter: UILabel!
     @IBOutlet weak var VRLocationXSlider: UISlider!
     
-    @IBAction func onCircleNumberSwitch(_ sender: UISegmentedControl) {
-    }
-    
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
+        backImageDots=sender.selectedSegmentIndex
+//        setVRsliderONOFF()
+        UserDefaults.standard.set(backImageDots, forKey: "backImageDots")
+//        reDrawCirclesLines()
     }
     
     @IBOutlet weak var backImageSwitch: UISegmentedControl!
     
-
     @IBOutlet weak var circleNumberSwitch: UISegmentedControl!
- //    @IBAction func onTenTimesSwitch(_ sender: Any) {
-//        if tenTimesSwitch.isOn{
-//            tenTimesOnOff=1
-//        }else{
-//            tenTimesOnOff=0
-//        }
-//        UserDefaults.standard.set(tenTimesOnOff, forKey: "tenTimesOnOff")
-//    }
- //   @IBOutlet weak var tenTimesSwitch: UISwitch!
     
+    @IBAction func onTenTimeSwitch(_ sender: UISegmentedControl) {
+        print("tentime:",sender.selectedSegmentIndex)
+        tenTimesOnOff=sender.selectedSegmentIndex
+        UserDefaults.standard.set(tenTimesOnOff,forKey: "tenTimesOnOff")
+    }
     @IBOutlet weak var tenTimesSwitch: UISegmentedControl!
     @IBOutlet weak var lineWidthSlider: UISlider!
     @IBOutlet weak var diameterSlider: UISlider!
     @IBOutlet weak var lineWidth: UILabel!
-    @IBOutlet weak var useVRButton: UIButton!
+//    @IBOutlet weak var useVRButton: UIButton!
     @IBAction func changeDiameter(_ sender: UISlider) {
         if Locale.preferredLanguages.first!.contains("ja"){
             circleDiameter.text="直径:" + String(Int(sender.value*10))
@@ -69,9 +66,9 @@ class SetteiViewController: UIViewController {
             return ret
         }
     }
-    
+ 
     @IBAction func onChangeVRslider(_ sender: UISlider) {
-        if VROnOff == 0{
+        if circleNumber == 0{
             return
         }
         locationX=Int(sender.value)
@@ -88,23 +85,21 @@ class SetteiViewController: UIViewController {
         UserDefaults.standard.set(width,forKey: "lineWidth")
         reDrawCirclesLines()
     }
+ 
     func setVRsliderONOFF(){
-        if VROnOff==1{
-            VRLocationXSlider.isHidden=false
+        if circleNumber==1{
+            VRLocationXSlider.alpha=1
+            VRLocationXSlider.isEnabled=true
             VRLocationXSlider.isHighlighted=true
-        }else{
-            VRLocationXSlider.isHidden=true
+           }else{
+            VRLocationXSlider.isEnabled=false
+            VRLocationXSlider.alpha=0.2
         }
     }
-    
-    @IBAction func onUseVRButton(_ sender: Any) {
-        if VROnOff==0{
-            VROnOff=1
-        }else{
-            VROnOff=0
-        }
+    @IBAction func onCircleNumberSwitch(_ sender: UISegmentedControl) {
+        circleNumber=sender.selectedSegmentIndex
         setVRsliderONOFF()
-        UserDefaults.standard.set(VROnOff, forKey: "VROnOff")
+        UserDefaults.standard.set(circleNumber, forKey: "circleNumber")
         reDrawCirclesLines()
     }
 
@@ -115,7 +110,7 @@ class SetteiViewController: UIViewController {
         return true
     }
     func buttonsToFront(){
-        self.view.bringSubviewToFront(useVRButton)
+//        self.view.bringSubviewToFront(useVRButton)
         self.view.bringSubviewToFront(exitButton)
 //        self.view.bringSubviewToFront(tenTimesText)
         self.view.bringSubviewToFront(tenTimesSwitch)
@@ -128,7 +123,7 @@ class SetteiViewController: UIViewController {
         self.view.bringSubviewToFront(backImageSwitch)
     }
     func buttonsToBack(){
-        self.view.sendSubviewToBack(useVRButton)
+//        self.view.sendSubviewToBack(useVRButton)
         self.view.sendSubviewToBack(exitButton)
 //        self.view.sendSubviewToBack(tenTimesText)
         self.view.sendSubviewToBack(tenTimesSwitch)
@@ -145,7 +140,8 @@ class SetteiViewController: UIViewController {
         diameter=UserDefaults.standard.integer(forKey: "circleDiameter")
         width=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
-        VROnOff=UserDefaults.standard.integer(forKey:"VROnOff")
+        circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
+        backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
         diameterSlider.value=Float(diameter)/10
         lineWidthSlider.value=Float(width-1)/98
@@ -179,11 +175,6 @@ class SetteiViewController: UIViewController {
         let ww=view.bounds.width-leftPadding-rightPadding
         let wh=view.bounds.height-topPadding-bottomPadding//topPadding is 0 anytime?
         let sp=ww/120
-//        let bw=(ww-sp*6)/5
-//        let bh=bw/3.5
-//        let by=wh-bh-sp
-//        let x0=leftPadding+sp
-//        let xCenter=view.bounds.width/2
         let bw=(ww-sp*8)*2/15
         let bh=bw/3.5
         let by=wh-bh-sp
@@ -191,32 +182,24 @@ class SetteiViewController: UIViewController {
         let sliderWidth=(ww-3*bw-sp*6)/3
         VRLocationXSlider.frame =  CGRect(x:x0,y:by-bh-sp,width:sliderWidth,height: bh)
         circleNumberSwitch.frame = CGRect(x:x0+sp+sliderWidth,y:by-bh-sp,width:bw,height: bh)
-//        VRLocationXSlider.frame =  CGRect(x:x0+sp*2+sliderWidth+bw,y:by-bh-sp,width:sliderWidth,height: bh)
-//        circleNumberSwitch.frame = CGRect(x:x0+sp*3+sliderWidth*2+bw,y:by-bh-sp,width:bw,height: bh)
 
         setLabelProperty(lineWidth,       x:x0+sp*3+sliderWidth*2+bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
         lineWidthSlider.frame =    CGRect(x:x0+sp*2+sliderWidth+bw, y:x0+sp*2+sliderWidth+bw, width: sliderWidth, height: bh)
         
         diameterSlider.frame =     CGRect(x:x0+sp*4+sliderWidth*2+bw*2,y:by-bh-sp,width:sliderWidth,height:bh)
         setLabelProperty(circleDiameter,x:x0+sp*5+sliderWidth*3+bw*2, y: by-bh-sp, w: bw, h: bh,UIColor.white)
-     
-  
       
         backImageSwitch.frame = CGRect(x:x0,y:by,width:sliderWidth+sp+bw,height: bh)
         tenTimesSwitch.frame = CGRect(x:x0+sliderWidth+sp*2+bw,y:by,width:sliderWidth+sp+bw,height: bh)
-        useVRButton.frame = CGRect(x:x0,y:sp,width:bw,height:bh)
         exitButton.frame = CGRect(x:x0+sp*5+sliderWidth*3+bw*2,y:by,width:bw,height: bh)
-        useVRButton.layer.cornerRadius=5
         exitButton.layer.cornerRadius=5
         circleDiameter.layer.masksToBounds = true
         circleDiameter.layer.cornerRadius = 5
         lineWidth.layer.masksToBounds = true
         lineWidth.layer.cornerRadius = 5
-//        if tenTimesOnOff==0{
-//            tenTimesSwitch.isOn=false
-//        }else{
-//            tenTimesSwitch.isOn=true
-//        }
+        tenTimesSwitch.selectedSegmentIndex=tenTimesOnOff
+        circleNumberSwitch.selectedSegmentIndex=circleNumber
+        backImageSwitch.selectedSegmentIndex=backImageDots
     }
  
     func reDrawCirclesLines(){
@@ -246,7 +229,7 @@ class SetteiViewController: UIViewController {
         let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
         let shapeLayer = CAShapeLayer.init()
         let uiPath = UIBezierPath()
-        if VROnOff==1{
+        if circleNumber==1{
             uiPath.move(to:CGPoint.init(x: x0L+x1,y: y0 - y1))
             uiPath.addLine(to: CGPoint(x:x0L-x1,y:y0 + y1))
             uiPath.move(to:CGPoint.init(x: x0R+x1,y: y0 - y1))
@@ -275,7 +258,7 @@ class SetteiViewController: UIViewController {
         rectangleLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: rectangleFrame.size.width, height: rectangleFrame.size.height)).cgPath
         self.view.layer.addSublayer(rectangleLayer)
         // --- 円を描画 ---
-        if VROnOff==1{
+        if circleNumber==1{
             draw1circle(lmr: 1, isWhite: false)
             draw1circle(lmr: 0, isWhite: true)
             draw1circle(lmr: 2, isWhite: true)
@@ -301,9 +284,6 @@ class SetteiViewController: UIViewController {
         }else{//right
             x0=ww*3/4 - CGFloat(locationX) - r/2
         }
-//        let x0M=ww/2-r/2
-//        let x0L=ww/4 + CGFloat(locationX) - r/2
-//        let x0R=ww*3/4 - CGFloat(locationX) - r/2
         let y0=wh/2-r/2
         //print(r,x0,y0)
         let circleFrame = CGRect.init(x:x0,y:y0,width:r,height:r)
@@ -318,5 +298,4 @@ class SetteiViewController: UIViewController {
         circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
         self.view.layer.addSublayer(circleLayer)
     }
-
 }

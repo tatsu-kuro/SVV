@@ -355,7 +355,8 @@ class ViewController: UIViewController {
         sound(snd:"silence")
         _ = getUserDefault(str:"circleDiameter",ret:diameter0)//if not exist, make
         _ = getUserDefault(str:"lineWidth",ret:width0)
-        _ = getUserDefault(str:"VROnOff",ret:0)
+        _ = getUserDefault(str:"circleNumber",ret:0)
+        _ = getUserDefault(str:"backImageDots",ret:0)
         _ = getUserDefault(str:"VRLocationX",ret:0)
         _ = getUserDefault(str:"tenTimesOnOff",ret:1)
         setupGameController()

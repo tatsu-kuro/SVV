@@ -129,17 +129,6 @@
                                     <segue destination="dy0-li-jfZ" kind="unwind" unwindAction="returnToMeWithSegue:" id="7YI-tS-YK5"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ky-Sm-Vep">
-                                <rect key="frame" x="182" y="281" width="114" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="1 or 2"/>
-                                <connections>
-                                    <action selector="onUseVRButton:" destination="5V4-Ka-gbw" eventType="touchUpInside" id="bLy-r2-cOW"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Line width" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1dS-Ky-GXA">
                                 <rect key="frame" x="182" y="253" width="114" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -152,8 +141,8 @@
                                 <rect key="frame" x="182" y="45" width="114" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="one"/>
-                                    <segment title="two"/>
+                                    <segment title="O"/>
+                                    <segment title="O O"/>
                                 </segments>
                                 <connections>
                                     <action selector="onCircleNumberSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="OsB-7U-Bz7"/>
@@ -206,9 +195,12 @@
                                 <rect key="frame" x="182" y="184" width="131" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="stop after 10"/>
                                     <segment title="non stop"/>
+                                    <segment title="stop after 10"/>
                                 </segments>
+                                <connections>
+                                    <action selector="onTenTimeSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="gpL-HU-TyJ"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
@@ -224,7 +216,6 @@
                         <outlet property="lineWidth" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
                         <outlet property="lineWidthSlider" destination="rHK-EU-rNc" id="Muo-Fp-TyC"/>
                         <outlet property="tenTimesSwitch" destination="UCZ-ao-RqI" id="tzA-82-ZFs"/>
-                        <outlet property="useVRButton" destination="6ky-Sm-Vep" id="sYd-5q-eJy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nSs-1G-QWg" userLabel="First Responder" sceneMemberID="firstResponder"/>

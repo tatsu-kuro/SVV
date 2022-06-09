@@ -16,7 +16,7 @@ class SVVViewController: UIViewController {
     var cirDiameter:CGFloat = 0
     var lineWidth:Int=0
     var locationX:Int=0
-    var VROnOff:Int=0
+    var circleNumber:Int=0
     var circleDiameter:Int=0
     var timer: Timer!
     var lbf:Bool=false
@@ -297,7 +297,7 @@ class SVVViewController: UIViewController {
         circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
         lineWidth=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
-        VROnOff=UserDefaults.standard.integer(forKey:"VROnOff")
+        circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
 
         //circleDiameter=getUserDefault(str: "circleDiameter", ret: dia0)
@@ -465,14 +465,14 @@ class SVVViewController: UIViewController {
 
         }else if remove==true{
             view.layer.sublayers?.removeLast()
-            if VROnOff==1{
+            if circleNumber==1{
             view.layer.sublayers?.removeLast()
             }
         }
         let ww=view.bounds.width
         let wh=view.bounds.height
         var x0=ww/2
-        if VROnOff == 1{
+        if circleNumber == 1{
             x0=ww*3/4 - CGFloat(locationX)
         }
         let y0=wh/2
@@ -492,7 +492,7 @@ class SVVViewController: UIViewController {
         shapeLayer.path = uiPath.cgPath
         shapeLayer.lineWidth=CGFloat(lineWidth)/10.0
         self.view.layer.addSublayer(shapeLayer)
-        if VROnOff==1{
+        if circleNumber==1{
             x0=ww/4 + CGFloat(locationX)
             let shapeLayer1 = CAShapeLayer.init()
             let uiPath1 = UIBezierPath()
@@ -528,7 +528,7 @@ class SVVViewController: UIViewController {
         //let r=wh*180/200
         let r=wh*(70+13*CGFloat(circleDiameter))/200
         var x0=ww/2-r/2
-        if VROnOff == 1{
+        if circleNumber == 1{
             x0=ww/4 + CGFloat(locationX) - r/2
         }
         let y0=wh/2-r/2
@@ -540,7 +540,7 @@ class SVVViewController: UIViewController {
         circleLayer.lineWidth = 0.5// 輪郭の太さ
         circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
         self.view.layer.addSublayer(circleLayer)
-        if VROnOff == 1{
+        if circleNumber == 1{
             x0=ww*3/4 - CGFloat(locationX) - r/2
             circleFrame = CGRect.init(x:x0,y:y0,width:r,height:r)
             circleLayer1.frame=circleFrame
