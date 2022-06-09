@@ -31,19 +31,19 @@ class SetteiViewController: UIViewController {
     
     @IBOutlet weak var backImageSwitch: UISegmentedControl!
     
-    @IBOutlet weak var circleNumberControl: UISegmentedControl!
+
     @IBOutlet weak var circleNumberSwitch: UISegmentedControl!
-    @IBOutlet weak var tenTimesText: UILabel!
-    @IBAction func onTenTimesSwitch(_ sender: Any) {
-        if tenTimesSwitch.isOn{
-            tenTimesOnOff=1
-        }else{
-            tenTimesOnOff=0
-        }
-        UserDefaults.standard.set(tenTimesOnOff, forKey: "tenTimesOnOff")
-    }
-    @IBOutlet weak var tenTimesSwitch: UISwitch!
+ //    @IBAction func onTenTimesSwitch(_ sender: Any) {
+//        if tenTimesSwitch.isOn{
+//            tenTimesOnOff=1
+//        }else{
+//            tenTimesOnOff=0
+//        }
+//        UserDefaults.standard.set(tenTimesOnOff, forKey: "tenTimesOnOff")
+//    }
+ //   @IBOutlet weak var tenTimesSwitch: UISwitch!
     
+    @IBOutlet weak var tenTimesSwitch: UISegmentedControl!
     @IBOutlet weak var lineWidthSlider: UISlider!
     @IBOutlet weak var diameterSlider: UISlider!
     @IBOutlet weak var lineWidth: UILabel!
@@ -52,7 +52,7 @@ class SetteiViewController: UIViewController {
         if Locale.preferredLanguages.first!.contains("ja"){
             circleDiameter.text="直径:" + String(Int(sender.value*10))
         }else{
-            circleDiameter.text="Diameter:" + String(Int(sender.value*10))
+            circleDiameter.text="Dia:" + String(Int(sender.value*10))
         }
         diameter=Int(sender.value*10)
         if(diameter != tempdiameter){
@@ -82,7 +82,7 @@ class SetteiViewController: UIViewController {
         if Locale.preferredLanguages.first!.contains("ja"){
             lineWidth.text="線幅:" + String(Int(sender.value*98)+1)
         }else{
-            lineWidth.text="LineWidth:" + String(Int(sender.value*98)+1)
+            lineWidth.text="LineW:" + String(Int(sender.value*98)+1)
         }
         width=Int(sender.value*98)+1
         UserDefaults.standard.set(width,forKey: "lineWidth")
@@ -117,7 +117,7 @@ class SetteiViewController: UIViewController {
     func buttonsToFront(){
         self.view.bringSubviewToFront(useVRButton)
         self.view.bringSubviewToFront(exitButton)
-        self.view.bringSubviewToFront(tenTimesText)
+//        self.view.bringSubviewToFront(tenTimesText)
         self.view.bringSubviewToFront(tenTimesSwitch)
         self.view.bringSubviewToFront(circleDiameter)
         self.view.bringSubviewToFront(lineWidth)
@@ -125,11 +125,12 @@ class SetteiViewController: UIViewController {
         self.view.bringSubviewToFront(lineWidthSlider)
         self.view.bringSubviewToFront(VRLocationXSlider)
         self.view.bringSubviewToFront(circleNumberSwitch)
+        self.view.bringSubviewToFront(backImageSwitch)
     }
     func buttonsToBack(){
         self.view.sendSubviewToBack(useVRButton)
         self.view.sendSubviewToBack(exitButton)
-        self.view.sendSubviewToBack(tenTimesText)
+//        self.view.sendSubviewToBack(tenTimesText)
         self.view.sendSubviewToBack(tenTimesSwitch)
         self.view.sendSubviewToBack(circleDiameter)
         self.view.sendSubviewToBack(lineWidth)
@@ -137,6 +138,7 @@ class SetteiViewController: UIViewController {
         self.view.sendSubviewToBack(lineWidthSlider)
         self.view.sendSubviewToBack(VRLocationXSlider)
         self.view.sendSubviewToBack(circleNumberSwitch)
+        self.view.sendSubviewToBack(backImageSwitch)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,8 +154,8 @@ class SetteiViewController: UIViewController {
             circleDiameter.text="直径:" + String(diameter)
             lineWidth.text="線幅:" + String(width)
         }else{
-            circleDiameter.text="Diameter:" + String(diameter)
-            lineWidth.text="lineWidth:" + String(width)
+            circleDiameter.text="Dia:" + String(diameter)
+            lineWidth.text="lineW:" + String(width)
         }
         drawBackCircles()
         drawLines(degree:-10)
@@ -186,40 +188,35 @@ class SetteiViewController: UIViewController {
         let bh=bw/3.5
         let by=wh-bh-sp
         let x0=leftPadding+sp
-        let xCenter=view.bounds.width/2
         let sliderWidth=(ww-3*bw-sp*6)/3
+        VRLocationXSlider.frame =  CGRect(x:x0,y:by-bh-sp,width:sliderWidth,height: bh)
+        circleNumberSwitch.frame = CGRect(x:x0+sp+sliderWidth,y:by-bh-sp,width:bw,height: bh)
+//        VRLocationXSlider.frame =  CGRect(x:x0+sp*2+sliderWidth+bw,y:by-bh-sp,width:sliderWidth,height: bh)
+//        circleNumberSwitch.frame = CGRect(x:x0+sp*3+sliderWidth*2+bw,y:by-bh-sp,width:bw,height: bh)
 
-        tenTimesSwitch.frame = CGRect(x:xCenter,y:by,width:bw/3,height: bh)
-        //switchの大きさは規定されているので、作ってみてそのサイズを得て、再設定
-        let switchWidth=tenTimesSwitch.frame.width
-        let switchHeight=tenTimesSwitch.frame.height
-        let d=(bh-switchHeight)/2
-        tenTimesSwitch.frame = CGRect(x:xCenter+sp,y:by+d,width:switchWidth,height: bh)
-        setLabelProperty(tenTimesText,x:xCenter+sp+switchWidth,y:by,w:x0+sp*2+bw*4-xCenter-switchWidth,h:bh,UIColor.white)
-        VRLocationXSlider.frame = CGRect(x:x0+sp*4+sliderWidth*2+bw*2,y:by-bh-sp,width:sliderWidth,height: bh)
-        circleNumberSwitch.frame = CGRect(x:x0+sp*5+sliderWidth*3+bw*2,y:by-bh-sp,width:bw,height: bh)
-//        circleNumberControl.frame = CGRect(x:sp,y:sp,width:bw,height: bh)
-        setLabelProperty(circleDiameter,x:x0+sp*3+sliderWidth*2+bw, y: by-bh-sp, w: bw, h: bh,UIColor.white)
-        diameterSlider.frame = CGRect(x:x0+sp*2+sliderWidth+bw,y:by-bh-sp,width:sliderWidth,height:bh)
- //        setLabelProperty(lightLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
-        setLabelProperty(lineWidth,x:x0+sp+sliderWidth, y:by-bh-sp, w: bw, h: bh,UIColor.white)
-        lineWidthSlider.frame = CGRect(x:x0, y: by-bh-sp, width: sliderWidth, height: bh)
+        setLabelProperty(lineWidth,       x:x0+sp*3+sliderWidth*2+bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
+        lineWidthSlider.frame =    CGRect(x:x0+sp*2+sliderWidth+bw, y:x0+sp*2+sliderWidth+bw, width: sliderWidth, height: bh)
+        
+        diameterSlider.frame =     CGRect(x:x0+sp*4+sliderWidth*2+bw*2,y:by-bh-sp,width:sliderWidth,height:bh)
+        setLabelProperty(circleDiameter,x:x0+sp*5+sliderWidth*3+bw*2, y: by-bh-sp, w: bw, h: bh,UIColor.white)
+     
   
-        useVRButton.frame = CGRect(x:xCenter-bw,y:by,width:bw,height:bh)
-        exitButton.frame = CGRect(x:x0+sp*4+bw*4,y:by,width:bw,height:bh)
+      
+        backImageSwitch.frame = CGRect(x:x0,y:by,width:sliderWidth+sp+bw,height: bh)
+        tenTimesSwitch.frame = CGRect(x:x0+sliderWidth+sp*2+bw,y:by,width:sliderWidth+sp+bw,height: bh)
+        useVRButton.frame = CGRect(x:x0,y:sp,width:bw,height:bh)
+        exitButton.frame = CGRect(x:x0+sp*5+sliderWidth*3+bw*2,y:by,width:bw,height: bh)
         useVRButton.layer.cornerRadius=5
         exitButton.layer.cornerRadius=5
-        tenTimesText.layer.masksToBounds = true
-        tenTimesText.layer.cornerRadius = 5
         circleDiameter.layer.masksToBounds = true
         circleDiameter.layer.cornerRadius = 5
         lineWidth.layer.masksToBounds = true
         lineWidth.layer.cornerRadius = 5
-        if tenTimesOnOff==0{
-            tenTimesSwitch.isOn=false
-        }else{
-            tenTimesSwitch.isOn=true
-        }
+//        if tenTimesOnOff==0{
+//            tenTimesSwitch.isOn=false
+//        }else{
+//            tenTimesSwitch.isOn=true
+//        }
     }
  
     func reDrawCirclesLines(){
@@ -287,7 +284,6 @@ class SetteiViewController: UIViewController {
             draw1circle(lmr: 2, isWhite: false)
             draw1circle(lmr: 1, isWhite: true)
         }
-  
         //線を引く
 //        let shapeLayer = CAShapeLayer.init()
 //        self.view.layer.addSublayer(shapeLayer)

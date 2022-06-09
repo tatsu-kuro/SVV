@@ -148,14 +148,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FX4-j1-neO">
-                                <rect key="frame" x="182" y="163" width="131" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="First"/>
-                                    <segment title="Second"/>
-                                </segments>
-                            </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="tMh-dN-1sE">
                                 <rect key="frame" x="182" y="45" width="114" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -191,21 +183,6 @@
                                     <action selector="onChangeVRslider:" destination="5V4-Ka-gbw" eventType="valueChanged" id="FG3-Te-OYI"/>
                                 </connections>
                             </slider>
-                            <switch opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Whx-g6-fan">
-                                <rect key="frame" x="304" y="279" width="49" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="onTenTimesSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="zls-wj-DIU"/>
-                                </connections>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="stop after 10." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dud-CL-8h4">
-                                <rect key="frame" x="359" y="284" width="77" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="circle size" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Mb-lc-aZQ">
                                 <rect key="frame" x="444" y="252" width="114" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -218,12 +195,20 @@
                                 <rect key="frame" x="182" y="91" width="114" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="plain"/>
-                                    <segment title="dots"/>
+                                    <segment title="back:plain"/>
+                                    <segment title="back:dots"/>
                                 </segments>
                                 <connections>
                                     <action selector="onBackImageSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="bl8-Ua-KeJ"/>
                                 </connections>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UCZ-ao-RqI">
+                                <rect key="frame" x="182" y="184" width="131" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="stop after 10"/>
+                                    <segment title="non stop"/>
+                                </segments>
                             </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
@@ -233,14 +218,12 @@
                         <outlet property="VRLocationXSlider" destination="gY2-l7-HfV" id="TbP-9b-F03"/>
                         <outlet property="backImageSwitch" destination="JG9-Bx-DP9" id="Rfa-1D-UYQ"/>
                         <outlet property="circleDiameter" destination="4Mb-lc-aZQ" id="BOv-Fd-kM7"/>
-                        <outlet property="circleNumberControl" destination="FX4-j1-neO" id="Dce-oD-3KG"/>
                         <outlet property="circleNumberSwitch" destination="tMh-dN-1sE" id="y4S-Yo-8Fo"/>
                         <outlet property="diameterSlider" destination="gyj-8b-ggr" id="Slk-TN-vcb"/>
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
                         <outlet property="lineWidth" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
                         <outlet property="lineWidthSlider" destination="rHK-EU-rNc" id="Muo-Fp-TyC"/>
-                        <outlet property="tenTimesSwitch" destination="Whx-g6-fan" id="Fxv-nw-cpC"/>
-                        <outlet property="tenTimesText" destination="Dud-CL-8h4" id="E8I-iG-OC9"/>
+                        <outlet property="tenTimesSwitch" destination="UCZ-ao-RqI" id="tzA-82-ZFs"/>
                         <outlet property="useVRButton" destination="6ky-Sm-Vep" id="sYd-5q-eJy"/>
                     </connections>
                 </viewController>
