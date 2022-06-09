@@ -9,8 +9,7 @@
 import UIKit
 import CoreMotion
 class SVVViewController: UIViewController {
-//    let fromAppDelegate = AppDelegate()
-//    var Globalav=0.0
+    @IBOutlet weak var randomImage: UIImageView!
     var lastSensorDegree:Double=0
     let motionManager = CMMotionManager()
     var cirDiameter:CGFloat = 0
@@ -33,12 +32,8 @@ class SVVViewController: UIViewController {
     var degreeArray = Array<Double>()//degree
     var svvArray = Array<Double>()//delta Subjective Visual Vertical
     var actionTimeLast=CFAbsoluteTimeGetCurrent()//tap or remoteController
-    //var actionTimeLast=CFAbsoluteTimeGetCurrent()
-    //var tapInterval=CFAbsoluteTimeGetCurrent()
-//    var time=CFAbsoluteTimeGetCurrent()
     var verticalLinef:Bool=false
     var tenTimesOnOff:Int = 1
-//    var lastYvalue:Float=0.0
     func setDate(){
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd/ HH:mm"
@@ -138,24 +133,12 @@ class SVVViewController: UIViewController {
     func appendData(){
         let s=round(curAcc*10)//shishagonyuu 90degree
         sensorArray.append(-s/10.0)
-//        while degree > 450{
-//            degree -= 900
-//        }
-//        while degree < -450{
-//            degree += 900
-//        }
+
         degreeArray.append(degree/5.0)
         let v1 = curAcc*10.0 + degree*2.0
         let v2 = round(v1)
-//        var v3 = v2/10.0
-//        if v2 > 900{
-//            v2 -= 1800.0
-//        }
-//        if v2 < -900{
-//            v2 += 1800
-//        }
+
         svvArray.append(v2/10.0)
-   //     vArray.append(degree*10+Int(s))
     }
     override func remoteControlReceived(with event: UIEvent?) {
         guard event?.type == .remoteControl else { return }
@@ -175,20 +158,14 @@ class SVVViewController: UIViewController {
                 movingBarFlag=true
                 appendData()
                 if(tenTimesOnOff==1 && sensorArray.count==10){
-//                    if timer?.isValid == true {
-//                        timer.invalidate()
-//                    }
                     returnMain()
-//                    self.dismiss(animated: true, completion: nil)
                 }
  
             case .remoteControlPlay:
  //               print("Play")
                 if(movingBarFlag==true){
                     if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
- //                       print("doubleTap")
-                        returnMain()
-//                        self.dismiss(animated: true, completion: nil)
+                         returnMain()
                     }
                     actionTimeLast=CFAbsoluteTimeGetCurrent()
                     return
@@ -196,11 +173,7 @@ class SVVViewController: UIViewController {
                 movingBarFlag=true
                 appendData()
                 if(tenTimesOnOff==1 && sensorArray.count==10){
-//                    if timer?.isValid == true {
-//                        timer.invalidate()
-//                    }
                     returnMain()
-//                    self.dismiss(animated: true, completion: nil)
                 }
             case .remoteControlNextTrack:
                 movingBarFlag=false
@@ -264,17 +237,14 @@ class SVVViewController: UIViewController {
         return result
     }
  
-    //  let outer5=3.0*(self.Kalupdate(measurement: CGFloat(oY.pointee) - outerdy))
-    func outputAccelData(acceleration: CMAcceleration){
+     func outputAccelData(acceleration: CMAcceleration){
         var ax=acceleration.x
         var ay=acceleration.y
         ax=Kalupdate(measurement: ax)
         ay=Kalupdate1(measurement: ay)
         let len=sqrt(ax*ax+ay*ay)
         var curAcc_temp=asin(ay/len)
-//        if ax<0 {
-//            curAcc_temp = 0 - curAcc_temp
-//        }
+
         curAcc_temp=curAcc_temp*90.0/(Double.pi/2)
         curAcc=curAcc_temp
         if curAcc<0 && ax>0{
@@ -299,12 +269,9 @@ class SVVViewController: UIViewController {
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
         circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
-
-        //circleDiameter=getUserDefault(str: "circleDiameter", ret: dia0)
-        //lineWidth=getUserDefault(str: "lineWidth", ret: width0)
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
-       if motionManager.isAccelerometerAvailable {
+        if motionManager.isAccelerometerAvailable {
             // intervalの設定 [sec]
            motionManager.accelerometerUpdateInterval = 0.1
             // センサー値の取得開始
@@ -313,43 +280,18 @@ class SVVViewController: UIViewController {
                 withHandler: {(accelData: CMAccelerometerData?, errorOC: Error?) in
                     self.outputAccelData(acceleration: accelData!.acceleration)
             })
-       /* guard motionManager.isDeviceMotionAvailable else { return }
-               motionManager.deviceMotionUpdateInterval = 1 / 100
-
-               motionManager.startDeviceMotionUpdates(using: .xMagneticNorthZVertical, to: OperationQueue.current!, withHandler: { [weak self] (motion, error) in
-                   guard let motion = motion, error == nil else { return }
-                   guard let strongSelf = self else { return }
-
-                   let xAngle = motion.attitude.roll * 180 / Double.pi
-                   let yAngle = motion.attitude.pitch * 180 / Double.pi
-
-                   /// 係数を使って感度を調整する
-                   let coefficient: CGFloat = 0.1
-
-                   print("attitude pitch: \(motion.attitude.pitch * 180 / Double.pi)")
-                   print("attitude roll : \(motion.attitude.roll * 180 / Double.pi)")
-                   print("attitude yaw  : \(motion.attitude.yaw * 180 / Double.pi)")
-               })*/
         }
- 
- //       cirDiameter=view.bounds.width/26
-//        time=CFAbsoluteTimeGetCurrent()
         drawBack()
 //        print("last",lastSensorDegree)
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         tcount=0
         movingBarFlag=true
-//        if UIApplication.shared.isIdleTimerDisabled == false{
-//            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-//        }
+
         actionTimeLast=CFAbsoluteTimeGetCurrent()-1
-//        tapInterval=CFAbsoluteTimeGetCurrent()-1
         self.setNeedsStatusBarAppearanceUpdate()//
-        //view.bounds.width
         sensorArray.removeAll()
         degreeArray.removeAll()
         Globalmode=1
-        //vArray.removeAll()
     }
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
@@ -376,10 +318,7 @@ class SVVViewController: UIViewController {
                 movingBarFlag=false
             }
         }
-        //      print("svvA:",Globalav)
-        //      print("svvx:",Globallx)
-        //      print("svvpx:",Globalpx)
-        //  }
+      
         let tmpD=getSenserDegree()
         if lastSensorDegree < tmpD - 5 || lastSensorDegree > tmpD + 5{
             lastSensorDegree = tmpD
@@ -407,16 +346,10 @@ class SVVViewController: UIViewController {
                 degree = -600
             }
         }
-        //     if(mbf==false){
-        //           print("buttonY:",Globalyv,GlobalLastyv1,Globalmode)
         if(GlobalButtonAvalue == 0.0 && GlobalButtonAvalueLast != 0.0){
             GlobalButtonAvalueLast=GlobalButtonAvalue
             if movingBarFlag==true{
                 if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
-                    //            print("doubleTap")
-//                    if timer?.isValid == true {
-//                        timer.invalidate()
-//                    }
                     Globalmode=0
                     returnMain()
                 }
@@ -426,13 +359,10 @@ class SVVViewController: UIViewController {
             movingBarFlag=true
             appendData()
             if(tenTimesOnOff==1 && sensorArray.count==10){
-//                if timer?.isValid == true {
-//                    timer.invalidate()
-//                }
                 Globalmode=0
                 GlobalButtonAvalueLast=0
                 returnMain()
-            }//self.dismiss(animated: false, completion: nil)
+            }
         }
         GlobalButtonAvalueLast=GlobalButtonAvalue
         
@@ -440,9 +370,6 @@ class SVVViewController: UIViewController {
             if(GlobalButtonYvalue == 0.0 && GlobalButtonYvalueLast1 != 0.0){
                 movingBarFlag=true
                 GlobalButtonYvalueLast1 = 0.0
-//                if timer?.isValid == true {
-//                    timer.invalidate()
-//                }
                 Globalmode=0
                 returnMain()
             }else{
@@ -508,10 +435,21 @@ class SVVViewController: UIViewController {
             self.view.layer.addSublayer(shapeLayer1)
         }
     }
-
+    func drawCircle(x0:CGFloat,y0:CGFloat,r:CGFloat,color:CGColor){
+           // --- 円を描画 ---
+        let circleLayer = CAShapeLayer.init()
+        let circleFrame = CGRect.init(x:x0-r,y:y0-r,width:r*2,height:r*2)
+        circleLayer.frame = circleFrame
+        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
+        circleLayer.fillColor = color//UIColor.black.cgColor// 円の中の色
+        circleLayer.lineWidth = 0.5// 輪郭の太さ
+        circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
+        self.view.layer.addSublayer(circleLayer)
+    }
     func drawBack(){
         let ww=view.bounds.width
         let wh=view.bounds.height
+        
         // 四角形を描画
         let rectangleLayer = CAShapeLayer.init()
         let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww, height: wh)
@@ -519,37 +457,28 @@ class SVVViewController: UIViewController {
         rectangleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
         rectangleLayer.fillColor = UIColor.black.cgColor// 四角形の中の色
         rectangleLayer.lineWidth = 2.5
-        
+
         rectangleLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: rectangleFrame.size.width, height: rectangleFrame.size.height)).cgPath
+
+
         self.view.layer.addSublayer(rectangleLayer)
         // --- 円を描画 ---
-        let circleLayer = CAShapeLayer.init()
-        let circleLayer1 = CAShapeLayer.init()
-        //let r=wh*180/200
-        let r=wh*(70+13*CGFloat(circleDiameter))/200
-        var x0=ww/2-r/2
+          //let r=wh*180/200
+        let r=wh*(70+13*CGFloat(circleDiameter))/400
+        var x0=ww/2
         if circleNumber == 1{
-            x0=ww/4 + CGFloat(locationX) - r/2
+            x0=ww/4 + CGFloat(locationX)
         }
-        let y0=wh/2-r/2
-        //print(r,x0,y0)
-        var circleFrame = CGRect.init(x:x0,y:y0,width:r,height:r)
-        circleLayer.frame = circleFrame
-        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
-        circleLayer.fillColor = UIColor.white.cgColor// 円の中の色
-        circleLayer.lineWidth = 0.5// 輪郭の太さ
-        circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
-        self.view.layer.addSublayer(circleLayer)
+        let y0=wh/2
+        drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+        for i in 0...15{
+            for j in 0...15{
+                drawCircle(x0: x0-r+20*CGFloat(i), y0: y0-r+20*CGFloat(j), r: r/20, color: UIColor.black.cgColor)
+            }
+        }
         if circleNumber == 1{
-            x0=ww*3/4 - CGFloat(locationX) - r/2
-            circleFrame = CGRect.init(x:x0,y:y0,width:r,height:r)
-            circleLayer1.frame=circleFrame
-            circleLayer1.strokeColor = UIColor.black.cgColor// 輪郭の色
-            circleLayer1.fillColor = UIColor.white.cgColor// 円の中の色
-            circleLayer1.lineWidth = 0.5// 輪郭の太さ
-       
-            circleLayer1.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
-            self.view.layer.addSublayer(circleLayer1)
+            x0=ww*3/4 - CGFloat(locationX)
+            drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
         }
         //線を引く
         let shapeLayer = CAShapeLayer.init()

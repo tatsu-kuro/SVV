@@ -87,14 +87,28 @@
                     <view key="view" contentMode="scaleToFill" id="ayb-5G-6Gv">
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="random" translatesAutoresizingMaskIntoConstraints="NO" id="bAk-ia-pQf">
+                                <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="K8L-2f-BOA"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="bAk-ia-pQf" firstAttribute="bottom" secondItem="K8L-2f-BOA" secondAttribute="bottom" id="Eed-5a-7CQ"/>
+                            <constraint firstItem="bAk-ia-pQf" firstAttribute="leading" secondItem="K8L-2f-BOA" secondAttribute="leading" id="OKO-Qm-CY3"/>
+                            <constraint firstItem="bAk-ia-pQf" firstAttribute="trailing" secondItem="K8L-2f-BOA" secondAttribute="trailing" id="WJv-QO-jFI"/>
+                            <constraint firstItem="bAk-ia-pQf" firstAttribute="top" secondItem="K8L-2f-BOA" secondAttribute="top" id="h68-US-36N"/>
+                        </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="xfS-fv-NRj" appends="YES" id="Eib-97-dG8"/>
                             <outletCollection property="gestureRecognizers" destination="IEv-3o-rzZ" appends="YES" id="Sm5-Sd-KFk"/>
                         </connections>
                     </view>
+                    <connections>
+                        <outlet property="randomImage" destination="bAk-ia-pQf" id="xHc-xH-yqa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U83-C4-0TU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="xfS-fv-NRj">
@@ -108,7 +122,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="132" y="-610"/>
+            <point key="canvasLocation" x="130.98591549295776" y="-611.25"/>
         </scene>
         <!--Settei View Controller-->
         <scene sceneID="PZa-NG-Qdc">
@@ -373,6 +387,7 @@
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="globe" catalog="system" width="128" height="121"/>
         <image name="helpj" width="841" height="617"/>
+        <image name="random" width="960" height="720"/>
         <image name="svvhead" width="1100" height="500"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
