@@ -24,11 +24,13 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var circleDiameter: UILabel!
     @IBOutlet weak var VRLocationXSlider: UISlider!
     
+    @IBOutlet weak var randomImage2: UIImageView!
+    @IBOutlet weak var randomImage: UIImageView!
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
-        backImageDots=sender.selectedSegmentIndex
-//        setVRsliderONOFF()
-        UserDefaults.standard.set(backImageDots, forKey: "backImageDots")
-//        reDrawCirclesLines()
+        UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageDots")
+        //下行でbackImageDotsをセット
+        reDrawCirclesLines()
+        print("backImageDots:",backImageDots)
     }
     
     @IBOutlet weak var backImageSwitch: UISegmentedControl!
@@ -44,7 +46,6 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var lineWidthSlider: UISlider!
     @IBOutlet weak var diameterSlider: UISlider!
     @IBOutlet weak var lineWidth: UILabel!
-//    @IBOutlet weak var useVRButton: UIButton!
     @IBAction func changeDiameter(_ sender: UISlider) {
         if Locale.preferredLanguages.first!.contains("ja"){
             circleDiameter.text="直径:" + String(Int(sender.value*10))
@@ -98,8 +99,8 @@ class SetteiViewController: UIViewController {
     }
     @IBAction func onCircleNumberSwitch(_ sender: UISegmentedControl) {
         circleNumber=sender.selectedSegmentIndex
+        UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "circleNumber")
         setVRsliderONOFF()
-        UserDefaults.standard.set(circleNumber, forKey: "circleNumber")
         reDrawCirclesLines()
     }
 
@@ -110,9 +111,7 @@ class SetteiViewController: UIViewController {
         return true
     }
     func buttonsToFront(){
-//        self.view.bringSubviewToFront(useVRButton)
         self.view.bringSubviewToFront(exitButton)
-//        self.view.bringSubviewToFront(tenTimesText)
         self.view.bringSubviewToFront(tenTimesSwitch)
         self.view.bringSubviewToFront(circleDiameter)
         self.view.bringSubviewToFront(lineWidth)
@@ -123,9 +122,7 @@ class SetteiViewController: UIViewController {
         self.view.bringSubviewToFront(backImageSwitch)
     }
     func buttonsToBack(){
-//        self.view.sendSubviewToBack(useVRButton)
         self.view.sendSubviewToBack(exitButton)
-//        self.view.sendSubviewToBack(tenTimesText)
         self.view.sendSubviewToBack(tenTimesSwitch)
         self.view.sendSubviewToBack(circleDiameter)
         self.view.sendSubviewToBack(lineWidth)
@@ -147,14 +144,19 @@ class SetteiViewController: UIViewController {
         lineWidthSlider.value=Float(width-1)/98
         VRLocationXSlider.value=Float(locationX)
         if Locale.preferredLanguages.first!.contains("ja"){
+            backImageSwitch.setTitle("背景：白", forSegmentAt: 0)
+            backImageSwitch.setTitle("背景：水玉", forSegmentAt: 1)
+            tenTimesSwitch.setTitle("自動終了無し", forSegmentAt: 0)
+            tenTimesSwitch.setTitle("10回で終了", forSegmentAt: 1)
+
             circleDiameter.text="直径:" + String(diameter)
             lineWidth.text="線幅:" + String(width)
         }else{
             circleDiameter.text="Dia:" + String(diameter)
             lineWidth.text="lineW:" + String(width)
         }
-        drawBackCircles()
-        drawLines(degree:-10)
+        drawBack()
+        drawLines(degree:0)
         setButtons()
         buttonsToFront()
         setVRsliderONOFF()
@@ -166,6 +168,14 @@ class SetteiViewController: UIViewController {
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 5
         label.backgroundColor = color
+    }
+    func setSwitchProperty(_ label:UISegmentedControl,x:CGFloat,y:CGFloat,w:CGFloat,h:CGFloat){
+        label.frame = CGRect(x:x, y:y, width: w, height: h)
+        label.layer.borderColor = UIColor.black.cgColor
+        label.layer.borderWidth = 1.0
+//        label.layer.masksToBounds = true
+//        label.layer.cornerRadius = 1
+//        label.backgroundColor = UIColor.black
     }
     func setButtons(){
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -181,16 +191,17 @@ class SetteiViewController: UIViewController {
         let x0=leftPadding+sp
         let sliderWidth=(ww-3*bw-sp*6)/3
         VRLocationXSlider.frame =  CGRect(x:x0,y:by-bh-sp,width:sliderWidth,height: bh)
-        circleNumberSwitch.frame = CGRect(x:x0+sp+sliderWidth,y:by-bh-sp,width:bw,height: bh)
-
+//        circleNumberSwitch.frame = CGRect(x:x0+sp+sliderWidth,y:by-bh-sp,width:bw,height: bh)
+        setSwitchProperty(circleNumberSwitch, x: x0+sp+sliderWidth, y: by-bh-sp, w: bw, h: bh)
         setLabelProperty(lineWidth,       x:x0+sp*3+sliderWidth*2+bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
         lineWidthSlider.frame =    CGRect(x:x0+sp*2+sliderWidth+bw, y:x0+sp*2+sliderWidth+bw, width: sliderWidth, height: bh)
         
         diameterSlider.frame =     CGRect(x:x0+sp*4+sliderWidth*2+bw*2,y:by-bh-sp,width:sliderWidth,height:bh)
         setLabelProperty(circleDiameter,x:x0+sp*5+sliderWidth*3+bw*2, y: by-bh-sp, w: bw, h: bh,UIColor.white)
-      
-        backImageSwitch.frame = CGRect(x:x0,y:by,width:sliderWidth+sp+bw,height: bh)
-        tenTimesSwitch.frame = CGRect(x:x0+sliderWidth+sp*2+bw,y:by,width:sliderWidth+sp+bw,height: bh)
+        setSwitchProperty(backImageSwitch, x: x0, y: by, w: sliderWidth+sp+bw, h: bh)
+//        backImageSwitch.frame = CGRect(x:x0,y:by,width:sliderWidth+sp+bw,height: bh)
+//        tenTimesSwitch.frame = CGRect(x:x0+sliderWidth+sp*2+bw,y:by,width:sliderWidth+sp+bw,height: bh)
+        setSwitchProperty(tenTimesSwitch, x: x0+sliderWidth+sp*2+bw, y: by, w: sliderWidth+sp+bw, h: bh)
         exitButton.frame = CGRect(x:x0+sp*5+sliderWidth*3+bw*2,y:by,width:bw,height: bh)
         exitButton.layer.cornerRadius=5
         circleDiameter.layer.masksToBounds = true
@@ -204,13 +215,14 @@ class SetteiViewController: UIViewController {
  
     func reDrawCirclesLines(){
         buttonsToBack()
+        if backImageDots==0{
+            self.view.layer.sublayers?.removeLast()
+        }
         self.view.layer.sublayers?.removeLast()
-        self.view.layer.sublayers?.removeLast()
-        self.view.layer.sublayers?.removeLast()
-        self.view.layer.sublayers?.removeLast()
+        backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
 
-        drawBackCircles()
-        drawLines(degree: -10)
+        drawBack()//Circles()
+        drawLines(degree: 0)
         buttonsToFront()
     }
 
@@ -244,58 +256,59 @@ class SetteiViewController: UIViewController {
         shapeLayer.path = uiPath.cgPath
         self.view.layer.addSublayer(shapeLayer)
     }
-    func drawBackCircles(){//remove:Bool){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
-        // 四角形を描画
-        let rectangleLayer = CAShapeLayer.init()
-        let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww/*/2+wh/2*/, height: wh)
-        rectangleLayer.frame = rectangleFrame
-        rectangleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
-        rectangleLayer.fillColor = UIColor.systemGray4.cgColor// 四角形の中の色
-        rectangleLayer.lineWidth = 2.5
-        
-        rectangleLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: rectangleFrame.size.width, height: rectangleFrame.size.height)).cgPath
-        self.view.layer.addSublayer(rectangleLayer)
-        // --- 円を描画 ---
-        if circleNumber==1{
-            draw1circle(lmr: 1, isWhite: false)
-            draw1circle(lmr: 0, isWhite: true)
-            draw1circle(lmr: 2, isWhite: true)
-        }else{
-            draw1circle(lmr: 0, isWhite: false)
-            draw1circle(lmr: 2, isWhite: false)
-            draw1circle(lmr: 1, isWhite: true)
-        }
-        //線を引く
-//        let shapeLayer = CAShapeLayer.init()
-//        self.view.layer.addSublayer(shapeLayer)
-    }
-    func draw1circle(lmr:Int,isWhite:Bool){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
+ 
+    func drawCircle(x0:CGFloat,y0:CGFloat,r:CGFloat,color:CGColor){
+           // --- 円を描画 ---
         let circleLayer = CAShapeLayer.init()
-        let r=wh*(70+13*CGFloat(diameter))/200
-        var x0:CGFloat=0
-        if lmr==0{//left
-            x0=ww/4 + CGFloat(locationX) - r/2
-        }else if lmr==1{//mid
-            x0=ww/2-r/2
-        }else{//right
-            x0=ww*3/4 - CGFloat(locationX) - r/2
-        }
-        let y0=wh/2-r/2
-        //print(r,x0,y0)
-        let circleFrame = CGRect.init(x:x0,y:y0,width:r,height:r)
+        let circleFrame = CGRect.init(x:x0-r,y:y0-r,width:r*2,height:r*2)
         circleLayer.frame = circleFrame
-        circleLayer.strokeColor = UIColor.systemGray4.cgColor// 輪郭の色
-        if isWhite{
-            circleLayer.fillColor = UIColor.white.cgColor// 円の中の色
-        }else{
-            circleLayer.fillColor = UIColor.systemGray4.cgColor// 円の中の色
-        }
+        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
+        circleLayer.fillColor = color//UIColor.black.cgColor// 円の中の色
         circleLayer.lineWidth = 0.5// 輪郭の太さ
         circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
         self.view.layer.addSublayer(circleLayer)
     }
+    func drawBack(){
+        let ww=view.bounds.width
+        let wh=view.bounds.height
+        let backImageDots = getUserDefault(str:"backImageDots",ret:0)
+        let circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
+
+        // 四角形を描画
+        let rectangleLayer = CAShapeLayer.init()
+        let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww, height: wh)
+        rectangleLayer.frame = rectangleFrame
+        rectangleLayer.strokeColor = UIColor.systemGray4.cgColor// 輪郭の色
+        rectangleLayer.fillColor = UIColor.systemGray4.cgColor// 四角形の中の色
+        rectangleLayer.lineWidth = 2.5
+
+        rectangleLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: rectangleFrame.size.width, height: rectangleFrame.size.height)).cgPath
+
+
+        self.view.layer.addSublayer(rectangleLayer)
+        // --- 円を描画 ---
+          //let r=wh*180/200
+        let r=wh*(70+13*CGFloat(circleDiameter))/400
+        var x0=ww/2
+        if circleNumber == 1{
+            x0=ww/4 + CGFloat(locationX)
+        }
+        let y0=wh/2
+        if backImageDots==0{
+            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+        }else{
+            randomImage.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+            self.view.bringSubviewToFront(randomImage)
+        }
+
+        if circleNumber == 1{
+            x0=ww*3/4 - CGFloat(locationX)
+            if backImageDots==0{
+                drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
+            }else{
+                randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+                self.view.bringSubviewToFront(randomImage2)
+            }
+        }
+     }
 }

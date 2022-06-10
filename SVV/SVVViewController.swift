@@ -10,6 +10,8 @@ import UIKit
 import CoreMotion
 class SVVViewController: UIViewController {
     @IBOutlet weak var randomImage: UIImageView!
+    
+    @IBOutlet weak var randomImage2: UIImageView!
     var lastSensorDegree:Double=0
     let motionManager = CMMotionManager()
     var cirDiameter:CGFloat = 0
@@ -449,7 +451,8 @@ class SVVViewController: UIViewController {
     func drawBack(){
         let ww=view.bounds.width
         let wh=view.bounds.height
-        
+        let backImageDots = getUserDefault(str:"backImageDots",ret:0)
+
         // 四角形を描画
         let rectangleLayer = CAShapeLayer.init()
         let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww, height: wh)
@@ -470,15 +473,21 @@ class SVVViewController: UIViewController {
             x0=ww/4 + CGFloat(locationX)
         }
         let y0=wh/2
-        drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
-        for i in 0...15{
-            for j in 0...15{
-                drawCircle(x0: x0-r+20*CGFloat(i), y0: y0-r+20*CGFloat(j), r: r/20, color: UIColor.black.cgColor)
-            }
+        if backImageDots==0{
+            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+        }else{
+            randomImage.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+            self.view.bringSubviewToFront(randomImage)
         }
+
         if circleNumber == 1{
             x0=ww*3/4 - CGFloat(locationX)
+            if backImageDots==0{
             drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
+            }else{
+                randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+                self.view.bringSubviewToFront(randomImage2)
+            }
         }
         //線を引く
         let shapeLayer = CAShapeLayer.init()
@@ -488,5 +497,5 @@ class SVVViewController: UIViewController {
         shapeLayer.strokeColor = UIColor.blue.cgColor
         shapeLayer.path = uiPath.cgPath
         self.view.layer.addSublayer(shapeLayer)
-    }
+     }
 }
