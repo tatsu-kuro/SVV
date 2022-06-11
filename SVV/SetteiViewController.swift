@@ -24,8 +24,8 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var circleDiameter: UILabel!
     @IBOutlet weak var VRLocationXSlider: UISlider!
-    
     @IBOutlet weak var rotationSpeedSlider: UISlider!
+    @IBOutlet weak var grayImage: UIImageView!
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
     @IBOutlet weak var randomImage: UIImageView!

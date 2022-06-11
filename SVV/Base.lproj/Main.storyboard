@@ -236,6 +236,10 @@
                                 <rect key="frame" x="383" y="101" width="93" height="91"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gray" translatesAutoresizingMaskIntoConstraints="NO" id="yIt-iu-BJc">
+                                <rect key="frame" x="673" y="78" width="79" height="112"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -247,6 +251,7 @@
                         <outlet property="circleNumberSwitch" destination="tMh-dN-1sE" id="y4S-Yo-8Fo"/>
                         <outlet property="diameterSlider" destination="gyj-8b-ggr" id="Slk-TN-vcb"/>
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
+                        <outlet property="grayImage" destination="yIt-iu-BJc" id="Yf7-UD-xcB"/>
                         <outlet property="lineWidth" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
                         <outlet property="lineWidthSlider" destination="rHK-EU-rNc" id="Muo-Fp-TyC"/>
                         <outlet property="randomImage" destination="Pmv-Kp-RhL" id="kGM-Ra-678"/>
@@ -410,6 +415,7 @@
     <resources>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="globe" catalog="system" width="128" height="121"/>
+        <image name="gray" width="81" height="83"/>
         <image name="helpj" width="841" height="617"/>
         <image name="random" width="690" height="690"/>
         <image name="random_gray" width="690" height="690"/>
