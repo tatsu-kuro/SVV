@@ -310,6 +310,7 @@ class SVVViewController: UIViewController {
         return true
     }
     @objc func update(tm: Timer) {
+        print("sublayers:",view.layer.sublayers?.count)
         // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
         degree += Double(GlobalStickXvalue)*2
         degree += Double(GlobalPadXvalue)/2

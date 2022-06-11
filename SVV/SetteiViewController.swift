@@ -257,10 +257,13 @@ class SetteiViewController: UIViewController {
  
     func reDrawCirclesLines(){
         buttonsToBack()
+        print("sublayer1:",view.layer.sublayers?.count)
         if backImageDots==0{
             self.view.layer.sublayers?.removeLast()
         }
         self.view.layer.sublayers?.removeLast()
+        print("sublayer2:",view.layer.sublayers?.count)
+
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
 
         drawBack()//Circles()
@@ -353,4 +356,21 @@ class SetteiViewController: UIViewController {
             }
         }
      }
+    func rotateImage(_ image: UIImage, radians: CGFloat) -> UIImage {
+
+            let rotatedSize = CGRect(origin: .zero, size: image.size)
+                .applying(CGAffineTransform(rotationAngle: radians))
+                .integral.size
+            
+            UIGraphicsBeginImageContextWithOptions(rotatedSize, false, image.scale)
+            let context = UIGraphicsGetCurrentContext()!
+            context.translateBy(x: rotatedSize.width / 2, y: rotatedSize.height / 2)
+            context.rotate(by: radians)
+            context.scaleBy(x: 1, y: -1)
+            context.translateBy(x: -image.size.width / 2, y: -image.size.height / 2)
+            context.draw(image.cgImage!, in: .init(origin: .zero, size: image.size))
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
+            return newImage
+        }
 }
