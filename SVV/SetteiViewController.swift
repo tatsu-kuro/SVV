@@ -342,21 +342,21 @@ class SetteiViewController: UIViewController {
         let y0=wh/2
         if backImageDots==0{
             drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+            if circleNumber==1{
+                x0=ww*3/4 - CGFloat(locationX)
+                drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+            }
         }else{
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage1)
-        }
-
-        if circleNumber == 1{
-            x0=ww*3/4 - CGFloat(locationX)
-            if backImageDots==0{
-                drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
-            }else{
+            if circleNumber==1{
+                x0=ww*3/4 - CGFloat(locationX)
                 randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
                 self.view.bringSubviewToFront(randomImage2)
             }
         }
      }
+    
     func rotateImage(_ image: UIImage, radians: CGFloat) -> UIImage {
 
             let rotatedSize = CGRect(origin: .zero, size: image.size)
