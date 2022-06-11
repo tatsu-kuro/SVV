@@ -390,12 +390,10 @@ class SVVViewController: UIViewController {
         //線を引く
         if initFlag==true{
             initFlag=false
-            view.layer.sublayers?.removeLast()
-
         }else if remove==true{
             view.layer.sublayers?.removeLast()
             if circleNumber==1{
-            view.layer.sublayers?.removeLast()
+                view.layer.sublayers?.removeLast()
             }
         }
         let ww=view.bounds.width
@@ -479,23 +477,15 @@ class SVVViewController: UIViewController {
             randomImage.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage)
         }
-
+        
         if circleNumber == 1{
             x0=ww*3/4 - CGFloat(locationX)
             if backImageDots==0{
-            drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
+                drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
             }else{
                 randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
                 self.view.bringSubviewToFront(randomImage2)
             }
         }
-        //線を引く
-        let shapeLayer = CAShapeLayer.init()
-        let uiPath = UIBezierPath()
-        uiPath.move(to:CGPoint.init(x: ww/2,y: wh/2-r/2))
-        uiPath.addLine(to: CGPoint(x:ww/2,y:wh/2+r/2))
-        shapeLayer.strokeColor = UIColor.blue.cgColor
-        shapeLayer.path = uiPath.cgPath
-        self.view.layer.addSublayer(shapeLayer)
-     }
+    }
 }
