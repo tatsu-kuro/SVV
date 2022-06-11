@@ -214,6 +214,15 @@ class SetteiViewController: UIViewController {
 //        label.backgroundColor = UIColor.black
     }
     func setButtons(){
+        
+        /*
+         UserDefaults.standard.set(topPadding,forKey: "topPadding")
+         UserDefaults.standard.set(bottomPadding,forKey: "bottomPadding")
+         UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
+         UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
+
+         */
+        
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -221,15 +230,15 @@ class SetteiViewController: UIViewController {
         let ww=view.bounds.width-leftPadding-rightPadding
         let wh=view.bounds.height-topPadding-bottomPadding//topPadding is 0 anytime?
         let sp=ww/120
-        let bw=(ww-sp*8)*2/15
+        let bw=(ww-sp*7)*2/15
         let bh=bw/3.5
         let by=wh-bh-sp
         let x0=leftPadding+sp
-        let sliderWidth=(ww-3*bw-sp*6)/3
+        let sliderWidth=(ww-3*bw-sp*7)/3
         VRLocationXSlider.frame =  CGRect(x:x0,y:by-bh-sp,width:sliderWidth,height: bh)
         setSwitchProperty(circleNumberSwitch, x: x0+sp+sliderWidth, y: by-bh-sp, w: bw, h: bh)
         setLabelProperty(lineWidth, x:x0+sp*3+sliderWidth*2+bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
-        lineWidthSlider.frame = CGRect(x:x0+sp*2+sliderWidth+bw,y:x0+sp*2+sliderWidth+bw,width:sliderWidth,height:bh)
+        lineWidthSlider.frame = CGRect(x:x0+sp*2+sliderWidth+bw,y:by-bh-sp,width:sliderWidth,height:bh)
         diameterSlider.frame = CGRect(x:x0+sp*4+sliderWidth*2+bw*2,y:by-bh-sp,width:sliderWidth,height:bh)
         rotationSpeedSlider.frame = CGRect(x:x0,y:by,width: sliderWidth,height:bh)
         setLabelProperty(circleDiameter,x:x0+sp*5+sliderWidth*3+bw*2, y: by-bh-sp, w: bw, h: bh,UIColor.white)
