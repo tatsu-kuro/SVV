@@ -26,6 +26,7 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var VRLocationXSlider: UISlider!
     
     @IBOutlet weak var rotationSpeedSlider: UISlider!
+    @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
     @IBOutlet weak var randomImage: UIImageView!
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
@@ -342,8 +343,8 @@ class SetteiViewController: UIViewController {
         if backImageDots==0{
             drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
         }else{
-            randomImage.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
-            self.view.bringSubviewToFront(randomImage)
+            randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+            self.view.bringSubviewToFront(randomImage1)
         }
 
         if circleNumber == 1{

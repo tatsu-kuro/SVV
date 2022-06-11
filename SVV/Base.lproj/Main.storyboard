@@ -217,11 +217,7 @@
                                 </connections>
                             </segmentedControl>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="random_gray" translatesAutoresizingMaskIntoConstraints="NO" id="Pmv-Kp-RhL">
-                                <rect key="frame" x="450" y="81" width="111" height="111"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="random_gray" translatesAutoresizingMaskIntoConstraints="NO" id="phX-l2-UxN">
-                                <rect key="frame" x="331" y="82" width="111" height="108"/>
+                                <rect key="frame" x="478" y="101" width="83" height="91"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="iQK-u7-zK5">
@@ -232,6 +228,14 @@
                                     <action selector="onRotationSpeedSlider:" destination="5V4-Ka-gbw" eventType="valueChanged" id="KQW-PS-oZp"/>
                                 </connections>
                             </slider>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="random_gray" translatesAutoresizingMaskIntoConstraints="NO" id="QjH-kr-YXo">
+                                <rect key="frame" x="569" y="81" width="82" height="109"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="random_gray" translatesAutoresizingMaskIntoConstraints="NO" id="phX-l2-UxN">
+                                <rect key="frame" x="383" y="101" width="93" height="91"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -246,6 +250,7 @@
                         <outlet property="lineWidth" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
                         <outlet property="lineWidthSlider" destination="rHK-EU-rNc" id="Muo-Fp-TyC"/>
                         <outlet property="randomImage" destination="Pmv-Kp-RhL" id="kGM-Ra-678"/>
+                        <outlet property="randomImage1" destination="QjH-kr-YXo" id="C5o-md-U62"/>
                         <outlet property="randomImage2" destination="phX-l2-UxN" id="q8b-zj-nQc"/>
                         <outlet property="rotationSpeedSlider" destination="iQK-u7-zK5" id="NKe-he-A3A"/>
                         <outlet property="tenTimesSwitch" destination="UCZ-ao-RqI" id="tzA-82-ZFs"/>
@@ -254,7 +259,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nSs-1G-QWg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="dy0-li-jfZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-147.88732394366198" y="39.375"/>
+            <point key="canvasLocation" x="-148.52216748768473" y="39.200000000000003"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
