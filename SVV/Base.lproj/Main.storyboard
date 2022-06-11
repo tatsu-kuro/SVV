@@ -198,8 +198,8 @@
                                 <rect key="frame" x="182" y="91" width="114" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="back:plain"/>
                                     <segment title="back:dots"/>
+                                    <segment title="back:plain"/>
                                 </segments>
                                 <connections>
                                     <action selector="onBackImageSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="bl8-Ua-KeJ"/>
@@ -224,6 +224,14 @@
                                 <rect key="frame" x="331" y="82" width="111" height="108"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="iQK-u7-zK5">
+                                <rect key="frame" x="178" y="281" width="118" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" systemColor="systemGreenColor"/>
+                                <connections>
+                                    <action selector="onRotationSpeedSlider:" destination="5V4-Ka-gbw" eventType="valueChanged" id="KQW-PS-oZp"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -239,6 +247,7 @@
                         <outlet property="lineWidthSlider" destination="rHK-EU-rNc" id="Muo-Fp-TyC"/>
                         <outlet property="randomImage" destination="Pmv-Kp-RhL" id="kGM-Ra-678"/>
                         <outlet property="randomImage2" destination="phX-l2-UxN" id="q8b-zj-nQc"/>
+                        <outlet property="rotationSpeedSlider" destination="iQK-u7-zK5" id="NKe-he-A3A"/>
                         <outlet property="tenTimesSwitch" destination="UCZ-ao-RqI" id="tzA-82-ZFs"/>
                     </connections>
                 </viewController>

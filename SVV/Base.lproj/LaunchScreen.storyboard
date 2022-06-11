@@ -19,12 +19,12 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="svvtop" translatesAutoresizingMaskIntoConstraints="NO" id="llO-pT-qXM">
                                 <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 2.3   2022-6-9" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Nt-bp-4A6">
-                                <rect key="frame" x="15" y="0.0" width="513" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 2.3   2022-6-9" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Nt-bp-4A6">
+                                <rect key="frame" x="0.0" y="270" width="568" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="Lyu-l1-b4b"/>
+                                    <constraint firstAttribute="height" constant="30" id="OdN-av-nmK"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -34,11 +34,11 @@
                         <constraints>
                             <constraint firstItem="llO-pT-qXM" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="401-xl-Ugl"/>
                             <constraint firstItem="llO-pT-qXM" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="4d6-yf-eXW"/>
-                            <constraint firstItem="3Nt-bp-4A6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="5Iv-hf-1tL"/>
+                            <constraint firstItem="3Nt-bp-4A6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6bx-Yg-F5e"/>
                             <constraint firstItem="llO-pT-qXM" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Phs-aS-D2y"/>
                             <constraint firstItem="llO-pT-qXM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ueb-BI-2Fg"/>
-                            <constraint firstItem="3Nt-bp-4A6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="ZRj-ea-U2I"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3Nt-bp-4A6" secondAttribute="trailing" constant="40" id="tQM-uh-01c"/>
+                            <constraint firstItem="3Nt-bp-4A6" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="azv-Dw-GVL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="3Nt-bp-4A6" secondAttribute="bottom" constant="20" id="eKd-DU-2dK"/>
                         </constraints>
                     </view>
                 </viewController>

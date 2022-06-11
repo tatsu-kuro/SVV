@@ -359,6 +359,7 @@ class ViewController: UIViewController {
         _ = getUserDefault(str:"backImageDots",ret:0)
         _ = getUserDefault(str:"VRLocationX",ret:0)
         _ = getUserDefault(str:"tenTimesOnOff",ret:1)
+        _ = getUserDefault(str: "dotsRotationSpeed", ret: 0)
         setupGameController()
     }
     override var prefersHomeIndicatorAutoHidden: Bool {

@@ -20,19 +20,34 @@ class SetteiViewController: UIViewController {
     var backImageDots:Int = 0
     var tenTimesOnOff:Int = 1
     var locationX:Int = 0
+    var dotsRotationSpeed:Int = 0
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var circleDiameter: UILabel!
     @IBOutlet weak var VRLocationXSlider: UISlider!
     
+    @IBOutlet weak var rotationSpeedSlider: UISlider!
     @IBOutlet weak var randomImage2: UIImageView!
     @IBOutlet weak var randomImage: UIImageView!
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageDots")
-        //下行でbackImageDotsをセット
-        reDrawCirclesLines()
+        reDrawCirclesLines()//左行でbackImageDotsをセット
         print("backImageDots:",backImageDots)
+        setRotationSpeedSliderOnOff()
     }
-    
+    func setDotsRotationSpeedText(){
+        if Locale.preferredLanguages.first!.contains("ja"){
+            backImageSwitch.setTitle("水玉 : " + String(dotsRotationSpeed), forSegmentAt: 1)
+        }else{
+            backImageSwitch.setTitle("dots : " + String(dotsRotationSpeed), forSegmentAt: 1)
+        }
+        rotationSpeedSlider.value=Float(dotsRotationSpeed+3)/6.0
+    }
+    @IBAction func onRotationSpeedSlider(_ sender: UISlider) {
+        dotsRotationSpeed = Int(sender.value*6) - 3
+        print("speed:",dotsRotationSpeed)
+        UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
+        setDotsRotationSpeedText()
+    }
     @IBOutlet weak var backImageSwitch: UISegmentedControl!
     
     @IBOutlet weak var circleNumberSwitch: UISegmentedControl!
@@ -86,21 +101,34 @@ class SetteiViewController: UIViewController {
         UserDefaults.standard.set(width,forKey: "lineWidth")
         reDrawCirclesLines()
     }
- 
-    func setVRsliderONOFF(){
+    func setRotationSpeedSliderOnOff()
+    {
+        if UserDefaults.standard.integer(forKey: "backImageDots")==1{
+            rotationSpeedSlider.alpha=1
+            rotationSpeedSlider.isEnabled=true
+//            rotationSpeedSlider.isHighlighted=true
+           }else{
+            rotationSpeedSlider.isEnabled=false
+            rotationSpeedSlider.alpha=0.4
+        }
+
+    }
+    func setVRsliderOnOff(){
         if circleNumber==1{
             VRLocationXSlider.alpha=1
             VRLocationXSlider.isEnabled=true
-            VRLocationXSlider.isHighlighted=true
+//            VRLocationXSlider.isHighlighted=true
            }else{
             VRLocationXSlider.isEnabled=false
-            VRLocationXSlider.alpha=0.2
+            VRLocationXSlider.alpha=0.4
         }
     }
+    
+    
     @IBAction func onCircleNumberSwitch(_ sender: UISegmentedControl) {
         circleNumber=sender.selectedSegmentIndex
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "circleNumber")
-        setVRsliderONOFF()
+        setVRsliderOnOff()
         reDrawCirclesLines()
     }
 
@@ -120,6 +148,7 @@ class SetteiViewController: UIViewController {
         self.view.bringSubviewToFront(VRLocationXSlider)
         self.view.bringSubviewToFront(circleNumberSwitch)
         self.view.bringSubviewToFront(backImageSwitch)
+        self.view.bringSubviewToFront(rotationSpeedSlider)
     }
     func buttonsToBack(){
         self.view.sendSubviewToBack(exitButton)
@@ -131,6 +160,7 @@ class SetteiViewController: UIViewController {
         self.view.sendSubviewToBack(VRLocationXSlider)
         self.view.sendSubviewToBack(circleNumberSwitch)
         self.view.sendSubviewToBack(backImageSwitch)
+        self.view.sendSubviewToBack(rotationSpeedSlider)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,18 +170,22 @@ class SetteiViewController: UIViewController {
         circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
+        dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
         diameterSlider.value=Float(diameter)/10
         lineWidthSlider.value=Float(width-1)/98
         VRLocationXSlider.value=Float(locationX)
         if Locale.preferredLanguages.first!.contains("ja"){
-            backImageSwitch.setTitle("背景：白", forSegmentAt: 0)
-            backImageSwitch.setTitle("背景：水玉", forSegmentAt: 1)
+            backImageSwitch.setTitle("白", forSegmentAt: 0)
+//            backImageSwitch.setTitle("水玉 : -3", forSegmentAt: 1)
             tenTimesSwitch.setTitle("自動終了無し", forSegmentAt: 0)
             tenTimesSwitch.setTitle("10回で終了", forSegmentAt: 1)
 
             circleDiameter.text="直径:" + String(diameter)
             lineWidth.text="線幅:" + String(width)
         }else{
+            backImageSwitch.setTitle("white", forSegmentAt: 0)
+//            backImageSwitch.setTitle("dots : -3", forSegmentAt: 1)
+
             circleDiameter.text="Dia:" + String(diameter)
             lineWidth.text="lineW:" + String(width)
         }
@@ -159,7 +193,9 @@ class SetteiViewController: UIViewController {
         drawLines(degree:0)
         setButtons()
         buttonsToFront()
-        setVRsliderONOFF()
+        setVRsliderOnOff()
+        setRotationSpeedSliderOnOff()
+        setDotsRotationSpeedText()
      }
     func setLabelProperty(_ label:UILabel,x:CGFloat,y:CGFloat,w:CGFloat,h:CGFloat,_ color:UIColor){
         label.frame = CGRect(x:x, y:y, width: w, height: h)
@@ -191,17 +227,14 @@ class SetteiViewController: UIViewController {
         let x0=leftPadding+sp
         let sliderWidth=(ww-3*bw-sp*6)/3
         VRLocationXSlider.frame =  CGRect(x:x0,y:by-bh-sp,width:sliderWidth,height: bh)
-//        circleNumberSwitch.frame = CGRect(x:x0+sp+sliderWidth,y:by-bh-sp,width:bw,height: bh)
         setSwitchProperty(circleNumberSwitch, x: x0+sp+sliderWidth, y: by-bh-sp, w: bw, h: bh)
-        setLabelProperty(lineWidth,       x:x0+sp*3+sliderWidth*2+bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
-        lineWidthSlider.frame =    CGRect(x:x0+sp*2+sliderWidth+bw, y:x0+sp*2+sliderWidth+bw, width: sliderWidth, height: bh)
-        
-        diameterSlider.frame =     CGRect(x:x0+sp*4+sliderWidth*2+bw*2,y:by-bh-sp,width:sliderWidth,height:bh)
+        setLabelProperty(lineWidth, x:x0+sp*3+sliderWidth*2+bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
+        lineWidthSlider.frame = CGRect(x:x0+sp*2+sliderWidth+bw,y:x0+sp*2+sliderWidth+bw,width:sliderWidth,height:bh)
+        diameterSlider.frame = CGRect(x:x0+sp*4+sliderWidth*2+bw*2,y:by-bh-sp,width:sliderWidth,height:bh)
+        rotationSpeedSlider.frame = CGRect(x:x0,y:by,width: sliderWidth,height:bh)
         setLabelProperty(circleDiameter,x:x0+sp*5+sliderWidth*3+bw*2, y: by-bh-sp, w: bw, h: bh,UIColor.white)
-        setSwitchProperty(backImageSwitch, x: x0, y: by, w: sliderWidth+sp+bw, h: bh)
-//        backImageSwitch.frame = CGRect(x:x0,y:by,width:sliderWidth+sp+bw,height: bh)
-//        tenTimesSwitch.frame = CGRect(x:x0+sliderWidth+sp*2+bw,y:by,width:sliderWidth+sp+bw,height: bh)
-        setSwitchProperty(tenTimesSwitch, x: x0+sliderWidth+sp*2+bw, y: by, w: sliderWidth+sp+bw, h: bh)
+        setSwitchProperty(backImageSwitch, x: x0+sliderWidth+sp, y: by, w: sliderWidth+sp+bw, h: bh)
+        setSwitchProperty(tenTimesSwitch, x: x0+sliderWidth*2+sp*3+bw, y: by, w: sliderWidth+sp+bw, h: bh)
         exitButton.frame = CGRect(x:x0+sp*5+sliderWidth*3+bw*2,y:by,width:bw,height: bh)
         exitButton.layer.cornerRadius=5
         circleDiameter.layer.masksToBounds = true
