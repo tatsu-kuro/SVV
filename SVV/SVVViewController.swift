@@ -303,9 +303,8 @@ class SVVViewController: UIViewController {
         sensorArray.removeAll()
         degreeArray.removeAll()
         Globalmode=1
-  
-
     }
+    
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
             return UserDefaults.standard.integer(forKey:str)
@@ -330,6 +329,8 @@ class SVVViewController: UIViewController {
             blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
             if backImageDots==0{
                 drawWhiteCircle()
+            }else{
+                drawDotsCircle()
             }
         }
 //
@@ -480,6 +481,9 @@ class SVVViewController: UIViewController {
         let r=wh*(70+13*CGFloat(circleDiameter))/400
         var x0=ww/2
         let y0=wh/2
+        if circleNumber == 1{
+            x0=ww/4+CGFloat(locationX)
+        }
         randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
         randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
         self.view.bringSubviewToFront(randomImage1)
