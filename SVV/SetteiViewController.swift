@@ -222,7 +222,7 @@ class SetteiViewController: UIViewController {
     func setLabelProperty(_ label:UILabel,x:CGFloat,y:CGFloat,w:CGFloat,h:CGFloat,_ color:UIColor){
         label.frame = CGRect(x:x, y:y, width: w, height: h)
         label.layer.borderColor = UIColor.black.cgColor
-        label.layer.borderWidth = 1.0
+//        label.layer.borderWidth = 1.0
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 5
         label.backgroundColor = color
@@ -280,12 +280,12 @@ class SetteiViewController: UIViewController {
     func reDrawCirclesLines(){
         buttonsToBack()
 //        print("sublayer1:",view.layer.sublayers?.count)
-        if backImageDots==0{
-            self.view.layer.sublayers?.removeLast()
-            if circleNumber==1{
-                self.view.layer.sublayers?.removeLast()
-            }
-        }
+//        if backImageDots==0{
+//            self.view.layer.sublayers?.removeLast()
+//            if circleNumber==1{
+//                self.view.layer.sublayers?.removeLast()
+//            }
+//        }
         self.view.layer.sublayers?.removeLast()
 //        self.view.layer.sublayers?.removeLast()
 //        print("sublayer2:",view.layer.sublayers?.count)
@@ -362,7 +362,7 @@ class SetteiViewController: UIViewController {
         if initDrawBackBackFlag==true{
             initDrawBackBackFlag=false
             grayImage.frame=CGRect(x:0,y:0,width: ww,height: wh)
-        }else{
+         }else{
             self.view.bringSubviewToFront(grayImage!)
         }
         //        let rectangleLayer = CAShapeLayer.init()
@@ -388,11 +388,26 @@ class SetteiViewController: UIViewController {
         }
         let y0=wh/2
         if backImageDots==0{
-            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+//            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+//            if circleNumber==1{
+//                x0=ww*3/4 - CGFloat(locationX)
+//                drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+//            }
+            
+            
+            
+            randomImage1.image=UIImage(named: "white_gray")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage2.image=UIImage(named: "white_gray")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+            self.view.bringSubviewToFront(randomImage1)
             if circleNumber==1{
                 x0=ww*3/4 - CGFloat(locationX)
-                drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+                randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+                self.view.bringSubviewToFront(randomImage2)
+            }else{
+                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
             }
+            
         }else{
             randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage2.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)

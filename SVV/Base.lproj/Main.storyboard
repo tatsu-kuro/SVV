@@ -121,16 +121,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U83-C4-0TU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="xfS-fv-NRj">
-                    <connections>
-                        <action selector="singleTap:" destination="z3d-C3-FPM" id="gc7-5S-MUq"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="IEv-3o-rzZ">
                     <connections>
                         <action selector="longPress:" destination="z3d-C3-FPM" id="cCZ-jJ-mzI"/>
                     </connections>
                 </pongPressGestureRecognizer>
+                <tapGestureRecognizer id="xfS-fv-NRj">
+                    <connections>
+                        <action selector="singleTap:" destination="z3d-C3-FPM" id="gc7-5S-MUq"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="130.78817733990149" y="-612"/>
         </scene>
@@ -246,7 +246,7 @@
                                 <rect key="frame" x="383" y="101" width="93" height="91"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yIt-iu-BJc">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gray" translatesAutoresizingMaskIntoConstraints="NO" id="yIt-iu-BJc">
                                 <rect key="frame" x="651" y="105" width="73" height="77"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -426,6 +426,7 @@
         <image name="black" width="43" height="48"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="globe" catalog="system" width="128" height="121"/>
+        <image name="gray" width="81" height="83"/>
         <image name="helpj" width="841" height="617"/>
         <image name="random" width="690" height="690"/>
         <image name="random_gray" width="690" height="690"/>
