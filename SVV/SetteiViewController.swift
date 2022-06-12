@@ -47,6 +47,8 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var randomImage: UIImageView!
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageDots")
+        backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
+
         reDrawCirclesLines()//左行でbackImageDotsをセット
         print("backImageDots:",backImageDots)
         setRotationSpeedSliderOnOff()
@@ -141,7 +143,6 @@ class SetteiViewController: UIViewController {
         }
     }
     
-    
     @IBAction func onCircleNumberSwitch(_ sender: UISegmentedControl) {
         circleNumber=sender.selectedSegmentIndex
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "circleNumber")
@@ -152,9 +153,11 @@ class SetteiViewController: UIViewController {
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
     func buttonsToFront(){
         self.view.bringSubviewToFront(exitButton)
         self.view.bringSubviewToFront(tenTimesSwitch)
@@ -215,8 +218,13 @@ class SetteiViewController: UIViewController {
         setDotsRotationSpeedText()
         grayImage.image=UIImage(named: "gray")
         randomImage.image=UIImage(named:"random_gray")
+        if backImageDots==1{
         randomImage1.image=UIImage(named: "random_gray")
         randomImage2.image=UIImage(named: "random_gray")
+        }else{
+            randomImage1.image=UIImage(named: "white_gray")
+            randomImage2.image=UIImage(named: "white_gray")
+        }
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
      }
     func setLabelProperty(_ label:UILabel,x:CGFloat,y:CGFloat,w:CGFloat,h:CGFloat,_ color:UIColor){
@@ -288,9 +296,9 @@ class SetteiViewController: UIViewController {
 //        }
         self.view.layer.sublayers?.removeLast()
 //        self.view.layer.sublayers?.removeLast()
-//        print("sublayer2:",view.layer.sublayers?.count)
+        print("sublayer2:",view.layer.sublayers?.count)
 //backImageDotsが変化した時はremoveLastした後に、下行で値を変更
-        backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
+//        backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
         drawBack()
         drawLines(degree: 0)
         buttonsToFront()
@@ -421,6 +429,5 @@ class SetteiViewController: UIViewController {
                 randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
             }
         }
-        
     }
 }
