@@ -467,17 +467,17 @@ class SVVViewController: UIViewController {
             self.view.layer.addSublayer(shapeLayer1)
         }
     }
-    func drawCircle(x0:CGFloat,y0:CGFloat,r:CGFloat,color:CGColor){
-           // --- 円を描画 ---
-        let circleLayer = CAShapeLayer.init()
-        let circleFrame = CGRect.init(x:x0-r,y:y0-r,width:r*2,height:r*2)
-        circleLayer.frame = circleFrame
-        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
-        circleLayer.fillColor = color//UIColor.black.cgColor// 円の中の色
-        circleLayer.lineWidth = 0.5// 輪郭の太さ
-        circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
-        self.view.layer.addSublayer(circleLayer)
-    }
+//    func drawCircle(x0:CGFloat,y0:CGFloat,r:CGFloat,color:CGColor){
+//           // --- 円を描画 ---
+//        let circleLayer = CAShapeLayer.init()
+//        let circleFrame = CGRect.init(x:x0-r,y:y0-r,width:r*2,height:r*2)
+//        circleLayer.frame = circleFrame
+//        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
+//        circleLayer.fillColor = color//UIColor.black.cgColor// 円の中の色
+//        circleLayer.lineWidth = 0.5// 輪郭の太さ
+//        circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
+//        self.view.layer.addSublayer(circleLayer)
+//    }
     func drawDotsCircle(){
         let ww=view.bounds.width
         let wh=view.bounds.height
@@ -518,29 +518,30 @@ class SVVViewController: UIViewController {
             self.view.bringSubviewToFront(randomImage2)
         }
     }
-    func drawWhiteCircle1(){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
-        // --- 円を描画 ---
-          //let r=wh*180/200
-        let r=wh*(70+13*CGFloat(circleDiameter))/400
-        var x0=ww/2
-        if circleNumber == 1{
-            x0=ww/4 + CGFloat(locationX)
-        }
-        let y0=wh/2
-        print("backImageDots:",backImageDots)
-        if backImageDots==0{
-            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
-        }
-        
-        if circleNumber == 1{
-            x0=ww*3/4 - CGFloat(locationX)
-            if backImageDots==0{
-                drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
-            }
-        }
-    }
+//    func drawWhiteCircle1(){
+//        let ww=view.bounds.width
+//        let wh=view.bounds.height
+//        // --- 円を描画 ---
+//          //let r=wh*180/200
+//        let r=wh*(70+13*CGFloat(circleDiameter))/400
+//        var x0=ww/2
+//        if circleNumber == 1{
+//            x0=ww/4 + CGFloat(locationX)
+//        }
+//        let y0=wh/2
+//        print("backImageDots:",backImageDots)
+//        if backImageDots==0{
+//            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+//        }
+//
+//        if circleNumber == 1{
+//            x0=ww*3/4 - CGFloat(locationX)
+//            if backImageDots==0{
+//                drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
+//            }
+//        }
+//    }
+    /*
     func drawBack(){
         let ww=view.bounds.width
         let wh=view.bounds.height
@@ -585,5 +586,5 @@ class SVVViewController: UIViewController {
                 self.view.bringSubviewToFront(randomImage2)
             }
         }
-    }
+    }*/
 }
