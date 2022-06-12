@@ -321,7 +321,7 @@ class SVVViewController: UIViewController {
     }
     var initUpdateFlag:Bool=true
     @objc func update(tm: Timer) {
-//        print("sublayers:",view.layer.sublayers?.count)
+        //        print("sublayers:",view.layer.sublayers?.count)
         // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
         currentDotsDegree += 0.1*CGFloat(dotsRotationSpeed)
         if initUpdateFlag==true{
@@ -329,20 +329,18 @@ class SVVViewController: UIViewController {
             blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
             if backImageDots==0{
                 drawWhiteCircle()
-            }else{
-//                drawDotsCircle()
+            }
+        }else{
+            view.layer.sublayers?.removeLast()
+            if circleNumber==1{
+                view.layer.sublayers?.removeLast()
             }
         }
         if backImageDots==1{
             drawDotsCircle()
         }
         print("sublayers:",view.layer.sublayers?.count)
-//
-//        if backImageDots==1{
-//            drawDotsCircle()
-//        }else{
-////            drawCircle(x0: <#T##CGFloat#>, y0: <#T##CGFloat#>, r: <#T##CGFloat#>, color: <#T##CGColor#>)
-//        }
+
         degree += Double(GlobalStickXvalue)*2
         degree += Double(GlobalPadXvalue)/2
         degree += Double(GlobalButtonBvalue)/2
@@ -419,15 +417,8 @@ class SVVViewController: UIViewController {
 
     var initFlag:Bool=true
     func drawLine(degree:Float,remove:Bool){
-        //線を引く
-        if initFlag==true{
-            initFlag=false
-        }else if remove==true{
-            view.layer.sublayers?.removeLast()
-            if circleNumber==1{
-                view.layer.sublayers?.removeLast()
-            }
-        }
+       //線を引く
+
         let ww=view.bounds.width
         let wh=view.bounds.height
         var x0=ww/2
@@ -467,17 +458,7 @@ class SVVViewController: UIViewController {
             self.view.layer.addSublayer(shapeLayer1)
         }
     }
-//    func drawCircle(x0:CGFloat,y0:CGFloat,r:CGFloat,color:CGColor){
-//           // --- 円を描画 ---
-//        let circleLayer = CAShapeLayer.init()
-//        let circleFrame = CGRect.init(x:x0-r,y:y0-r,width:r*2,height:r*2)
-//        circleLayer.frame = circleFrame
-//        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
-//        circleLayer.fillColor = color//UIColor.black.cgColor// 円の中の色
-//        circleLayer.lineWidth = 0.5// 輪郭の太さ
-//        circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
-//        self.view.layer.addSublayer(circleLayer)
-//    }
+
     func drawDotsCircle(){
         let ww=view.bounds.width
         let wh=view.bounds.height
@@ -508,12 +489,12 @@ class SVVViewController: UIViewController {
         if circleNumber == 1{
             x0=ww/4+CGFloat(locationX)
         }
-        randomImage1.image=UIImage(named:"white_gray")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
+        randomImage1.image=UIImage(named:"white_black")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
         randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
         self.view.bringSubviewToFront(randomImage1)
         if circleNumber == 1{
             x0=ww*3/4 - CGFloat(locationX)
-            randomImage2.image=UIImage(named: "white_gray")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage2.image=UIImage(named: "white_black")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage2)
         }
