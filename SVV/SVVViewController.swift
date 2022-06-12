@@ -330,9 +330,13 @@ class SVVViewController: UIViewController {
             if backImageDots==0{
                 drawWhiteCircle()
             }else{
-                drawDotsCircle()
+//                drawDotsCircle()
             }
         }
+        if backImageDots==1{
+            drawDotsCircle()
+        }
+        print("sublayers:",view.layer.sublayers?.count)
 //
 //        if backImageDots==1{
 //            drawDotsCircle()
@@ -495,6 +499,26 @@ class SVVViewController: UIViewController {
         }
     }
     func drawWhiteCircle(){
+        let ww=view.bounds.width
+        let wh=view.bounds.height
+//        let backImageDots = getUserDefault(str:"backImageDots",ret:0)
+        let r=wh*(70+13*CGFloat(circleDiameter))/400
+        var x0=ww/2
+        let y0=wh/2
+        if circleNumber == 1{
+            x0=ww/4+CGFloat(locationX)
+        }
+        randomImage1.image=UIImage(named:"white_gray")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
+        randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+        self.view.bringSubviewToFront(randomImage1)
+        if circleNumber == 1{
+            x0=ww*3/4 - CGFloat(locationX)
+            randomImage2.image=UIImage(named: "white_gray")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+            self.view.bringSubviewToFront(randomImage2)
+        }
+    }
+    func drawWhiteCircle1(){
         let ww=view.bounds.width
         let wh=view.bounds.height
         // --- 円を描画 ---

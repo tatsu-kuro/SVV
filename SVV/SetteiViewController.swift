@@ -224,6 +224,7 @@ class SetteiViewController: UIViewController {
         }else{
             randomImage1.image=UIImage(named: "white_gray")
             randomImage2.image=UIImage(named: "white_gray")
+
         }
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
      }
@@ -287,18 +288,8 @@ class SetteiViewController: UIViewController {
  
     func reDrawCirclesLines(){
         buttonsToBack()
-//        print("sublayer1:",view.layer.sublayers?.count)
-//        if backImageDots==0{
-//            self.view.layer.sublayers?.removeLast()
-//            if circleNumber==1{
-//                self.view.layer.sublayers?.removeLast()
-//            }
-//        }
         self.view.layer.sublayers?.removeLast()
-//        self.view.layer.sublayers?.removeLast()
         print("sublayer2:",view.layer.sublayers?.count)
-//backImageDotsが変化した時はremoveLastした後に、下行で値を変更
-//        backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
         drawBack()
         drawLines(degree: 0)
         buttonsToFront()
@@ -373,22 +364,7 @@ class SetteiViewController: UIViewController {
          }else{
             self.view.bringSubviewToFront(grayImage!)
         }
-        //        let rectangleLayer = CAShapeLayer.init()
-        //        let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww, height: wh)
-        //        rectangleLayer.frame = rectangleFrame
-        //        rectangleLayer.strokeColor = UIColor.systemGray4.cgColor// 輪郭の色
-        //        rectangleLayer.fillColor = UIColor.systemGray4.cgColor// 四角形の中の色
-        //        rectangleLayer.lineWidth = 2.5
-        //
-        //        rectangleLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: rectangleFrame.size.width, height: rectangleFrame.size.height)).cgPath
-        //        self.view.layer.addSublayer(rectangleLayer)
-        //
-        //         grayImage.frame=CGRect(x:0,y:0,width: ww,height: wh)
-        //         view.bringSubviewToFront(grayImage)
-        // --- 円を描画 ---
-        //let r=wh*180/200
-        //        randomImage1.frame=CGRect(x:0,y:0,width: 0,height: 0)
-        //        randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
+        
         let r=wh*(70+13*CGFloat(circleDiameter))/400
         var x0=ww/2
         if circleNumber == 1{
@@ -396,13 +372,6 @@ class SetteiViewController: UIViewController {
         }
         let y0=wh/2
         if backImageDots==0{
-//            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
-//            if circleNumber==1{
-//                x0=ww*3/4 - CGFloat(locationX)
-//                drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
-//            }
-            
-            
             
             randomImage1.image=UIImage(named: "white_gray")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage2.image=UIImage(named: "white_gray")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
