@@ -195,7 +195,7 @@ class SetteiViewController: UIViewController {
         lineWidthSlider.value=Float(width-1)/98
         VRLocationXSlider.value=Float(locationX)
         if Locale.preferredLanguages.first!.contains("ja"){
-            backImageSwitch.setTitle("白", forSegmentAt: 0)
+            backImageSwitch.setTitle("背景白", forSegmentAt: 0)
 //            backImageSwitch.setTitle("水玉 : -3", forSegmentAt: 1)
             tenTimesSwitch.setTitle("自動終了無し", forSegmentAt: 0)
             tenTimesSwitch.setTitle("10回で終了", forSegmentAt: 1)
@@ -203,7 +203,7 @@ class SetteiViewController: UIViewController {
             circleDiameter.text="直径:" + String(diameter)
             lineWidth.text="線幅:" + String(width)
         }else{
-            backImageSwitch.setTitle("white", forSegmentAt: 0)
+            backImageSwitch.setTitle("back white", forSegmentAt: 0)
 //            backImageSwitch.setTitle("dots : -3", forSegmentAt: 1)
 
             circleDiameter.text="Dia:" + String(diameter)
