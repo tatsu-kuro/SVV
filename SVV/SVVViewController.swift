@@ -8,12 +8,18 @@
 
 import UIKit
 import CoreMotion
+
 class SVVViewController: UIViewController {
     @IBOutlet weak var randomImage: UIImageView!
-    
+    @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
+    @IBOutlet weak var blackImage: UIImageView!
+    
     var lastSensorDegree:Double=0
     let motionManager = CMMotionManager()
+    var backImageDots:Int=0
+    var dotsRotationSpeed:Int=0
+    var currentDotsDegree:CGFloat=0
     var cirDiameter:CGFloat = 0
     var lineWidth:Int=0
     var locationX:Int=0
@@ -271,6 +277,7 @@ class SVVViewController: UIViewController {
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
         circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
+        dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
         if motionManager.isAccelerometerAvailable {
@@ -283,7 +290,9 @@ class SVVViewController: UIViewController {
                     self.outputAccelData(acceleration: accelData!.acceleration)
             })
         }
-        drawBack()
+        backImageDots = getUserDefault(str:"backImageDots",ret:0)
+        randomImage.image=UIImage(named: "random")
+//        drawBack()
 //        print("last",lastSensorDegree)
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         tcount=0
@@ -294,6 +303,8 @@ class SVVViewController: UIViewController {
         sensorArray.removeAll()
         degreeArray.removeAll()
         Globalmode=1
+  
+
     }
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
@@ -309,9 +320,24 @@ class SVVViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    var initUpdateFlag:Bool=true
     @objc func update(tm: Timer) {
-        print("sublayers:",view.layer.sublayers?.count)
+//        print("sublayers:",view.layer.sublayers?.count)
         // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
+        currentDotsDegree += 0.1*CGFloat(dotsRotationSpeed)
+        if initUpdateFlag==true{
+            initUpdateFlag=false
+            blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
+            if backImageDots==0{
+                drawWhiteCircle()
+            }
+        }
+//
+//        if backImageDots==1{
+//            drawDotsCircle()
+//        }else{
+////            drawCircle(x0: <#T##CGFloat#>, y0: <#T##CGFloat#>, r: <#T##CGFloat#>, color: <#T##CGColor#>)
+//        }
         degree += Double(GlobalStickXvalue)*2
         degree += Double(GlobalPadXvalue)/2
         degree += Double(GlobalButtonBvalue)/2
@@ -447,10 +473,50 @@ class SVVViewController: UIViewController {
         circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
         self.view.layer.addSublayer(circleLayer)
     }
+    func drawDotsCircle(){
+        let ww=view.bounds.width
+        let wh=view.bounds.height
+//        let backImageDots = getUserDefault(str:"backImageDots",ret:0)
+        let r=wh*(70+13*CGFloat(circleDiameter))/400
+        var x0=ww/2
+        let y0=wh/2
+        randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+        randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+        self.view.bringSubviewToFront(randomImage1)
+        if circleNumber == 1{
+            x0=ww*3/4 - CGFloat(locationX)
+            randomImage2.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+            self.view.bringSubviewToFront(randomImage2)
+        }
+    }
+    func drawWhiteCircle(){
+        let ww=view.bounds.width
+        let wh=view.bounds.height
+        // --- 円を描画 ---
+          //let r=wh*180/200
+        let r=wh*(70+13*CGFloat(circleDiameter))/400
+        var x0=ww/2
+        if circleNumber == 1{
+            x0=ww/4 + CGFloat(locationX)
+        }
+        let y0=wh/2
+        print("backImageDots:",backImageDots)
+        if backImageDots==0{
+            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+        }
+        
+        if circleNumber == 1{
+            x0=ww*3/4 - CGFloat(locationX)
+            if backImageDots==0{
+                drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
+            }
+        }
+    }
     func drawBack(){
         let ww=view.bounds.width
         let wh=view.bounds.height
-        let backImageDots = getUserDefault(str:"backImageDots",ret:0)
+//        let backImageDots = getUserDefault(str:"backImageDots",ret:0)
 
         // 四角形を描画
         let rectangleLayer = CAShapeLayer.init()
@@ -472,11 +538,13 @@ class SVVViewController: UIViewController {
             x0=ww/4 + CGFloat(locationX)
         }
         let y0=wh/2
+        print("backImageDots:",backImageDots)
         if backImageDots==0{
             drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
         }else{
-            randomImage.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
-            self.view.bringSubviewToFront(randomImage)
+            randomImage1.image=randomImage.image
+            randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+            self.view.bringSubviewToFront(randomImage1)
         }
         
         if circleNumber == 1{
@@ -484,6 +552,7 @@ class SVVViewController: UIViewController {
             if backImageDots==0{
                 drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
             }else{
+                randomImage2.image=randomImage.image
                 randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
                 self.view.bringSubviewToFront(randomImage2)
             }

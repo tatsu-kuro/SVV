@@ -7,23 +7,23 @@
 //
 
 import UIKit
-
-extension UIImage {
-    func rotatedBy(degree: CGFloat) -> UIImage {
-        let radian = -degree * CGFloat.pi / 180
-        UIGraphicsBeginImageContext(self.size)
-        let context = UIGraphicsGetCurrentContext()!
-        context.translateBy(x: self.size.width / 2, y: self.size.height / 2)
-        context.scaleBy(x: 1.0, y: -1.0)
-
-        context.rotate(by: radian)
-        context.draw(self.cgImage!, in: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: self.size.height))
-
-        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return rotatedImage
-    }
-}
+//
+//extension UIImage {
+//    func rotatedBy(degree: CGFloat) -> UIImage {
+//        let radian = -degree * CGFloat.pi / 180
+//        UIGraphicsBeginImageContext(self.size)
+//        let context = UIGraphicsGetCurrentContext()!
+//        context.translateBy(x: self.size.width / 2, y: self.size.height / 2)
+//        context.scaleBy(x: 1.0, y: -1.0)
+//
+//        context.rotate(by: radian)
+//        context.draw(self.cgImage!, in: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: self.size.height))
+//
+//        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()!
+//        UIGraphicsEndImageContext()
+//        return rotatedImage
+//    }
+//}
 class SetteiViewController: UIViewController {
     var cirDiameter:CGFloat = 0
     var diameter:Int = 0
@@ -108,7 +108,7 @@ class SetteiViewController: UIViewController {
         UserDefaults.standard.set(locationX,forKey: "VRLocationX")
         reDrawCirclesLines()
     }
-    @IBAction func setWidth(_ sender: UISlider) {
+    @IBAction func onLineWidthSlider(_ sender: UISlider) {
         if Locale.preferredLanguages.first!.contains("ja"){
             lineWidth.text="線幅:" + String(Int(sender.value*98)+1)
         }else{
@@ -145,8 +145,8 @@ class SetteiViewController: UIViewController {
     @IBAction func onCircleNumberSwitch(_ sender: UISegmentedControl) {
         circleNumber=sender.selectedSegmentIndex
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "circleNumber")
-        setVRsliderOnOff()
         reDrawCirclesLines()
+        setVRsliderOnOff()
     }
 
     override var prefersHomeIndicatorAutoHidden: Bool {
@@ -302,9 +302,9 @@ class SetteiViewController: UIViewController {
             timer.invalidate()
         }
     }
-    var currentDegree:CGFloat=0
+    var currentDotsDegree:CGFloat=0
     @objc func update(tm: Timer) {
-        currentDegree += 0.1*CGFloat(dotsRotationSpeed)
+        currentDotsDegree += 0.1*CGFloat(dotsRotationSpeed)
         reDrawCirclesLines()
     }
     func drawLines(degree:Int){//remove:Bool){
@@ -356,72 +356,73 @@ class SetteiViewController: UIViewController {
         let wh=view.bounds.height
         let backImageDots = getUserDefault(str:"backImageDots",ret:0)
         let circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
-
-        // 四角形を描画
-        if initDrawBackBackFlag==true{
-            initDrawBackBackFlag=false
-            grayImage.frame=CGRect(x:0,y:0,width: ww,height: wh)
-        }else{
-//            view.bringSubviewToFront(grayImage!)
-        }
-//        let rectangleLayer = CAShapeLayer.init()
-//        let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww, height: wh)
-//        rectangleLayer.frame = rectangleFrame
-//        rectangleLayer.strokeColor = UIColor.systemGray4.cgColor// 輪郭の色
-//        rectangleLayer.fillColor = UIColor.systemGray4.cgColor// 四角形の中の色
-//        rectangleLayer.lineWidth = 2.5
-//
-//        rectangleLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: rectangleFrame.size.width, height: rectangleFrame.size.height)).cgPath
-//        self.view.layer.addSublayer(rectangleLayer)
-//
-//         grayImage.frame=CGRect(x:0,y:0,width: ww,height: wh)
-//         view.bringSubviewToFront(grayImage)
-        // --- 円を描画 ---
-          //let r=wh*180/200
-//        randomImage1.frame=CGRect(x:0,y:0,width: 0,height: 0)
-//        randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
-        let r=wh*(70+13*CGFloat(circleDiameter))/400
-        var x0=ww/2
-        if circleNumber == 1{
-            x0=ww/4 + CGFloat(locationX)
-        }
-        let y0=wh/2
-        if backImageDots==0{
-            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
-            if circleNumber==1{
-                x0=ww*3/4 - CGFloat(locationX)
-                drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
-            }
-        }else{
-            randomImage1.image=randomImage.image?.rotatedBy(degree: currentDegree)
-            randomImage2.image=randomImage.image?.rotatedBy(degree: currentDegree)
-            randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
-            self.view.bringSubviewToFront(randomImage1)
-            if circleNumber==1{
-                x0=ww*3/4 - CGFloat(locationX)
-                randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
-                self.view.bringSubviewToFront(randomImage2)
+        autoreleasepool{
+            // 四角形を描画
+            if initDrawBackBackFlag==true{
+                initDrawBackBackFlag=false
+                grayImage.frame=CGRect(x:0,y:0,width: ww,height: wh)
             }else{
-                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
+                self.view.bringSubviewToFront(grayImage!)
+            }
+            //        let rectangleLayer = CAShapeLayer.init()
+            //        let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww, height: wh)
+            //        rectangleLayer.frame = rectangleFrame
+            //        rectangleLayer.strokeColor = UIColor.systemGray4.cgColor// 輪郭の色
+            //        rectangleLayer.fillColor = UIColor.systemGray4.cgColor// 四角形の中の色
+            //        rectangleLayer.lineWidth = 2.5
+            //
+            //        rectangleLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: rectangleFrame.size.width, height: rectangleFrame.size.height)).cgPath
+            //        self.view.layer.addSublayer(rectangleLayer)
+            //
+            //         grayImage.frame=CGRect(x:0,y:0,width: ww,height: wh)
+            //         view.bringSubviewToFront(grayImage)
+            // --- 円を描画 ---
+            //let r=wh*180/200
+            //        randomImage1.frame=CGRect(x:0,y:0,width: 0,height: 0)
+            //        randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
+            let r=wh*(70+13*CGFloat(circleDiameter))/400
+            var x0=ww/2
+            if circleNumber == 1{
+                x0=ww/4 + CGFloat(locationX)
+            }
+            let y0=wh/2
+            if backImageDots==0{
+                drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+                if circleNumber==1{
+                    x0=ww*3/4 - CGFloat(locationX)
+                    drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
+                }
+            }else{
+                randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+                randomImage2.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+                randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+                self.view.bringSubviewToFront(randomImage1)
+                if circleNumber==1{
+                    x0=ww*3/4 - CGFloat(locationX)
+                    randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+                    self.view.bringSubviewToFront(randomImage2)
+                }else{
+                    randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
+                }
             }
         }
-     }
-    
-    func rotateImage(_ image: UIImage, radians: CGFloat) -> UIImage {
-
-            let rotatedSize = CGRect(origin: .zero, size: image.size)
-                .applying(CGAffineTransform(rotationAngle: radians))
-                .integral.size
-            
-            UIGraphicsBeginImageContextWithOptions(rotatedSize, false, image.scale)
-            let context = UIGraphicsGetCurrentContext()!
-            context.translateBy(x: rotatedSize.width / 2, y: rotatedSize.height / 2)
-            context.rotate(by: radians)
-            context.scaleBy(x: 1, y: -1)
-            context.translateBy(x: -image.size.width / 2, y: -image.size.height / 2)
-            context.draw(image.cgImage!, in: .init(origin: .zero, size: image.size))
-            let newImage = UIGraphicsGetImageFromCurrentImageContext()!
-            UIGraphicsEndImageContext()
-            return newImage
-        }
+    }
+//
+//    func rotateImage(_ image: UIImage, radians: CGFloat) -> UIImage {
+//
+//            let rotatedSize = CGRect(origin: .zero, size: image.size)
+//                .applying(CGAffineTransform(rotationAngle: radians))
+//                .integral.size
+//
+//            UIGraphicsBeginImageContextWithOptions(rotatedSize, false, image.scale)
+//            let context = UIGraphicsGetCurrentContext()!
+//            context.translateBy(x: rotatedSize.width / 2, y: rotatedSize.height / 2)
+//            context.rotate(by: radians)
+//            context.scaleBy(x: 1, y: -1)
+//            context.translateBy(x: -image.size.width / 2, y: -image.size.height / 2)
+//            context.draw(image.cgImage!, in: .init(origin: .zero, size: image.size))
+//            let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+//            UIGraphicsEndImageContext()
+//            return newImage
+//        }
 }

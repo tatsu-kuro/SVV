@@ -10,6 +10,23 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 import GameController
+
+extension UIImage {
+    func rotatedBy(degree: CGFloat) -> UIImage {
+        let radian = -degree * CGFloat.pi / 180
+        UIGraphicsBeginImageContext(self.size)
+        let context = UIGraphicsGetCurrentContext()!
+        context.translateBy(x: self.size.width / 2, y: self.size.height / 2)
+        context.scaleBy(x: 1.0, y: -1.0)
+
+        context.rotate(by: radian)
+        context.draw(self.cgImage!, in: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: self.size.height))
+
+        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return rotatedImage
+    }
+}
 /*
 extension DateFormatter {
     // テンプレートの定義(例)
@@ -530,5 +547,11 @@ class ViewController: UIViewController {
     }
     @IBAction func returnToMe(segue: UIStoryboardSegue) {
         print("returnToMe")
+        if let vc = segue.source as? SetteiViewController {
+            let SetteiViewController:SetteiViewController = vc
+            if SetteiViewController.timer?.isValid == true {
+                SetteiViewController.timer.invalidate()
+            }
+        }
     }
 }
