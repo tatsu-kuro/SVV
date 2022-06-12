@@ -8,6 +8,22 @@
 
 import UIKit
 
+extension UIImage {
+    func rotatedBy(degree: CGFloat) -> UIImage {
+        let radian = -degree * CGFloat.pi / 180
+        UIGraphicsBeginImageContext(self.size)
+        let context = UIGraphicsGetCurrentContext()!
+        context.translateBy(x: self.size.width / 2, y: self.size.height / 2)
+        context.scaleBy(x: 1.0, y: -1.0)
+
+        context.rotate(by: radian)
+        context.draw(self.cgImage!, in: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: self.size.height))
+
+        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return rotatedImage
+    }
+}
 class SetteiViewController: UIViewController {
     var cirDiameter:CGFloat = 0
     var diameter:Int = 0
@@ -198,8 +214,10 @@ class SetteiViewController: UIViewController {
         setRotationSpeedSliderOnOff()
         setDotsRotationSpeedText()
         grayImage.image=UIImage(named: "gray")
+        randomImage.image=UIImage(named:"random_gray")
         randomImage1.image=UIImage(named: "random_gray")
         randomImage2.image=UIImage(named: "random_gray")
+        timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
      }
     func setLabelProperty(_ label:UILabel,x:CGFloat,y:CGFloat,w:CGFloat,h:CGFloat,_ color:UIColor){
         label.frame = CGRect(x:x, y:y, width: w, height: h)
@@ -279,7 +297,16 @@ class SetteiViewController: UIViewController {
         drawLines(degree: 0)
         buttonsToFront()
     }
-
+    func killTimer(){
+        if timer?.isValid == true {
+            timer.invalidate()
+        }
+    }
+    var currentDegree:CGFloat=0
+    @objc func update(tm: Timer) {
+        currentDegree += 0.1*CGFloat(dotsRotationSpeed)
+        reDrawCirclesLines()
+    }
     func drawLines(degree:Int){//remove:Bool){
         //線を引く
         let ww=view.bounds.width
@@ -323,6 +350,7 @@ class SetteiViewController: UIViewController {
         self.view.layer.addSublayer(circleLayer)
     }
     var initDrawBackBackFlag:Bool=true
+    
     func drawBack(){
         let ww=view.bounds.width
         let wh=view.bounds.height
@@ -334,7 +362,7 @@ class SetteiViewController: UIViewController {
             initDrawBackBackFlag=false
             grayImage.frame=CGRect(x:0,y:0,width: ww,height: wh)
         }else{
-        view.bringSubviewToFront(grayImage!)
+//            view.bringSubviewToFront(grayImage!)
         }
 //        let rectangleLayer = CAShapeLayer.init()
 //        let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww, height: wh)
@@ -350,8 +378,8 @@ class SetteiViewController: UIViewController {
 //         view.bringSubviewToFront(grayImage)
         // --- 円を描画 ---
           //let r=wh*180/200
-        randomImage1.frame=CGRect(x:0,y:0,width: 0,height: 0)
-        randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
+//        randomImage1.frame=CGRect(x:0,y:0,width: 0,height: 0)
+//        randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
         let r=wh*(70+13*CGFloat(circleDiameter))/400
         var x0=ww/2
         if circleNumber == 1{
@@ -365,14 +393,16 @@ class SetteiViewController: UIViewController {
                 drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
             }
         }else{
-            randomImage1.image=UIImage(named: "random_gray")
-            randomImage2.image=UIImage(named: "random_gray")
+            randomImage1.image=randomImage.image?.rotatedBy(degree: currentDegree)
+            randomImage2.image=randomImage.image?.rotatedBy(degree: currentDegree)
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage1)
             if circleNumber==1{
                 x0=ww*3/4 - CGFloat(locationX)
                 randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
                 self.view.bringSubviewToFront(randomImage2)
+            }else{
+                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
             }
         }
      }
