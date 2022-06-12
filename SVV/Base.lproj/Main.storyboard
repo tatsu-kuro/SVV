@@ -228,16 +228,16 @@
                                     <action selector="onRotationSpeedSlider:" destination="5V4-Ka-gbw" eventType="valueChanged" id="KQW-PS-oZp"/>
                                 </connections>
                             </slider>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="random_gray" translatesAutoresizingMaskIntoConstraints="NO" id="QjH-kr-YXo">
-                                <rect key="frame" x="569" y="81" width="82" height="109"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QjH-kr-YXo">
+                                <rect key="frame" x="569" y="105" width="68" height="82"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="random_gray" translatesAutoresizingMaskIntoConstraints="NO" id="phX-l2-UxN">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="phX-l2-UxN">
                                 <rect key="frame" x="383" y="101" width="93" height="91"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gray" translatesAutoresizingMaskIntoConstraints="NO" id="yIt-iu-BJc">
-                                <rect key="frame" x="673" y="78" width="79" height="112"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yIt-iu-BJc">
+                                <rect key="frame" x="651" y="105" width="73" height="77"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -415,7 +415,6 @@
     <resources>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="globe" catalog="system" width="128" height="121"/>
-        <image name="gray" width="81" height="83"/>
         <image name="helpj" width="841" height="617"/>
         <image name="random" width="690" height="690"/>
         <image name="random_gray" width="690" height="690"/>
