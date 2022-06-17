@@ -266,19 +266,21 @@ class SetteiViewController: UIViewController {
         let by=wh-bh-sp
         let x0=leftPadding+sp
         let sliderWidth=(ww-3*bw-sp*7)/3
-        VRLocationXSlider.frame =  CGRect(x:x0+sp+bw,y:by-bh-sp,width:sliderWidth,height: bh)
-        setSwitchProperty(circleNumberSwitch, x: x0, y: by-bh-sp, w: bw, h: bh)
-  
+        VRLocationXSlider.frame =  CGRect(x:x0+sp*5+sliderWidth*2+bw*3,y:by-bh-sp,width:sliderWidth,height: bh)
+        setSwitchProperty(circleNumberSwitch, x: x0+sp*4+sliderWidth*2+bw*2, y: by-bh-sp, w: bw, h: bh)
+
         setLabelProperty(lineWidth, x:x0+sp*2+sliderWidth+bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
         lineWidthSlider.frame = CGRect(x:x0+sp*3+sliderWidth+bw*2,y:by-bh-sp,width:sliderWidth,height:bh)
 
-        diameterSlider.frame = CGRect(x:x0+sp*5+sliderWidth*2+bw*3,y:by-bh-sp,width:sliderWidth,height:bh)
-        setLabelProperty(circleDiameter,x:x0+sp*4+sliderWidth*2+bw*2, y: by-bh-sp, w: bw, h: bh,UIColor.white)
+        diameterSlider.frame = CGRect(x:x0+sp+bw,y:by-bh-sp,width:sliderWidth,height:bh)
+        setLabelProperty(circleDiameter,x:x0, y: by-bh-sp, w: bw, h: bh,UIColor.white)
 
-        rotationSpeedSlider.frame = CGRect(x:x0+sp*2+sliderWidth+bw,y:by,width: sliderWidth,height:bh)
-        setSwitchProperty(backImageSwitch, x: x0, y: by, w: sliderWidth+sp+bw, h: bh)
- 
-        setSwitchProperty(tenTimesSwitch, x: x0+sliderWidth*2+sp*3+bw, y: by, w: sliderWidth+sp+bw, h: bh)
+//        rotationSpeedSlider.frame = CGRect(x:x0+sp*2+sliderWidth+bw,y:by,width: sliderWidth,height:bh)
+        rotationSpeedSlider.frame = CGRect(x:x0+sliderWidth*2+sp*4+bw*2,y:by,width: sliderWidth,height:bh)
+        setSwitchProperty(backImageSwitch, x: x0+sp*2+sliderWidth+bw, y: by, w: sliderWidth+sp+bw, h: bh)
+   
+        setSwitchProperty(tenTimesSwitch, x: x0, y: by, w: sliderWidth+sp+bw, h: bh)
+
         exitButton.frame = CGRect(x:x0+sp*5+sliderWidth*3+bw*2,y:by,width:bw,height: bh)
         exitButton.layer.cornerRadius=5
         circleDiameter.layer.masksToBounds = true
