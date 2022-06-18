@@ -262,7 +262,7 @@ class SetteiViewController: UIViewController {
         let wh=view.bounds.height-topPadding-bottomPadding//topPadding is 0 anytime?
         let sp=ww/120
         let bw=(ww-sp*7)*2/15
-        let bh=bw/3.5
+        let bh=bw/2.5
         let by=wh-bh-sp
         let x0=leftPadding+sp
         let sliderWidth=(ww-3*bw-sp*7)/3
