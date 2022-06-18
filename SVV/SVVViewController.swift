@@ -440,7 +440,7 @@ class SVVViewController: UIViewController {
             shapeLayer.strokeColor = UIColor.blue.cgColor
         }
         shapeLayer.path = uiPath.cgPath
-        shapeLayer.lineWidth=CGFloat(lineWidth)/10.0
+        shapeLayer.lineWidth=CGFloat(lineWidth)+0.5
         self.view.layer.addSublayer(shapeLayer)
         if circleNumber==1{
             x0=ww/4 + CGFloat(locationX)
@@ -454,7 +454,7 @@ class SVVViewController: UIViewController {
                 shapeLayer1.strokeColor = UIColor.blue.cgColor
             }
             shapeLayer1.path = uiPath1.cgPath
-            shapeLayer1.lineWidth=CGFloat(lineWidth)/10.0
+            shapeLayer1.lineWidth=CGFloat(lineWidth)+0.5
             self.view.layer.addSublayer(shapeLayer1)
         }
     }

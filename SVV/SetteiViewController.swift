@@ -7,27 +7,11 @@
 //
 
 import UIKit
-//
-//extension UIImage {
-//    func rotatedBy(degree: CGFloat) -> UIImage {
-//        let radian = -degree * CGFloat.pi / 180
-//        UIGraphicsBeginImageContext(self.size)
-//        let context = UIGraphicsGetCurrentContext()!
-//        context.translateBy(x: self.size.width / 2, y: self.size.height / 2)
-//        context.scaleBy(x: 1.0, y: -1.0)
-//
-//        context.rotate(by: radian)
-//        context.draw(self.cgImage!, in: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: self.size.height))
-//
-//        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()!
-//        UIGraphicsEndImageContext()
-//        return rotatedImage
-//    }
-//}
+
 class SetteiViewController: UIViewController {
-    var cirDiameter:CGFloat = 0
-    var diameter:Int = 0
-    var width:Int = 0
+
+    var circleDiameter:Int = 0
+    var verticalLineWidth:Int = 0
     var timer: Timer!
     var directionR:Bool=true
     var time=CFAbsoluteTimeGetCurrent()
@@ -38,7 +22,7 @@ class SetteiViewController: UIViewController {
     var locationX:Int = 0
     var dotsRotationSpeed:Int = 0
     @IBOutlet weak var exitButton: UIButton!
-    @IBOutlet weak var circleDiameter: UILabel!
+    @IBOutlet weak var circleDiameterLabel: UILabel!
     @IBOutlet weak var VRLocationXSlider: UISlider!
     @IBOutlet weak var rotationSpeedSlider: UISlider!
     @IBOutlet weak var grayImage: UIImageView!
@@ -48,7 +32,6 @@ class SetteiViewController: UIViewController {
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageDots")
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
-
         reDrawCirclesLines()//左行でbackImageDotsをセット
         print("backImageDots:",backImageDots)
         setRotationSpeedSliderOnOff()
@@ -82,16 +65,16 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var lineWidth: UILabel!
     @IBAction func changeDiameter(_ sender: UISlider) {
         if Locale.preferredLanguages.first!.contains("ja"){
-            circleDiameter.text="直径:" + String(Int(sender.value*10))
+            circleDiameterLabel.text="直径:" + String(1+Int(sender.value*9))
         }else{
-            circleDiameter.text="Dia:" + String(Int(sender.value*10))
+            circleDiameterLabel.text="Dia:" + String(1+Int(sender.value*9))
         }
-        diameter=Int(sender.value*10)
-        if(diameter != tempdiameter){
-            UserDefaults.standard.set(diameter,forKey: "circleDiameter")
+        circleDiameter=Int(sender.value*9)
+        if(circleDiameter != tempdiameter){
+            UserDefaults.standard.set(circleDiameter,forKey: "circleDiameter")
             reDrawCirclesLines()
         }
-        tempdiameter=diameter
+        tempdiameter=circleDiameter
     }
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
@@ -112,34 +95,32 @@ class SetteiViewController: UIViewController {
     }
     @IBAction func onLineWidthSlider(_ sender: UISlider) {
         if Locale.preferredLanguages.first!.contains("ja"){
-            lineWidth.text="線幅:" + String(Int(sender.value*98)+1)
+            lineWidth.text="線幅:" + String(Int(sender.value*9)+1)
         }else{
-            lineWidth.text="LineW:" + String(Int(sender.value*98)+1)
+            lineWidth.text="LineW:" + String(Int(sender.value*9)+1)
         }
-        width=Int(sender.value*98)+1
-        UserDefaults.standard.set(width,forKey: "lineWidth")
+        verticalLineWidth=Int(sender.value*9)
+        UserDefaults.standard.set(verticalLineWidth,forKey: "lineWidth")
         reDrawCirclesLines()
     }
     func setRotationSpeedSliderOnOff()
     {
         if UserDefaults.standard.integer(forKey: "backImageDots")==1{
-//            rotationSpeedSlider.alpha=1
             rotationSpeedSlider.isEnabled=true
             rotationSpeedSlider.tintColor=UIColor.systemGreen
-//            rotationSpeedSlider.isHighlighted=true
-           }else{
+        }else{
             rotationSpeedSlider.isEnabled=false
-               rotationSpeedSlider.tintColor=UIColor.lightGray
+            rotationSpeedSlider.tintColor=UIColor.lightGray
         }
-
     }
+    
     func setVRsliderOnOff(){
         if circleNumber==1{
             VRLocationXSlider.isEnabled=true
             VRLocationXSlider.tintColor=UIColor.systemGreen
-           }else{
+        }else{
             VRLocationXSlider.isEnabled=false
-               VRLocationXSlider.tintColor=UIColor.lightGray
+            VRLocationXSlider.tintColor=UIColor.lightGray
         }
     }
     
@@ -161,7 +142,7 @@ class SetteiViewController: UIViewController {
     func buttonsToFront(){
         self.view.bringSubviewToFront(exitButton)
         self.view.bringSubviewToFront(tenTimesSwitch)
-        self.view.bringSubviewToFront(circleDiameter)
+        self.view.bringSubviewToFront(circleDiameterLabel)
         self.view.bringSubviewToFront(lineWidth)
         self.view.bringSubviewToFront(diameterSlider)
         self.view.bringSubviewToFront(lineWidthSlider)
@@ -173,7 +154,7 @@ class SetteiViewController: UIViewController {
     func buttonsToBack(){
         self.view.sendSubviewToBack(exitButton)
         self.view.sendSubviewToBack(tenTimesSwitch)
-        self.view.sendSubviewToBack(circleDiameter)
+        self.view.sendSubviewToBack(circleDiameterLabel)
         self.view.sendSubviewToBack(lineWidth)
         self.view.sendSubviewToBack(diameterSlider)
         self.view.sendSubviewToBack(lineWidthSlider)
@@ -184,15 +165,15 @@ class SetteiViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        diameter=UserDefaults.standard.integer(forKey: "circleDiameter")
-        width=UserDefaults.standard.integer(forKey: "lineWidth")
+        circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
+        verticalLineWidth=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
         circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
         dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
-        diameterSlider.value=Float(diameter)/10
-        lineWidthSlider.value=Float(width-1)/98
+        diameterSlider.value=Float(circleDiameter)/9
+        lineWidthSlider.value=Float(verticalLineWidth)/9
         VRLocationXSlider.value=Float(locationX)
         if Locale.preferredLanguages.first!.contains("ja"){
             backImageSwitch.setTitle("背景白", forSegmentAt: 0)
@@ -200,14 +181,14 @@ class SetteiViewController: UIViewController {
             tenTimesSwitch.setTitle("自動終了無し", forSegmentAt: 0)
             tenTimesSwitch.setTitle("10回で終了", forSegmentAt: 1)
 
-            circleDiameter.text="直径:" + String(diameter)
-            lineWidth.text="線幅:" + String(width)
+            circleDiameterLabel.text="直径:" + String(circleDiameter+1)
+            lineWidth.text="線幅:" + String(verticalLineWidth+1)
         }else{
             backImageSwitch.setTitle("back white", forSegmentAt: 0)
 //            backImageSwitch.setTitle("dots : -3", forSegmentAt: 1)
 
-            circleDiameter.text="Dia:" + String(diameter)
-            lineWidth.text="lineW:" + String(width)
+            circleDiameterLabel.text="Dia:" + String(circleDiameter+1)
+            lineWidth.text="lineW:" + String(verticalLineWidth+1)
         }
         drawBack()
         drawLines(degree:0)
@@ -273,7 +254,7 @@ class SetteiViewController: UIViewController {
         lineWidthSlider.frame = CGRect(x:x0+sp*3+sliderWidth+bw*2,y:by-bh-sp,width:sliderWidth,height:bh)
 
         diameterSlider.frame = CGRect(x:x0+sp+bw,y:by-bh-sp,width:sliderWidth,height:bh)
-        setLabelProperty(circleDiameter,x:x0, y: by-bh-sp, w: bw, h: bh,UIColor.white)
+        setLabelProperty(circleDiameterLabel,x:x0, y: by-bh-sp, w: bw, h: bh,UIColor.white)
 
 //        rotationSpeedSlider.frame = CGRect(x:x0+sp*2+sliderWidth+bw,y:by,width: sliderWidth,height:bh)
         rotationSpeedSlider.frame = CGRect(x:x0+sliderWidth*2+sp*4+bw*2,y:by,width: sliderWidth,height:bh)
@@ -283,8 +264,8 @@ class SetteiViewController: UIViewController {
 
         exitButton.frame = CGRect(x:x0+sp*5+sliderWidth*3+bw*2,y:by,width:bw,height: bh)
         exitButton.layer.cornerRadius=5
-        circleDiameter.layer.masksToBounds = true
-        circleDiameter.layer.cornerRadius = 5
+        circleDiameterLabel.layer.masksToBounds = true
+        circleDiameterLabel.layer.cornerRadius = 5
         lineWidth.layer.masksToBounds = true
         lineWidth.layer.cornerRadius = 5
         tenTimesSwitch.selectedSegmentIndex=tenTimesOnOff
@@ -321,7 +302,7 @@ class SetteiViewController: UIViewController {
         let x0M=ww/2
         let x0R=ww*3/4 - CGFloat(locationX)
         let y0=wh/2
-        let r=wh*(70+13*CGFloat(diameter))/400
+        let r=wh*(70+13*CGFloat(circleDiameter))/400
         
         let dd:Double=3.14159/900
         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
@@ -339,7 +320,7 @@ class SetteiViewController: UIViewController {
         }
         uiPath.lineWidth=5.0
         shapeLayer.strokeColor = UIColor.blue.cgColor
-        shapeLayer.lineWidth=CGFloat(width)/10.0
+        shapeLayer.lineWidth=CGFloat(verticalLineWidth)+0.5
         shapeLayer.path = uiPath.cgPath
         self.view.layer.addSublayer(shapeLayer)
     }
