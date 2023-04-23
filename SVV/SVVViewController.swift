@@ -323,7 +323,7 @@ class SVVViewController: UIViewController {
     @objc func update(tm: Timer) {
         //        print("sublayers:",view.layer.sublayers?.count)
         // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
-        currentDotsDegree += 0.1*CGFloat(dotsRotationSpeed)
+        currentDotsDegree += CGFloat(dotsRotationSpeed)/12.0
         if initUpdateFlag==true{
             initUpdateFlag=false
             blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
@@ -440,7 +440,7 @@ class SVVViewController: UIViewController {
             shapeLayer.strokeColor = UIColor.blue.cgColor
         }
         shapeLayer.path = uiPath.cgPath
-        shapeLayer.lineWidth=CGFloat(lineWidth)+0.5
+        shapeLayer.lineWidth=CGFloat(lineWidth)
         self.view.layer.addSublayer(shapeLayer)
         if circleNumber==1{
             x0=ww/4 + CGFloat(locationX)
@@ -454,7 +454,7 @@ class SVVViewController: UIViewController {
                 shapeLayer1.strokeColor = UIColor.blue.cgColor
             }
             shapeLayer1.path = uiPath1.cgPath
-            shapeLayer1.lineWidth=CGFloat(lineWidth)+0.5
+            shapeLayer1.lineWidth=CGFloat(lineWidth)
             self.view.layer.addSublayer(shapeLayer1)
         }
     }
@@ -474,7 +474,7 @@ class SVVViewController: UIViewController {
         self.view.bringSubviewToFront(randomImage1)
         if circleNumber == 1{
             x0=ww*3/4 - CGFloat(locationX)
-            randomImage2.image=randomImage1.image//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage2.image=randomImage1.image
             randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage2)
         }
@@ -489,12 +489,12 @@ class SVVViewController: UIViewController {
         if circleNumber == 1{
             x0=ww/4+CGFloat(locationX)
         }
-        randomImage1.image=UIImage(named:"white_black")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
+        randomImage1.image=UIImage(named:"white_black")
         randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
         self.view.bringSubviewToFront(randomImage1)
         if circleNumber == 1{
             x0=ww*3/4 - CGFloat(locationX)
-            randomImage2.image=UIImage(named: "white_black")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage2.image=UIImage(named: "white_black")
             randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage2)
         }

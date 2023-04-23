@@ -41,17 +41,17 @@ class SetteiViewController: UIViewController {
     func setDotsRotationSpeedText(){
         if Locale.preferredLanguages.first!.contains("ja"){
             backImageSwitch.setTitle("背景白", forSegmentAt: 0)
-            backImageSwitch.setTitle("半玉:" + String(dotsRotationSpeed), forSegmentAt: 1)
-            backImageSwitch.setTitle("水玉:" + String(dotsRotationSpeed), forSegmentAt: 2)
+            backImageSwitch.setTitle("半玉:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
+            backImageSwitch.setTitle("水玉:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
         }else{
             backImageSwitch.setTitle("white", forSegmentAt: 0)
-            backImageSwitch.setTitle("half:" + String(dotsRotationSpeed), forSegmentAt: 1)
-            backImageSwitch.setTitle("dots:" + String(dotsRotationSpeed), forSegmentAt: 2)
+            backImageSwitch.setTitle("half:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
+            backImageSwitch.setTitle("dots:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
         }
-        rotationSpeedSlider.value=Float(dotsRotationSpeed+3)/6.0
+        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
     }
     @IBAction func onRotationSpeedSlider(_ sender: UISlider) {
-        dotsRotationSpeed = Int(sender.value*6) - 3
+        dotsRotationSpeed = Int(sender.value*144) - 72
         print("speed:",dotsRotationSpeed)
         UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
         setDotsRotationSpeedText()
@@ -191,6 +191,13 @@ class SetteiViewController: UIViewController {
         circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
+        
+//        dotsRotationSpeed = Int(sender.value*144) - 72
+//        print("speed:",dotsRotationSpeed)
+//        UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
+
+        
+        
         dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
         diameterSlider.value=Float(circleDiameter)/9
         lineWidthSlider.value=Float(verticalLineWidth)/9
@@ -298,7 +305,7 @@ class SetteiViewController: UIViewController {
     func reDrawCirclesLines(){
         buttonsToBack()
         self.view.layer.sublayers?.removeLast()
-        print("sublayer2:",view.layer.sublayers?.count)
+ //       print("sublayer2:",view.layer.sublayers?.count)
         drawBack()
         drawLines(degree: 0)
         buttonsToFront()
@@ -309,12 +316,13 @@ class SetteiViewController: UIViewController {
         }
     }
     var currentDotsDegree:CGFloat=0
-    @objc func update(tm: Timer) {
+    @objc func update(tm: Timer) {//1/60sec
         if backImageDots==0{
             return
         }
-        currentDotsDegree += 0.1*CGFloat(dotsRotationSpeed)
+        currentDotsDegree += CGFloat(dotsRotationSpeed)/12.0
         reDrawCirclesLines()
+        print("dotsRotationSpeed",dotsRotationSpeed)
     }
     func drawLines(degree:Int){//remove:Bool){
         //線を引く
@@ -370,8 +378,6 @@ class SetteiViewController: UIViewController {
         if initDrawBackBackFlag==true{
             initDrawBackBackFlag=false
             grayImage.frame=CGRect(x:0,y:0,width: ww,height: wh)
-//         }else{
-//            self.view.bringSubviewToFront(grayImage!)
         }
         
         let r=wh*(70+13*CGFloat(circleDiameter))/400
