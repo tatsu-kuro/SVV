@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -205,25 +205,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="JG9-Bx-DP9">
-                                <rect key="frame" x="182" y="91" width="114" height="32"/>
+                                <rect key="frame" x="100" y="91" width="196" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="back:dots"/>
-                                    <segment title="back:plain"/>
+                                    <segment title="white"/>
+                                    <segment title="half"/>
+                                    <segment title="dots"/>
                                 </segments>
                                 <connections>
                                     <action selector="onBackImageSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="bl8-Ua-KeJ"/>
-                                </connections>
-                            </segmentedControl>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UCZ-ao-RqI">
-                                <rect key="frame" x="182" y="184" width="131" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="non stop"/>
-                                    <segment title="stop after 10"/>
-                                </segments>
-                                <connections>
-                                    <action selector="onTenTimeSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="gpL-HU-TyJ"/>
                                 </connections>
                             </segmentedControl>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="random_gray" translatesAutoresizingMaskIntoConstraints="NO" id="Pmv-Kp-RhL">
@@ -250,6 +240,20 @@
                                 <rect key="frame" x="651" y="105" width="73" height="77"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3F2-ac-2Ak">
+                                <rect key="frame" x="116" y="184" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="onStop10Switch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="Ol6-Zc-LXa"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="stop after 10." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSn-7X-WRA">
+                                <rect key="frame" x="171" y="184" width="100" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -268,13 +272,14 @@
                         <outlet property="randomImage1" destination="QjH-kr-YXo" id="C5o-md-U62"/>
                         <outlet property="randomImage2" destination="phX-l2-UxN" id="q8b-zj-nQc"/>
                         <outlet property="rotationSpeedSlider" destination="iQK-u7-zK5" id="NKe-he-A3A"/>
-                        <outlet property="tenTimesSwitch" destination="UCZ-ao-RqI" id="tzA-82-ZFs"/>
+                        <outlet property="stop10Label" destination="qSn-7X-WRA" id="qQV-hX-h3N"/>
+                        <outlet property="stop10Switch" destination="3F2-ac-2Ak" id="nVT-R3-fB5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nSs-1G-QWg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="dy0-li-jfZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-148.52216748768473" y="39.200000000000003"/>
+            <point key="canvasLocation" x="-148.66071428571428" y="39.130434782608695"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -424,15 +429,15 @@
     </scenes>
     <resources>
         <image name="black" width="43" height="48"/>
-        <image name="gearshape" catalog="system" width="128" height="121"/>
-        <image name="globe" catalog="system" width="128" height="121"/>
+        <image name="gearshape" catalog="system" width="128" height="123"/>
+        <image name="globe" catalog="system" width="128" height="123"/>
         <image name="gray" width="81" height="83"/>
         <image name="helpj" width="841" height="617"/>
         <image name="random" width="690" height="690"/>
         <image name="random_gray" width="690" height="690"/>
         <image name="svvhead" width="1100" height="500"/>
         <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
