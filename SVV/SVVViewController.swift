@@ -291,7 +291,13 @@ class SVVViewController: UIViewController {
             })
         }
         backImageDots = getUserDefault(str:"backImageDots",ret:0)
-        randomImage.image=UIImage(named: "random")
+        if backImageDots==1{
+            randomImage.image=UIImage(named: "random2")
+        }else if backImageDots==2{
+            randomImage.image=UIImage(named: "random")
+        }else{
+            randomImage.image=UIImage(named: "white_black")
+        }
 //        drawBack()
 //        print("last",lastSensorDegree)
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
@@ -336,10 +342,10 @@ class SVVViewController: UIViewController {
                 view.layer.sublayers?.removeLast()
             }
         }
-        if backImageDots==1{
+        if backImageDots>0{
             drawDotsCircle()
         }
-        print("sublayers:",view.layer.sublayers?.count)
+//        print("sublayers:",view.layer.sublayers?.count)
 
         degree += Double(GlobalStickXvalue)*2
         degree += Double(GlobalPadXvalue)/2
@@ -469,12 +475,21 @@ class SVVViewController: UIViewController {
         if circleNumber == 1{
             x0=ww/4+CGFloat(locationX)
         }
+//        if backImageDots != 0{
+            randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+//        }else{
+//            randomImage1.image=randomImage.image
+//        }
+//
         randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
-        randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+        randomImage2.image=randomImage1.image//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+//        randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+//        self.view.bringSubviewToFront(randomImage1)
+
         self.view.bringSubviewToFront(randomImage1)
         if circleNumber == 1{
             x0=ww*3/4 - CGFloat(locationX)
-            randomImage2.image=randomImage1.image
+//            randomImage2.image=randomImage1.image
             randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage2)
         }

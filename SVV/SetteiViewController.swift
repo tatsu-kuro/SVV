@@ -34,6 +34,7 @@ class SetteiViewController: UIViewController {
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageDots")
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
+        setRandomImages()
         reDrawCirclesLines()//左行でbackImageDotsをセット
         print("backImageDots:",backImageDots)
         setRotationSpeedSliderOnOff()
@@ -120,7 +121,7 @@ class SetteiViewController: UIViewController {
     }
     func setRotationSpeedSliderOnOff()
     {
-        if UserDefaults.standard.integer(forKey: "backImageDots")==1{
+        if UserDefaults.standard.integer(forKey: "backImageDots")>0{
             rotationSpeedSlider.isEnabled=true
             rotationSpeedSlider.tintColor=UIColor.systemGreen
         }else{
@@ -220,18 +221,20 @@ class SetteiViewController: UIViewController {
         setVRsliderOnOff()
         setRotationSpeedSliderOnOff()
         setDotsRotationSpeedText()
-        grayImage.image=UIImage(named: "gray")
-        randomImage.image=UIImage(named:"random_gray")
-        if backImageDots==1{
-        randomImage1.image=UIImage(named: "random_gray")
-        randomImage2.image=UIImage(named: "random_gray")
-        }else{
-            randomImage1.image=UIImage(named: "white_gray")
-            randomImage2.image=UIImage(named: "white_gray")
-
-        }
+//        grayImage.image=UIImage(named: "black")
+//        randomImage.image=UIImage(named:"random_gray")
+       setRandomImages()
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
      }
+    func setRandomImages(){
+        if backImageDots==1{
+            randomImage.image=UIImage(named: "random2")
+        }else if backImageDots==2{
+            randomImage.image=UIImage(named: "random")
+        }else{
+            randomImage.image=UIImage(named: "white_black")
+        }
+    }
     func setLabelProperty(_ label:UILabel,x:CGFloat,y:CGFloat,w:CGFloat,h:CGFloat,_ color:UIColor){
         label.frame = CGRect(x:x, y:y, width: w, height: h)
         label.layer.borderColor = UIColor.black.cgColor
@@ -281,7 +284,8 @@ class SetteiViewController: UIViewController {
         
 //        setSwitchProperty(tenTimesSwitch, x: x0, y: by, w:0,h:0)// sliderWidth+sp+bw, h: bh)
         stop10Switch.frame=CGRect(x:x0,y:sp*2,width: 50,height: 20)
-        stop10Label.frame=CGRect(x:x0+sp+stop10Switch.frame.width,y:sp*2,width:200,height:stop10Switch.frame.height)
+//        stop10Label.frame=CGRect(x:x0+sp+stop10Switch.frame.width,y:sp*2,width:200,height:stop10Switch.frame.height)
+        setLabelProperty(stop10Label, x: x0+sp+stop10Switch.frame.width, y: sp*2, w: 150, h: stop10Switch.frame.height, UIColor.white)
         let exitX=x0+sp*5+sliderWidth*3+bw*2
         exitButton.frame = CGRect(x:exitX,y:by,width:bw,height: bh)
         rotationSpeedSlider.frame = CGRect(x:x0+(exitX-x0)/2,y:by,width:(exitX-x0)/2-sp,height:bh)
@@ -322,7 +326,7 @@ class SetteiViewController: UIViewController {
         }
         currentDotsDegree += CGFloat(dotsRotationSpeed)/12.0
         reDrawCirclesLines()
-        print("dotsRotationSpeed",dotsRotationSpeed)
+//        print("dotsRotationSpeed",dotsRotationSpeed)
     }
     func drawLines(degree:Int){//remove:Bool){
         //線を引く
@@ -387,9 +391,8 @@ class SetteiViewController: UIViewController {
         }
         let y0=wh/2
         if backImageDots==0{
-            
-            randomImage1.image=UIImage(named: "white_gray")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
-            randomImage2.image=UIImage(named: "white_gray")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage1.image=UIImage(named: "white_black")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage2.image=UIImage(named: "white_black")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage1)
             if circleNumber==1{
