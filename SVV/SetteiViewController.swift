@@ -336,7 +336,10 @@ class SetteiViewController: UIViewController {
         let x0M=ww/2
         let x0R=ww*3/4 - CGFloat(locationX)
         let y0=wh/2
-        let r=wh*(70+13*CGFloat(circleDiameter))/400
+        var r=wh*(70+13*CGFloat(circleDiameter))/400
+        if backImageDots==1{
+            r=r*0.45
+        }
         
         let dd:Double=3.14159/900
         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))

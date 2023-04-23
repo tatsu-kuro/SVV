@@ -432,7 +432,13 @@ class SVVViewController: UIViewController {
             x0=ww*3/4 - CGFloat(locationX)
         }
         let y0=wh/2
-        let r=wh*(70+13*CGFloat(circleDiameter))/400
+//        let r=wh*(70+13*CGFloat(circleDiameter))/400
+        
+        var r=wh*(70+13*CGFloat(circleDiameter))/400
+        if backImageDots==1{
+            r=r*0.45
+        }
+        
         let dd:Double=3.14159/900//3600//1800//900
         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
         let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
@@ -465,35 +471,6 @@ class SVVViewController: UIViewController {
         }
     }
 
-    func drawDotsCircle(){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
-//        let backImageDots = getUserDefault(str:"backImageDots",ret:0)
-        let r=wh*(70+13*CGFloat(circleDiameter))/400
-        var x0=ww/2
-        let y0=wh/2
-        if circleNumber == 1{
-            x0=ww/4+CGFloat(locationX)
-        }
-//        if backImageDots != 0{
-            randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
-//        }else{
-//            randomImage1.image=randomImage.image
-//        }
-//
-        randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
-        randomImage2.image=randomImage1.image//randomImage.image?.rotatedBy(degree: currentDotsDegree)
-//        randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
-//        self.view.bringSubviewToFront(randomImage1)
-
-        self.view.bringSubviewToFront(randomImage1)
-        if circleNumber == 1{
-            x0=ww*3/4 - CGFloat(locationX)
-//            randomImage2.image=randomImage1.image
-            randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
-            self.view.bringSubviewToFront(randomImage2)
-        }
-    }
     func drawWhiteCircle(){
         let ww=view.bounds.width
         let wh=view.bounds.height
@@ -514,73 +491,25 @@ class SVVViewController: UIViewController {
             self.view.bringSubviewToFront(randomImage2)
         }
     }
-//    func drawWhiteCircle1(){
-//        let ww=view.bounds.width
-//        let wh=view.bounds.height
-//        // --- 円を描画 ---
-//          //let r=wh*180/200
-//        let r=wh*(70+13*CGFloat(circleDiameter))/400
-//        var x0=ww/2
-//        if circleNumber == 1{
-//            x0=ww/4 + CGFloat(locationX)
-//        }
-//        let y0=wh/2
-//        print("backImageDots:",backImageDots)
-//        if backImageDots==0{
-//            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
-//        }
-//
-//        if circleNumber == 1{
-//            x0=ww*3/4 - CGFloat(locationX)
-//            if backImageDots==0{
-//                drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
-//            }
-//        }
-//    }
-    /*
-    func drawBack(){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
-//        let backImageDots = getUserDefault(str:"backImageDots",ret:0)
+  
+     func drawDotsCircle(){
+         let ww=view.bounds.width
+         let wh=view.bounds.height
+         let r=wh*(70+13*CGFloat(circleDiameter))/400
+         var x0=ww/2
+         let y0=wh/2
+         if circleNumber == 1{
+             x0=ww/4+CGFloat(locationX)
+         }
+         randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+         randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+         self.view.bringSubviewToFront(randomImage1)
+         if circleNumber == 1{
+             x0=ww*3/4 - CGFloat(locationX)
+             randomImage2.image=randomImage1.image//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+             randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+             self.view.bringSubviewToFront(randomImage2)
+         }
+     }
 
-        // 四角形を描画
-        let rectangleLayer = CAShapeLayer.init()
-        let rectangleFrame = CGRect.init(x: 0, y: 0, width:ww, height: wh)
-        rectangleLayer.frame = rectangleFrame
-        rectangleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
-        rectangleLayer.fillColor = UIColor.black.cgColor// 四角形の中の色
-        rectangleLayer.lineWidth = 2.5
-
-        rectangleLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: rectangleFrame.size.width, height: rectangleFrame.size.height)).cgPath
-
-
-        self.view.layer.addSublayer(rectangleLayer)
-        // --- 円を描画 ---
-          //let r=wh*180/200
-        let r=wh*(70+13*CGFloat(circleDiameter))/400
-        var x0=ww/2
-        if circleNumber == 1{
-            x0=ww/4 + CGFloat(locationX)
-        }
-        let y0=wh/2
-        print("backImageDots:",backImageDots)
-        if backImageDots==0{
-            drawCircle(x0: x0, y0: y0, r:r , color: UIColor.white.cgColor)
-        }else{
-            randomImage1.image=randomImage.image
-            randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
-            self.view.bringSubviewToFront(randomImage1)
-        }
-        
-        if circleNumber == 1{
-            x0=ww*3/4 - CGFloat(locationX)
-            if backImageDots==0{
-                drawCircle(x0: x0, y0: y0, r: r, color: UIColor.white.cgColor)
-            }else{
-                randomImage2.image=randomImage.image
-                randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
-                self.view.bringSubviewToFront(randomImage2)
-            }
-        }
-    }*/
 }
