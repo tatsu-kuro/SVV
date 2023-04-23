@@ -11,6 +11,8 @@ import UIKit
 class SetteiViewController: UIViewController {
     @IBOutlet weak var stop10Switch: UISwitch!
     
+    @IBOutlet weak var lineMovingLabel: UILabel!
+    @IBOutlet weak var lineMovingSwitch: UISwitch!
     @IBOutlet weak var stop10Label: UILabel!
     var circleDiameter:Int = 0
     var verticalLineWidth:Int = 0
@@ -23,6 +25,7 @@ class SetteiViewController: UIViewController {
     var tenTimesOnOff:Int = 1
     var locationX:Int = 0
     var dotsRotationSpeed:Int = 0
+    var lineMovingOnOff:Int = 0
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var circleDiameterLabel: UILabel!
     @IBOutlet weak var VRLocationXSlider: UISlider!
@@ -31,6 +34,16 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
     @IBOutlet weak var randomImage: UIImageView!
+    
+    @IBAction func onLineMovingSwitch(_ sender: UISwitch) {
+        if sender.isOn{
+            lineMovingOnOff=1
+        }else{
+            lineMovingOnOff=0
+        }
+        UserDefaults.standard.set(lineMovingOnOff,forKey: "lineMovingOnOff")
+    }
+    
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageDots")
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
@@ -70,15 +83,15 @@ class SetteiViewController: UIViewController {
         UserDefaults.standard.set(tenTimesOnOff,forKey: "tenTimesOnOff")
     }
     
-    @IBAction func onTenTimeSwitch(_ sender: UISegmentedControl) {
-        print("tentime:",sender.selectedSegmentIndex)
-        tenTimesOnOff=sender.selectedSegmentIndex
-        UserDefaults.standard.set(tenTimesOnOff,forKey: "tenTimesOnOff")
-    }
+//    @IBAction func onTenTimeSwitch(_ sender: UISegmentedControl) {
+//        print("tentime:",sender.selectedSegmentIndex)
+//        tenTimesOnOff=sender.selectedSegmentIndex
+//        UserDefaults.standard.set(tenTimesOnOff,forKey: "tenTimesOnOff")
+//    }
 //    @IBOutlet weak var tenTimesSwitch: UISegmentedControl!
     @IBOutlet weak var lineWidthSlider: UISlider!
     @IBOutlet weak var diameterSlider: UISlider!
-    @IBOutlet weak var lineWidth: UILabel!
+    @IBOutlet weak var lineWidthLabel: UILabel!
     @IBAction func changeDiameter(_ sender: UISlider) {
         if Locale.preferredLanguages.first!.contains("ja"){
             circleDiameterLabel.text="直径:" + String(1+Int(sender.value*9))
@@ -111,9 +124,9 @@ class SetteiViewController: UIViewController {
     }
     @IBAction func onLineWidthSlider(_ sender: UISlider) {
         if Locale.preferredLanguages.first!.contains("ja"){
-            lineWidth.text="線幅:" + String(Int(sender.value*9))
+            lineWidthLabel.text="線幅:" + String(Int(sender.value*9))
         }else{
-            lineWidth.text="LineW:" + String(Int(sender.value*9))
+            lineWidthLabel.text="LineW:" + String(Int(sender.value*9))
         }
         verticalLineWidth=Int(sender.value*9)
         UserDefaults.standard.set(verticalLineWidth,forKey: "lineWidth")
@@ -159,9 +172,11 @@ class SetteiViewController: UIViewController {
         self.view.bringSubviewToFront(exitButton)
 //        self.view.bringSubviewToFront(tenTimesSwitch)
         self.view.bringSubviewToFront(circleDiameterLabel)
-        self.view.bringSubviewToFront(lineWidth)
+        self.view.bringSubviewToFront(lineWidthLabel)
         self.view.bringSubviewToFront(stop10Label)
         self.view.bringSubviewToFront(stop10Switch)
+        self.view.bringSubviewToFront(lineMovingSwitch)
+        self.view.bringSubviewToFront(lineMovingLabel)
 
         self.view.bringSubviewToFront(diameterSlider)
         self.view.bringSubviewToFront(lineWidthSlider)
@@ -174,9 +189,11 @@ class SetteiViewController: UIViewController {
         self.view.sendSubviewToBack(exitButton)
 //        self.view.sendSubviewToBack(tenTimesSwitch)
         self.view.sendSubviewToBack(circleDiameterLabel)
-        self.view.sendSubviewToBack(lineWidth)
+        self.view.sendSubviewToBack(lineWidthLabel)
         self.view.sendSubviewToBack(stop10Label)
         self.view.sendSubviewToBack(stop10Switch)
+        self.view.sendSubviewToBack(lineMovingSwitch)
+        self.view.sendSubviewToBack(lineMovingLabel)
         self.view.sendSubviewToBack(diameterSlider)
         self.view.sendSubviewToBack(lineWidthSlider)
         self.view.sendSubviewToBack(VRLocationXSlider)
@@ -192,13 +209,7 @@ class SetteiViewController: UIViewController {
         circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
-        
-//        dotsRotationSpeed = Int(sender.value*144) - 72
-//        print("speed:",dotsRotationSpeed)
-//        UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
-
-        
-        
+        lineMovingOnOff=UserDefaults.standard.integer(forKey: "lineMovingOnOff")
         dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
         diameterSlider.value=Float(circleDiameter)/9
         lineWidthSlider.value=Float(verticalLineWidth)/9
@@ -207,12 +218,15 @@ class SetteiViewController: UIViewController {
             backImageSwitch.setTitle("背景白", forSegmentAt: 0)
             stop10Label.text="10回で終了"
             circleDiameterLabel.text="直径:" + String(circleDiameter+1)
-            lineWidth.text="線幅:" + String(verticalLineWidth)
+            lineWidthLabel.text="線幅:" + String(verticalLineWidth)
+            lineMovingLabel.text="垂直線：動く"
         }else{
             backImageSwitch.setTitle("back white", forSegmentAt: 0)
             stop10Label.text="stop at 10 times"
             circleDiameterLabel.text="Dia:" + String(circleDiameter+1)
-            lineWidth.text="lineW:" + String(verticalLineWidth)
+            lineWidthLabel.text="lineW:" + String(verticalLineWidth)
+            lineMovingLabel.text="line : moving"
+
         }
         drawBack()
         drawLines(degree:0)
@@ -252,15 +266,7 @@ class SetteiViewController: UIViewController {
 //        label.backgroundColor = UIColor.black
     }
     func setButtons(){
-        
-        /*
-         UserDefaults.standard.set(topPadding,forKey: "topPadding")
-         UserDefaults.standard.set(bottomPadding,forKey: "bottomPadding")
-         UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
-         UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
-
-         */
-        
+    
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -276,33 +282,38 @@ class SetteiViewController: UIViewController {
         VRLocationXSlider.frame =  CGRect(x:x0+sp*5+sliderWidth*2+bw*3,y:by-bh-sp,width:sliderWidth,height: bh)
         setSwitchProperty(circleNumberSwitch, x: x0+sp*4+sliderWidth*2+bw*2, y: by-bh-sp, w: bw, h: bh)
 
-        setLabelProperty(lineWidth, x:x0+sp*2+sliderWidth+bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
+        setLabelProperty(lineWidthLabel, x:x0+sp*2+sliderWidth+bw, y:by-bh-sp, w: bw, h: bh,UIColor.white)
         lineWidthSlider.frame = CGRect(x:x0+sp*3+sliderWidth+bw*2,y:by-bh-sp,width:sliderWidth,height:bh)
-
         diameterSlider.frame = CGRect(x:x0+sp+bw,y:by-bh-sp,width:sliderWidth,height:bh)
         setLabelProperty(circleDiameterLabel,x:x0, y: by-bh-sp, w: bw, h: bh,UIColor.white)
-        
-//        setSwitchProperty(tenTimesSwitch, x: x0, y: by, w:0,h:0)// sliderWidth+sp+bw, h: bh)
         stop10Switch.frame=CGRect(x:x0,y:sp*2,width: 50,height: 20)
-//        stop10Label.frame=CGRect(x:x0+sp+stop10Switch.frame.width,y:sp*2,width:200,height:stop10Switch.frame.height)
         setLabelProperty(stop10Label, x: x0+sp+stop10Switch.frame.width, y: sp*2, w: 150, h: stop10Switch.frame.height, UIColor.white)
+        lineMovingSwitch.frame=CGRect(x:x0,y:sp*3+stop10Switch.frame.height,width:stop10Switch.frame.width,height: stop10Switch.frame.height)
+        setLabelProperty(lineMovingLabel,x:x0+sp+stop10Switch.frame.width,y:sp*3+stop10Switch.frame.height,w:150,h:stop10Switch.frame.height,UIColor.white)
         let exitX=x0+sp*5+sliderWidth*3+bw*2
         exitButton.frame = CGRect(x:exitX,y:by,width:bw,height: bh)
-        rotationSpeedSlider.frame = CGRect(x:x0+(exitX-x0)/2,y:by,width:(exitX-x0)/2-sp,height:bh)
-        setSwitchProperty(backImageSwitch, x: x0, y: by, w:(exitX-x0)/2-sp, h: bh)
+   //     rotationSpeedSlider.frame = CGRect(x:x0+(exitX-x0)/2,y:by,width:(exitX-x0)/2-sp,height:bh)
+        let backImageSwitchW=lineWidthLabel.frame.maxX-x0
+        setSwitchProperty(backImageSwitch, x: x0, y: by, w:backImageSwitchW, h: bh)
+        let speedSliderW=exitX-backImageSwitch.frame.maxX-sp*2
+        rotationSpeedSlider.frame = CGRect(x:backImageSwitch.frame.maxX+sp,y:by,width:speedSliderW,height:bh)
 
         exitButton.layer.cornerRadius=5
         circleDiameterLabel.layer.masksToBounds = true
         circleDiameterLabel.layer.cornerRadius = 5
-        lineWidth.layer.masksToBounds = true
-        lineWidth.layer.cornerRadius = 5
-//        tenTimesSwitch.selectedSegmentIndex=tenTimesOnOff
+        lineWidthLabel.layer.masksToBounds = true
+        lineWidthLabel.layer.cornerRadius = 5
         circleNumberSwitch.selectedSegmentIndex=circleNumber
         backImageSwitch.selectedSegmentIndex=backImageDots
         if tenTimesOnOff==1{
             stop10Switch.isOn=true
         }else{
             stop10Switch.isOn=false
+        }
+        if lineMovingOnOff==1{
+            lineMovingSwitch.isOn=true
+        }else{
+            lineMovingSwitch.isOn=false
         }
     }
  

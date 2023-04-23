@@ -262,10 +262,14 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="393-dA-BDC">
                                 <rect key="frame" x="116" y="223" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="onLineMovingSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="uFO-BJ-0y9"/>
+                                </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jsz-kP-rbl">
-                                <rect key="frame" x="177" y="228" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="line : moving" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jsz-kP-rbl">
+                                <rect key="frame" x="177" y="228" width="94" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -282,7 +286,9 @@
                         <outlet property="diameterSlider" destination="gyj-8b-ggr" id="Slk-TN-vcb"/>
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
                         <outlet property="grayImage" destination="yIt-iu-BJc" id="Yf7-UD-xcB"/>
-                        <outlet property="lineWidth" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
+                        <outlet property="lineMovingLabel" destination="Jsz-kP-rbl" id="vqc-eR-87F"/>
+                        <outlet property="lineMovingSwitch" destination="393-dA-BDC" id="iww-pW-REa"/>
+                        <outlet property="lineWidthLabel" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
                         <outlet property="lineWidthSlider" destination="rHK-EU-rNc" id="Muo-Fp-TyC"/>
                         <outlet property="randomImage" destination="Pmv-Kp-RhL" id="kGM-Ra-678"/>
                         <outlet property="randomImage1" destination="QjH-kr-YXo" id="C5o-md-U62"/>

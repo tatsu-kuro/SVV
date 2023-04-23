@@ -42,6 +42,8 @@ class SVVViewController: UIViewController {
     var actionTimeLast=CFAbsoluteTimeGetCurrent()//tap or remoteController
     var verticalLinef:Bool=false
     var tenTimesOnOff:Int = 1
+    var lineMovingOnOff:Int = 1
+
     func setDate(){
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd/ HH:mm"
@@ -278,6 +280,8 @@ class SVVViewController: UIViewController {
         circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
         dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
+        lineMovingOnOff=UserDefaults.standard.integer(forKey: "lineMovingOnOff")
+
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
         if motionManager.isAccelerometerAvailable {
