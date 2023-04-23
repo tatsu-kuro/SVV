@@ -108,7 +108,12 @@ class SVVViewController: UIViewController {
                 actionTimeLast=CFAbsoluteTimeGetCurrent()
                 return
             }
-            movingBarFlag=true
+            if lineMovingOnOff==0{
+                movingBarFlag=false
+                degree -= 1
+            }else{
+                movingBarFlag=true
+            }
             appendData()
             if(tenTimesOnOff==1 && sensorArray.count==10){
                 returnMain()
@@ -313,6 +318,10 @@ class SVVViewController: UIViewController {
         sensorArray.removeAll()
         degreeArray.removeAll()
         Globalmode=1
+        if lineMovingOnOff==0{
+            movingBarFlag=false
+            degree -= 1
+        }
     }
     
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
