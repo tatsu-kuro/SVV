@@ -377,7 +377,8 @@ class ViewController: UIViewController {
         _ = getUserDefault(str:"VRLocationX",ret:0)
         _ = getUserDefault(str:"tenTimesOnOff",ret:1)
         _ = getUserDefault(str:"lineMovingOnOff",ret:1)
-        _ = getUserDefault(str: "dotsRotationSpeed", ret: 72)
+        _ = getUserDefault(str:"lineFixedOnOff",ret:0)
+        _ = getUserDefault(str:"dotsRotationSpeed", ret: 72)
         setupGameController()
     }
     override var prefersHomeIndicatorAutoHidden: Bool {

@@ -11,6 +11,8 @@ import UIKit
 class SetteiViewController: UIViewController {
     @IBOutlet weak var stop10Switch: UISwitch!
     
+    @IBOutlet weak var lineFixedLabel: UILabel!
+    @IBOutlet weak var lineFixedSwitch: UISwitch!
     @IBOutlet weak var lineMovingLabel: UILabel!
     @IBOutlet weak var lineMovingSwitch: UISwitch!
     @IBOutlet weak var stop10Label: UILabel!
@@ -26,6 +28,7 @@ class SetteiViewController: UIViewController {
     var locationX:Int = 0
     var dotsRotationSpeed:Int = 0
     var lineMovingOnOff:Int = 0
+    var lineFixedOnOff:Int = 0
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var circleDiameterLabel: UILabel!
     @IBOutlet weak var VRLocationXSlider: UISlider!
@@ -34,6 +37,15 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
     @IBOutlet weak var randomImage: UIImageView!
+    @IBAction func onLineFixedSwitch(_ sender: UISwitch) {
+        if sender.isOn{
+            lineFixedOnOff=1
+        }else{
+            lineFixedOnOff=0
+        }
+        UserDefaults.standard.set(lineFixedOnOff,forKey: "lineFixedOnOff")
+
+    }
     
     @IBAction func onLineMovingSwitch(_ sender: UISwitch) {
         if sender.isOn{
@@ -177,6 +189,8 @@ class SetteiViewController: UIViewController {
         self.view.bringSubviewToFront(stop10Switch)
         self.view.bringSubviewToFront(lineMovingSwitch)
         self.view.bringSubviewToFront(lineMovingLabel)
+        self.view.bringSubviewToFront(lineFixedSwitch)
+        self.view.bringSubviewToFront(lineFixedLabel)
 
         self.view.bringSubviewToFront(diameterSlider)
         self.view.bringSubviewToFront(lineWidthSlider)
@@ -194,6 +208,8 @@ class SetteiViewController: UIViewController {
         self.view.sendSubviewToBack(stop10Switch)
         self.view.sendSubviewToBack(lineMovingSwitch)
         self.view.sendSubviewToBack(lineMovingLabel)
+        self.view.sendSubviewToBack(lineFixedSwitch)
+        self.view.sendSubviewToBack(lineFixedLabel)
         self.view.sendSubviewToBack(diameterSlider)
         self.view.sendSubviewToBack(lineWidthSlider)
         self.view.sendSubviewToBack(VRLocationXSlider)
@@ -210,6 +226,7 @@ class SetteiViewController: UIViewController {
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
         lineMovingOnOff=UserDefaults.standard.integer(forKey: "lineMovingOnOff")
+        lineFixedOnOff=UserDefaults.standard.integer(forKey: "lineFixedOnOff")
         dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
         diameterSlider.value=Float(circleDiameter)/9
         lineWidthSlider.value=Float(verticalLineWidth)/9
@@ -220,13 +237,14 @@ class SetteiViewController: UIViewController {
             circleDiameterLabel.text="直径:" + String(circleDiameter+1)
             lineWidthLabel.text="線幅:" + String(verticalLineWidth)
             lineMovingLabel.text="垂直線：動く"
+            lineFixedLabel.text="表示のみ"
         }else{
             backImageSwitch.setTitle("back white", forSegmentAt: 0)
             stop10Label.text="stop at 10 times"
             circleDiameterLabel.text="Dia:" + String(circleDiameter+1)
             lineWidthLabel.text="lineW:" + String(verticalLineWidth)
             lineMovingLabel.text="line : moving"
-
+            lineFixedLabel.text="display only"
         }
         drawBack()
         drawLines(degree:0)
@@ -290,6 +308,9 @@ class SetteiViewController: UIViewController {
         setLabelProperty(stop10Label, x: x0+sp+stop10Switch.frame.width, y: sp*2, w: 150, h: stop10Switch.frame.height, UIColor.white)
         lineMovingSwitch.frame=CGRect(x:x0,y:sp*3+stop10Switch.frame.height,width:stop10Switch.frame.width,height: stop10Switch.frame.height)
         setLabelProperty(lineMovingLabel,x:x0+sp+stop10Switch.frame.width,y:sp*3+stop10Switch.frame.height,w:150,h:stop10Switch.frame.height,UIColor.white)
+        lineFixedSwitch.frame=CGRect(x:x0,y:sp+lineMovingSwitch.frame.maxY,width:stop10Switch.frame.width,height: stop10Switch.frame.height)
+        setLabelProperty(lineFixedLabel,x:x0+sp+stop10Switch.frame.width,y:sp+lineMovingSwitch.frame.maxY,w:150,h:stop10Switch.frame.height,UIColor.white)
+
         let exitX=x0+sp*5+sliderWidth*3+bw*2
         exitButton.frame = CGRect(x:exitX,y:by,width:bw,height: bh)
    //     rotationSpeedSlider.frame = CGRect(x:x0+(exitX-x0)/2,y:by,width:(exitX-x0)/2-sp,height:bh)
@@ -314,6 +335,11 @@ class SetteiViewController: UIViewController {
             lineMovingSwitch.isOn=true
         }else{
             lineMovingSwitch.isOn=false
+        }
+        if lineFixedOnOff==1{
+            lineFixedSwitch.isOn=true
+        }else{
+            lineFixedSwitch.isOn=false
         }
     }
  

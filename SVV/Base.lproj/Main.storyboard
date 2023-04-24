@@ -274,6 +274,21 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Line : fixed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLe-Eb-gxg">
+                                <rect key="frame" x="171" y="155" width="100" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qF5-Lz-wgh">
+                                <rect key="frame" x="116" y="150" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="onLineFixedSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="bq7-4p-r83"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -286,6 +301,8 @@
                         <outlet property="diameterSlider" destination="gyj-8b-ggr" id="Slk-TN-vcb"/>
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
                         <outlet property="grayImage" destination="yIt-iu-BJc" id="Yf7-UD-xcB"/>
+                        <outlet property="lineFixedLabel" destination="QLe-Eb-gxg" id="Xey-SV-Uow"/>
+                        <outlet property="lineFixedSwitch" destination="qF5-Lz-wgh" id="jKx-Kj-Jvg"/>
                         <outlet property="lineMovingLabel" destination="Jsz-kP-rbl" id="vqc-eR-87F"/>
                         <outlet property="lineMovingSwitch" destination="393-dA-BDC" id="iww-pW-REa"/>
                         <outlet property="lineWidthLabel" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
