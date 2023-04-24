@@ -108,11 +108,15 @@ class SVVViewController: UIViewController {
                 actionTimeLast=CFAbsoluteTimeGetCurrent()
                 return
             }
+            movingBarFlag=true
             if lineMovingOnOff==0{
-                movingBarFlag=false
-                degree -= 1
-            }else{
-                movingBarFlag=true
+                degree = Double(Int.random(in: 0...400))
+                if degree<200{
+                    degree -= 350
+                }else{
+                    degree -= 50
+                }
+                print("singleTap:",degree/5)
             }
             appendData()
             if(tenTimesOnOff==1 && sensorArray.count==10){
@@ -319,7 +323,15 @@ class SVVViewController: UIViewController {
         degreeArray.removeAll()
         Globalmode=1
         if lineMovingOnOff==0{
-            movingBarFlag=false
+            degree = Double(Int.random(in: 0...400))
+            if degree<200{
+                degree -= 350
+            }else{
+                degree -= 50
+            }
+            print("didload:",degree/5)
+
+        }else{
             degree -= 1
         }
     }
@@ -374,16 +386,18 @@ class SVVViewController: UIViewController {
         if lastSensorDegree < tmpD - 5 || lastSensorDegree > tmpD + 5{
             lastSensorDegree = tmpD
         }
-        if (movingBarFlag) {
+        if movingBarFlag {
             if(degree > lastSensorDegree*5 + 150){
                 directionR=false
             }else if(degree < lastSensorDegree*5 - 150){
                 directionR=true
             }
-            if(directionR){
-                degree += 2
-            }else{
-                degree -= 2
+            if lineMovingOnOff==1{
+                if(directionR){
+                    degree += 2
+                }else{
+                    degree -= 2
+                }
             }
         } else{
             if (rbf) {
