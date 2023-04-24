@@ -9,6 +9,36 @@
 import UIKit
 
 class SetteiViewController: UIViewController {
+    enum MenuType: CaseIterable {
+        case SVV
+        case Target
+ 
+        var title: String {
+            switch self {
+            case .SVV:
+                return "SVV"
+            case .Target:
+                return "Target"
+            }
+        }
+    }
+    @IBOutlet private weak var sampleButton: UIButton!
+    private func configureMenu() {
+        let actions = MenuType.allCases
+            .compactMap { type in
+                UIAction(
+                    title: type.title,
+                    state: type == selectedMenuType ? .on : .off,
+                    handler: { _ in
+                        self.selectedMenuType = type
+                        self.configureMenu()
+                    })
+            }
+        sampleButton.menu = UIMenu(title: "", options: .displayInline, children: actions)
+        sampleButton.showsMenuAsPrimaryAction = true
+        sampleButton.setTitle(selectedMenuType.title, for: .normal)
+    }
+    private var selectedMenuType = MenuType.SVV
     @IBOutlet weak var stop10Switch: UISwitch!
     
     @IBOutlet weak var lineFixedLabel: UILabel!
@@ -44,7 +74,6 @@ class SetteiViewController: UIViewController {
             lineFixedOnOff=0
         }
         UserDefaults.standard.set(lineFixedOnOff,forKey: "lineFixedOnOff")
-
     }
     
     @IBAction func onLineMovingSwitch(_ sender: UISwitch) {
@@ -219,6 +248,7 @@ class SetteiViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
         verticalLineWidth=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
@@ -246,6 +276,7 @@ class SetteiViewController: UIViewController {
             lineMovingLabel.text="line : moving"
             lineFixedLabel.text="display only"
         }
+        configureMenu()
         drawBack()
         drawLines(degree:0)
         setButtons()
