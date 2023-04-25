@@ -110,6 +110,7 @@ class SVVViewController: UIViewController {
                 return
             }
             movingBarFlag=true
+            appendData()
             if lineMovingOnOff==0{
                 degree = Double(Int.random(in: 0...400))
                 if degree<200{
@@ -119,7 +120,6 @@ class SVVViewController: UIViewController {
                 }
                 print("singleTap:",degree/5)
             }
-            appendData()
             if(tenTimesOnOff==1 && sensorArray.count==10){
                 returnMain()
             }
@@ -307,7 +307,7 @@ class SVVViewController: UIViewController {
         }
         backImageType = getUserDefault(str:"backImageType",ret:0)
         if backImageType==1{
-            randomImage.image=UIImage(named: "random2")
+            randomImage.image=UIImage(named: "random3")
         }else if backImageType==2{
             randomImage.image=UIImage(named: "random")
         }else{
@@ -331,8 +331,7 @@ class SVVViewController: UIViewController {
             }else{
                 degree -= 50
             }
-            print("didload:",degree/5)
-
+//            print("didload:",degree/5)
         }else{
             degree -= 1
         }
