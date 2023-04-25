@@ -17,7 +17,7 @@ class SVVViewController: UIViewController {
     
     var lastSensorDegree:Double=0
     let motionManager = CMMotionManager()
-    var backImageDots:Int=0
+    var backImageType:Int=0
     var dotsRotationSpeed:Int=0
     var currentDotsDegree:CGFloat=0
     var cirDiameter:CGFloat = 0
@@ -305,10 +305,10 @@ class SVVViewController: UIViewController {
                     self.outputAccelData(acceleration: accelData!.acceleration)
             })
         }
-        backImageDots = getUserDefault(str:"backImageDots",ret:0)
-        if backImageDots==1{
+        backImageType = getUserDefault(str:"backImageType",ret:0)
+        if backImageType==1{
             randomImage.image=UIImage(named: "random2")
-        }else if backImageDots==2{
+        }else if backImageType==2{
             randomImage.image=UIImage(named: "random")
         }else{
             randomImage.image=UIImage(named: "white_black")
@@ -360,7 +360,7 @@ class SVVViewController: UIViewController {
         if initUpdateFlag==true{
             initUpdateFlag=false
             blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
-            if backImageDots==0{
+            if backImageType==0{
                 drawWhiteCircle()
             }
         }else{
@@ -369,7 +369,7 @@ class SVVViewController: UIViewController {
                 view.layer.sublayers?.removeLast()
             }
         }
-        if backImageDots>0{
+        if backImageType>0{
             drawDotsCircle()
         }
 //        print("sublayers:",view.layer.sublayers?.count)
@@ -468,7 +468,7 @@ class SVVViewController: UIViewController {
 //        let r=wh*(70+13*CGFloat(circleDiameter))/400
         
         var r=wh*(70+13*CGFloat(circleDiameter))/400
-        if backImageDots==1{
+        if backImageType==1{
             r=r*0.45
         }
         
@@ -507,7 +507,6 @@ class SVVViewController: UIViewController {
     func drawWhiteCircle(){
         let ww=view.bounds.width
         let wh=view.bounds.height
-//        let backImageDots = getUserDefault(str:"backImageDots",ret:0)
         let r=wh*(70+13*CGFloat(circleDiameter))/400
         var x0=ww/2
         let y0=wh/2

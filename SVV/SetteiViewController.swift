@@ -63,11 +63,13 @@ class SetteiViewController: UIViewController {
     var time=CFAbsoluteTimeGetCurrent()
     var tempdiameter:Int=0
     var circleNumber:Int = 0
-    var backImageDots:Int = 0
+    var backImageType:Int = 0
+    var displayModeType:Int = 0
     var tenTimesOnOff:Int = 1
     var locationX:Int = 0
     var dotsRotationSpeed:Int = 0
     var lineMovingOnOff:Int = 0
+    var gyroOnOff:Int = 0
     var SVVorDisplay:Int = 0
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var circleDiameterLabel: UILabel!
@@ -85,30 +87,40 @@ class SetteiViewController: UIViewController {
         }
         UserDefaults.standard.set(lineMovingOnOff,forKey: "lineMovingOnOff")
     }
+    @IBAction func onGyroOnSwitch(_ sender: UISwitch) {
+        if sender.isOn{
+            gyroOnOff=1
+        }else{
+            gyroOnOff=0
+        }
+        UserDefaults.standard.set(gyroOnOff,forKey: "gyroOnOff")
+    }
     
     @IBAction func onDisplayModeSwitch(_ sender: UISegmentedControl) {
+        UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "displayModeType")
+        displayModeType=sender.selectedSegmentIndex//segmentIndex(identifiedBy: <#T##UIAction.Identifier#>)
     }
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
-        UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageDots")
-        backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
+        UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageType")
+        backImageType=sender.selectedSegmentIndex//UserDefaults.standard.integer(forKey: "backImageType")
         setRandomImages()
-        reDrawCirclesLines()//左行でbackImageDotsをセット
-        print("backImageDots:",backImageDots)
+        reDrawCirclesLines()//左行でbackImageTypeをセット
+        print("backImageType:",backImageType)
         setRotationSpeedSliderOnOff()
     }
-    func setDotsRotationSpeedText(){
-        if Locale.preferredLanguages.first!.contains("ja"){
-            backImageSwitch.setTitle("背景白", forSegmentAt: 0)
-            backImageSwitch.setTitle("半玉:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
-            backImageSwitch.setTitle("水玉:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
-        }else{
-            backImageSwitch.setTitle("white", forSegmentAt: 0)
-            backImageSwitch.setTitle("half:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
-            backImageSwitch.setTitle("dots:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
-        }
-        
-        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
-    }
+//    func setDotsRotationSpeedText(){
+//        if Locale.preferredLanguages.first!.contains("ja"){
+//            backImageSwitch.setTitle("背景白", forSegmentAt: 0)
+//            backImageSwitch.setTitle("半玉:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
+//            backImageSwitch.setTitle("水玉:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
+//        }else{
+//            backImageSwitch.setTitle("white", forSegmentAt: 0)
+//            backImageSwitch.setTitle("half:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
+//            backImageSwitch.setTitle("dots:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
+//        }
+//
+//        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
+//    }
     func setSwitchSpeedText(){
         if Locale.preferredLanguages.first!.contains("ja"){
             backImageSwitch.setTitle("背景白", forSegmentAt: 0)
@@ -193,7 +205,7 @@ class SetteiViewController: UIViewController {
     }
     func setRotationSpeedSliderOnOff()
     {
-        if UserDefaults.standard.integer(forKey: "backImageDots")>0{
+        if UserDefaults.standard.integer(forKey: "backImageType")>0{
             rotationSpeedSlider.isEnabled=true
             rotationSpeedSlider.tintColor=UIColor.systemGreen
         }else{
@@ -275,11 +287,13 @@ class SetteiViewController: UIViewController {
         verticalLineWidth=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
         circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
-        backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
+        backImageType=UserDefaults.standard.integer(forKey: "backImageType")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
         lineMovingOnOff=UserDefaults.standard.integer(forKey: "lineMovingOnOff")
         SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
         dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
+        gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
+        displayModeType=UserDefaults.standard.integer(forKey: "displayModeType")
         diameterSlider.value=Float(circleDiameter)/9
         lineWidthSlider.value=Float(verticalLineWidth)/9
         VRLocationXSlider.value=Float(locationX)
@@ -323,16 +337,14 @@ class SetteiViewController: UIViewController {
         setRotationSpeedSliderOnOff()
 //        setDotsRotationSpeedText()
         speedLabel.text=String(dotsRotationSpeed*5)
-
         rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
-
         setRandomImages()
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
     }
     func setRandomImages(){
-        if backImageDots==1{
+        if backImageType==1{
             randomImage.image=UIImage(named: "random2")
-        }else if backImageDots==2{
+        }else if backImageType==2{
             randomImage.image=UIImage(named: "random")
         }else{
             randomImage.image=UIImage(named: "white_black")
@@ -393,7 +405,8 @@ class SetteiViewController: UIViewController {
         lineWidthLabel.layer.masksToBounds = true
         lineWidthLabel.layer.cornerRadius = 5
         circleNumberSwitch.selectedSegmentIndex=circleNumber
-        backImageSwitch.selectedSegmentIndex=backImageDots
+        backImageSwitch.selectedSegmentIndex=backImageType
+        displayModeSwitch.selectedSegmentIndex=displayModeType
         if tenTimesOnOff==1{
             stop10Switch.isOn=true
         }else{
@@ -403,6 +416,11 @@ class SetteiViewController: UIViewController {
             lineMovingSwitch.isOn=true
         }else{
             lineMovingSwitch.isOn=false
+        }
+        if gyroOnOff==0{
+            gyroOnSwitch.isOn=false
+        }else{
+            gyroOnSwitch.isOn=true
         }
         if SVVorDisplay==0{
             lineMovingLabel.isHidden=false
@@ -440,7 +458,7 @@ class SetteiViewController: UIViewController {
     }
     var currentDotsDegree:CGFloat=0
     @objc func update(tm: Timer) {//1/60sec
-        if backImageDots==0{
+        if backImageType==0{
             return
         }
         currentDotsDegree += CGFloat(dotsRotationSpeed)/12.0
@@ -456,7 +474,7 @@ class SetteiViewController: UIViewController {
         let x0R=ww*3/4 - CGFloat(locationX)
         let y0=wh/2
         var r=wh*(70+13*CGFloat(circleDiameter))/400
-        if backImageDots==1{
+        if backImageType==1{
             r=r*0.45
         }
         
@@ -497,7 +515,7 @@ class SetteiViewController: UIViewController {
     func drawBack(){
         let ww=view.bounds.width
         let wh=view.bounds.height
-        let backImageDots = getUserDefault(str:"backImageDots",ret:0)
+        let backImageType = getUserDefault(str:"backImageType",ret:0)
         let circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
         
         // 四角形を描画
@@ -512,7 +530,7 @@ class SetteiViewController: UIViewController {
             x0=ww/4 + CGFloat(locationX)
         }
         let y0=wh/2
-        if backImageDots==0{
+        if backImageType==0{
             randomImage1.image=UIImage(named: "white_black")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage2.image=UIImage(named: "white_black")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)

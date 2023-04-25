@@ -373,12 +373,14 @@ class ViewController: UIViewController {
         _ = getUserDefault(str:"circleDiameter",ret:diameter0)//if not exist, make
         _ = getUserDefault(str:"lineWidth",ret:width0)
         _ = getUserDefault(str:"circleNumber",ret:0)
-        _ = getUserDefault(str:"backImageDots",ret:0)
+        _ = getUserDefault(str:"backImageType",ret:0)
+        _ = getUserDefault(str: "displayModeType", ret: 0)
         _ = getUserDefault(str:"VRLocationX",ret:0)
         _ = getUserDefault(str:"tenTimesOnOff",ret:1)
         _ = getUserDefault(str:"lineMovingOnOff",ret:1)
         _ = getUserDefault(str:"SVVorDisplay",ret:0)
         _ = getUserDefault(str:"dotsRotationSpeed", ret: 72)
+        _ = getUserDefault(str: "gyroOnOff", ret: 0)
         setupGameController()
     }
     override var prefersHomeIndicatorAutoHidden: Bool {
