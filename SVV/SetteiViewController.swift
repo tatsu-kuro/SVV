@@ -87,6 +87,17 @@ class SetteiViewController: UIViewController {
         }
         UserDefaults.standard.set(lineMovingOnOff,forKey: "lineMovingOnOff")
     }
+    @IBAction func onTouchUpOutside(_ sender: UISlider) {
+  
+   
+        dotsRotationSpeed = 0//Int(sender.value*144) - 72
+        sender.value=0.5
+        print("speed:",dotsRotationSpeed)
+        UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
+//        setDotsRotationSpeedText()
+        speedLabel.text=String(dotsRotationSpeed*5)
+    }
+ 
     @IBAction func onGyroOnSwitch(_ sender: UISwitch) {
         if sender.isOn{
             gyroOnOff=1
@@ -121,24 +132,24 @@ class SetteiViewController: UIViewController {
 //
 //        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
 //    }
-    func setSwitchSpeedText(){
-        if Locale.preferredLanguages.first!.contains("ja"){
-            backImageSwitch.setTitle("背景白", forSegmentAt: 0)
-            backImageSwitch.setTitle("半水玉", forSegmentAt: 1)
-            backImageSwitch.setTitle("水玉", forSegmentAt: 2)
-            displayModeSwitch.setTitle("水玉回転", forSegmentAt: 0)
-            displayModeSwitch.setTitle("水玉左右", forSegmentAt: 1)
-            displayModeSwitch.setTitle("帯左右", forSegmentAt: 2)
-        }else{
-            backImageSwitch.setTitle("white", forSegmentAt: 0)
-            backImageSwitch.setTitle("dotsHalf", forSegmentAt: 1)
-            backImageSwitch.setTitle("dotsAll", forSegmentAt: 2)
-            displayModeSwitch.setTitle("dots:Rota", forSegmentAt: 0)
-            displayModeSwitch.setTitle("dots:LtRt", forSegmentAt: 1)
-            displayModeSwitch.setTitle("band:LtRt", forSegmentAt: 2)
-        }
-        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
-    }
+//    func setSwitchSpeedText(){
+//        if Locale.preferredLanguages.first!.contains("ja"){
+//            backImageSwitch.setTitle("背景白", forSegmentAt: 0)
+//            backImageSwitch.setTitle("半水玉", forSegmentAt: 1)
+//            backImageSwitch.setTitle("水玉", forSegmentAt: 2)
+//            displayModeSwitch.setTitle("水玉回転", forSegmentAt: 0)
+//            displayModeSwitch.setTitle("水玉左右", forSegmentAt: 1)
+//            displayModeSwitch.setTitle("帯左右", forSegmentAt: 2)
+//        }else{
+//            backImageSwitch.setTitle("white", forSegmentAt: 0)
+//            backImageSwitch.setTitle("dotsHalf", forSegmentAt: 1)
+//            backImageSwitch.setTitle("dotsAll", forSegmentAt: 2)
+//            displayModeSwitch.setTitle("dots:Rota", forSegmentAt: 0)
+//            displayModeSwitch.setTitle("dots:LtRt", forSegmentAt: 1)
+//            displayModeSwitch.setTitle("band:LtRt", forSegmentAt: 2)
+//        }
+//        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
+//    }
     @IBAction func onRotationSpeedSlider(_ sender: UISlider) {
         dotsRotationSpeed = Int(sender.value*144) - 72
         print("speed:",dotsRotationSpeed)
@@ -343,7 +354,7 @@ class SetteiViewController: UIViewController {
     }
     func setRandomImages(){
         if backImageType==1{
-            randomImage.image=UIImage(named: "random2")
+            randomImage.image=UIImage(named: "random3")
         }else if backImageType==2{
             randomImage.image=UIImage(named: "random")
         }else{

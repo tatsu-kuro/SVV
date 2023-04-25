@@ -231,6 +231,7 @@
                                 <color key="tintColor" systemColor="systemGreenColor"/>
                                 <connections>
                                     <action selector="onRotationSpeedSlider:" destination="5V4-Ka-gbw" eventType="valueChanged" id="KQW-PS-oZp"/>
+                                    <action selector="onTouchUpOutside:" destination="5V4-Ka-gbw" eventType="touchUpOutside" id="sB3-zG-sSg"/>
                                 </connections>
                             </slider>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QjH-kr-YXo">
