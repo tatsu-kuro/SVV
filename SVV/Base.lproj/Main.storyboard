@@ -289,6 +289,20 @@
                                 </menu>
                                 <state key="normal" title="Button"/>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QHf-u8-GGD">
+                                <rect key="frame" x="100" y="131" width="194" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <segments>
+                                    <segment title="Dots:Rotat."/>
+                                    <segment title="Dots-LtRt"/>
+                                    <segment title="Band:LtRt"/>
+                                </segments>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="onDisplayModeSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="bY7-uw-XQa"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -300,6 +314,7 @@
                         <outlet property="circleDiameterLabel" destination="4Mb-lc-aZQ" id="BOv-Fd-kM7"/>
                         <outlet property="circleNumberSwitch" destination="tMh-dN-1sE" id="y4S-Yo-8Fo"/>
                         <outlet property="diameterSlider" destination="gyj-8b-ggr" id="Slk-TN-vcb"/>
+                        <outlet property="displayModeSwitch" destination="QHf-u8-GGD" id="3cW-t9-SRA"/>
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
                         <outlet property="grayImage" destination="yIt-iu-BJc" id="Yf7-UD-xcB"/>
                         <outlet property="lineMovingLabel" destination="Jsz-kP-rbl" id="vqc-eR-87F"/>

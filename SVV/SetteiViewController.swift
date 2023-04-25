@@ -44,7 +44,10 @@ class SetteiViewController: UIViewController {
             SVVorDisplay=1
             UserDefaults.standard.set(SVVorDisplay,forKey: "SVVorDisplay")
         }
+        setButtons()
     }
+    
+    @IBOutlet weak var displayModeSwitch: UISegmentedControl!
     private var selectedMenuType = MenuType.SVV
     @IBOutlet weak var stop10Switch: UISwitch!
     @IBOutlet weak var lineMovingLabel: UILabel!
@@ -80,6 +83,8 @@ class SetteiViewController: UIViewController {
         UserDefaults.standard.set(lineMovingOnOff,forKey: "lineMovingOnOff")
     }
     
+    @IBAction func onDisplayModeSwitch(_ sender: UISegmentedControl) {
+    }
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageDots")
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
@@ -97,6 +102,24 @@ class SetteiViewController: UIViewController {
             backImageSwitch.setTitle("white", forSegmentAt: 0)
             backImageSwitch.setTitle("half:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
             backImageSwitch.setTitle("dots:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
+        }
+        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
+    }
+    func setSwitchSpeedText(){
+        if Locale.preferredLanguages.first!.contains("ja"){
+            backImageSwitch.setTitle("背景白", forSegmentAt: 0)
+            backImageSwitch.setTitle("半玉:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
+            backImageSwitch.setTitle("水玉:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
+            displayModeSwitch.setTitle("水玉回転:" + String(dotsRotationSpeed*5), forSegmentAt: 0)
+            displayModeSwitch.setTitle("水玉左右:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
+            displayModeSwitch.setTitle("帯左右:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
+        }else{
+            backImageSwitch.setTitle("white", forSegmentAt: 0)
+            backImageSwitch.setTitle("half:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
+            backImageSwitch.setTitle("dots:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
+            displayModeSwitch.setTitle("dotsRota:" + String(dotsRotationSpeed*5), forSegmentAt: 0)
+            displayModeSwitch.setTitle("dotsLtRt:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
+            displayModeSwitch.setTitle("bandLtRt:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
         }
         rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
     }
@@ -212,6 +235,7 @@ class SetteiViewController: UIViewController {
         self.view.bringSubviewToFront(circleNumberSwitch)
         self.view.bringSubviewToFront(backImageSwitch)
         self.view.bringSubviewToFront(rotationSpeedSlider)
+        self.view.bringSubviewToFront(displayModeSwitch)
     }
     func buttonsToBack(){
         self.view.sendSubviewToBack(exitButton)
@@ -228,6 +252,7 @@ class SetteiViewController: UIViewController {
         self.view.sendSubviewToBack(circleNumberSwitch)
         self.view.sendSubviewToBack(backImageSwitch)
         self.view.sendSubviewToBack(rotationSpeedSlider)
+        self.view.sendSubviewToBack(displayModeSwitch)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -263,9 +288,9 @@ class SetteiViewController: UIViewController {
             selectedMenuType=MenuType.Display
         }
         configureMenu()
-         drawBack()
+        drawBack()
         drawLines(degree:0)
-        setButtons()
+//        setButtons()
         buttonsToFront()
         setVRsliderOnOff()
         setRotationSpeedSliderOnOff()
@@ -326,6 +351,7 @@ class SetteiViewController: UIViewController {
         SVVDisplayButton.layer.cornerRadius=5
         let backImageSwitchW=lineWidthLabel.frame.maxX-x0
         setSwitchProperty(backImageSwitch, x: x0, y: by, w:backImageSwitchW, h: bh)
+        setSwitchProperty(displayModeSwitch, x: x0, y: by, w:backImageSwitchW, h: bh)
         let speedSliderW=exitX-backImageSwitch.frame.maxX-sp*2
         rotationSpeedSlider.frame = CGRect(x:backImageSwitch.frame.maxX+sp,y:by,width:speedSliderW,height:bh)
 
@@ -344,6 +370,21 @@ class SetteiViewController: UIViewController {
             lineMovingSwitch.isOn=true
         }else{
             lineMovingSwitch.isOn=false
+        }
+        if SVVorDisplay==0{
+            lineMovingLabel.isHidden=false
+            lineMovingSwitch.isHidden=false
+            stop10Label.isHidden=false
+            stop10Switch.isHidden=false
+            backImageSwitch.isHidden=false
+            displayModeSwitch.isHidden=true
+        }else{
+            lineMovingLabel.isHidden=true
+            lineMovingSwitch.isHidden=true
+            stop10Label.isHidden=true
+            stop10Switch.isHidden=true
+            backImageSwitch.isHidden=true
+            displayModeSwitch.isHidden=false
         }
     }
  
