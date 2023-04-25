@@ -289,7 +289,7 @@
                                 </menu>
                                 <state key="normal" title="Button"/>
                             </button>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QHf-u8-GGD">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QHf-u8-GGD">
                                 <rect key="frame" x="100" y="131" width="194" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -303,6 +303,25 @@
                                     <action selector="onDisplayModeSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="bY7-uw-XQa"/>
                                 </connections>
                             </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Gyro : ON" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yMG-Mq-x7T">
+                                <rect key="frame" x="182" y="16" width="75" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kPF-X4-m5O">
+                                <rect key="frame" x="100" y="11" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FAH-WI-diF">
+                                <rect key="frame" x="182" y="328" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -317,6 +336,8 @@
                         <outlet property="displayModeSwitch" destination="QHf-u8-GGD" id="3cW-t9-SRA"/>
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
                         <outlet property="grayImage" destination="yIt-iu-BJc" id="Yf7-UD-xcB"/>
+                        <outlet property="gyroOnLabel" destination="yMG-Mq-x7T" id="iL8-1L-mvT"/>
+                        <outlet property="gyroOnSwitch" destination="kPF-X4-m5O" id="0Jz-Kh-5bw"/>
                         <outlet property="lineMovingLabel" destination="Jsz-kP-rbl" id="vqc-eR-87F"/>
                         <outlet property="lineMovingSwitch" destination="393-dA-BDC" id="iww-pW-REa"/>
                         <outlet property="lineWidthLabel" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
@@ -325,6 +346,7 @@
                         <outlet property="randomImage1" destination="QjH-kr-YXo" id="C5o-md-U62"/>
                         <outlet property="randomImage2" destination="phX-l2-UxN" id="q8b-zj-nQc"/>
                         <outlet property="rotationSpeedSlider" destination="iQK-u7-zK5" id="NKe-he-A3A"/>
+                        <outlet property="speedLabel" destination="FAH-WI-diF" id="5Sq-yR-wRr"/>
                         <outlet property="stop10Label" destination="qSn-7X-WRA" id="qQV-hX-h3N"/>
                         <outlet property="stop10Switch" destination="3F2-ac-2Ak" id="nVT-R3-fB5"/>
                     </connections>
