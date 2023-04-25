@@ -275,32 +275,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Line : fixed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLe-Eb-gxg">
-                                <rect key="frame" x="171" y="155" width="100" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qF5-Lz-wgh">
-                                <rect key="frame" x="116" y="150" width="49" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="onLineFixedSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="bq7-4p-r83"/>
-                                </connections>
-                            </switch>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="W29-h8-kse">
-                                <rect key="frame" x="180" y="6" width="131" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="First"/>
-                                    <segment title="Second"/>
-                                </segments>
-                            </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eqR-sb-xgt">
-                                <rect key="frame" x="660" y="20" width="41" height="30"/>
+                                <rect key="frame" x="655" y="20" width="80" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <menu key="menu" id="rrw-dn-d0x">
                                     <children>
                                         <command title="Item 1" id="ekx-Kx-KDZ"/>
@@ -314,6 +294,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
+                        <outlet property="SVVDisplayButton" destination="eqR-sb-xgt" id="IH5-ag-lTy"/>
                         <outlet property="VRLocationXSlider" destination="gY2-l7-HfV" id="TbP-9b-F03"/>
                         <outlet property="backImageSwitch" destination="JG9-Bx-DP9" id="Rfa-1D-UYQ"/>
                         <outlet property="circleDiameterLabel" destination="4Mb-lc-aZQ" id="BOv-Fd-kM7"/>
@@ -321,8 +302,6 @@
                         <outlet property="diameterSlider" destination="gyj-8b-ggr" id="Slk-TN-vcb"/>
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
                         <outlet property="grayImage" destination="yIt-iu-BJc" id="Yf7-UD-xcB"/>
-                        <outlet property="lineFixedLabel" destination="QLe-Eb-gxg" id="Xey-SV-Uow"/>
-                        <outlet property="lineFixedSwitch" destination="qF5-Lz-wgh" id="jKx-Kj-Jvg"/>
                         <outlet property="lineMovingLabel" destination="Jsz-kP-rbl" id="vqc-eR-87F"/>
                         <outlet property="lineMovingSwitch" destination="393-dA-BDC" id="iww-pW-REa"/>
                         <outlet property="lineWidthLabel" destination="1dS-Ky-GXA" id="6bj-Za-ewh"/>
@@ -331,7 +310,6 @@
                         <outlet property="randomImage1" destination="QjH-kr-YXo" id="C5o-md-U62"/>
                         <outlet property="randomImage2" destination="phX-l2-UxN" id="q8b-zj-nQc"/>
                         <outlet property="rotationSpeedSlider" destination="iQK-u7-zK5" id="NKe-he-A3A"/>
-                        <outlet property="sampleButton" destination="eqR-sb-xgt" id="IH5-ag-lTy"/>
                         <outlet property="stop10Label" destination="qSn-7X-WRA" id="qQV-hX-h3N"/>
                         <outlet property="stop10Switch" destination="3F2-ac-2Ak" id="nVT-R3-fB5"/>
                     </connections>

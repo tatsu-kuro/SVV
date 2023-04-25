@@ -11,18 +11,18 @@ import UIKit
 class SetteiViewController: UIViewController {
     enum MenuType: CaseIterable {
         case SVV
-        case Target
+        case Display
  
         var title: String {
             switch self {
             case .SVV:
                 return "SVV"
-            case .Target:
-                return "Target"
+            case .Display:
+                return "Display"
             }
         }
     }
-    @IBOutlet private weak var sampleButton: UIButton!
+    @IBOutlet private weak var SVVDisplayButton: UIButton!
     private func configureMenu() {
         let actions = MenuType.allCases
             .compactMap { type in
@@ -34,15 +34,19 @@ class SetteiViewController: UIViewController {
                         self.configureMenu()
                     })
             }
-        sampleButton.menu = UIMenu(title: "", options: .displayInline, children: actions)
-        sampleButton.showsMenuAsPrimaryAction = true
-        sampleButton.setTitle(selectedMenuType.title, for: .normal)
+        SVVDisplayButton.menu = UIMenu(title: "", options: .displayInline, children: actions)
+        SVVDisplayButton.showsMenuAsPrimaryAction = true
+        SVVDisplayButton.setTitle(selectedMenuType.title, for: .normal)
+        if selectedMenuType.title=="SVV"{
+            SVVorDisplay=0
+            UserDefaults.standard.set(SVVorDisplay,forKey: "SVVorDisplay")
+        }else{
+            SVVorDisplay=1
+            UserDefaults.standard.set(SVVorDisplay,forKey: "SVVorDisplay")
+        }
     }
     private var selectedMenuType = MenuType.SVV
     @IBOutlet weak var stop10Switch: UISwitch!
-    
-    @IBOutlet weak var lineFixedLabel: UILabel!
-    @IBOutlet weak var lineFixedSwitch: UISwitch!
     @IBOutlet weak var lineMovingLabel: UILabel!
     @IBOutlet weak var lineMovingSwitch: UISwitch!
     @IBOutlet weak var stop10Label: UILabel!
@@ -58,7 +62,7 @@ class SetteiViewController: UIViewController {
     var locationX:Int = 0
     var dotsRotationSpeed:Int = 0
     var lineMovingOnOff:Int = 0
-    var lineFixedOnOff:Int = 0
+    var SVVorDisplay:Int = 0
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var circleDiameterLabel: UILabel!
     @IBOutlet weak var VRLocationXSlider: UISlider!
@@ -67,15 +71,6 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
     @IBOutlet weak var randomImage: UIImageView!
-    @IBAction func onLineFixedSwitch(_ sender: UISwitch) {
-        if sender.isOn{
-            lineFixedOnOff=1
-        }else{
-            lineFixedOnOff=0
-        }
-        UserDefaults.standard.set(lineFixedOnOff,forKey: "lineFixedOnOff")
-    }
-    
     @IBAction func onLineMovingSwitch(_ sender: UISwitch) {
         if sender.isOn{
             lineMovingOnOff=1
@@ -123,13 +118,6 @@ class SetteiViewController: UIViewController {
         }
         UserDefaults.standard.set(tenTimesOnOff,forKey: "tenTimesOnOff")
     }
-    
-//    @IBAction func onTenTimeSwitch(_ sender: UISegmentedControl) {
-//        print("tentime:",sender.selectedSegmentIndex)
-//        tenTimesOnOff=sender.selectedSegmentIndex
-//        UserDefaults.standard.set(tenTimesOnOff,forKey: "tenTimesOnOff")
-//    }
-//    @IBOutlet weak var tenTimesSwitch: UISegmentedControl!
     @IBOutlet weak var lineWidthSlider: UISlider!
     @IBOutlet weak var diameterSlider: UISlider!
     @IBOutlet weak var lineWidthLabel: UILabel!
@@ -211,16 +199,13 @@ class SetteiViewController: UIViewController {
     
     func buttonsToFront(){
         self.view.bringSubviewToFront(exitButton)
-//        self.view.bringSubviewToFront(tenTimesSwitch)
         self.view.bringSubviewToFront(circleDiameterLabel)
         self.view.bringSubviewToFront(lineWidthLabel)
         self.view.bringSubviewToFront(stop10Label)
         self.view.bringSubviewToFront(stop10Switch)
         self.view.bringSubviewToFront(lineMovingSwitch)
         self.view.bringSubviewToFront(lineMovingLabel)
-        self.view.bringSubviewToFront(lineFixedSwitch)
-        self.view.bringSubviewToFront(lineFixedLabel)
-
+        self.view.bringSubviewToFront(SVVDisplayButton)
         self.view.bringSubviewToFront(diameterSlider)
         self.view.bringSubviewToFront(lineWidthSlider)
         self.view.bringSubviewToFront(VRLocationXSlider)
@@ -230,15 +215,13 @@ class SetteiViewController: UIViewController {
     }
     func buttonsToBack(){
         self.view.sendSubviewToBack(exitButton)
-//        self.view.sendSubviewToBack(tenTimesSwitch)
         self.view.sendSubviewToBack(circleDiameterLabel)
         self.view.sendSubviewToBack(lineWidthLabel)
         self.view.sendSubviewToBack(stop10Label)
         self.view.sendSubviewToBack(stop10Switch)
         self.view.sendSubviewToBack(lineMovingSwitch)
         self.view.sendSubviewToBack(lineMovingLabel)
-        self.view.sendSubviewToBack(lineFixedSwitch)
-        self.view.sendSubviewToBack(lineFixedLabel)
+        self.view.sendSubviewToBack(SVVDisplayButton)
         self.view.sendSubviewToBack(diameterSlider)
         self.view.sendSubviewToBack(lineWidthSlider)
         self.view.sendSubviewToBack(VRLocationXSlider)
@@ -256,7 +239,7 @@ class SetteiViewController: UIViewController {
         backImageDots=UserDefaults.standard.integer(forKey: "backImageDots")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
         lineMovingOnOff=UserDefaults.standard.integer(forKey: "lineMovingOnOff")
-        lineFixedOnOff=UserDefaults.standard.integer(forKey: "lineFixedOnOff")
+        SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
         dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
         diameterSlider.value=Float(circleDiameter)/9
         lineWidthSlider.value=Float(verticalLineWidth)/9
@@ -267,28 +250,29 @@ class SetteiViewController: UIViewController {
             circleDiameterLabel.text="直径:" + String(circleDiameter+1)
             lineWidthLabel.text="線幅:" + String(verticalLineWidth)
             lineMovingLabel.text="垂直線：動く"
-            lineFixedLabel.text="表示のみ"
         }else{
             backImageSwitch.setTitle("back white", forSegmentAt: 0)
             stop10Label.text="stop at 10 times"
             circleDiameterLabel.text="Dia:" + String(circleDiameter+1)
             lineWidthLabel.text="lineW:" + String(verticalLineWidth)
             lineMovingLabel.text="line : moving"
-            lineFixedLabel.text="display only"
+        }
+        if SVVorDisplay==0{
+            selectedMenuType=MenuType.SVV
+        }else{
+            selectedMenuType=MenuType.Display
         }
         configureMenu()
-        drawBack()
+         drawBack()
         drawLines(degree:0)
         setButtons()
         buttonsToFront()
         setVRsliderOnOff()
         setRotationSpeedSliderOnOff()
         setDotsRotationSpeedText()
-//        grayImage.image=UIImage(named: "black")
-//        randomImage.image=UIImage(named:"random_gray")
-       setRandomImages()
+        setRandomImages()
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-     }
+    }
     func setRandomImages(){
         if backImageDots==1{
             randomImage.image=UIImage(named: "random2")
@@ -301,7 +285,6 @@ class SetteiViewController: UIViewController {
     func setLabelProperty(_ label:UILabel,x:CGFloat,y:CGFloat,w:CGFloat,h:CGFloat,_ color:UIColor){
         label.frame = CGRect(x:x, y:y, width: w, height: h)
         label.layer.borderColor = UIColor.black.cgColor
-//        label.layer.borderWidth = 1.0
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 5
         label.backgroundColor = color
@@ -310,9 +293,6 @@ class SetteiViewController: UIViewController {
         label.frame = CGRect(x:x, y:y, width: w, height: h)
         label.layer.borderColor = UIColor.black.cgColor
         label.layer.borderWidth = 1.0
-//        label.layer.masksToBounds = true
-//        label.layer.cornerRadius = 1
-//        label.backgroundColor = UIColor.black
     }
     func setButtons(){
     
@@ -339,18 +319,16 @@ class SetteiViewController: UIViewController {
         setLabelProperty(stop10Label, x: x0+sp+stop10Switch.frame.width, y: sp*2, w: 150, h: stop10Switch.frame.height, UIColor.white)
         lineMovingSwitch.frame=CGRect(x:x0,y:sp*3+stop10Switch.frame.height,width:stop10Switch.frame.width,height: stop10Switch.frame.height)
         setLabelProperty(lineMovingLabel,x:x0+sp+stop10Switch.frame.width,y:sp*3+stop10Switch.frame.height,w:150,h:stop10Switch.frame.height,UIColor.white)
-        lineFixedSwitch.frame=CGRect(x:x0,y:sp+lineMovingSwitch.frame.maxY,width:stop10Switch.frame.width,height: stop10Switch.frame.height)
-        setLabelProperty(lineFixedLabel,x:x0+sp+stop10Switch.frame.width,y:sp+lineMovingSwitch.frame.maxY,w:150,h:stop10Switch.frame.height,UIColor.white)
-
         let exitX=x0+sp*5+sliderWidth*3+bw*2
         exitButton.frame = CGRect(x:exitX,y:by,width:bw,height: bh)
-   //     rotationSpeedSlider.frame = CGRect(x:x0+(exitX-x0)/2,y:by,width:(exitX-x0)/2-sp,height:bh)
+        exitButton.layer.cornerRadius=5
+        SVVDisplayButton.frame = CGRect(x:exitX,y:sp*2,width:bw,height:bh)
+        SVVDisplayButton.layer.cornerRadius=5
         let backImageSwitchW=lineWidthLabel.frame.maxX-x0
         setSwitchProperty(backImageSwitch, x: x0, y: by, w:backImageSwitchW, h: bh)
         let speedSliderW=exitX-backImageSwitch.frame.maxX-sp*2
         rotationSpeedSlider.frame = CGRect(x:backImageSwitch.frame.maxX+sp,y:by,width:speedSliderW,height:bh)
 
-        exitButton.layer.cornerRadius=5
         circleDiameterLabel.layer.masksToBounds = true
         circleDiameterLabel.layer.cornerRadius = 5
         lineWidthLabel.layer.masksToBounds = true
@@ -366,11 +344,6 @@ class SetteiViewController: UIViewController {
             lineMovingSwitch.isOn=true
         }else{
             lineMovingSwitch.isOn=false
-        }
-        if lineFixedOnOff==1{
-            lineFixedSwitch.isOn=true
-        }else{
-            lineFixedSwitch.isOn=false
         }
     }
  

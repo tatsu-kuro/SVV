@@ -43,7 +43,7 @@ class SVVViewController: UIViewController {
     var verticalLinef:Bool=false
     var tenTimesOnOff:Int = 1
     var lineMovingOnOff:Int = 1
-    var lineFixedOnOff:Int = 1
+    var SVVorDisplay:Int = 1
 
     func setDate(){
         let dateFormatter = DateFormatter()
@@ -291,7 +291,7 @@ class SVVViewController: UIViewController {
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
         dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
         lineMovingOnOff=UserDefaults.standard.integer(forKey: "lineMovingOnOff")
-        lineFixedOnOff=UserDefaults.standard.integer(forKey: "lineFixedOnOff")
+        SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
 
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
@@ -444,7 +444,7 @@ class SVVViewController: UIViewController {
             }
             
         }
-        if lineFixedOnOff == 0{
+        if SVVorDisplay == 0{
             drawLine(degree:Float(degree),remove:true)
         }else{
             drawLine(degree:Float(0),remove:true)
