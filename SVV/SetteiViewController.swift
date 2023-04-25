@@ -45,6 +45,8 @@ class SetteiViewController: UIViewController {
             UserDefaults.standard.set(SVVorDisplay,forKey: "SVVorDisplay")
         }
         setButtons()
+        setRandomImages()
+        print("backImageType,SVVorDisplay:",backImageType,SVVorDisplay)
     }
     
     @IBOutlet weak var displayModeSwitch: UISegmentedControl!
@@ -353,10 +355,10 @@ class SetteiViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
     }
     func setRandomImages(){
-        if backImageType==1{
-            randomImage.image=UIImage(named: "random3")
-        }else if backImageType==2{
+        if SVVorDisplay==1 || backImageType==2{
             randomImage.image=UIImage(named: "random")
+        }else if backImageType==1{
+            randomImage.image=UIImage(named: "random3")
         }else{
             randomImage.image=UIImage(named: "white_black")
         }
@@ -469,8 +471,8 @@ class SetteiViewController: UIViewController {
     }
     var currentDotsDegree:CGFloat=0
     @objc func update(tm: Timer) {//1/60sec
-        if backImageType==0{
-            return
+        if backImageType==0 && SVVorDisplay==0{
+//            return
         }
         currentDotsDegree += CGFloat(dotsRotationSpeed)/12.0
         reDrawCirclesLines()
@@ -485,10 +487,9 @@ class SetteiViewController: UIViewController {
         let x0R=ww*3/4 - CGFloat(locationX)
         let y0=wh/2
         var r=wh*(70+13*CGFloat(circleDiameter))/400
-        if backImageType==1{
+        if backImageType==1 && SVVorDisplay==0{
             r=r*0.45
         }
-        
         let dd:Double=3.14159/900
         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
         let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
@@ -541,7 +542,7 @@ class SetteiViewController: UIViewController {
             x0=ww/4 + CGFloat(locationX)
         }
         let y0=wh/2
-        if backImageType==0{
+        if backImageType==0 && SVVorDisplay==0{
             randomImage1.image=UIImage(named: "white_black")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage2.image=UIImage(named: "white_black")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)

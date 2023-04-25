@@ -306,7 +306,9 @@ class SVVViewController: UIViewController {
             })
         }
         backImageType = getUserDefault(str:"backImageType",ret:0)
-        if backImageType==1{
+        if SVVorDisplay==1{
+            randomImage.image=UIImage(named: "random")
+        }else if backImageType==1{
             randomImage.image=UIImage(named: "random3")
         }else if backImageType==2{
             randomImage.image=UIImage(named: "random")
@@ -478,7 +480,7 @@ class SVVViewController: UIViewController {
         let uiPath = UIBezierPath()
         uiPath.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
         uiPath.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
-        if movingBarFlag==true {
+        if movingBarFlag==true && SVVorDisplay==0{
             shapeLayer.strokeColor = UIColor.red.cgColor
         } else {
             shapeLayer.strokeColor = UIColor.blue.cgColor
@@ -492,7 +494,7 @@ class SVVViewController: UIViewController {
             let uiPath1 = UIBezierPath()
             uiPath1.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
             uiPath1.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
-            if movingBarFlag==true {
+            if movingBarFlag==true && SVVorDisplay==0{
                 shapeLayer1.strokeColor = UIColor.red.cgColor
             } else {
                 shapeLayer1.strokeColor = UIColor.blue.cgColor
