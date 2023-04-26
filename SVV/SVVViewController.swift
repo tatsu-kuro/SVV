@@ -306,17 +306,13 @@ class SVVViewController: UIViewController {
             })
         }
         backImageType = getUserDefault(str:"backImageType",ret:0)
-        if SVVorDisplay==1{
+        if SVVorDisplay==1 || backImageType==2{
             randomImage.image=UIImage(named: "random")
         }else if backImageType==1{
             randomImage.image=UIImage(named: "random3")
-        }else if backImageType==2{
-            randomImage.image=UIImage(named: "random")
         }else{
             randomImage.image=UIImage(named: "white_black")
         }
-//        drawBack()
-//        print("last",lastSensorDegree)
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         tcount=0
         movingBarFlag=true
@@ -361,7 +357,7 @@ class SVVViewController: UIViewController {
         if initUpdateFlag==true{
             initUpdateFlag=false
             blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
-            if backImageType==0{
+            if backImageType==0 && SVVorDisplay==0{
                 drawWhiteCircle()
             }
         }else{
@@ -370,7 +366,7 @@ class SVVViewController: UIViewController {
                 view.layer.sublayers?.removeLast()
             }
         }
-        if backImageType>0{
+        if backImageType>0 || SVVorDisplay==1{
             drawDotsCircle()
         }
 //        print("sublayers:",view.layer.sublayers?.count)
@@ -469,7 +465,7 @@ class SVVViewController: UIViewController {
 //        let r=wh*(70+13*CGFloat(circleDiameter))/400
         
         var r=wh*(70+13*CGFloat(circleDiameter))/400
-        if backImageType==1{
+        if backImageType==1 && SVVorDisplay==0{
             r=r*0.45
         }
         
