@@ -513,7 +513,7 @@ class SetteiViewController: UIViewController {
         self.view.layer.addSublayer(circleLayer)
     }
     var initDrawBackBackFlag:Bool=true
-    
+    //1542*562
     @IBAction func onTapGesture(_ sender: UITapGestureRecognizer) {
         let loc=sender.location(in: self.view)
         if loc.x < rotationSpeedSlider.frame.maxX && loc.x>rotationSpeedSlider.frame.minX && loc.y>rotationSpeedSlider.frame.minY && loc.y<rotationSpeedSlider.frame.maxY{
