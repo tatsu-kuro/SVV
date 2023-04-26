@@ -381,6 +381,8 @@ class ViewController: UIViewController {
         _ = getUserDefault(str:"SVVorDisplay",ret:0)
         _ = getUserDefault(str:"dotsRotationSpeed", ret: 72)
         _ = getUserDefault(str: "gyroOnOff", ret: 0)
+        _ = getUserDefault(str: "displayModeType",ret:1)
+
         setupGameController()
     }
     override var prefersHomeIndicatorAutoHidden: Bool {

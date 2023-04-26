@@ -621,7 +621,7 @@ class SetteiViewController: UIViewController {
             print("tapGesture")
             dotsRotationSpeed = 0//Int(sender.value*144) - 72
             rotationSpeedSlider.value=0.5
-            print("speed:",dotsRotationSpeed)
+//            print("speed:",dotsRotationSpeed)
             UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
             //        setDotsRotationSpeedText()
             speedLabel.text=String(dotsRotationSpeed*5)
@@ -675,7 +675,7 @@ class SetteiViewController: UIViewController {
                 let image2=UIImage(named: "white_black562")
                 randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
                 //            randomImage1.image = image1.composite(image: image2!)
-                print("speed:",currentDotsDegree)
+//                print("speed:",currentDotsDegree)
             }else{
                 randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             }
