@@ -45,6 +45,7 @@ class SVVViewController: UIViewController {
     var lineMovingOnOff:Int = 1
     var SVVorDisplay:Int = 1
     var displayModeType:Int = 0
+    var gyroOnOff:Int = 0
 
 
     func setDate(){
@@ -295,6 +296,7 @@ class SVVViewController: UIViewController {
         lineMovingOnOff=UserDefaults.standard.integer(forKey: "lineMovingOnOff")
         SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
         displayModeType=UserDefaults.standard.integer(forKey: "displayModeType")
+        gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
 
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
@@ -616,9 +618,17 @@ class SVVViewController: UIViewController {
                 let image1=trimmingImage(randomImage.image!,CGRect(x:imgx,y:0,width: 562,height: 562))
                 // 画像を合成する.
                 let image2=UIImage(named: "white_black562")
-                randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                if gyroOnOff==1{
+                    let image3 = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                    randomImage1.image = image3!.rotatedBy(degree:getSenserDegree())
+                }else{
+                    randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+
+                }
                 //            randomImage1.image = image1.composite(image: image2!)
-                print("speed:",currentDotsDegree)
+//                print("speed:",currentDotsDegree)
+//                getSenserDegree()
+                
             }else{
                 randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             }
