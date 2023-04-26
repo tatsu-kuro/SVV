@@ -85,14 +85,16 @@ class SVVViewController: UIViewController {
         mainView.svvArray.removeAll()
         mainView.degreeArray.removeAll()
         mainView.sensorArray.removeAll()
-        for i in 0..<degreeArray.count{
-            mainView.svvArray.append(svvArray[i])
-            mainView.degreeArray.append(degreeArray[i])
-            mainView.sensorArray.append(sensorArray[i])
+        if SVVorDisplay==0{
+            for i in 0..<degreeArray.count{
+                mainView.svvArray.append(svvArray[i])
+                mainView.degreeArray.append(degreeArray[i])
+                mainView.sensorArray.append(sensorArray[i])
+            }
         }
         setDate()
         mainView.dateString=dateString
-        if degreeArray.count>0 {
+        if degreeArray.count>0 && SVVorDisplay == 0 {
             mainView.savedFlag=false
         }
         stopAccelerometer()//version1.9で加えた
