@@ -664,7 +664,7 @@ class SetteiViewController: UIViewController {
                 randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
             }
             
-        }else{
+        }else if SVVorDisplay==1{
             if displayModeType>0{
                 var imgx=CGFloat(Int(currentDotsDegree*10)%771)
                 if imgx<0{
@@ -679,6 +679,18 @@ class SetteiViewController: UIViewController {
             }else{
                 randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             }
+            randomImage2.image=randomImage1.image//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+            self.view.bringSubviewToFront(randomImage1)
+            if circleNumber==1{
+                x0=ww*3/4 - CGFloat(locationX)
+                randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+                self.view.bringSubviewToFront(randomImage2)
+            }else{
+                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
+            }
+        }else{
+            randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage2.image=randomImage1.image//randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage1)
