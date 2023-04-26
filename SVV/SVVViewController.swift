@@ -306,7 +306,9 @@ class SVVViewController: UIViewController {
             })
         }
         backImageType = getUserDefault(str:"backImageType",ret:0)
-        if SVVorDisplay==1 || backImageType==2{
+        if SVVorDisplay==1{
+            randomImage.image=UIImage(named: "random")
+        }else if backImageType==2{
             randomImage.image=UIImage(named: "random")
         }else if backImageType==1{
             randomImage.image=UIImage(named: "random3")

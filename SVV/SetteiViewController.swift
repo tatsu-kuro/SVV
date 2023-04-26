@@ -7,7 +7,98 @@
 //
 
 import UIKit
+extension UIImage {
+    
+//    func composite(image: UIImage) -> UIImage? {
+//
+//        UIGraphicsBeginImageContextWithOptions(self.size, false, 0)
+//        self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+//
+//        // 画像を真ん中に重ねる
+//        let rect = CGRect(x: (self.size.width - image.size.width)/2,
+//                          y: (self.size.height - image.size.height)/2,
+//                          width: image.size.width,
+//                          height: image.size.height)
+//        image.draw(in: rect)
+//
+//        let image = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//
+//        return image
+//    }
+//
+    /*
+     画像をResizeするクラスメソッド.
+     */
+    class func ResizeÜIImage(image : UIImage,width : CGFloat, height : CGFloat)-> UIImage!{
+        
+        // 指定された画像の大きさのコンテキストを用意.
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
+        
+        // コンテキストに画像を描画する.
+        image.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+        
+        // コンテキストからUIImageを作る.
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        // コンテキストを閉じる.
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+    
+    /*
+     画像を合成するクラスメソッド.
+     */
+    class func ComposeUIImage(UIImageArray : [UIImage], width: CGFloat, height : CGFloat)->UIImage!{
+        
+        // 指定された画像の大きさのコンテキストを用意.
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
+        
+        // UIImageのある分回す.
+        for image : UIImage in UIImageArray {
+            
+            // コンテキストに画像を描画する.
+            image.draw(in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
+        }
+        
+        // コンテキストからUIImageを作る.
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        // コンテキストを閉じる.
+        UIGraphicsEndImageContext()
+        
+        return newImage
+        
+    }
 
+    class ViewController: UIViewController {
+
+        override func viewDidLoad() {
+
+            // 1つ目のUIImageを作る.
+            var myImage1 = UIImage(named: "sample1")!
+
+            // リサイズする.
+            myImage1 = UIImage.ResizeÜIImage(image: myImage1,width: self.view.frame.maxX, height: self.view.frame.maxY)
+
+            // 2つ目のUIImageを作る.
+            var myImage2 = UIImage(named: "sample2")!
+
+            // リサイズする.
+            myImage2 = UIImage.ResizeÜIImage(image: myImage2,width: self.view.frame.midX, height: self.view.frame.midY)
+
+            // 画像を合成する.
+            let ComposedImage = UIImage.ComposeUIImage(UIImageArray: [myImage1, myImage2], width: self.view.frame.maxX, height: self.view.frame.maxY)
+
+            // UIImageViewに合成されたUIImageを指定する.
+            let myImageView = UIImageView(image: ComposedImage)
+
+            self.view.addSubview(myImageView)
+        }
+    }
+
+}
 class SetteiViewController: UIViewController {
     enum MenuType: CaseIterable {
         case SVV
@@ -101,7 +192,8 @@ class SetteiViewController: UIViewController {
     
     @IBAction func onDisplayModeSwitch(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "displayModeType")
-        displayModeType=sender.selectedSegmentIndex//segmentIndex(identifiedBy: <#T##UIAction.Identifier#>)
+        displayModeType=sender.selectedSegmentIndex
+        setRandomImages()
     }
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageType")
@@ -345,8 +437,14 @@ class SetteiViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
     }
     func setRandomImages(){
-        if SVVorDisplay==1 || backImageType==2{
-            randomImage.image=UIImage(named: "random")
+        if SVVorDisplay==1{
+            if displayModeType==0{
+                randomImage.image=UIImage(named: "random")
+            }else{
+                randomImage.image=UIImage(named: "randomdots2")
+            }
+        }else if backImageType==2{
+                randomImage.image=UIImage(named: "random")
         }else if backImageType==1{
             randomImage.image=UIImage(named: "random3")
         }else{
@@ -527,6 +625,12 @@ class SetteiViewController: UIViewController {
             speedLabel.text=String(dotsRotationSpeed*5)
         }
     }
+    func trimmingImage(_ image: UIImage,_ trimmingArea: CGRect) -> UIImage {
+        let imgRef = image.cgImage?.cropping(to: trimmingArea)
+        let trimImage = UIImage(cgImage: imgRef!, scale: image.scale, orientation: image.imageOrientation)
+        return trimImage
+    }
+    
     func drawBack(){
         let ww=view.bounds.width
         let wh=view.bounds.height
@@ -546,8 +650,8 @@ class SetteiViewController: UIViewController {
         }
         let y0=wh/2
         if backImageType==0 && SVVorDisplay==0{
-            randomImage1.image=UIImage(named: "white_black")// randomImage.image?.rotatedBy(degree: currentDotsDegree)
-            randomImage2.image=UIImage(named: "white_black")//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage1.image=UIImage(named: "white_black")
+            randomImage2.image=UIImage(named: "white_black")
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage1)
             if circleNumber==1{
@@ -559,7 +663,17 @@ class SetteiViewController: UIViewController {
             }
             
         }else{
-            randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            var imgx=CGFloat(Int(currentDotsDegree*10)%771)
+            if imgx<0{
+                imgx += 771
+            }
+            let image1=trimmingImage(randomImage.image!,CGRect(x:imgx,y:0,width: 562,height: 562))
+            // 画像を合成する.
+            let image2=UIImage(named: "white_black562")
+            randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+//            randomImage1.image = image1.composite(image: image2!)
+            print("speed:",currentDotsDegree)
+//            randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage2.image=randomImage1.image//randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage1)
