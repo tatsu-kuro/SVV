@@ -440,8 +440,10 @@ class SetteiViewController: UIViewController {
         if SVVorDisplay==1{
             if displayModeType==0{
                 randomImage.image=UIImage(named: "random")
-            }else{
+            }else if displayModeType==1{
                 randomImage.image=UIImage(named: "randomdots2")
+            }else{
+                randomImage.image=UIImage(named:"band562")
             }
         }else if backImageType==2{
                 randomImage.image=UIImage(named: "random")
@@ -663,17 +665,20 @@ class SetteiViewController: UIViewController {
             }
             
         }else{
-            var imgx=CGFloat(Int(currentDotsDegree*10)%771)
-            if imgx<0{
-                imgx += 771
+            if displayModeType>0{
+                var imgx=CGFloat(Int(currentDotsDegree*10)%771)
+                if imgx<0{
+                    imgx += 771
+                }
+                let image1=trimmingImage(randomImage.image!,CGRect(x:imgx,y:0,width: 562,height: 562))
+                // 画像を合成する.
+                let image2=UIImage(named: "white_black562")
+                randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                //            randomImage1.image = image1.composite(image: image2!)
+                print("speed:",currentDotsDegree)
+            }else{
+                randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             }
-            let image1=trimmingImage(randomImage.image!,CGRect(x:imgx,y:0,width: 562,height: 562))
-            // 画像を合成する.
-            let image2=UIImage(named: "white_black562")
-            randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
-//            randomImage1.image = image1.composite(image: image2!)
-            print("speed:",currentDotsDegree)
-//            randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage2.image=randomImage1.image//randomImage.image?.rotatedBy(degree: currentDotsDegree)
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage1)
