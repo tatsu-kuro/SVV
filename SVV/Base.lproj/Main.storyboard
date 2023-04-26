@@ -231,7 +231,6 @@
                                 <color key="tintColor" systemColor="systemGreenColor"/>
                                 <connections>
                                     <action selector="onRotationSpeedSlider:" destination="5V4-Ka-gbw" eventType="valueChanged" id="KQW-PS-oZp"/>
-                                    <action selector="onTouchUpOutside:" destination="5V4-Ka-gbw" eventType="touchUpOutside" id="sB3-zG-sSg"/>
                                 </connections>
                             </slider>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QjH-kr-YXo">
@@ -329,6 +328,10 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="oHg-mX-nMi" appends="YES" id="L2q-3O-Mx0"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="SVVDisplayButton" destination="eqR-sb-xgt" id="IH5-ag-lTy"/>
@@ -357,6 +360,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nSs-1G-QWg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="dy0-li-jfZ" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="oHg-mX-nMi">
+                    <connections>
+                        <action selector="onTapGesture:" destination="5V4-Ka-gbw" id="5bp-Ix-dSm"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-148.66071428571428" y="39.130434782608695"/>
         </scene>

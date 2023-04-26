@@ -89,17 +89,7 @@ class SetteiViewController: UIViewController {
         }
         UserDefaults.standard.set(lineMovingOnOff,forKey: "lineMovingOnOff")
     }
-    @IBAction func onTouchUpOutside(_ sender: UISlider) {
-  
-   
-        dotsRotationSpeed = 0//Int(sender.value*144) - 72
-        sender.value=0.5
-        print("speed:",dotsRotationSpeed)
-        UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
-//        setDotsRotationSpeedText()
-        speedLabel.text=String(dotsRotationSpeed*5)
-    }
- 
+
     @IBAction func onGyroOnSwitch(_ sender: UISwitch) {
         if sender.isOn{
             gyroOnOff=1
@@ -524,6 +514,19 @@ class SetteiViewController: UIViewController {
     }
     var initDrawBackBackFlag:Bool=true
     
+    @IBAction func onTapGesture(_ sender: UITapGestureRecognizer) {
+        let loc=sender.location(in: self.view)
+        if loc.x < rotationSpeedSlider.frame.maxX && loc.x>rotationSpeedSlider.frame.minX && loc.y>rotationSpeedSlider.frame.minY && loc.y<rotationSpeedSlider.frame.maxY{
+            
+            print("tapGesture")
+            dotsRotationSpeed = 0//Int(sender.value*144) - 72
+            rotationSpeedSlider.value=0.5
+            print("speed:",dotsRotationSpeed)
+            UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
+            //        setDotsRotationSpeedText()
+            speedLabel.text=String(dotsRotationSpeed*5)
+        }
+    }
     func drawBack(){
         let ww=view.bounds.width
         let wh=view.bounds.height
