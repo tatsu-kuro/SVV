@@ -315,21 +315,42 @@ class SVVViewController: UIViewController {
         backImageType = getUserDefault(str:"backImageType",ret:0)
  //
         
+   
+            if SVVorDisplay==1{
+                if displayModeType==0{
+                    randomImage.image=UIImage(named: "random")
+                }else if displayModeType==1{
+                    randomImage.image=UIImage(named: "dots562")
+                }else if displayModeType==2{
+                    randomImage.image=UIImage(named:"dots562t")
+                }else if displayModeType==3{
+                    randomImage.image=UIImage(named: "band562")
+                }else{
+                    randomImage.image=UIImage(named:"band562t")
+                }
+            }else if backImageType==2{
+                    randomImage.image=UIImage(named: "random")
+            }else if backImageType==1{
+                randomImage.image=UIImage(named: "randoms")
+            }else{
+                randomImage.image=UIImage(named: "white_black")
+            }
+ /*
         if SVVorDisplay==1{
             if displayModeType==0{
                 randomImage.image=UIImage(named: "random")
             }else if displayModeType==1{
-                randomImage.image=UIImage(named: "randomdots2")
+                randomImage.image=UIImage(named: "dots562")
             }else{
                 randomImage.image=UIImage(named:"band562")
             }
         }else if backImageType==2{
                 randomImage.image=UIImage(named: "random")
         }else if backImageType==1{
-            randomImage.image=UIImage(named: "random3")
+            randomImage.image=UIImage(named: "randoms")
         }else{
             randomImage.image=UIImage(named: "white_black")
-        }
+        }*/
  //
 //        if SVVorDisplay==1{
 //            if displayModeType==0{
@@ -499,7 +520,7 @@ class SVVViewController: UIViewController {
         
         var r=wh*(70+13*CGFloat(circleDiameter))/400
         if backImageType==1 && SVVorDisplay==0{
-            r=r*0.45
+            r=r*0.35
         }
         
         let dd:Double=3.14159/900//3600//1800//900
@@ -586,12 +607,6 @@ class SVVViewController: UIViewController {
         let backImageType = getUserDefault(str:"backImageType",ret:0)
         let circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
         
-        // 四角形を描画
-//        if initDrawBackBackFlag==true{
-//            initDrawBackBackFlag=false
-//            grayImage.frame=CGRect(x:0,y:0,width: ww,height: wh)
-//        }
-        
         let r=wh*(70+13*CGFloat(circleDiameter))/400
         var x0=ww/2
         if circleNumber == 1{
@@ -613,24 +628,32 @@ class SVVViewController: UIViewController {
             
         }else if SVVorDisplay==1{
             if displayModeType>0{
-                var imgx=CGFloat(Int(currentDotsDegree*10)%771)
-                if imgx<0{
-                    imgx += 771
+                var imgxy=CGFloat(Int(currentDotsDegree*10)%771)
+                if imgxy<0{
+                    imgxy += 771
                 }
-                let image1=trimmingImage(randomImage.image!,CGRect(x:imgx,y:0,width: 562,height: 562))
-                // 画像を合成する.
-                let image2=UIImage(named: "white_black562")
-                if gyroOnOff==1{
-                    let image3 = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
-                    randomImage1.image = image3!.rotatedBy(degree:getSenserDegree())
+                if displayModeType==1 || displayModeType==3{
+                    let image1=trimmingImage(randomImage.image!,CGRect(x:imgxy,y:0,width: 562,height: 562))
+                    // 画像を合成する.
+                    let image2=UIImage(named: "white_black562")
+                    if gyroOnOff==1{
+                        let image3 = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                        randomImage1.image = image3!.rotatedBy(degree:getSenserDegree())
+                    }else{
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                    }
                 }else{
-                    randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
-
+                    let image1=trimmingImage(randomImage.image!,CGRect(x:0,y:imgxy,width: 562,height: 562))
+                    // 画像を合成する.
+                    let image2=UIImage(named: "white_black562")
+                    if gyroOnOff==1{
+                        let image3 = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                        randomImage1.image = image3!.rotatedBy(degree:getSenserDegree())
+                    }else{
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                    }
                 }
-                //            randomImage1.image = image1.composite(image: image2!)
-//                print("speed:",currentDotsDegree)
-//                getSenserDegree()
-                
+                    
             }else{
                 randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             }

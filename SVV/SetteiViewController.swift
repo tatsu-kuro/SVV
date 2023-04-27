@@ -103,7 +103,7 @@ class SetteiViewController: UIViewController {
     enum MenuType: CaseIterable {
         case SVV
         case Display
- 
+        
         var title: String {
             switch self {
             case .SVV:
@@ -113,6 +113,7 @@ class SetteiViewController: UIViewController {
             }
         }
     }
+  
     @IBOutlet private weak var SVVDisplayButton: UIButton!
     private func configureMenu() {
         let actions = MenuType.allCases
@@ -131,9 +132,13 @@ class SetteiViewController: UIViewController {
         if selectedMenuType.title=="SVV"{
             SVVorDisplay=0
             UserDefaults.standard.set(SVVorDisplay,forKey: "SVVorDisplay")
+            if backImageType==0{
+                rotationSpeedSlider.isEnabled=false
+            }
         }else{
             SVVorDisplay=1
             UserDefaults.standard.set(SVVorDisplay,forKey: "SVVorDisplay")
+            rotationSpeedSlider.isEnabled=true
         }
         setButtons()
         setRandomImages()
@@ -402,8 +407,10 @@ class SetteiViewController: UIViewController {
             backImageSwitch.setTitle("半水玉", forSegmentAt: 1)
             backImageSwitch.setTitle("水玉", forSegmentAt: 2)
             displayModeSwitch.setTitle("水玉回転", forSegmentAt: 0)
-            displayModeSwitch.setTitle("水玉左右", forSegmentAt: 1)
-            displayModeSwitch.setTitle("帯左右", forSegmentAt: 2)
+            displayModeSwitch.setTitle("水玉水平", forSegmentAt: 1)
+            displayModeSwitch.setTitle("水玉上下", forSegmentAt: 2)
+            displayModeSwitch.setTitle("白帯水平", forSegmentAt: 3)
+            displayModeSwitch.setTitle("白帯垂直", forSegmentAt: 4)
 
         }else{
             backImageSwitch.setTitle("back white", forSegmentAt: 0)
@@ -414,9 +421,11 @@ class SetteiViewController: UIViewController {
             backImageSwitch.setTitle("white", forSegmentAt: 0)
             backImageSwitch.setTitle("dotsHalf", forSegmentAt: 1)
             backImageSwitch.setTitle("dotsAll", forSegmentAt: 2)
-            displayModeSwitch.setTitle("dots:Rota", forSegmentAt: 0)
-            displayModeSwitch.setTitle("dots:LtRt", forSegmentAt: 1)
-            displayModeSwitch.setTitle("band:LtRt", forSegmentAt: 2)
+            displayModeSwitch.setTitle("dots:R.", forSegmentAt: 0)
+            displayModeSwitch.setTitle("dots:H.", forSegmentAt: 1)
+            displayModeSwitch.setTitle("dots:V.", forSegmentAt: 2)
+            displayModeSwitch.setTitle("band:H.", forSegmentAt: 3)
+            displayModeSwitch.setTitle("band:V.", forSegmentAt: 4)
         }
         if SVVorDisplay==0{
             selectedMenuType=MenuType.SVV
@@ -441,14 +450,18 @@ class SetteiViewController: UIViewController {
             if displayModeType==0{
                 randomImage.image=UIImage(named: "random")
             }else if displayModeType==1{
-                randomImage.image=UIImage(named: "randomdots2")
+                randomImage.image=UIImage(named: "dots562")
+            }else if displayModeType==2{
+                randomImage.image=UIImage(named:"dots562t")
+            }else if displayModeType==3{
+                randomImage.image=UIImage(named: "band562")
             }else{
-                randomImage.image=UIImage(named:"band562")
+                randomImage.image=UIImage(named:"band562t")
             }
         }else if backImageType==2{
                 randomImage.image=UIImage(named: "random")
         }else if backImageType==1{
-            randomImage.image=UIImage(named: "random3")
+            randomImage.image=UIImage(named: "randoms")
         }else{
             randomImage.image=UIImage(named: "white_black")
         }
@@ -499,8 +512,9 @@ class SetteiViewController: UIViewController {
         SVVDisplayButton.layer.cornerRadius=5
         let backImageSwitchW=lineWidthLabel.frame.minX-sp-x0
         setSwitchProperty(backImageSwitch, x: x0, y: by, w:backImageSwitchW, h: bh)
-        setSwitchProperty(displayModeSwitch, x: x0, y: by, w:backImageSwitchW, h: bh)
-        setLabelProperty(speedLabel, x:lineWidthLabel.frame.minX, y: by, w: bw, h: bh, UIColor.white)
+        let dispSwitchW=lineWidthLabel.frame.maxX-x0
+        setSwitchProperty(displayModeSwitch, x: x0, y: by, w:dispSwitchW, h: bh)
+        setLabelProperty(speedLabel, x:lineWidthLabel.frame.maxX+sp, y: by, w: bw/2, h: bh, UIColor.white)
         let speedSliderW=exitX-speedLabel.frame.maxX-sp*2
         rotationSpeedSlider.frame = CGRect(x:speedLabel.frame.maxX+sp,y:by,width:speedSliderW,height:bh)
         circleDiameterLabel.layer.masksToBounds = true
@@ -578,7 +592,7 @@ class SetteiViewController: UIViewController {
         let y0=wh/2
         var r=wh*(70+13*CGFloat(circleDiameter))/400
         if backImageType==1 && SVVorDisplay==0{
-            r=r*0.45
+            r=r*0.35
         }
         let dd:Double=3.14159/900
         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
@@ -651,7 +665,37 @@ class SetteiViewController: UIViewController {
             x0=ww/4 + CGFloat(locationX)
         }
         let y0=wh/2
-        if backImageType==0 && SVVorDisplay==0{
+        if SVVorDisplay==1{
+            if displayModeType>0{//dot:
+                var imgxy=CGFloat(Int(currentDotsDegree*10)%771)
+                if imgxy<0{
+                    imgxy += 771
+                }
+                if displayModeType==1 || displayModeType==3{
+                    let image1=trimmingImage(randomImage.image!,CGRect(x:imgxy,y:0,width: 562,height: 562))
+                    // 画像を合成する.
+                    let image2=UIImage(named: "white_black562")
+                    randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                }else{
+                    let image1=trimmingImage(randomImage.image!,CGRect(x:0,y:imgxy,width: 562,height: 562))
+                    // 画像を合成する.
+                    let image2=UIImage(named: "white_black562")
+                    randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                }
+            }else{
+                randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            }
+            randomImage2.image=randomImage1.image
+            randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+            self.view.bringSubviewToFront(randomImage1)
+            if circleNumber==1{
+                x0=ww*3/4 - CGFloat(locationX)
+                randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
+                self.view.bringSubviewToFront(randomImage2)
+            }else{
+                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
+            }
+        }else if backImageType==0{
             randomImage1.image=UIImage(named: "white_black")
             randomImage2.image=UIImage(named: "white_black")
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
@@ -663,35 +707,9 @@ class SetteiViewController: UIViewController {
             }else{
                 randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
             }
-            
-        }else if SVVorDisplay==1{
-            if displayModeType>0{
-                var imgx=CGFloat(Int(currentDotsDegree*10)%771)
-                if imgx<0{
-                    imgx += 771
-                }
-                let image1=trimmingImage(randomImage.image!,CGRect(x:imgx,y:0,width: 562,height: 562))
-                // 画像を合成する.
-                let image2=UIImage(named: "white_black562")
-                randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
-                //            randomImage1.image = image1.composite(image: image2!)
-//                print("speed:",currentDotsDegree)
-            }else{
-                randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
-            }
-            randomImage2.image=randomImage1.image//randomImage.image?.rotatedBy(degree: currentDotsDegree)
-            randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
-            self.view.bringSubviewToFront(randomImage1)
-            if circleNumber==1{
-                x0=ww*3/4 - CGFloat(locationX)
-                randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
-                self.view.bringSubviewToFront(randomImage2)
-            }else{
-                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
-            }
-        }else{
+        }else{//dot:rotation
             randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
-            randomImage2.image=randomImage1.image//randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage2.image=randomImage1.image
             randomImage1.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
             self.view.bringSubviewToFront(randomImage1)
             if circleNumber==1{
