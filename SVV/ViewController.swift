@@ -66,6 +66,7 @@ class ViewController: UIViewController {
     var svvStrNor:String = ""
     var svvStrNeg:String = ""
     var svvStrPos:String = ""
+    var SVVorDisplay:Int = 0
 
     @IBOutlet weak var resultView: UIImageView!
     var idString:String = ""
@@ -455,6 +456,13 @@ class ViewController: UIViewController {
     }
     func setViews(){
         if(sensorArray.count<1){
+            SVVorDisplay = getUserDefault(str:"SVVorDisplay",ret:0)
+
+            if SVVorDisplay==0{
+                titleImage.image = UIImage(named: "svvhead")
+            }else{
+                titleImage.image = UIImage(named: "svvheadDisplay")
+            }
             titleImage.alpha=1
             resultView.alpha=0
         }else{
@@ -470,6 +478,7 @@ class ViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    
         print("viewDidAppear")
         setButtons()
         setViews()
