@@ -37,6 +37,7 @@ class SVVViewController: UIViewController {
     var degree:Double=0.0
     var curAcc:Double=0
     var sensorArray = Array<Double>()//sensor
+    var displaySensorArray = Array<Double>()
     var degreeArray = Array<Double>()//degree
     var svvArray = Array<Double>()//delta Subjective Visual Vertical
     var actionTimeLast=CFAbsoluteTimeGetCurrent()//tap or remoteController
@@ -117,13 +118,7 @@ class SVVViewController: UIViewController {
             movingBarFlag=true
             appendData()
             if lineMovingOnOff==0{
-                degree = Double(Int.random(in: 0...400))
-                if degree<200{
-                    degree -= 350
-                }else{
-                    degree -= 50
-                }
-                print("singleTap:",degree/5)
+               degree=getRandom()
             }
             if(tenTimesOnOff==1 && sensorArray.count==10){
                 returnMain()
@@ -262,14 +257,14 @@ class SVVViewController: UIViewController {
         return result
     }
  
-     func outputAccelData(acceleration: CMAcceleration){
+    func outputAccelData(acceleration: CMAcceleration){
         var ax=acceleration.x
         var ay=acceleration.y
         ax=Kalupdate(measurement: ax)
         ay=Kalupdate1(measurement: ay)
         let len=sqrt(ax*ax+ay*ay)
         var curAcc_temp=asin(ay/len)
-
+        
         curAcc_temp=curAcc_temp*90.0/(Double.pi/2)
         curAcc=curAcc_temp
         if curAcc<0 && ax>0{
@@ -278,14 +273,15 @@ class SVVViewController: UIViewController {
             curAcc = 180 - curAcc
         }
         curAcc = -curAcc
-//        print(String(format:"curAcc:%.1f,%.1f,%.1f",curAcc,ax,ay))
+        displaySensorArray.append(curAcc)
+        print(String(format:"curAcc:%d,%.1f,%.1f,%.1f",displaySensorArray.count,curAcc,ax,ay))
     }
     // センサー取得を止める場合
     func stopAccelerometer(){
         if (motionManager.isAccelerometerActive) {
             motionManager.stopAccelerometerUpdates()
         }
-        print("StopMotionSensor")
+        print("StopMotionSensor",curAcc.description.count)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -304,7 +300,11 @@ class SVVViewController: UIViewController {
         self.becomeFirstResponder()
         if motionManager.isAccelerometerAvailable {
             // intervalの設定 [sec]
-           motionManager.accelerometerUpdateInterval = 0.1
+            if SVVorDisplay==0{
+                motionManager.accelerometerUpdateInterval = 0.1
+            }else{
+                motionManager.accelerometerUpdateInterval = 0.01
+            }
             // センサー値の取得開始
             motionManager.startAccelerometerUpdates(
                 to: OperationQueue.current!,
@@ -335,38 +335,7 @@ class SVVViewController: UIViewController {
             }else{
                 randomImage.image=UIImage(named: "white_black")
             }
- /*
-        if SVVorDisplay==1{
-            if displayModeType==0{
-                randomImage.image=UIImage(named: "random")
-            }else if displayModeType==1{
-                randomImage.image=UIImage(named: "dots562")
-            }else{
-                randomImage.image=UIImage(named:"band562")
-            }
-        }else if backImageType==2{
-                randomImage.image=UIImage(named: "random")
-        }else if backImageType==1{
-            randomImage.image=UIImage(named: "randoms")
-        }else{
-            randomImage.image=UIImage(named: "white_black")
-        }*/
- //
-//        if SVVorDisplay==1{
-//            if displayModeType==0{
-//                randomImage.image=UIImage(named: "random")
-//            }else if displayModeType==1{
-//                randomImage.image=UIImage(named: "randomdots2")
-//            }else{
-//                randomImage.image=UIImage(named:"band562")
-//            }
-//        }else if backImageType==2{
-//            randomImage.image=UIImage(named: "random")
-//        }else if backImageType==1{
-//            randomImage.image=UIImage(named: "random3")
-//        }else{
-//            randomImage.image=UIImage(named: "white_black")
-//        }
+ 
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         tcount=0
         movingBarFlag=true
@@ -377,18 +346,18 @@ class SVVViewController: UIViewController {
         degreeArray.removeAll()
         Globalmode=1
         if lineMovingOnOff==0{
-            degree = Double(Int.random(in: 0...400))
-            if degree<200{
-                degree -= 350
-            }else{
-                degree -= 50
-            }
-//            print("didload:",degree/5)
+            degree = getRandom()
         }else{
             degree -= 1
         }
     }
-    
+    func getRandom()->Double{
+        var ret:Double=0
+        while(ret < 150 && ret > -150){
+            ret=Double.random(in:-345...345)
+        }
+        return ret
+    }
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
             return UserDefaults.standard.integer(forKey:str)
