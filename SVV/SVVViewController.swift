@@ -152,13 +152,16 @@ class SVVViewController: UIViewController {
     }
     func appendData(){
         let s=round(curAcc*10)//shishagonyuu 90degree
-        sensorArray.append(-s/10.0)
-
-        degreeArray.append(degree/5.0)
-        let v1 = curAcc*10.0 + degree*2.0
-        let v2 = round(v1)
-
-        svvArray.append(v2/10.0)
+        if SVVorDisplay==0{
+            sensorArray.append(-s/10.0)
+            degreeArray.append(degree/5.0)
+            let v1 = curAcc*10.0 + degree*2.0
+            let v2 = round(v1)
+            
+            svvArray.append(v2/10.0)
+        }else{
+            displaySensorArray.append(-s/10)
+        }
     }
     override func remoteControlReceived(with event: UIEvent?) {
         guard event?.type == .remoteControl else { return }
@@ -222,6 +225,23 @@ class SVVViewController: UIViewController {
             }
         }
     }
+    let KalQ2:Double = 0.0001
+    let KalR2:Double = 0.001
+    var KalX2:Double = 0.0
+    var KalP2:Double = 0.0
+    var KalK2:Double = 0.0
+    func KalmeasurementUpdate2()
+    {
+        KalK2 = (KalP2 + KalQ2) / (KalP2 + KalQ2 + KalR2)
+        KalP2 = KalR2 * (KalP2 + KalQ2) / (KalR2 + KalP2 + KalQ2)
+    }
+    func Kalupdate2(measurement:Double) -> Double//CGFloat) -> CGFloat
+    {
+        KalmeasurementUpdate2()
+        let result = KalX2 + (measurement - KalX2) * KalK2
+        KalX2 = result
+        return result
+    }
     let KalQ1:Double = 0.0001
     let KalR1:Double = 0.001
     var KalX1:Double = 0.0
@@ -256,12 +276,45 @@ class SVVViewController: UIViewController {
         KalX = result
         return result
     }
- 
+    /*
+    var aData = [0.0,0.0]
+    var vData = [0.0,0.0]
+    var s = 0.0
+    var loopCount:Int = 0
+    func distance(acceleration: CMAcceleration) {
+        loopCount += 1
+         var x = acceleration.x
+        var y = acceleration.y
+        var z = acceleration.z
+        
+        x=Kalupdate(measurement: x)
+        y=Kalupdate1(measurement: y)
+        z=Kalupdate2(measurement: z)
+
+        let pa = aData[loopCount]
+        let a = cbrt(x * y * z)
+        let dv = (a + pa) * 0.01 * 0.5
+        aData.append(a)
+        
+        let pv = vData[loopCount]
+        let v = pv + dv
+        let ds = (v + dv) * 0.01 * 0.5
+        vData.append(v)
+        
+        s += ds
+        print("")
+        print(aData.last!)
+        print(vData.last!)
+        print(s)
+    }*/
+
     func outputAccelData(acceleration: CMAcceleration){
         var ax=acceleration.x
         var ay=acceleration.y
+        var az=acceleration.z
         ax=Kalupdate(measurement: ax)
         ay=Kalupdate1(measurement: ay)
+        az=Kalupdate2(measurement: az)
         let len=sqrt(ax*ax+ay*ay)
         var curAcc_temp=asin(ay/len)
         
@@ -274,7 +327,7 @@ class SVVViewController: UIViewController {
         }
         curAcc = -curAcc
         displaySensorArray.append(curAcc)
-        print(String(format:"curAcc:%d,%.1f,%.1f,%.1f",displaySensorArray.count,curAcc,ax,ay))
+        print(String(format:"curAcc:%d,%.1f,%.1f,%.1f,%.1f",displaySensorArray.count,curAcc,ax,ay,az))
     }
     // センサー取得を止める場合
     func stopAccelerometer(){
@@ -283,6 +336,8 @@ class SVVViewController: UIViewController {
         }
         print("StopMotionSensor",curAcc.description.count)
     }
+    var mainTime=CFAbsoluteTimeGetCurrent()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
@@ -295,7 +350,8 @@ class SVVViewController: UIViewController {
         SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
         displayModeType=UserDefaults.standard.integer(forKey: "displayModeType")
         gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
-
+        backImageType=UserDefaults.standard.integer(forKey:"backImageType")
+  
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
         if motionManager.isAccelerometerAvailable {
@@ -310,36 +366,37 @@ class SVVViewController: UIViewController {
                 to: OperationQueue.current!,
                 withHandler: {(accelData: CMAccelerometerData?, errorOC: Error?) in
                     self.outputAccelData(acceleration: accelData!.acceleration)
-            })
+//                    self.distance(acceleration: accelData!.acceleration)
+                })
         }
-        backImageType = getUserDefault(str:"backImageType",ret:0)
- //
-        
-   
-            if SVVorDisplay==1{
-                if displayModeType==0{
-                    randomImage.image=UIImage(named: "random")
-                }else if displayModeType==1{
-                    randomImage.image=UIImage(named: "dots562")
-                }else if displayModeType==2{
-                    randomImage.image=UIImage(named:"dots562t")
-                }else if displayModeType==3{
-                    randomImage.image=UIImage(named: "band562")
-                }else{
-                    randomImage.image=UIImage(named:"band562t")
-                }
-            }else if backImageType==2{
-                    randomImage.image=UIImage(named: "random")
-            }else if backImageType==1{
-                randomImage.image=UIImage(named: "randoms")
+        if SVVorDisplay==1{
+            //             if UIApplication.shared.isIdleTimerDisabled == false{
+            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
+            //              }
+            
+            if displayModeType==0{
+                randomImage.image=UIImage(named: "random")
+            }else if displayModeType==1{
+                randomImage.image=UIImage(named: "dots562")
+            }else if displayModeType==2{
+                randomImage.image=UIImage(named:"dots562t")
+            }else if displayModeType==3{
+                randomImage.image=UIImage(named: "band562")
             }else{
-                randomImage.image=UIImage(named: "white_black")
+                randomImage.image=UIImage(named:"band562t")
             }
- 
+        }else if backImageType==2{
+            randomImage.image=UIImage(named: "random")
+        }else if backImageType==1{
+            randomImage.image=UIImage(named: "randoms")
+        }else{
+            randomImage.image=UIImage(named: "white_black")
+        }
+        
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         tcount=0
         movingBarFlag=true
-
+        
         actionTimeLast=CFAbsoluteTimeGetCurrent()-1
         self.setNeedsStatusBarAppearanceUpdate()//
         sensorArray.removeAll()
@@ -351,6 +408,7 @@ class SVVViewController: UIViewController {
             degree -= 1
         }
     }
+    
     func getRandom()->Double{
         var ret:Double=0
         while(ret < 150 && ret > -150){
@@ -470,6 +528,9 @@ class SVVViewController: UIViewController {
             drawLine(degree:Float(0),remove:true)
         }
         if CFAbsoluteTimeGetCurrent()-actionTimeLast>300{
+            returnMain()
+        }
+        if SVVorDisplay==1 && CFAbsoluteTimeGetCurrent()-mainTime>60{
             returnMain()
         }
     }

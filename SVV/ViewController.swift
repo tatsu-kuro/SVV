@@ -478,7 +478,7 @@ class ViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-    
+        UIApplication.shared.isIdleTimerDisabled = false//スリープする
         print("viewDidAppear")
         setButtons()
         setViews()
