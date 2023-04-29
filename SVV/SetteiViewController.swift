@@ -134,6 +134,7 @@ class SetteiViewController: UIViewController {
             UserDefaults.standard.set(SVVorDisplay,forKey: "SVVorDisplay")
             if backImageType==0{
                 rotationSpeedSlider.isEnabled=false
+                rotationSpeedSlider.tintColor=UIColor.systemGray
             }
         }else{
             SVVorDisplay=1
@@ -307,7 +308,7 @@ class SetteiViewController: UIViewController {
     }
     func setRotationSpeedSliderOnOff()
     {
-        if UserDefaults.standard.integer(forKey: "backImageType")>0{
+        if backImageType>0 || SVVorDisplay==1{
             rotationSpeedSlider.isEnabled=true
             rotationSpeedSlider.tintColor=UIColor.systemGreen
         }else{
