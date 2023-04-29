@@ -377,6 +377,7 @@ class SVVViewController: UIViewController {
         if motionManager.isAccelerometerAvailable {
             // intervalの設定 [sec]
 //            if SVVorDisplay==0{
+            //0.01だとセンサー値が拾えない。0.02だと初代SEでも頑張れそう
                 motionManager.accelerometerUpdateInterval = 0.02
 //            }else{
 //                motionManager.accelerometerUpdateInterval = 0.03
