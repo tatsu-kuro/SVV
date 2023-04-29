@@ -576,12 +576,15 @@ class SetteiViewController: UIViewController {
             timer.invalidate()
         }
     }
+    var mainTime=CFAbsoluteTimeGetCurrent()
     var currentDotsDegree:CGFloat=0
     @objc func update(tm: Timer) {//1/60sec
         if backImageType==0 && SVVorDisplay==0{
 //            return
         }
-        currentDotsDegree += CGFloat(dotsRotationSpeed)/12.0
+        currentDotsDegree=(CFAbsoluteTimeGetCurrent()-mainTime)*CGFloat(dotsRotationSpeed)*5
+
+//        currentDotsDegree += CGFloat(dotsRotationSpeed)/12.0
         reDrawCirclesLines()
 //        print("dotsRotationSpeed",dotsRotationSpeed)
     }
@@ -670,7 +673,7 @@ class SetteiViewController: UIViewController {
         let y0=wh/2
         if SVVorDisplay==1{
             if displayModeType>0{//dot:
-                var imgxy=CGFloat(Int(currentDotsDegree*10)%771)
+                var imgxy=CGFloat(Int(currentDotsDegree*5)%771)
                 if imgxy<0{
                     imgxy += 771
                 }

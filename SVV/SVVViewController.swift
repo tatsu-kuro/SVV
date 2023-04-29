@@ -25,7 +25,7 @@ class SVVViewController: UIViewController {
     var locationX:Int=0
     var circleNumber:Int=0
     var circleDiameter:Int=0
-    var timer: Timer!
+//    var timer: Timer!
     var lbf:Bool=false
     var rbf:Bool=false
     var movingBarFlag:Bool=false
@@ -80,9 +80,9 @@ class SVVViewController: UIViewController {
         }
     }
     func returnMain(){
-        if timer?.isValid == true {
-            timer.invalidate()
-        }
+//        if timer?.isValid == true {
+//            timer.invalidate()
+//        }
         let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
         mainView.svvArray.removeAll()
         mainView.degreeArray.removeAll()
@@ -140,10 +140,10 @@ class SVVViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
      super.viewWillDisappear(animated)
 
-     // タイマーを停止する//二重に停止してもmainでも動く。どうして？ 
-        if let workingTimer = timer{
-         workingTimer.invalidate()
-        }
+//     // タイマーを停止する//二重に停止してもmainでも動く。どうして？
+//        if let workingTimer = timer{
+//         workingTimer.invalidate()
+//        }
         Globalmode=0
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -152,6 +152,7 @@ class SVVViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         stopAccelerometer()
         Globalmode=0
+        stopDisplaylink()
   //      print("stopSensor")
     }
     func getSenserDegree()->Double{
@@ -349,7 +350,14 @@ class SVVViewController: UIViewController {
         print("StopMotionSensor",curAcc.description.count)
     }
     var mainTime=CFAbsoluteTimeGetCurrent()
-    
+    var displayLink:CADisplayLink?
+    var displayLinkF:Bool=false
+    func stopDisplaylink(){
+        if displayLinkF==true{
+            displayLink?.invalidate()
+            displayLinkF=false
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
@@ -405,7 +413,13 @@ class SVVViewController: UIViewController {
             randomImage.image=UIImage(named: "white_black")
         }
         
-        timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        displayLink = CADisplayLink(target: self, selector: #selector(self.update))
+        displayLink!.preferredFramesPerSecond = 120
+        //displayLinkスタート
+        displayLink?.add(to: RunLoop.main, forMode: .common)
+        displayLinkF=true
+         
+//        timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         tcount=0
         movingBarFlag=true
         
@@ -443,10 +457,11 @@ class SVVViewController: UIViewController {
         return true
     }
     var initUpdateFlag:Bool=true
-    @objc func update(tm: Timer) {
+    @objc func update(){//tm: Timer) {
         //        print("sublayers:",view.layer.sublayers?.count)
         // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
-        currentDotsDegree += CGFloat(dotsRotationSpeed)/12.0
+        currentDotsDegree=(CFAbsoluteTimeGetCurrent()-mainTime)*CGFloat(dotsRotationSpeed)*5
+//        currentDotsDegree += CGFloat(dotsRotationSpeed)/12.0
         if initUpdateFlag==true{
             initUpdateFlag=false
             blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
@@ -670,7 +685,7 @@ class SVVViewController: UIViewController {
             
         }else if SVVorDisplay==1{
             if displayModeType>0{
-                var imgxy=CGFloat(Int(currentDotsDegree*10)%771)
+                var imgxy=CGFloat(Int(currentDotsDegree*5)%771)
                 if imgxy<0{
                     imgxy += 771
                 }
