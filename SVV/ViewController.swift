@@ -411,7 +411,7 @@ class ViewController: UIViewController {
         setteiButton.layer.cornerRadius=5
         helpButton.layer.cornerRadius=5
         resultView.frame=CGRect(x:leftPadding+sp*2, y: sp*3, width: ww-sp*4, height: wh-sp*4-bh)
-        displayTextView.frame=CGRect(x:leftPadding+sp*2, y: sp*3, width: ww-sp*4, height: wh-sp*4-bh)
+        displayTextView.frame=CGRect(x:leftPadding+sp, y: topPadding+sp, width: ww-sp*2, height: wh-sp*3-bh)
     }
     func setViews(){
         if sensorArray.count<1&&displaySensorArray.count<1{
