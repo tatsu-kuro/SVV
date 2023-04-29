@@ -136,7 +136,8 @@ class ViewController: UIViewController {
             text=dateString + " ID:" + idString + "\n"//(time)angle:"
             text += "time:"
             for i in 0..<displayTimeArray.count{
-                text += String(format:"%.2f",displayTimeArray[i]) + ","
+                let numRound = round(displayTimeArray[i] * 100)/100
+                text += String(format:"%.2f",numRound) + ","
 //                text += String(format:"%.1f",displaySensorArray[i]) + ","
             }
             text += "\nangle:"
@@ -434,7 +435,8 @@ class ViewController: UIViewController {
             displayTextView.alpha=1
             var str:String=dateString + " ID:" + idString + "\n(time)angle:"
             for i in 0..<displayTimeArray.count{
-                str += "(" + String(format:"%.2f",displayTimeArray[i]) + ")"
+                let numRound = round(displayTimeArray[i] * 100)/100
+                str += "(" + String(format:"%.2f",numRound) + ")"
                 str += String(format:"%.1f",displaySensorArray[i]) + ","
             }
             displayTextView.text! = str
