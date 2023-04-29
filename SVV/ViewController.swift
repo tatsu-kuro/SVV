@@ -48,8 +48,8 @@ extension DateFormatter {
 // テンプレートから時刻を表示
 class ViewController: UIViewController {
  //let fromAppDelegate: AppDelegate = NSApplication.shared().delegate as! AppDelegate
-    let diameter0:Int = 7
-    let width0:Int = 10
+//    let diameter0:Int = 7
+//    let width0:Int = 10
     var diameter:Int = 0
     var width:Int = 0
     var soundPlayer: AVAudioPlayer? = nil
@@ -329,16 +329,16 @@ class ViewController: UIViewController {
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
         sound(snd:"silence")
-        _ = getUserDefault(str:"circleDiameter",ret:diameter0)//if not exist, make
-        _ = getUserDefault(str:"lineWidth",ret:width0)
-        _ = getUserDefault(str:"circleNumber",ret:0)
+        _ = getUserDefault(str:"circleDiameter",ret:7)//if not exist, make
+        _ = getUserDefault(str:"lineWidth",ret:3)
+        _ = getUserDefault(str:"circleNumber",ret:1)
         _ = getUserDefault(str:"backImageType",ret:0)
         _ = getUserDefault(str: "displayModeType", ret: 0)
         _ = getUserDefault(str:"VRLocationX",ret:0)
         _ = getUserDefault(str:"tenTimesOnOff",ret:1)
         _ = getUserDefault(str:"lineMovingOnOff",ret:1)
         _ = getUserDefault(str:"SVVorDisplay",ret:0)
-        _ = getUserDefault(str:"dotsRotationSpeed", ret: 72)
+        _ = getUserDefault(str:"dotsRotationSpeed", ret: 10)
         _ = getUserDefault(str: "gyroOnOff", ret: 0)
         _ = getUserDefault(str: "displayModeType",ret:1)
 

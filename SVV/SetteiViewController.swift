@@ -139,6 +139,8 @@ class SetteiViewController: UIViewController {
             SVVorDisplay=1
             UserDefaults.standard.set(SVVorDisplay,forKey: "SVVorDisplay")
             rotationSpeedSlider.isEnabled=true
+//            rotationSpeedSlider.minimumTrackTintColor
+            rotationSpeedSlider.tintColor=UIColor.systemGreen
         }
         setButtons()
         setRandomImages()
@@ -510,9 +512,9 @@ class SetteiViewController: UIViewController {
         exitButton.layer.cornerRadius=5
         SVVDisplayButton.frame = CGRect(x:exitX,y:sp*2,width:bw,height:bh)
         SVVDisplayButton.layer.cornerRadius=5
-        let backImageSwitchW=lineWidthLabel.frame.minX-sp-x0
-        setSwitchProperty(backImageSwitch, x: x0, y: by, w:backImageSwitchW, h: bh)
+ //       let backImageSwitchW=lineWidthLabel.frame.minX-sp-x0
         let dispSwitchW=lineWidthLabel.frame.maxX-x0
+        setSwitchProperty(backImageSwitch, x: x0, y: by, w:dispSwitchW, h: bh)
         setSwitchProperty(displayModeSwitch, x: x0, y: by, w:dispSwitchW, h: bh)
         setLabelProperty(speedLabel, x:lineWidthLabel.frame.maxX+sp, y: by, w: bw/2, h: bh, UIColor.white)
         let speedSliderW=exitX-speedLabel.frame.maxX-sp*2
