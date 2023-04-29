@@ -37,6 +37,7 @@ class SVVViewController: UIViewController {
     var degree:Double=0.0
     var curAcc:Double=0
     var sensorArray = Array<Double>()//sensor
+    var displayTimeArray = Array<Double>()
     var displaySensorArray = Array<Double>()
     var degreeArray = Array<Double>()//degree
     var svvArray = Array<Double>()//delta Subjective Visual Vertical
@@ -86,16 +87,23 @@ class SVVViewController: UIViewController {
         mainView.svvArray.removeAll()
         mainView.degreeArray.removeAll()
         mainView.sensorArray.removeAll()
+        mainView.displaySensorArray.removeAll()
+        mainView.displayTimeArray.removeAll()
         if SVVorDisplay==0{
             for i in 0..<degreeArray.count{
                 mainView.svvArray.append(svvArray[i])
                 mainView.degreeArray.append(degreeArray[i])
                 mainView.sensorArray.append(sensorArray[i])
             }
+        }else{
+            for i in 0..<displaySensorArray.count{
+                mainView.displaySensorArray.append(displaySensorArray[i])
+                mainView.displayTimeArray.append(displayTimeArray[i])
+            }
         }
         setDate()
         mainView.dateString=dateString
-        if degreeArray.count>0 && SVVorDisplay == 0 {
+        if degreeArray.count>0 || displayTimeArray.count > 0 {
             mainView.savedFlag=false
         }
         stopAccelerometer()//version1.9で加えた
@@ -159,8 +167,9 @@ class SVVViewController: UIViewController {
             let v2 = round(v1)
             
             svvArray.append(v2/10.0)
-        }else{
-            displaySensorArray.append(-s/10)
+//        }else{
+//            displaySensorArray.append(-s/10)
+//            displayTimeArray.append(CFAbsoluteTimeGetCurrent()-mainTime)
         }
     }
     override func remoteControlReceived(with event: UIEvent?) {
@@ -311,10 +320,10 @@ class SVVViewController: UIViewController {
     func outputAccelData(acceleration: CMAcceleration){
         var ax=acceleration.x
         var ay=acceleration.y
-        var az=acceleration.z
+  //      var az=acceleration.z
         ax=Kalupdate(measurement: ax)
         ay=Kalupdate1(measurement: ay)
-        az=Kalupdate2(measurement: az)
+    //    az=Kalupdate2(measurement: az)
         let len=sqrt(ax*ax+ay*ay)
         var curAcc_temp=asin(ay/len)
         
@@ -326,8 +335,11 @@ class SVVViewController: UIViewController {
             curAcc = 180 - curAcc
         }
         curAcc = -curAcc
-        displaySensorArray.append(curAcc)
-        print(String(format:"curAcc:%d,%.1f,%.1f,%.1f,%.1f",displaySensorArray.count,curAcc,ax,ay,az))
+        if SVVorDisplay==1{
+            displayTimeArray.append(CFAbsoluteTimeGetCurrent()-mainTime)
+            displaySensorArray.append(curAcc)
+        }
+//        print(String(format:"curAcc:%d,%.1f,%.1f,%.1f,%.1f",displaySensorArray.count,curAcc,ax,ay))
     }
     // センサー取得を止める場合
     func stopAccelerometer(){

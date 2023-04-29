@@ -440,11 +440,20 @@
                                     <segue destination="Quz-u5-g5L" kind="show" id="gaX-98-C5u"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="36W-cn-24H">
+                                <rect key="frame" x="68" y="20" width="462" height="173"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
+                        <outlet property="displayTextView" destination="36W-cn-24H" id="NPY-Gw-CRI"/>
                         <outlet property="helpButton" destination="W1O-pE-Slv" id="KBd-h8-OO6"/>
                         <outlet property="listButton" destination="qaQ-C5-xTS" id="aU0-5C-TCm"/>
                         <outlet property="resultView" destination="fgP-6S-r2Z" id="fNA-Gi-c8v"/>
@@ -456,7 +465,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="497.53521126760563" y="0.0"/>
+            <point key="canvasLocation" x="496.875" y="0.0"/>
         </scene>
         <!--Heip View Controller-->
         <scene sceneID="rk9-Tn-fTY">

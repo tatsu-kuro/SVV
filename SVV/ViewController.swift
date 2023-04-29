@@ -55,6 +55,8 @@ class ViewController: UIViewController {
     var soundPlayer: AVAudioPlayer? = nil
     var sensorArray = Array<Double>()//sensor
     var degreeArray = Array<Double>()//degree
+    var displaySensorArray = Array<Double>()
+    var displayTimeArray = Array<Double>()
     var svvArray = Array<Double>()//delta Subjective Visual Vertical
     var savedFlag:Bool = true
     var dateString:String = ""
@@ -77,7 +79,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var helpButton: UIButton!
     @IBOutlet weak var titleImage: UIImageView!
     
-//    @IBOutlet weak var logoImage: UIImageView!
+    @IBOutlet weak var displayTextView: UITextView!
+    //    @IBOutlet weak var logoImage: UIImageView!
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("prepare")
         sound(snd:"silence")
@@ -242,11 +245,10 @@ class ViewController: UIViewController {
         svvSd = sqrt(svvSd)
         return svvSd
     }
-    func drawData(width w:CGFloat,height h:CGFloat) -> UIImage {
+    func drawSVVData(width w:CGFloat,height h:CGFloat) -> UIImage {
         let size = CGSize(width:w, height:h)
         // イメージ処理の開始
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-
         var svvAvNor:Double = 0
         var svvSdNor:Double = 0
         var svvAvNeg:Double = 0
@@ -255,10 +257,6 @@ class ViewController: UIViewController {
         var svvSdPos:Double = 0
         let x0=0
         if svvArray.count > 0 {
-//            svvAvNor=getAve(array: svvArray)
-//            svvSdNor=getSD(array:svvArray,svvAv: svvAvNor)
-//            svvStrNor = String(format: "AVE:%.2f SD:%.2f(%d)",svvAvNor,svvSdNor,svvArray.count)
-//        }else if svvArray.count>10{
             var svvArrayNor = Array<Double>()
             var svvArrayNeg = Array<Double>()
             var svvArrayPos = Array<Double>()
@@ -358,6 +356,7 @@ class ViewController: UIViewController {
         UIGraphicsEndImageContext()
         return image!
     }
+ 
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
             return UserDefaults.standard.integer(forKey:str)
@@ -453,11 +452,11 @@ class ViewController: UIViewController {
         setteiButton.layer.cornerRadius=5
         helpButton.layer.cornerRadius=5
         resultView.frame=CGRect(x:leftPadding+sp*2, y: sp*3, width: ww-sp*4, height: wh-sp*4-bh)
+        displayTextView.frame=CGRect(x:leftPadding+sp*2, y: sp*3, width: ww-sp*4, height: wh-sp*4-bh)
     }
     func setViews(){
-        if(sensorArray.count<1){
+        if sensorArray.count<1&&displaySensorArray.count<1{
             SVVorDisplay = getUserDefault(str:"SVVorDisplay",ret:0)
-
             if SVVorDisplay==0{
                 titleImage.image = UIImage(named: "svvhead")
             }else{
@@ -465,16 +464,32 @@ class ViewController: UIViewController {
             }
             titleImage.alpha=1
             resultView.alpha=0
+            displayTextView.alpha=0
+        }else if sensorArray.count>0{
+            titleImage.alpha=0
+            resultView.alpha=1
+            displayTextView.alpha=0
+            resultView.image=drawSVVData(width: 1000, height: 340)
         }else{
-//            if savedFlag==false{
-                titleImage.alpha=0
-                resultView.alpha=1
-//            }else{
-//                titleImage.alpha=0.1
-//                resultView.alpha=0.8
-//            }
-            resultView.image=drawData(width: 1000, height: 340)
+            titleImage.alpha=1
+            resultView.alpha=0
+            displayTextView.alpha=1
+            var str:String=dateString + " ID:" + idString + "\n(time)angle:"
+            for i in 0..<displayTimeArray.count{
+                str += "(" + String(format:"%.2f",displayTimeArray[i]) + ")"
+                str += String(format:"%.1f",displaySensorArray[i]) + ","
+            }
+            displayTextView.text! = str
         }
+    }
+    var timer: Timer!
+    @objc func update(tm: Timer) {
+        var str:String="(time)angle:"
+        for i in 0..<displayTimeArray.count{
+            str += "(" + String(format:"%.2f",displayTimeArray[i]) + ")"
+            str += String(format:"%.1f",displaySensorArray[i]) + ","
+        }
+        displayTextView.text=str
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -482,7 +497,7 @@ class ViewController: UIViewController {
         print("viewDidAppear")
         setButtons()
         setViews()
-    }
+     }
     func sound(snd:String){
         if let soundharu = NSDataAsset(name: snd) {
             soundPlayer = try? AVAudioPlayer(data: soundharu.data)
