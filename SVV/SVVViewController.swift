@@ -377,7 +377,7 @@ class SVVViewController: UIViewController {
         if motionManager.isAccelerometerAvailable {
             // intervalの設定 [sec]
 //            if SVVorDisplay==0{
-                motionManager.accelerometerUpdateInterval = 0.05
+                motionManager.accelerometerUpdateInterval = 0.02
 //            }else{
 //                motionManager.accelerometerUpdateInterval = 0.03
 //            }
@@ -457,7 +457,7 @@ class SVVViewController: UIViewController {
         return true
     }
     var initUpdateFlag:Bool=true
-    var displayWorkingF:Bool=false
+//    var displayWorkingF:Bool=false
     @objc func update(){//tm: Timer) {
         //        print("sublayers:",view.layer.sublayers?.count)
         // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
