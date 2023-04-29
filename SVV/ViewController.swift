@@ -110,45 +110,49 @@ class ViewController: UIViewController {
     func writeSVVdata(){
         var text:String=""
         //let str = self.dateString.components(separatedBy: " ")
-        text += self.dateString + ","
-        text += self.idString + "\n"
-        text += "[ <-10]" + self.svvStrNeg + ","
-        text += "[-10<= <10]" + self.svvStrNor + ","
-        text += "[10<= ]" + self.svvStrPos + "\n"
-        var dStr:String="angle,"
-        var sStr:String="sensor,"
-        var vStr:String="SVV,"
-        for i in 0..<self.degreeArray.count{
-            if(i<self.degreeArray.count-1){
-                dStr += String(format:"%.1f",self.degreeArray[i]) + ","
-                sStr += String(format:"%.1f",self.self.sensorArray[i]) + ","
-//                    if i<9 {
+        if svvArray.count>0{
+            text += self.dateString + ","
+            text += self.idString + "\n"
+            text += "[ <-10]" + self.svvStrNeg + ","
+            text += "[-10<= <10]" + self.svvStrNor + ","
+            text += "[10<= ]" + self.svvStrPos + "\n"
+            var dStr:String="angle,"
+            var sStr:String="sensor,"
+            var vStr:String="SVV,"
+            for i in 0..<self.degreeArray.count{
+                if(i<self.degreeArray.count-1){
+                    dStr += String(format:"%.1f",self.degreeArray[i]) + ","
+                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + ","
                     vStr += String(format:"%.1f",self.self.svvArray[i]) + ","
-//                    }
-//                    else{
-//                        vStr += String(format:"%.2f",self.self.svvArray[i])
-//                    }
-            }else{
-                dStr += String(format:"%.1f",self.degreeArray[i]) + "\n"
-                sStr += String(format:"%.1f",self.self.sensorArray[i]) + "\n"
-//                    if i<9 {
+                }else{
+                    dStr += String(format:"%.1f",self.degreeArray[i]) + "\n"
+                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + "\n"
                     vStr += String(format:"%.1f",self.self.svvArray[i]) + "\n"
-
+                }
             }
+            text += dStr + sStr + vStr + "\n"
+            print(text)
+        }else{
+            text=dateString + " ID:" + idString + "\n"//(time)angle:"
+            text += "time:"
+            for i in 0..<displayTimeArray.count{
+                text += String(format:"%.2f",displayTimeArray[i]) + ","
+//                text += String(format:"%.1f",displaySensorArray[i]) + ","
+            }
+            text += "\nangle:"
+            for i in 0..<displayTimeArray.count{
+//                text += String(format:"%.2f",displayTimeArray[i]) + ","
+                text += String(format:"%.1f",displaySensorArray[i]) + ","
+            }
+            text += "\n\n"
         }
-        text += dStr + sStr + vStr + "\n"
-        print(text)
         let file_name = "SVVdata.txt"
         text += self.loadSVVdata(filename: "SVVdata.txt")
         
         if let dir = FileManager.default.urls( for: .documentDirectory, in: .userDomainMask ).first {
-            
             let path_file_name = dir.appendingPathComponent( file_name )
-            
             do {
-                
                 try text.write( to: path_file_name, atomically: false, encoding: String.Encoding.utf8 )
-                
             } catch {
                 print("SVVdata.txt write err")//エラー処理
             }
@@ -157,7 +161,7 @@ class ViewController: UIViewController {
     
     @IBAction func saveData(_ sender: Any) {
         sound(snd:"silence")
-        if svvArray.count<1 {
+        if svvArray.count<1 && displaySensorArray.count<1{
             return
         }
         let alert = UIAlertController(title: "SVV96da", message: "Input ID without space", preferredStyle: .alert)
@@ -170,57 +174,11 @@ class ViewController: UIViewController {
             self.savedFlag = true //解析結果がsaveされた
             self.setViews()
             self.writeSVVdata()
-//            var text:String=""
-//            //let str = self.dateString.components(separatedBy: " ")
-//            text += self.dateString + ","
-//            text += self.idString + "\n"
-//            text += "[-10<= <+10]" + self.svvStrNor + ","
-//            text += "[ <-10]" + self.svvStrNeg + ","
-//            text += "[+10<= ]" + self.svvStrPos + "\n"
-//            var dStr:String="angle,"
-//            var sStr:String="sensor,"
-//            var vStr:String="SVV,"
-//            for i in 0..<self.degreeArray.count{
-//                if(i<self.degreeArray.count-1){
-//                    dStr += String(format:"%.1f",self.degreeArray[i]) + ","
-//                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + ","
-////                    if i<9 {
-//                        vStr += String(format:"%.1f",self.self.svvArray[i]) + ","
-////                    }
-////                    else{
-////                        vStr += String(format:"%.2f",self.self.svvArray[i])
-////                    }
-//                }else{
-//                    dStr += String(format:"%.1f",self.degreeArray[i]) + "\n"
-//                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + "\n"
-////                    if i<9 {
-//                        vStr += String(format:"%.1f",self.self.svvArray[i]) + "\n"
-//
-//                }
-//            }
-//            text += dStr + sStr + vStr + "\n"
-//            print(text)
-//            let file_name = "SVVdata.txt"
-//            text += self.loadSVVdata(filename: "SVVdata.txt")
-//
-//            if let dir = FileManager.default.urls( for: .documentDirectory, in: .userDomainMask ).first {
-//
-//                let path_file_name = dir.appendingPathComponent( file_name )
-//
-//                do {
-//
-//                    try text.write( to: path_file_name, atomically: false, encoding: String.Encoding.utf8 )
-//
-//                } catch {
-//                    print("SVVdata.txt write err")//エラー処理
-//                }
-//            }
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (action:UIAlertAction!) -> Void in
             //         self.idNumber = 1//キャンセルしてもここは通らない？
         }
-        
         // UIAlertControllerにtextFieldを追加
         alert.addTextField { (textField:UITextField!) -> Void in
             textField.keyboardType = UIKeyboardType.default// .numberPad
