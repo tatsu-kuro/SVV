@@ -133,14 +133,14 @@ class ViewController: UIViewController {
             text += dStr + sStr + vStr + "\n"
             print(text)
         }else{
-            text=dateString + " ID:" + idString + "\n"//(time)angle:"
-            text += "time:"
+            text=dateString + ",ID:" + idString + "\n"//(time)angle:"
+            text += "time,"
             for i in 0..<displayTimeArray.count{
                 let numRound = round(displayTimeArray[i] * 100)/100
                 text += String(format:"%.2f",numRound) + ","
 //                text += String(format:"%.1f",displaySensorArray[i]) + ","
             }
-            text += "\nangle:"
+            text += "\nangle,"
             for i in 0..<displayTimeArray.count{
 //                text += String(format:"%.2f",displayTimeArray[i]) + ","
                 text += String(format:"%.1f",displaySensorArray[i]) + ","
