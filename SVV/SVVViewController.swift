@@ -376,11 +376,11 @@ class SVVViewController: UIViewController {
         self.becomeFirstResponder()
         if motionManager.isAccelerometerAvailable {
             // intervalの設定 [sec]
-            if SVVorDisplay==0{
-                motionManager.accelerometerUpdateInterval = 0.1
-            }else{
-                motionManager.accelerometerUpdateInterval = 0.01
-            }
+//            if SVVorDisplay==0{
+                motionManager.accelerometerUpdateInterval = 0.05
+//            }else{
+//                motionManager.accelerometerUpdateInterval = 0.03
+//            }
             // センサー値の取得開始
             motionManager.startAccelerometerUpdates(
                 to: OperationQueue.current!,
@@ -457,6 +457,7 @@ class SVVViewController: UIViewController {
         return true
     }
     var initUpdateFlag:Bool=true
+    var displayWorkingF:Bool=false
     @objc func update(){//tm: Timer) {
         //        print("sublayers:",view.layer.sublayers?.count)
         // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
@@ -475,9 +476,13 @@ class SVVViewController: UIViewController {
             }
         }
         if backImageType>0 || SVVorDisplay==1{
-            drawDotsCircle()
+//            if !displayWorkingF{
+//                displayWorkingF=true
+                drawDotsCircle()
+//                displayWorkingF=false
+//            }
         }
-//        print("sublayers:",view.layer.sublayers?.count)
+        //        print("sublayers:",view.layer.sublayers?.count)
 
         degree += Double(GlobalStickXvalue)*2
         degree += Double(GlobalPadXvalue)/2
