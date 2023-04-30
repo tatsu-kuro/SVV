@@ -133,7 +133,7 @@ class ViewController: UIViewController {
             text += dStr + sStr + vStr + "\n"
             print(text)
         }else{
-            text=dateString + ",ID:" + idString + "\n"//(time)angle:"
+            text=dateString + "," + idString + "\n"//(time)angle:"
             text += "time,"
             for i in 0..<displayTimeArray.count{
                 let numRound = round(displayTimeArray[i] * 100)/100
@@ -165,7 +165,7 @@ class ViewController: UIViewController {
         if svvArray.count<1 && displaySensorArray.count<1{
             return
         }
-        let alert = UIAlertController(title: "SVV96da", message: "Input ID without space", preferredStyle: .alert)
+        let alert = UIAlertController(title: "SVV", message: "Input ID without space", preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "OK", style: .default) { [self] (action:UIAlertAction!) -> Void in
             // 入力したテキストをコンソールに表示
             let textField = alert.textFields![0] as UITextField
