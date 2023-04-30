@@ -453,13 +453,13 @@ class SetteiViewController: UIViewController {
             if displayModeType==0{
                 randomImage.image=UIImage(named: "random")
             }else if displayModeType==1{
-                randomImage.image=UIImage(named: "dots562")
+                randomImage.image=UIImage(named: "dots770")
             }else if displayModeType==2{
-                randomImage.image=UIImage(named:"dots562t")
+                randomImage.image=UIImage(named:"dots770t")
             }else if displayModeType==3{
-                randomImage.image=UIImage(named: "band562")
+                randomImage.image=UIImage(named: "band770")
             }else{
-                randomImage.image=UIImage(named:"band562t")
+                randomImage.image=UIImage(named:"band770t")
             }
         }else if backImageType==2{
                 randomImage.image=UIImage(named: "random")
@@ -673,9 +673,9 @@ class SetteiViewController: UIViewController {
         let y0=wh/2
         if SVVorDisplay==1{
             if displayModeType>0{//dot:
-                var imgxy=CGFloat(Int(currentDotsDegree*5)%771)
+                var imgxy=CGFloat(Int(currentDotsDegree*5)%770)
                 if imgxy<0{
-                    imgxy += 771
+                    imgxy += 770
                 }
                 if displayModeType==1 || displayModeType==3{
                     let image1=trimmingImage(randomImage.image!,CGRect(x:imgxy,y:0,width: 562,height: 562))
