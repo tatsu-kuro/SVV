@@ -68,7 +68,7 @@ class ImagePickerViewController: UIViewController, MFMailComposeViewControllerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         setButtons_init()
-//        typeButton(1)
+        textView.font=UIFont.monospacedSystemFont(ofSize: 14.0, weight: .regular)
         textView.text=loadSVVdata(filename: "SVVdata.txt")
     }
     override var prefersHomeIndicatorAutoHidden: Bool {
