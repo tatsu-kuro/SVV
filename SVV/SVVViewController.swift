@@ -33,14 +33,14 @@ class SVVViewController: UIViewController {
     var directionR:Bool=true
     var dateString:String=""
     var lastrand:Int=0
-    var tcount: Int = 0
+ //   var tcount: Int = 0
     var degree:Double=0.0
     var curAcc:Double=0
     var sensorArray = Array<Double>()//sensor
-    var displayTimeArray = Array<Double>()
-    var displaySensorArray = Array<Double>()
     var degreeArray = Array<Double>()//degree
     var svvArray = Array<Double>()//delta Subjective Visual Vertical
+    var displayTimeArray = Array<Double>()
+    var displaySensorArray = Array<Double>()
     var actionTimeLast=CFAbsoluteTimeGetCurrent()//tap or remoteController
     var verticalLinef:Bool=false
     var tenTimesOnOff:Int = 1
@@ -80,35 +80,35 @@ class SVVViewController: UIViewController {
         }
     }
     func returnMain(){
-//        if timer?.isValid == true {
-//            timer.invalidate()
-//        }
         let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
-        mainView.svvArray.removeAll()
-        mainView.degreeArray.removeAll()
-        mainView.sensorArray.removeAll()
-        mainView.displaySensorArray.removeAll()
-        mainView.displayTimeArray.removeAll()
-        if SVVorDisplay==0{
-            for i in 0..<degreeArray.count{
-                mainView.svvArray.append(svvArray[i])
-                mainView.degreeArray.append(degreeArray[i])
-                mainView.sensorArray.append(sensorArray[i])
-            }
-        }else{
-            for i in 0..<displaySensorArray.count{
-                mainView.displaySensorArray.append(displaySensorArray[i])
-                mainView.displayTimeArray.append(displayTimeArray[i])
-            }
-        }
-        setDate()
-        mainView.dateString=dateString
         if degreeArray.count>0 || displayTimeArray.count > 0 {
+            mainView.svvArray.removeAll()
+            mainView.degreeArray.removeAll()
+            mainView.sensorArray.removeAll()
+            mainView.displaySensorArray.removeAll()
+            mainView.displayTimeArray.removeAll()
+            if SVVorDisplay==0{
+                for i in 0..<degreeArray.count{
+                    mainView.svvArray.append(svvArray[i])
+                    mainView.degreeArray.append(degreeArray[i])
+                    mainView.sensorArray.append(sensorArray[i])
+                }
+            }else{
+                for i in 0..<displaySensorArray.count{
+                    mainView.displaySensorArray.append(displaySensorArray[i])
+                    mainView.displayTimeArray.append(displayTimeArray[i])
+                }
+            }
+            setDate()
+            mainView.dateString=dateString
             mainView.savedFlag=false
         }
-        stopAccelerometer()//version1.9で加えた
-        self.present(mainView, animated: false, completion: nil)
+        print("SVV:returnMain",mainView.sensorArray.count,mainView.displaySensorArray.count)
+        stopAccelerometer()
         Globalmode=0
+        stopDisplaylink()
+
+        self.present(mainView, animated: false, completion: nil)
         return//iranasasou? <-kokotouruyo?
     }
     @IBAction func singleTap(_ sender: UITapGestureRecognizer) {
@@ -150,10 +150,13 @@ class SVVViewController: UIViewController {
         
     }
     override func viewDidDisappear(_ animated: Bool) {
-        stopAccelerometer()
-        Globalmode=0
-        stopDisplaylink()
-  //      print("stopSensor")
+//        stopAccelerometer()
+//        Globalmode=0
+//        stopDisplaylink()
+        //        if timer?.isValid == true {
+        //            timer.invalidate()
+        //        }
+        print("SVV:ViewDidDisapear")
     }
     func getSenserDegree()->Double{
         let s=round(curAcc*10)//shishagonyuu 90degree
@@ -360,6 +363,9 @@ class SVVViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
+//        print("SVV:DidLoad",mainView.sensorArray.count,mainView.displaySensorArray.count)
+
         circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
         lineWidth=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
@@ -376,18 +382,18 @@ class SVVViewController: UIViewController {
         self.becomeFirstResponder()
         if motionManager.isAccelerometerAvailable {
             // intervalの設定 [sec]
-//            if SVVorDisplay==0{
-            //0.01だとセンサー値が拾えない。0.02だと初代SEでも頑張れそう
-                motionManager.accelerometerUpdateInterval = 0.05
-//            }else{
-//                motionManager.accelerometerUpdateInterval = 0.03
-//            }
+            //            if SVVorDisplay==0{
+            //0.01だとセンサー値が拾えない。0.02だと初代SEでも頑張れそう。0.05だとtouchでもいける
+            motionManager.accelerometerUpdateInterval = 1/50
+            //            }else{
+            //                motionManager.accelerometerUpdateInterval = 0.03
+            //            }
             // センサー値の取得開始
             motionManager.startAccelerometerUpdates(
                 to: OperationQueue.current!,
                 withHandler: {(accelData: CMAccelerometerData?, errorOC: Error?) in
                     self.outputAccelData(acceleration: accelData!.acceleration)
-//                    self.distance(acceleration: accelData!.acceleration)
+                    //                    self.distance(acceleration: accelData!.acceleration)
                 })
         }
         if SVVorDisplay==1{
@@ -421,13 +427,13 @@ class SVVViewController: UIViewController {
         displayLinkF=true
          
 //        timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        tcount=0
+//        tcount=0
         movingBarFlag=true
         
         actionTimeLast=CFAbsoluteTimeGetCurrent()-1
         self.setNeedsStatusBarAppearanceUpdate()//
-        sensorArray.removeAll()
-        degreeArray.removeAll()
+//        sensorArray.removeAll()
+//        degreeArray.removeAll()
         Globalmode=1
         if lineMovingOnOff==0{
             degree = getRandom()

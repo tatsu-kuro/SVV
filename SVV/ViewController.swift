@@ -101,7 +101,7 @@ class ViewController: UIViewController {
             UserDefaults.standard.set(bottomPadding,forKey: "bottomPadding")
             UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
             UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
-            print("in viewDidLayoutSubviews")
+            print("View:viewDidLayoutSubviews")
             let left=UserDefaults.standard.integer(forKey:"leftPadding")
             print(topPadding,bottomPadding,left,rightPadding)    // iPhoneXなら44, その他は20.0
         }
@@ -248,7 +248,7 @@ class ViewController: UIViewController {
         return str
     }
  
-    func drawSVVData(width w:CGFloat,height h:CGFloat) -> UIImage {
+/*    func drawSVVData(width w:CGFloat,height h:CGFloat) -> UIImage {
         let size = CGSize(width:w, height:h)
         // イメージ処理の開始
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
@@ -359,7 +359,7 @@ class ViewController: UIViewController {
         UIGraphicsEndImageContext()
         return image!
     }
- 
+ */
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
             return UserDefaults.standard.integer(forKey:str)
@@ -457,7 +457,7 @@ class ViewController: UIViewController {
         displayTextView.frame=CGRect(x:leftPadding+sp, y: topPadding+sp, width: ww-sp*2, height: wh-sp*3-bh)
     }
     func setViews(){
-        if sensorArray.count<1&&displaySensorArray.count<1{
+        if sensorArray.count==0 && displaySensorArray.count==0{
             SVVorDisplay = getUserDefault(str:"SVVorDisplay",ret:0)
             if SVVorDisplay==0{
                 titleImage.image = UIImage(named: "svvhead")
@@ -500,7 +500,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
-        print("viewDidAppear")
+        print("View:viewDidAppear",sensorArray.count,displaySensorArray.count)
         setButtons()
         setViews()
      }
@@ -545,9 +545,10 @@ class ViewController: UIViewController {
         //２：直ぐここを通る
     }
     func segueSVV(){
+        print("segueSVV",sensorArray.count,displaySensorArray.count)
         let nextView = storyboard?.instantiateViewController(withIdentifier: "SVV") as! SVVViewController
         self.present(nextView, animated: true, completion: nil)
-    }
+     }
 
     override func remoteControlReceived(with event: UIEvent?) {
         guard event?.type == .remoteControl else { return }
