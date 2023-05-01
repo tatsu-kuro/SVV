@@ -111,38 +111,16 @@ class ViewController: UIViewController {
         var text:String=""
         //let str = self.dateString.components(separatedBy: " ")
         if svvArray.count>0{
-            text += self.dateString + ","
-            text += self.idString + "\n"
-            text += "[ <-10]" + self.svvStrNeg + ","
-            text += "[-10<= <10]" + self.svvStrNor + ","
-            text += "[10<= ]" + self.svvStrPos + "\n"
-            var dStr:String="angle,"
-            var sStr:String="sensor,"
-            var vStr:String="SVV,"
-            for i in 0..<self.degreeArray.count{
-                if(i<self.degreeArray.count-1){
-                    dStr += String(format:"%.1f",self.degreeArray[i]) + ","
-                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + ","
-                    vStr += String(format:"%.1f",self.self.svvArray[i]) + ","
-                }else{
-                    dStr += String(format:"%.1f",self.degreeArray[i]) + "\n"
-                    sStr += String(format:"%.1f",self.self.sensorArray[i]) + "\n"
-                    vStr += String(format:"%.1f",self.self.svvArray[i]) + "\n"
-                }
-            }
-            text += dStr + sStr + vStr + "\n"
-            print(text)
+          text = setSVVData(type: 0) + "\n\n"
         }else{
-            text=dateString + "," + idString + "\n"//(time)angle:"
+            text=dateString + "," + idString + "\n"
             text += "time,"
             for i in 0..<displayTimeArray.count{
                 let numRound = round(displayTimeArray[i] * 100)/100
                 text += String(format:"%.2f",numRound) + ","
-//                text += String(format:"%.1f",displaySensorArray[i]) + ","
             }
             text += "\nangle,"
             for i in 0..<displayTimeArray.count{
-//                text += String(format:"%.2f",displayTimeArray[i]) + ","
                 text += String(format:"%.1f",displaySensorArray[i]) + ","
             }
             text += "\n\n"
@@ -204,6 +182,72 @@ class ViewController: UIViewController {
         svvSd = sqrt(svvSd)
         return svvSd
     }
+    func setSVVData(type:Int) -> String {
+        var svvAvNor:Double = 0
+        var svvSdNor:Double = 0
+        var svvAvNeg:Double = 0
+        var svvSdNeg:Double = 0
+        var svvAvPos:Double = 0
+        var svvSdPos:Double = 0
+        var str=dateString + "," + idString + "\n"
+        str +=  "range,n,average,SD\n"
+        if type==1{
+            str=dateString + "   ID:" + idString + "\n\n"
+            str += "range    , n,average,SD\n"
+        }
+        if svvArray.count > 0 {
+            var svvArrayNor = Array<Double>()
+            var svvArrayNeg = Array<Double>()
+            var svvArrayPos = Array<Double>()
+            for i in 0..<sensorArray.count{
+                if sensorArray[i] < -10{
+                    svvArrayNeg.append(svvArray[i])
+                }else if sensorArray[i] < 10{
+                    svvArrayNor.append(svvArray[i])
+                }else{
+                    svvArrayPos.append(svvArray[i])
+                }
+            }
+            svvAvNeg=getAve(array: svvArrayNeg)
+            svvSdNeg=getSD(array:svvArrayNeg,svvAv: svvAvNeg)
+            svvAvNor=getAve(array: svvArrayNor)
+            svvSdNor=getSD(array:svvArrayNor,svvAv: svvAvNor)
+            svvAvPos=getAve(array: svvArrayPos)
+            svvSdPos=getSD(array:svvArrayPos,svvAv: svvAvPos)
+            if type==1{
+                str += String(format: "     <-10,%02d,%.02f,%.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
+                str += String(format: "-10<= <10,%02d,%.02f,%.02f\n",svvArrayNor.count,svvAvNor,svvSdNor)
+                str += String(format: "10<=     ,%02d,%.02f,%.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
+                str += "\n"
+            }else{
+                str += String(format: " <-10,%d,%.02f,%.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
+                str += String(format: "-10<= <10,%d,%.02f,%.02f\n",svvArrayNor.count,svvAvNor,svvSdNor)
+                str += String(format: "10<= ,%d,%.02f,%.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
+            }
+        }
+        if type==1{
+            str += "angle "
+        }else{
+            str += "angle"
+        }
+        for i in 0..<degreeArray.count{
+            str += String(format:",%.1f",degreeArray[i])
+        }
+        str += "\nsensor"
+        for i in 0..<degreeArray.count{
+            str += String(format:",%.1f",sensorArray[i])
+        }
+        if type==1{
+            str += "\nSVV   "
+        }else{
+            str += "\nSVV"
+        }
+        for i in 0..<degreeArray.count{
+            str += String(format:",%.1f",svvArray[i])
+        }
+        return str
+    }
+ 
     func drawSVVData(width w:CGFloat,height h:CGFloat) -> UIImage {
         let size = CGSize(width:w, height:h)
         // イメージ処理の開始
@@ -341,7 +385,6 @@ class ViewController: UIViewController {
         _ = getUserDefault(str:"dotsRotationSpeed", ret: 10)
         _ = getUserDefault(str: "gyroOnOff", ret: 0)
         _ = getUserDefault(str: "displayModeType",ret:1)
-
         setupGameController()
     }
     override var prefersHomeIndicatorAutoHidden: Bool {
@@ -426,11 +469,13 @@ class ViewController: UIViewController {
             displayTextView.alpha=0
         }else if sensorArray.count>0{
             titleImage.alpha=0
-            resultView.alpha=1
-            displayTextView.alpha=0
-            resultView.image=drawSVVData(width: 1000, height: 340)
+            resultView.alpha=0
+            displayTextView.alpha=1
+            displayTextView.font=UIFont.monospacedSystemFont(ofSize: 16.0, weight: .regular)
+            displayTextView.text!=setSVVData(type:1)
+//            resultView.image=drawSVVData(width: 1000, height: 340)
         }else{
-            titleImage.alpha=1
+            titleImage.alpha=0
             resultView.alpha=0
             displayTextView.alpha=1
             var str:String=dateString + " ID:" + idString + "\n(time)angle:"
@@ -439,6 +484,7 @@ class ViewController: UIViewController {
                 str += "(" + String(format:"%.2f",numRound) + ")"
                 str += String(format:"%.1f",displaySensorArray[i]) + ","
             }
+            displayTextView.font=UIFont.monospacedSystemFont(ofSize: 12.0, weight: .regular)
             displayTextView.text! = str
         }
     }
