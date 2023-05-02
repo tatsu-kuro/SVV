@@ -193,6 +193,9 @@ class SVVViewController: UIViewController {
                 }
                 movingBarFlag=true
                 appendData()
+                if lineMovingOnOff==0{
+                   degree=getRandom()
+                }
                 if(tenTimesOnOff==1 && sensorArray.count==10){
                     returnMain()
                 }
@@ -208,6 +211,9 @@ class SVVViewController: UIViewController {
                 }
                 movingBarFlag=true
                 appendData()
+                if lineMovingOnOff==0{
+                   degree=getRandom()
+                }
                 if(tenTimesOnOff==1 && sensorArray.count==10){
                     returnMain()
                 }
@@ -384,7 +390,7 @@ class SVVViewController: UIViewController {
             // intervalの設定 [sec]
             //            if SVVorDisplay==0{
             //0.01だとセンサー値が拾えない。0.02だと初代SEでも頑張れそう。0.05だとtouchでもいける
-            motionManager.accelerometerUpdateInterval = 1/50
+            motionManager.accelerometerUpdateInterval = 1/30
             //            }else{
             //                motionManager.accelerometerUpdateInterval = 0.03
             //            }
@@ -464,7 +470,6 @@ class SVVViewController: UIViewController {
         return true
     }
     var initUpdateFlag:Bool=true
-//    var displayWorkingF:Bool=false
     @objc func update(){//tm: Timer) {
         //        print("sublayers:",view.layer.sublayers?.count)
         // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
@@ -485,7 +490,7 @@ class SVVViewController: UIViewController {
         if backImageType>0 || SVVorDisplay==1{
 //            if !displayWorkingF{
 //                displayWorkingF=true
-                drawDotsCircle()
+                drawDotsCircle(getSenserDegree())
 //                displayWorkingF=false
 //            }
         }
@@ -542,6 +547,9 @@ class SVVViewController: UIViewController {
             }
             movingBarFlag=true
             appendData()
+            if lineMovingOnOff==0{
+               degree=getRandom()
+            }
             if(tenTimesOnOff==1 && sensorArray.count==10){
                 Globalmode=0
                 GlobalButtonAvalueLast=0
@@ -569,7 +577,7 @@ class SVVViewController: UIViewController {
         if CFAbsoluteTimeGetCurrent()-actionTimeLast>300{
             returnMain()
         }
-        if SVVorDisplay==1 && CFAbsoluteTimeGetCurrent()-mainTime>60{
+        if SVVorDisplay==1 && CFAbsoluteTimeGetCurrent()-mainTime>180{
             returnMain()
         }
     }
@@ -643,7 +651,7 @@ class SVVViewController: UIViewController {
             self.view.bringSubviewToFront(randomImage2)
         }
     }
-  
+  /*
      func drawDotsCircle1(){
          let ww=view.bounds.width
          let wh=view.bounds.height
@@ -662,7 +670,7 @@ class SVVViewController: UIViewController {
              randomImage2.frame=CGRect(x:x0-r,y:y0-r,width: r*2,height: r*2)
              self.view.bringSubviewToFront(randomImage2)
          }
-     }
+     }*/
     func trimmingImage(_ image: UIImage,_ trimmingArea: CGRect) -> UIImage {
         let imgRef = image.cgImage?.cropping(to: trimmingArea)
         let trimImage = UIImage(cgImage: imgRef!, scale: image.scale, orientation: image.imageOrientation)
@@ -670,7 +678,7 @@ class SVVViewController: UIViewController {
     }
     var initDrawBackBackFlag:Bool=true
 
-    func drawDotsCircle(){
+    func drawDotsCircle(_ angle:CGFloat){
         let ww=view.bounds.width
         let wh=view.bounds.height
         let backImageType = getUserDefault(str:"backImageType",ret:0)
@@ -707,7 +715,7 @@ class SVVViewController: UIViewController {
                     let image2=UIImage(named: "white_black562")
                     if gyroOnOff==1{
                         let image3 = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
-                        randomImage1.image = image3!.rotatedBy(degree:getSenserDegree())
+                        randomImage1.image = image3!.rotatedBy(degree:angle)//getSenserDegree())
                     }else{
                         randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
                     }
