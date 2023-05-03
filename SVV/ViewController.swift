@@ -193,7 +193,7 @@ class ViewController: UIViewController {
         str +=  "range,n,average,SD\n"
         if type==1{
             str=dateString + "   ID:" + idString + "\n\n"
-            str += "range    , n,average,SD\n"
+            str += "range    ,  n,average,SD\n"
         }
         if svvArray.count > 0 {
             var svvArrayNor = Array<Double>()
@@ -215,14 +215,26 @@ class ViewController: UIViewController {
             svvAvPos=getAve(array: svvArrayPos)
             svvSdPos=getSD(array:svvArrayPos,svvAv: svvAvPos)
             if type==1{
-                str += String(format: "     <-10,%02d,%.02f,%.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
-                str += String(format: "-10<= <10,%02d,%.02f,%.02f\n",svvArrayNor.count,svvAvNor,svvSdNor)
-                str += String(format: "10<=     ,%02d,%.02f,%.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
+                if svvArrayNeg.count>0{
+                    str += String(format: "     <-10, %02d, %.02f, %.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
+                }
+                if svvArrayNor.count>0{
+                    str += String(format: "-10<= <10, %02d, %.02f, %.02f\n",svvArrayNor.count,svvAvNor,svvSdNor)
+                }
+                if svvArrayPos.count>0{
+                    str += String(format: "10<=     , %02d, %.02f, %.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
+                }
                 str += "\n"
             }else{
-                str += String(format: " <-10,%d,%.02f,%.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
-                str += String(format: "-10<= <10,%d,%.02f,%.02f\n",svvArrayNor.count,svvAvNor,svvSdNor)
-                str += String(format: "10<= ,%d,%.02f,%.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
+                if svvArrayNeg.count>0{
+                    str += String(format: " <-10,%d,%.02f,%.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
+                }
+                if svvArrayNor.count>0{
+                    str += String(format: "-10<= <10,%d,%.02f,%.02f\n",svvArrayNor.count,svvAvNor,svvSdNor)
+                }
+                if svvArrayPos.count>0{
+                    str += String(format: "10<= ,%d,%.02f,%.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
+                }
             }
         }
         if type==1{
@@ -248,118 +260,7 @@ class ViewController: UIViewController {
         return str
     }
  
-/*    func drawSVVData(width w:CGFloat,height h:CGFloat) -> UIImage {
-        let size = CGSize(width:w, height:h)
-        // イメージ処理の開始
-        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-        var svvAvNor:Double = 0
-        var svvSdNor:Double = 0
-        var svvAvNeg:Double = 0
-        var svvSdNeg:Double = 0
-        var svvAvPos:Double = 0
-        var svvSdPos:Double = 0
-        let x0=0
-        if svvArray.count > 0 {
-            var svvArrayNor = Array<Double>()
-            var svvArrayNeg = Array<Double>()
-            var svvArrayPos = Array<Double>()
-            for i in 0..<sensorArray.count{
-                if sensorArray[i] < -10{
-                    svvArrayNeg.append(svvArray[i])
-                }else if sensorArray[i] < 10{
-                    svvArrayNor.append(svvArray[i])
-                }else{
-                    svvArrayPos.append(svvArray[i])
-                }
-            }
-            svvAvNor=getAve(array: svvArrayNor)
-            svvSdNor=getSD(array:svvArrayNor,svvAv: svvAvNor)
-            svvStrNor = String(format: "AVE:%.02f SD:%.02f(%d)",svvAvNor,svvSdNor,svvArrayNor.count)
-            if svvArrayNor.count==0{svvStrNor = "(0)"}
-            svvAvNeg=getAve(array: svvArrayNeg)
-            svvSdNeg=getSD(array:svvArrayNeg,svvAv: svvAvNeg)
-            svvStrNeg = String(format: "AVE:%.02f SD:%.02f(%d)",svvAvNeg,svvSdNeg,svvArrayNeg.count)
-            if svvArrayNeg.count==0{svvStrNeg = "(0)"}
-            svvAvPos=getAve(array: svvArrayPos)
-            svvSdPos=getSD(array:svvArrayPos,svvAv: svvAvPos)
-            svvStrPos = String(format: "AVE:%.02f SD:%.02f(%d)",svvAvPos,svvSdPos,svvArrayPos.count)
-            if svvArrayPos.count==0{svvStrPos = "(0)"}
-        }
-        idStr = "ID:" + idString + "  "
-        dateString.draw(at: CGPoint(x: x0, y: 0), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 40, weight: UIFont.Weight.regular)])
-        idStr.draw(at: CGPoint(x: x0+250*2, y: 0), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 40, weight: UIFont.Weight.regular)])
-        
-        
-        let xd=90
-        let x0d=x0+110
-        let y0=65//angle, sensor, svv
-        let y1=y0+140//<-10
-        "<-10".draw(at: CGPoint(x: x0+47*2, y: y1), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
-        svvStrNeg.draw(at: CGPoint(x: x0+100*2, y: y1), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
 
-        "-10<=  <10".draw(at: CGPoint(x: x0, y: y1+24*2), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
-        svvStrNor.draw(at: CGPoint(x:x0+100*2, y: y1+24*2), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
-        " 10<=".draw(at: CGPoint(x: x0, y: y1+48*2), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
-        svvStrPos.draw(at: CGPoint(x: x0+100*2, y: y1+48*2), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 32, weight: UIFont.Weight.regular)])
-         UIColor.black.setStroke()
-     
-        var dStr:String="angle "// + String(dArray[0]) + " " + String(dArray[1])
-        var sStr:String="sensor"// + String(sArray[0]) + " " + String(sArray[1])
-        var vStr:String="S V V"// + String(vArray[0]) + " " + String(vArray[1])
-        dStr.draw(at: CGPoint(x: x0, y: y0), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
-        sStr.draw(at: CGPoint(x: x0, y: y0+22*2), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
-        vStr.draw(at: CGPoint(x: x0, y: y0+44*2), withAttributes: [
-            NSAttributedString.Key.foregroundColor : UIColor.black,
-            NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
-       
-        for i in 0..<10{//vArray.count{
-            if(i<degreeArray.count){
-                dStr=String(format:"%.1f",degreeArray[i])
-                sStr=String(sensorArray[i])
-                vStr=String(svvArray[i])
-            }else{
-                dStr="---"
-                sStr="---"
-                vStr="---"
-            }
-            dStr.draw(at: CGPoint(x: x0d+i*xd, y: y0), withAttributes: [
-                NSAttributedString.Key.foregroundColor : UIColor.black,
-                NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
-            sStr.draw(at: CGPoint(x: x0d+i*xd, y: y0+22*2), withAttributes: [
-                NSAttributedString.Key.foregroundColor : UIColor.black,
-                NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
-            vStr.draw(at: CGPoint(x: x0d+i*xd, y: y0+44*2), withAttributes: [
-                NSAttributedString.Key.foregroundColor : UIColor.black,
-                NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 30, weight: UIFont.Weight.regular)])
-
-        }
-      // イメージコンテキストからUIImageを作る
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        // イメージ処理の終了
-        UIGraphicsEndImageContext()
-        return image!
-    }
- */
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
             return UserDefaults.standard.integer(forKey:str)
