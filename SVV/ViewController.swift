@@ -514,9 +514,9 @@ class ViewController: UIViewController {
     @IBAction func startSVV(_ sender: Any) {
         //print("startSVV : ",savedFlag)
         sound(snd:"silence")
-//リモートコントローラーからは”LIST"button
+//リモートコントローラーからは”LIST"button.のときはsaveFlagをチェックしないとしていたが、
         let buttonTitle=(sender as! UIButton).currentTitle
-        if savedFlag == false && buttonTitle=="START"{
+        if savedFlag == false{//} && buttonTitle=="START"{//チェックすることとした
             //setButtons(mode: false)
             let alert = UIAlertController(
                 title: "You are erasing SVV Data.",
