@@ -350,6 +350,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sampling" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2BV-tY-oXa">
+                                <rect key="frame" x="292" y="55" width="60" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qed-SH-A8z"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -381,6 +390,7 @@
                         <outlet property="randomImage1" destination="QjH-kr-YXo" id="C5o-md-U62"/>
                         <outlet property="randomImage2" destination="phX-l2-UxN" id="q8b-zj-nQc"/>
                         <outlet property="rotationSpeedSlider" destination="iQK-u7-zK5" id="NKe-he-A3A"/>
+                        <outlet property="samplingLabel" destination="2BV-tY-oXa" id="Okj-Cf-F7t"/>
                         <outlet property="speedLabel" destination="FAH-WI-diF" id="5Sq-yR-wRr"/>
                         <outlet property="stop10Label" destination="qSn-7X-WRA" id="qQV-hX-h3N"/>
                         <outlet property="stop10Switch" destination="3F2-ac-2Ak" id="nVT-R3-fB5"/>
