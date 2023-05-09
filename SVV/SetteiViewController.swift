@@ -176,6 +176,8 @@ class SetteiViewController: UIViewController {
     var dotsRotationSpeed:Int = 0
     var lineMovingOnOff:Int = 0
     var gyroOnOff:Int = 0
+    var fps:Int = 0
+    var depth3D:Int = 0
     var SVVorDisplay:Int = 0
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var circleDiameterLabel: UILabel!
@@ -201,6 +203,10 @@ class SetteiViewController: UIViewController {
             gyroOnOff=0
         }
         UserDefaults.standard.set(gyroOnOff,forKey: "gyroOnOff")
+    }
+    @IBAction func onFpsSwitch(_ sender: UISegmentedControl) {
+        fps=sender.selectedSegmentIndex
+        UserDefaults.standard.set(fps, forKey: "fps")
     }
     
     @IBAction func onDisplayModeSwitch(_ sender: UISegmentedControl) {
@@ -247,14 +253,22 @@ class SetteiViewController: UIViewController {
 //        }
 //        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
 //    }
+    @IBAction func onDepthSlider(_ sender: UISlider) {
+        depth3D = Int(sender.value*20) - 10
+        print("depth:",depth3D)
+        UserDefaults.standard.set(depth3D, forKey: "depth3D")
+//        setDotsRotationSpeedText()
+        depthLabel.text="3Ddepth:" + String(depth3D)
+//        d.value=Float(depth3D+10)/20
+    }
+    
     @IBAction func onRotationSpeedSlider(_ sender: UISlider) {
         dotsRotationSpeed = Int(sender.value*144) - 72
         print("speed:",dotsRotationSpeed)
         UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
 //        setDotsRotationSpeedText()
         speedLabel.text=String(dotsRotationSpeed*5)
-        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
-
+//        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
     }
     @IBOutlet weak var backImageSwitch: UISegmentedControl!
     
@@ -408,6 +422,8 @@ class SetteiViewController: UIViewController {
         SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
         dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
         gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
+        fps=UserDefaults.standard.integer(forKey: "fps")
+        depth3D=UserDefaults.standard.integer(forKey: "depth3D")
         displayModeType=UserDefaults.standard.integer(forKey: "displayModeType")
         diameterSlider.value=Float(circleDiameter)/9
         lineWidthSlider.value=Float(verticalLineWidth)/9
@@ -457,6 +473,8 @@ class SetteiViewController: UIViewController {
 //        setDotsRotationSpeedText()
         speedLabel.text=String(dotsRotationSpeed*5)
         rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
+        depthLabel.text="3Ddepth:" + String(depth3D)
+        depthSlider.value=Float(depth3D+10)/20
         setRandomImages()
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
     }
@@ -549,6 +567,7 @@ class SetteiViewController: UIViewController {
         circleNumberSwitch.selectedSegmentIndex=circleNumber
         backImageSwitch.selectedSegmentIndex=backImageType
         displayModeSwitch.selectedSegmentIndex=displayModeType
+        fpsSwitch.selectedSegmentIndex=fps
         if tenTimesOnOff==1{
             stop10Switch.isOn=true
         }else{
