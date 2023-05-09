@@ -154,6 +154,17 @@
                                     <segue destination="dy0-li-jfZ" kind="unwind" unwindAction="returnToMeWithSegue:" id="7YI-tS-YK5"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yn3-5e-FcE">
+                                <rect key="frame" x="100" y="49" width="196" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <segments>
+                                    <segment title="30/s"/>
+                                    <segment title="50/s"/>
+                                    <segment title="100/s"/>
+                                </segments>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Line width" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1dS-Ky-GXA">
                                 <rect key="frame" x="182" y="253" width="114" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -320,9 +331,21 @@
                                     <action selector="onGyroOnSwitch:" destination="5V4-Ka-gbw" eventType="valueChanged" id="LGa-HF-Q8j"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FAH-WI-diF">
-                                <rect key="frame" x="187" y="328" width="33" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="speed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FAH-WI-diF">
+                                <rect key="frame" x="185" y="328" width="38" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="dNH-wv-HxD">
+                                <rect key="frame" x="351" y="11" width="288" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="depth" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9j-9N-Uu1">
+                                <rect key="frame" x="281" y="16" width="36" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -341,9 +364,12 @@
                         <outlet property="backImageSwitch" destination="JG9-Bx-DP9" id="Rfa-1D-UYQ"/>
                         <outlet property="circleDiameterLabel" destination="4Mb-lc-aZQ" id="BOv-Fd-kM7"/>
                         <outlet property="circleNumberSwitch" destination="tMh-dN-1sE" id="y4S-Yo-8Fo"/>
+                        <outlet property="depthLabel" destination="r9j-9N-Uu1" id="2I5-Wj-pXe"/>
+                        <outlet property="depthSlider" destination="dNH-wv-HxD" id="RK2-MB-pHr"/>
                         <outlet property="diameterSlider" destination="gyj-8b-ggr" id="Slk-TN-vcb"/>
                         <outlet property="displayModeSwitch" destination="QHf-u8-GGD" id="3cW-t9-SRA"/>
                         <outlet property="exitButton" destination="YZc-ha-bip" id="VGW-GZ-xWi"/>
+                        <outlet property="fpsSwitch" destination="yn3-5e-FcE" id="liK-YJ-nYo"/>
                         <outlet property="grayImage" destination="yIt-iu-BJc" id="Yf7-UD-xcB"/>
                         <outlet property="gyroOnLabel" destination="yMG-Mq-x7T" id="iL8-1L-mvT"/>
                         <outlet property="gyroOnSwitch" destination="kPF-X4-m5O" id="0Jz-Kh-5bw"/>

@@ -74,6 +74,7 @@ extension UIImage {
 
     class ViewController: UIViewController {
 
+   
         override func viewDidLoad() {
 
             // 1つ目のUIImageを作る.
@@ -148,6 +149,9 @@ class SetteiViewController: UIViewController {
         print("backImageType,SVVorDisplay:",backImageType,SVVorDisplay)
     }
     
+    @IBOutlet weak var fpsSwitch: UISegmentedControl!
+    @IBOutlet weak var depthSlider: UISlider!
+    @IBOutlet weak var depthLabel: UILabel!
     @IBOutlet weak var displayModeSwitch: UISegmentedControl!
     private var selectedMenuType = MenuType.SVV
     @IBOutlet weak var stop10Switch: UISwitch!
@@ -343,6 +347,7 @@ class SetteiViewController: UIViewController {
     }
     
     func buttonsToFront(){
+        self.view.bringSubviewToFront(fpsSwitch)
         self.view.bringSubviewToFront(exitButton)
         self.view.bringSubviewToFront(circleDiameterLabel)
         self.view.bringSubviewToFront(lineWidthLabel)
@@ -361,7 +366,9 @@ class SetteiViewController: UIViewController {
         self.view.bringSubviewToFront(speedLabel)
         self.view.bringSubviewToFront(gyroOnSwitch)
         self.view.bringSubviewToFront(gyroOnLabel)
-    }
+        self.view.bringSubviewToFront(depthLabel)
+        self.view.bringSubviewToFront(depthSlider)
+     }
     func buttonsToBack(){
         self.view.sendSubviewToBack(exitButton)
         self.view.sendSubviewToBack(circleDiameterLabel)
@@ -381,7 +388,9 @@ class SetteiViewController: UIViewController {
         self.view.sendSubviewToBack(gyroOnSwitch)
         self.view.sendSubviewToBack(gyroOnLabel)
         self.view.sendSubviewToBack(speedLabel)
-
+        self.view.sendSubviewToBack(depthLabel)
+        self.view.sendSubviewToBack(depthSlider)
+        self.view.sendSubviewToBack(fpsSwitch)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -503,23 +512,32 @@ class SetteiViewController: UIViewController {
         diameterSlider.frame = CGRect(x:x0+sp+bw,y:by-bh-sp,width:sliderWidth,height:bh)
         setLabelProperty(circleDiameterLabel,x:x0, y: by-bh-sp, w: bw, h: bh,UIColor.white)
         stop10Switch.frame=CGRect(x:x0,y:sp*2,width: 50,height: 20)
-        setLabelProperty(stop10Label, x: x0+sp+stop10Switch.frame.width, y: sp*2, w: 150, h: stop10Switch.frame.height, UIColor.white)
-        gyroOnSwitch.frame=CGRect(x:x0,y:sp*2,width: 50,height: 20)
-        setLabelProperty(gyroOnLabel, x: x0+sp+stop10Switch.frame.width, y: sp*2, w: 150, h: stop10Switch.frame.height, UIColor.white)
-        lineMovingSwitch.frame=CGRect(x:x0,y:sp*3+stop10Switch.frame.height,width:stop10Switch.frame.width,height: stop10Switch.frame.height)
-        setLabelProperty(lineMovingLabel,x:x0+sp+stop10Switch.frame.width,y:sp*3+stop10Switch.frame.height,w:150,h:stop10Switch.frame.height,UIColor.white)
+        let switchWidth=stop10Switch.frame.width
+        let switchHeight=stop10Switch.frame.height
+        let delta=bh/2-switchHeight/2
+        stop10Switch.frame=CGRect(x:x0,y:sp*2+delta,width: switchWidth,height: switchHeight)
+        setLabelProperty(stop10Label, x: x0+sp+switchWidth, y: sp*2, w: 150, h: bh, UIColor.white)
+        gyroOnSwitch.frame=CGRect(x:x0,y:sp*2+delta,width: switchWidth,height: bh)
+        lineMovingSwitch.frame=CGRect(x:x0,y:sp+delta+stop10Label.frame.maxY,width:switchWidth,height:bh)
+        setLabelProperty(lineMovingLabel,x:x0+sp+switchWidth,y:sp+stop10Label.frame.maxY,w:150,h:bh,UIColor.white)
+        setLabelProperty(gyroOnLabel, x: x0+sp+switchWidth, y: sp*2, w: 150, h: bh, UIColor.white)
         let exitX=x0+sp*5+sliderWidth*3+bw*2
         exitButton.frame = CGRect(x:exitX,y:by,width:bw,height: bh)
         exitButton.layer.cornerRadius=5
-        SVVDisplayButton.frame = CGRect(x:exitX,y:sp*2,width:bw,height:bh)
-        SVVDisplayButton.layer.cornerRadius=5
- //       let backImageSwitchW=lineWidthLabel.frame.minX-sp-x0
+    //       let backImageSwitchW=lineWidthLabel.frame.minX-sp-x0
         let dispSwitchW=lineWidthLabel.frame.maxX-x0
         setSwitchProperty(backImageSwitch, x: x0, y: by, w:dispSwitchW, h: bh)
         setSwitchProperty(displayModeSwitch, x: x0, y: by, w:dispSwitchW, h: bh)
         setLabelProperty(speedLabel, x:lineWidthLabel.frame.maxX+sp, y: by, w: bw/2, h: bh, UIColor.white)
         let speedSliderW=exitX-speedLabel.frame.maxX-sp*2
         rotationSpeedSlider.frame = CGRect(x:speedLabel.frame.maxX+sp,y:by,width:speedSliderW,height:bh)
+        fpsSwitch.frame=CGRect(x:x0,y:sp+gyroOnLabel.frame.maxY,width:gyroOnLabel.frame.maxX-x0,height:bh)
+        depthLabel.frame=CGRect(x:speedLabel.frame.minX,y:gyroOnLabel.frame.minY,width:bw,height: bh)
+        depthLabel.layer.masksToBounds=true
+        depthLabel.layer.cornerRadius=5
+        depthSlider.frame=CGRect(x:depthLabel.frame.maxX+sp,y:gyroOnLabel.frame.minY,width:exitButton.frame.minX-depthLabel.frame.maxX-2*sp,height: bh)
+        SVVDisplayButton.frame = CGRect(x:exitX,y:gyroOnLabel.frame.minY,width:bw,height:bh)
+        SVVDisplayButton.layer.cornerRadius=5
         circleDiameterLabel.layer.masksToBounds = true
         circleDiameterLabel.layer.cornerRadius = 5
         lineWidthLabel.layer.masksToBounds = true
@@ -551,6 +569,7 @@ class SetteiViewController: UIViewController {
             displayModeSwitch.isHidden=true
             gyroOnLabel.isHidden=true
             gyroOnSwitch.isHidden=true
+            fpsSwitch.isHidden=true
         }else{
             lineMovingLabel.isHidden=true
             lineMovingSwitch.isHidden=true
@@ -560,6 +579,7 @@ class SetteiViewController: UIViewController {
             displayModeSwitch.isHidden=false
             gyroOnLabel.isHidden=false
             gyroOnSwitch.isHidden=false
+            fpsSwitch.isHidden=false
         }
     }
  
