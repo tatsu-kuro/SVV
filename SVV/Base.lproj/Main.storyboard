@@ -159,6 +159,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
                                 <segments>
+                                    <segment title="20/s"/>
                                     <segment title="30/s"/>
                                     <segment title="50/s"/>
                                     <segment title="100/s"/>
