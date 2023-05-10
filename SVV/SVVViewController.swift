@@ -157,11 +157,11 @@ class SVVViewController: UIViewController {
     var image3DRight:UIImage?
     override func viewDidAppear(_ animated: Bool) {
         print("didappear****")
-        ww=view.bounds.width
-        wh=view.bounds.height
-        radius=wh*(70+13*CGFloat(circleDiameter))/400
-        x0Right=ww/4 + CGFloat(locationX)
-        x0Left=ww*3/4 - CGFloat(locationX)
+//        ww=view.bounds.width
+//        wh=view.bounds.height
+//        radius=wh*(70+13*CGFloat(circleDiameter))/400
+//        x0Right=ww/4 + CGFloat(locationX)
+//        x0Left=ww*3/4 - CGFloat(locationX)
 //        image3D=UIImage(named: "white_black562")
     }
     override func viewDidDisappear(_ animated: Bool) {
@@ -449,6 +449,11 @@ class SVVViewController: UIViewController {
         image3D=UIImage(named: "white_black562")
         image3DLeft=image3D
         image3DRight=image3D
+        ww=view.bounds.width
+        wh=view.bounds.height
+        radius=wh*(70+13*CGFloat(circleDiameter))/400
+        x0Right=ww/4 + CGFloat(locationX)
+        x0Left=ww*3/4 - CGFloat(locationX)
 
         displayLink = CADisplayLink(target: self, selector: #selector(self.update))
         displayLink!.preferredFramesPerSecond = 120
@@ -665,12 +670,6 @@ class SVVViewController: UIViewController {
     var initDrawBackBackFlag:Bool=true
 
     func drawDotsCircle(){//_ angle:CGFloat){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
-//        var x0=ww/2
-//        if circleNumber == 1{
-//            x0=x0Right
-//        }
         let y0=wh/2
         if SVVorDisplay==0{//SVV
             if backImageType==0{
@@ -727,8 +726,6 @@ class SVVViewController: UIViewController {
                 self.view.bringSubviewToFront(randomImage1)
                 randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage2)
-//            }else{
-//                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
             }
         }
     }
