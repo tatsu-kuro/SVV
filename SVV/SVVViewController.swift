@@ -159,7 +159,6 @@ class SVVViewController: UIViewController {
         print("didappear****")
 //        ww=view.bounds.width
 //        wh=view.bounds.height
-//        radius=wh*(70+13*CGFloat(circleDiameter))/400
 //        x0Right=ww/4 + CGFloat(locationX)
 //        x0Left=ww*3/4 - CGFloat(locationX)
 //        image3D=UIImage(named: "white_black562")
@@ -451,7 +450,7 @@ class SVVViewController: UIViewController {
         image3DRight=image3D
         ww=view.bounds.width
         wh=view.bounds.height
-        radius=wh*(70+13*CGFloat(circleDiameter))/400
+        radius=wh*(70+13*CGFloat(circleDiameter)/5)/400
         x0Right=ww/4 + CGFloat(locationX)
         x0Left=ww*3/4 - CGFloat(locationX)
 
@@ -605,7 +604,7 @@ class SVVViewController: UIViewController {
             x0=x0Left//ww*3/4 - CGFloat(locationX)
         }
         let y0=wh/2
-        var r=radius//wh*(70+13*CGFloat(circleDiameter))/400
+        var r=radius
         if backImageType==1 && SVVorDisplay==0{
             r=r*0.35
         }
@@ -645,7 +644,7 @@ class SVVViewController: UIViewController {
     func drawWhiteCircle(){
         let ww=view.bounds.width
         let wh=view.bounds.height
- //       let r=wh*(70+13*CGFloat(circleDiameter))/400
+
         var x0=ww/2
         let y0=wh/2
         if circleNumber == 1{

@@ -288,12 +288,12 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var lineWidthLabel: UILabel!
     @IBAction func changeDiameter(_ sender: UISlider) {
         if Locale.preferredLanguages.first!.contains("ja"){
-            circleDiameterLabel.text="直径:" + String(1+Int(sender.value*9))
+            circleDiameterLabel.text="直径:" + String(1+Int(sender.value*49))
         }else{
-            circleDiameterLabel.text="Dia:" + String(1+Int(sender.value*9))
+            circleDiameterLabel.text="Dia:" + String(1+Int(sender.value*49))
         }
-        circleDiameter=Int(sender.value*9)
-        radius=wh*(70+13*CGFloat(circleDiameter))/400
+        circleDiameter=Int(sender.value*49)
+        radius=wh*(70+13*CGFloat(circleDiameter)/5)/400
         x0Right=ww/4 + CGFloat(locationX)
         x0Left=ww*3/4 - CGFloat(locationX)
 
@@ -318,7 +318,7 @@ class SetteiViewController: UIViewController {
             return
         }
         locationX=Int(sender.value)
-        radius=wh*(70+13*CGFloat(circleDiameter))/400
+        radius=wh*(70+13*CGFloat(circleDiameter)/5)/400
         x0Right=ww/4 + CGFloat(locationX)
         x0Left=ww*3/4 - CGFloat(locationX)
 
@@ -359,8 +359,16 @@ class SetteiViewController: UIViewController {
     @IBAction func onCircleNumberSwitch(_ sender: UISegmentedControl) {
         circleNumber=sender.selectedSegmentIndex
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "circleNumber")
+        
         reDrawCirclesLines()
         setVRsliderOnOff()
+        if circleNumber==0{
+            randomImage2.isHidden=true
+        }else{
+            randomImage2.isHidden=false
+        }
+        randomImage.isHidden=true
+
     }
 
     override var prefersHomeIndicatorAutoHidden: Bool {
@@ -435,7 +443,7 @@ class SetteiViewController: UIViewController {
         fps=UserDefaults.standard.integer(forKey: "fps")
         depth3D=UserDefaults.standard.integer(forKey: "depth3D")
         displayModeType=UserDefaults.standard.integer(forKey: "displayModeType")
-        diameterSlider.value=Float(circleDiameter)/9
+        diameterSlider.value=Float(circleDiameter)/49
         lineWidthSlider.value=Float(verticalLineWidth)/9
         VRLocationXSlider.value=Float(locationX)
         if Locale.preferredLanguages.first!.contains("ja"){
@@ -487,7 +495,7 @@ class SetteiViewController: UIViewController {
         
         ww=view.bounds.width
         wh=view.bounds.height
-        radius=wh*(70+13*CGFloat(circleDiameter))/400
+        radius=wh*(70+13*CGFloat(circleDiameter)/5)/400
         x0Right=ww/4 + CGFloat(locationX)
         x0Left=ww*3/4 - CGFloat(locationX)
         image3D=UIImage(named: "white_black562")
@@ -663,7 +671,7 @@ class SetteiViewController: UIViewController {
         let x0M=ww/2
         let x0R=ww*3/4 - CGFloat(locationX)
         let y0=wh/2
-        var r=wh*(70+13*CGFloat(circleDiameter))/400
+        var r=wh*(70+13*CGFloat(circleDiameter)/5)/400
         if backImageType==1 && SVVorDisplay==0{
             r=r*0.35
         }
@@ -727,15 +735,7 @@ class SetteiViewController: UIViewController {
     var image3D:UIImage?
     var image3DLeft:UIImage?
     var image3DRight:UIImage?
-//    override func viewDidAppear(_ animated: Bool) {
-//        print("didappear****")
-//        ww=view.bounds.width
-//        wh=view.bounds.height
-//        radius=wh*(70+13*CGFloat(circleDiameter))/400
-//        x0Right=ww/4 + CGFloat(locationX)
-//        x0Left=ww*3/4 - CGFloat(locationX)
-//        image3D=UIImage(named: "white_black562")
-//    }
+
     var image1:UIImage?
 
     func drawBack(){//_ angle:CGFloat){
