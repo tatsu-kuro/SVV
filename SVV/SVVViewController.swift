@@ -152,6 +152,9 @@ class SVVViewController: UIViewController {
     var radius:CGFloat=0
     var x0Right:CGFloat=0
     var x0Left:CGFloat=0
+    var image3D:UIImage?
+    var image3DLeft:UIImage?
+    var image3DRight:UIImage?
     override func viewDidAppear(_ animated: Bool) {
         print("didappear****")
         ww=view.bounds.width
@@ -159,6 +162,7 @@ class SVVViewController: UIViewController {
         radius=wh*(70+13*CGFloat(circleDiameter))/400
         x0Right=ww/4 + CGFloat(locationX)
         x0Left=ww*3/4 - CGFloat(locationX)
+//        image3D=UIImage(named: "white_black562")
     }
     override func viewDidDisappear(_ animated: Bool) {
 //        stopAccelerometer()
@@ -442,6 +446,10 @@ class SVVViewController: UIViewController {
                 randomImage.image=UIImage(named: "white_black")
             }
         }
+        image3D=UIImage(named: "white_black562")
+        image3DLeft=image3D
+        image3DRight=image3D
+
         displayLink = CADisplayLink(target: self, selector: #selector(self.update))
         displayLink!.preferredFramesPerSecond = 120
         //displayLinkスタート
@@ -483,27 +491,20 @@ class SVVViewController: UIViewController {
         return true
     }
     var initUpdateFlag:Bool=true
-    @objc func update(){//tm: Timer) {
+    @objc func update(){
         //        print("sublayers:",view.layer.sublayers?.count)
-        // if(Globalef==true){//gamepadがない時は変化しないのでチェックせず
         currentDotsDegree=(CFAbsoluteTimeGetCurrent()-mainTime)*CGFloat(dotsRotationSpeed)*5
         if initUpdateFlag==true{
             initUpdateFlag=false
             blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
-//            if backImageType==0 && SVVorDisplay==0{
-//                drawWhiteCircle()
-//            }
         }else{
             view.layer.sublayers?.removeLast()
             if circleNumber==1{
                 view.layer.sublayers?.removeLast()
             }
         }
-//        if backImageType>0 || SVVorDisplay==1{
-            drawDotsCircle()
-//        }
- //       print("sublayers:",view.layer.sublayers?.count)
-
+        drawDotsCircle()
+        //       print("sublayers:",view.layer.sublayers?.count)
         degree += Double(GlobalStickXvalue)*2
         degree += Double(GlobalPadXvalue)/2
         degree += Double(GlobalButtonBvalue)/2
@@ -666,13 +667,9 @@ class SVVViewController: UIViewController {
     func drawDotsCircle(){//_ angle:CGFloat){
         let ww=view.bounds.width
         let wh=view.bounds.height
-//        let backImageType = getUserDefault(str:"backImageType",ret:0)
-//        let circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
-        
- //       let r=wh*(70+13*CGFloat(circleDiameter))/400
         var x0=ww/2
         if circleNumber == 1{
-            x0=x0Right//ww/4 + CGFloat(locationX)
+            x0=x0Right
         }
         let y0=wh/2
         if SVVorDisplay==0{//SVV
@@ -682,14 +679,14 @@ class SVVViewController: UIViewController {
                 randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             }
             randomImage2.image=randomImage1.image
-            randomImage1.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-            self.view.bringSubviewToFront(randomImage1)
-            if circleNumber==1{
-                x0=x0Left//ww*3/4 - CGFloat(locationX)
-                randomImage2.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-                self.view.bringSubviewToFront(randomImage2)
+            if circleNumber==0{
+                randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
+                self.view.bringSubviewToFront(randomImage1)
             }else{
-                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
+                randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
+                self.view.bringSubviewToFront(randomImage1)
+                randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
+                self.view.bringSubviewToFront(randomImage2)
             }
         }else{//display
             if displayModeType>0{
@@ -700,23 +697,20 @@ class SVVViewController: UIViewController {
                 if displayModeType==1 || displayModeType==3{
                     let image1=trimmingImage(randomImage.image!,CGRect(x:imgxy,y:0,width: 562,height: 562))
                     // 画像を合成する.
-                    let image2=UIImage(named: "white_black562")
                     if gyroOnOff==1{
                         let image3 = image1.rotatedBy(degree: getSensorDegree())
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image2!], width: 562, height: 562)
-                        //  randomImage1.image = image3!.rotatedBy(degree:getSensorDegree())
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 562, height: 562)
                     }else{
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
                     }
                 }else{
                     let image1=trimmingImage(randomImage.image!,CGRect(x:0,y:imgxy,width: 562,height: 562))
                     // 画像を合成する.
-                    let image2=UIImage(named: "white_black562")
                     if gyroOnOff==1{
                         let image3 = image1.rotatedBy(degree: getSensorDegree())
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image2!], width: 562, height: 562)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 562, height: 562)
                     }else{
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image2!], width: 562, height: 562)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
                     }
                 }
                 
