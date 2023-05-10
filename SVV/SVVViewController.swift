@@ -502,7 +502,7 @@ class SVVViewController: UIViewController {
 //        if backImageType>0 || SVVorDisplay==1{
             drawDotsCircle()
 //        }
-        print("sublayers:",view.layer.sublayers?.count)
+ //       print("sublayers:",view.layer.sublayers?.count)
 
         degree += Double(GlobalStickXvalue)*2
         degree += Double(GlobalPadXvalue)/2

@@ -418,7 +418,7 @@ class ViewController: UIViewController {
         //print("startSVV : ",savedFlag)
         sound(snd:"silence")
 //リモートコントローラーからは”LIST"button.のときはsaveFlagをチェックしないとしていたが、
-        let buttonTitle=(sender as! UIButton).currentTitle
+ //       let buttonTitle=(sender as! UIButton).currentTitle
         if savedFlag == false{//} && buttonTitle=="START"{//チェックすることとした
             //setButtons(mode: false)
             let alert = UIAlertController(
