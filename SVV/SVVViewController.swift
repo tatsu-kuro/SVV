@@ -667,10 +667,10 @@ class SVVViewController: UIViewController {
     func drawDotsCircle(){//_ angle:CGFloat){
         let ww=view.bounds.width
         let wh=view.bounds.height
-        var x0=ww/2
-        if circleNumber == 1{
-            x0=x0Right
-        }
+//        var x0=ww/2
+//        if circleNumber == 1{
+//            x0=x0Right
+//        }
         let y0=wh/2
         if SVVorDisplay==0{//SVV
             if backImageType==0{
@@ -717,15 +717,18 @@ class SVVViewController: UIViewController {
             }else{
                 randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             }
-            randomImage2.image=randomImage1.image
-            randomImage1.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-            self.view.bringSubviewToFront(randomImage1)
-            if circleNumber==1{
-                x0=x0Left//ww*3/4 - CGFloat(locationX)
-                randomImage2.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-                self.view.bringSubviewToFront(randomImage2)
+            if circleNumber==0{
+                randomImage2.image=randomImage1.image
+                randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
+                self.view.bringSubviewToFront(randomImage1)
             }else{
-                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
+                randomImage2.image=randomImage1.image
+                randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
+                self.view.bringSubviewToFront(randomImage1)
+                randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
+                self.view.bringSubviewToFront(randomImage2)
+//            }else{
+//                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
             }
         }
     }
