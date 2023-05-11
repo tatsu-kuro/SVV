@@ -517,7 +517,7 @@ class SetteiViewController: UIViewController {
         radius=wh*(70+13*CGFloat(circleDiameter)/5)/400
         x0Right=ww/4 + CGFloat(locationX)
         x0Left=ww*3/4 - CGFloat(locationX)
-        image3D=UIImage(named: "white_black562")
+        image3D=UIImage(named: "white_black_transparent")
         image3DLeft=image3D
         image3DRight=image3D
 
@@ -533,16 +533,15 @@ class SetteiViewController: UIViewController {
     func setBackImages(){
         if SVVorDisplay==1{
             if displayModeType==0{
-//                backImage = UIImage.ResizeÜIImage(image: UIImage(named:"random")!,width: 562, height:562)
                 backImage=UIImage(named: "random")
             }else if displayModeType==1{
-                backImage=UIImage(named: "dots690")
+                backImage=UIImage(named: "dotsYoko")
             }else if displayModeType==2{
-                backImage=UIImage(named:"dots690t")
+                backImage=UIImage(named:"dotsTate")
             }else if displayModeType==3{
-                backImage=UIImage(named: "band770")
+                backImage=UIImage(named: "bandYoko")
             }else{
-                backImage=UIImage(named:"band770t")
+                backImage=UIImage(named:"bandTate")
             }
         }else{
             if SVVModeType==2{
@@ -550,7 +549,6 @@ class SetteiViewController: UIViewController {
             }else if SVVModeType==1{
                 backImage=UIImage(named: "randoms")
             }else{
-//                backImage = UIImage.ResizeÜIImage(image: UIImage(named:"white_black")!,width: 562, height:562)
                 backImage=UIImage(named: "white_black")
             }
         }
@@ -734,7 +732,7 @@ class SetteiViewController: UIViewController {
         self.view.layer.addSublayer(circleLayer)
     }
     var initDrawBackFlag:Bool=true
-    //1542*562
+    
     @IBAction func onTapGesture(_ sender: UITapGestureRecognizer) {
         let loc=sender.location(in: self.view)
         if loc.x < rotationSpeedSlider.frame.maxX && loc.x>rotationSpeedSlider.frame.minX && loc.y>rotationSpeedSlider.frame.minY && loc.y<rotationSpeedSlider.frame.maxY{
@@ -816,69 +814,5 @@ class SetteiViewController: UIViewController {
             }
         }
     }
-  /*  func drawBack1(){
-        // 四角形を描画
-        if initDrawBackFlag==true{
-            initDrawBackFlag=false
-            grayImage.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
-        }
-        var x0=ww/2
-        if circleNumber == 1{
-            x0=ww/4 + CGFloat(locationX)
-        }
-        let y0=wh/2
-        if SVVorDisplay==1{
-            if displayModeType>0{//dot:
-                var imgxy=CGFloat(Int(currentDotsDegree*5)%770)
-                if imgxy<0{
-                    imgxy += 770
-                }
-                if displayModeType==1 || displayModeType==3{
-                    let image1=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 562,height: 562))
-                    // 画像を合成する.
-                    randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
-                }else{
-                    let image1=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 562,height: 562))
-                    // 画像を合成する.
-                    randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
-                }
-            }else{
-                randomImage1.image=backImage?.rotatedBy(degree: currentDotsDegree)
-            }
-            randomImage2.image=randomImage1.image
-            randomImage1.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-            self.view.bringSubviewToFront(randomImage1)
-            if circleNumber==1{
-                x0=ww*3/4 - CGFloat(locationX)
-                randomImage2.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-                self.view.bringSubviewToFront(randomImage2)
-            }else{
-                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
-            }
-        }else if SVVModeType==0{
-            randomImage1.image=backImage//UIImage(named: "white_black")
-            randomImage2.image=backImage//UIImage(named: "white_black")
-            randomImage1.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-            self.view.bringSubviewToFront(randomImage1)
-            if circleNumber==1{
-                x0=ww*3/4 - CGFloat(locationX)
-                randomImage2.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-                self.view.bringSubviewToFront(randomImage2)
-            }else{
-                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
-            }
-        }else{//dot:rotation
-            randomImage1.image=backImage?.rotatedBy(degree: currentDotsDegree)
-            randomImage2.image=randomImage1.image
-            randomImage1.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-            self.view.bringSubviewToFront(randomImage1)
-            if circleNumber==1{
-                x0=ww*3/4 - CGFloat(locationX)
-                randomImage2.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-                self.view.bringSubviewToFront(randomImage2)
-            }else{
-                randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
-            }
-        }
-    }*/
+  
 }

@@ -156,19 +156,8 @@ class SVVViewController: UIViewController {
     var image3DRight:UIImage?
     override func viewDidAppear(_ animated: Bool) {
         print("didappear****")
-//        ww=view.bounds.width
-//        wh=view.bounds.height
-//        x0Right=ww/4 + CGFloat(locationX)
-//        x0Left=ww*3/4 - CGFloat(locationX)
-//        image3D=UIImage(named: "white_black562")
     }
     override func viewDidDisappear(_ animated: Bool) {
-//        stopAccelerometer()
-//        Globalmode=0
-//        stopDisplaylink()
-        //        if timer?.isValid == true {
-        //            timer.invalidate()
-        //        }
         print("SVV:ViewDidDisapear")
     }
     func getSensorDegree()->Double{
@@ -427,13 +416,13 @@ class SVVViewController: UIViewController {
             if displayModeType==0{
                 backImage=UIImage(named: "random")
             }else if displayModeType==1{
-                backImage=UIImage(named: "dots690")
+                backImage=UIImage(named: "dotsYoko")
             }else if displayModeType==2{
-                backImage=UIImage(named:"dots690t")
+                backImage=UIImage(named:"dotsTate")
             }else if displayModeType==3{
-                backImage=UIImage(named: "band770")
+                backImage=UIImage(named: "bandYoko")
             }else{
-                backImage=UIImage(named:"band770t")
+                backImage=UIImage(named:"bandTate")
             }
         }else{
             if SVVModeType==0{
@@ -445,7 +434,7 @@ class SVVViewController: UIViewController {
             }
         }
         
-        image3D=UIImage(named: "white_black562")
+        image3D=UIImage(named: "white_black_transparent")
         image3DLeft=image3D
         image3DRight=image3D
         ww=view.bounds.width
