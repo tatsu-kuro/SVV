@@ -89,10 +89,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="random" translatesAutoresizingMaskIntoConstraints="NO" id="bAk-ia-pQf">
-                                <rect key="frame" x="364" y="90" width="204" height="230"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="random" translatesAutoresizingMaskIntoConstraints="NO" id="FV6-jK-joM">
                                 <rect key="frame" x="20" y="104" width="223" height="203"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -116,7 +112,6 @@
                     </view>
                     <connections>
                         <outlet property="blackImage" destination="CBi-wH-YVO" id="YDh-J0-dkY"/>
-                        <outlet property="randomImage" destination="bAk-ia-pQf" id="xHc-xH-yqa"/>
                         <outlet property="randomImage1" destination="CBm-pB-XZ0" id="63c-60-ucm"/>
                         <outlet property="randomImage2" destination="FV6-jK-joM" id="u74-ZY-92d"/>
                     </connections>

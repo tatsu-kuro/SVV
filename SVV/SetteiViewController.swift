@@ -234,11 +234,11 @@ class SetteiViewController: UIViewController {
         setBackImages()
     }
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
-        UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageType")
+        UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "SVVModeType")
         SVVModeType=sender.selectedSegmentIndex//UserDefaults.standard.integer(forKey: "backImageType")
         setBackImages()
         reDrawCirclesLines()//左行でbackImageTypeをセット
-        print("backImageType:",SVVModeType)
+        print("SVVModeType:",SVVModeType)
         setRotationSpeedSliderOnOff()
     }
 //    func setDotsRotationSpeedText(){
@@ -453,7 +453,7 @@ class SetteiViewController: UIViewController {
         verticalLineWidth=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
         circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
-        SVVModeType=UserDefaults.standard.integer(forKey: "backImageType")
+        SVVModeType=UserDefaults.standard.integer(forKey: "SVVModeType")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
         lineMovingOnOff=UserDefaults.standard.integer(forKey: "lineMovingOnOff")
         SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
