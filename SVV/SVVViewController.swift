@@ -394,8 +394,8 @@ class SVVViewController: UIViewController {
         lineMovingOnOff=UserDefaults.standard.integer(forKey: "lineMovingOnOff")
         SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
         displayModeType=UserDefaults.standard.integer(forKey: "displayModeType")
-        gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
         SVVModeType=UserDefaults.standard.integer(forKey:"SVVModeType")
+        gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
         fps=UserDefaults.standard.integer(forKey: "fps")
         
         UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -661,8 +661,12 @@ class SVVViewController: UIViewController {
                 randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
             }else{
+                //右を合成
+                
                 randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
+                //左を合成
+                
                 randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage2)
             }
@@ -701,8 +705,10 @@ class SVVViewController: UIViewController {
                 self.view.bringSubviewToFront(randomImage1)
             }else{
                 randomImage2.image=randomImage1.image
+                //右を合成
                 randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
+                //左を合成
                 randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage2)
             }
