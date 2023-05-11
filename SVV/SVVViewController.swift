@@ -428,9 +428,9 @@ class SVVViewController: UIViewController {
             if displayModeType==0{
                 randomImage.image=UIImage(named: "random")
             }else if displayModeType==1{
-                randomImage.image=UIImage(named: "dots770")
+                randomImage.image=UIImage(named: "dots690")
             }else if displayModeType==2{
-                randomImage.image=UIImage(named:"dots770t")
+                randomImage.image=UIImage(named:"dots690t")
             }else if displayModeType==3{
                 randomImage.image=UIImage(named: "band770")
             }else{
@@ -472,7 +472,31 @@ class SVVViewController: UIViewController {
         }
 //        print("didload")
     }
-    
+/*    func setBackImages(){
+        if SVVorDisplay==1{
+            if displayModeType==0{
+//                backImage = UIImage.ResizeÜIImage(image: UIImage(named:"random")!,width: 562, height:562)
+                backImage=UIImage(named: "random")
+            }else if displayModeType==1{
+                backImage=UIImage(named: "dots690")
+            }else if displayModeType==2{
+                backImage=UIImage(named:"dots690t")
+            }else if displayModeType==3{
+                backImage=UIImage(named: "band770")
+            }else{
+                backImage=UIImage(named:"band770t")
+            }
+        }else{
+            if SVVModeType==2{
+                backImage=UIImage(named: "random")
+            }else if SVVModeType==1{
+                backImage=UIImage(named: "randoms")
+            }else{
+//                backImage = UIImage.ResizeÜIImage(image: UIImage(named:"white_black")!,width: 562, height:562)
+                backImage=UIImage(named: "white_black")
+            }
+        }
+    }*/
     func getRandom()->Double{
         var ret:Double=0
         while(ret < 150 && ret > -150){
@@ -641,25 +665,25 @@ class SVVViewController: UIViewController {
         }
     }
 
-    func drawWhiteCircle(){
-        let ww=view.bounds.width
-        let wh=view.bounds.height
-
-        var x0=ww/2
-        let y0=wh/2
-        if circleNumber == 1{
-            x0=x0Right//ww/4+CGFloat(locationX)
-        }
-        randomImage1.image=UIImage(named:"white_black")
-        randomImage1.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-        self.view.bringSubviewToFront(randomImage1)
-        if circleNumber == 1{
-            x0=x0Left//ww*3/4 - CGFloat(locationX)
-            randomImage2.image=UIImage(named: "white_black")
-            randomImage2.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
-            self.view.bringSubviewToFront(randomImage2)
-        }
-    }
+//    func drawWhiteCircle(){
+//        let ww=view.bounds.width
+//        let wh=view.bounds.height
+//
+//        var x0=ww/2
+//        let y0=wh/2
+//        if circleNumber == 1{
+//            x0=x0Right//ww/4+CGFloat(locationX)
+//        }
+//        randomImage1.image=UIImage(named:"white_black")
+//        randomImage1.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
+//        self.view.bringSubviewToFront(randomImage1)
+//        if circleNumber == 1{
+//            x0=x0Left//ww*3/4 - CGFloat(locationX)
+//            randomImage2.image=UIImage(named: "white_black")
+//            randomImage2.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
+//            self.view.bringSubviewToFront(randomImage2)
+//        }
+//    }
   
     func trimmingImage(_ image: UIImage,_ trimmingArea: CGRect) -> UIImage {
         let imgRef = image.cgImage?.cropping(to: trimmingArea)
@@ -693,22 +717,22 @@ class SVVViewController: UIViewController {
                     imgxy += 770
                 }
                 if displayModeType==1 || displayModeType==3{
-                    let image1=trimmingImage(randomImage.image!,CGRect(x:imgxy,y:0,width: 562,height: 562))
+                    let image1=trimmingImage(randomImage.image!,CGRect(x:imgxy,y:0,width: 690,height: 690))
                     // 画像を合成する.
                     if gyroOnOff==1{
                         let image3 = image1.rotatedBy(degree: getSensorDegree())
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 562, height: 562)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 690, height: 690)
                     }else{
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 690, height: 690)
                     }
                 }else{
-                    let image1=trimmingImage(randomImage.image!,CGRect(x:0,y:imgxy,width: 562,height: 562))
+                    let image1=trimmingImage(randomImage.image!,CGRect(x:0,y:imgxy,width: 690,height: 690))
                     // 画像を合成する.
                     if gyroOnOff==1{
                         let image3 = image1.rotatedBy(degree: getSensorDegree())
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 562, height: 562)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 690, height: 690)
                     }else{
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 690, height: 690)
                     }
                 }
                 

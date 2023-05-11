@@ -133,7 +133,7 @@ class SetteiViewController: UIViewController {
         if selectedMenuType.title=="SVV"{
             SVVorDisplay=0
             UserDefaults.standard.set(SVVorDisplay,forKey: "SVVorDisplay")
-            if backImageType==0{
+            if SVVModeType==0{
                 rotationSpeedSlider.isEnabled=false
                 rotationSpeedSlider.tintColor=UIColor.systemGray
             }
@@ -145,10 +145,27 @@ class SetteiViewController: UIViewController {
             rotationSpeedSlider.tintColor=UIColor.systemGreen
         }
         setButtons()
-        setRandomImages()
-        print("backImageType,SVVorDisplay:",backImageType,SVVorDisplay)
+        setBackImages()
+        print("backImageType,SVVorDisplay:",SVVModeType,SVVorDisplay)
     }
+    func pasteImage(orgImg:UIImage,posx:CGFloat) -> UIImage {
+        // イメージ処理の開始]
+        //mailの時は直に貼り付ける
+        UIGraphicsBeginImageContext(orgImg.size)
+        orgImg.draw(at:CGPoint.zero)
+        let drawPath = UIBezierPath()
+        let str = "2sec/scale"
+        str.draw(at: CGPoint(x: posx, y: 50), withAttributes: [
+                    NSAttributedString.Key.foregroundColor : UIColor.black,
+                    NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 150, weight: UIFont.Weight.regular)])
     
+        drawPath.stroke()
+        // イメージコンテキストからUIImageを作る
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        // イメージ処理の終了
+        UIGraphicsEndImageContext()
+        return image!
+    }
     @IBOutlet weak var samplingLabel: UILabel!
     @IBOutlet weak var fpsSwitch: UISegmentedControl!
     @IBOutlet weak var depthSlider: UISlider!
@@ -169,7 +186,7 @@ class SetteiViewController: UIViewController {
     var time=CFAbsoluteTimeGetCurrent()
     var tempdiameter:Int=0
     var circleNumber:Int = 0
-    var backImageType:Int = 0
+    var SVVModeType:Int = 0
     var displayModeType:Int = 0
     var tenTimesOnOff:Int = 1
     var locationX:Int = 0
@@ -186,7 +203,9 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var grayImage: UIImageView!
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
-    @IBOutlet weak var randomImage: UIImageView!
+ //   @IBOutlet weak var randomImage: UIImageView!
+    var backImage:UIImage!
+
     @IBAction func onLineMovingSwitch(_ sender: UISwitch) {
         if sender.isOn{
             lineMovingOnOff=1
@@ -212,14 +231,14 @@ class SetteiViewController: UIViewController {
     @IBAction func onDisplayModeSwitch(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "displayModeType")
         displayModeType=sender.selectedSegmentIndex
-        setRandomImages()
+        setBackImages()
     }
     @IBAction func onBackImageSwitch(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "backImageType")
-        backImageType=sender.selectedSegmentIndex//UserDefaults.standard.integer(forKey: "backImageType")
-        setRandomImages()
+        SVVModeType=sender.selectedSegmentIndex//UserDefaults.standard.integer(forKey: "backImageType")
+        setBackImages()
         reDrawCirclesLines()//左行でbackImageTypeをセット
-        print("backImageType:",backImageType)
+        print("backImageType:",SVVModeType)
         setRotationSpeedSliderOnOff()
     }
 //    func setDotsRotationSpeedText(){
@@ -337,7 +356,7 @@ class SetteiViewController: UIViewController {
     }
     func setRotationSpeedSliderOnOff()
     {
-        if backImageType>0 || SVVorDisplay==1{
+        if SVVModeType>0 || SVVorDisplay==1{
             rotationSpeedSlider.isEnabled=true
             rotationSpeedSlider.tintColor=UIColor.systemGreen
         }else{
@@ -367,7 +386,7 @@ class SetteiViewController: UIViewController {
         }else{
             randomImage2.isHidden=false
         }
-        randomImage.isHidden=true
+//        randomImage.isHidden=true
 
     }
 
@@ -434,7 +453,7 @@ class SetteiViewController: UIViewController {
         verticalLineWidth=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
         circleNumber=UserDefaults.standard.integer(forKey:"circleNumber")
-        backImageType=UserDefaults.standard.integer(forKey: "backImageType")
+        SVVModeType=UserDefaults.standard.integer(forKey: "backImageType")
         tenTimesOnOff=UserDefaults.standard.integer(forKey:"tenTimesOnOff")
         lineMovingOnOff=UserDefaults.standard.integer(forKey: "lineMovingOnOff")
         SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
@@ -491,7 +510,7 @@ class SetteiViewController: UIViewController {
         rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
         depthLabel.text="3Ddepth:" + String(depth3D)
         depthSlider.value=Float(depth3D+10)/20
-        setRandomImages()
+        setBackImages()
         
         ww=view.bounds.width
         wh=view.bounds.height
@@ -499,33 +518,40 @@ class SetteiViewController: UIViewController {
         x0Right=ww/4 + CGFloat(locationX)
         x0Left=ww*3/4 - CGFloat(locationX)
         image3D=UIImage(named: "white_black562")
+        image3DLeft=image3D
+        image3DRight=image3D
 
+  //      image3D=pasteImage(orgImg:image3Ds!,posx:50)
+  
         drawBack()
         drawLines(degree:0)
 
         
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        
     }
-    func setRandomImages(){
+    func setBackImages(){
         if SVVorDisplay==1{
             if displayModeType==0{
-                randomImage.image=UIImage(named: "random")
+//                backImage = UIImage.ResizeÜIImage(image: UIImage(named:"random")!,width: 562, height:562)
+                backImage=UIImage(named: "random")
             }else if displayModeType==1{
-                randomImage.image=UIImage(named: "dots770")
+                backImage=UIImage(named: "dots690")
             }else if displayModeType==2{
-                randomImage.image=UIImage(named:"dots770t")
+                backImage=UIImage(named:"dots690t")
             }else if displayModeType==3{
-                randomImage.image=UIImage(named: "band770")
+                backImage=UIImage(named: "band770")
             }else{
-                randomImage.image=UIImage(named:"band770t")
+                backImage=UIImage(named:"band770t")
             }
         }else{
-            if backImageType==2{
-                randomImage.image=UIImage(named: "random")
-            }else if backImageType==1{
-                randomImage.image=UIImage(named: "randoms")
+            if SVVModeType==2{
+                backImage=UIImage(named: "random")
+            }else if SVVModeType==1{
+                backImage=UIImage(named: "randoms")
             }else{
-                randomImage.image=UIImage(named: "white_black")
+//                backImage = UIImage.ResizeÜIImage(image: UIImage(named:"white_black")!,width: 562, height:562)
+                backImage=UIImage(named: "white_black")
             }
         }
     }
@@ -596,7 +622,7 @@ class SetteiViewController: UIViewController {
         lineWidthLabel.layer.masksToBounds = true
         lineWidthLabel.layer.cornerRadius = 5
         circleNumberSwitch.selectedSegmentIndex=circleNumber
-        backImageSwitch.selectedSegmentIndex=backImageType
+        backImageSwitch.selectedSegmentIndex=SVVModeType
         displayModeSwitch.selectedSegmentIndex=displayModeType
         fpsSwitch.selectedSegmentIndex=fps
         if tenTimesOnOff==1{
@@ -654,7 +680,7 @@ class SetteiViewController: UIViewController {
     var mainTime=CFAbsoluteTimeGetCurrent()
     var currentDotsDegree:CGFloat=0
     @objc func update(tm: Timer) {//1/60sec
-        if backImageType==0 && SVVorDisplay==0{
+        if SVVModeType==0 && SVVorDisplay==0{
 //            return
         }
         currentDotsDegree=(CFAbsoluteTimeGetCurrent()-mainTime)*CGFloat(dotsRotationSpeed)*5
@@ -672,7 +698,7 @@ class SetteiViewController: UIViewController {
         let x0R=ww*3/4 - CGFloat(locationX)
         let y0=wh/2
         var r=wh*(70+13*CGFloat(circleDiameter)/5)/400
-        if backImageType==1 && SVVorDisplay==0{
+        if SVVModeType==1 && SVVorDisplay==0{
             r=r*0.35
         }
         let dd:Double=3.14159/900
@@ -744,11 +770,11 @@ class SetteiViewController: UIViewController {
             grayImage.frame=CGRect(x:0,y:0,width:ww,height:wh)
         }
         let y0=wh/2
-        if SVVorDisplay==0 || (SVVorDisplay==1 && displayModeType==0){//SVV
-            if backImageType==0{
-                randomImage1.image=randomImage.image
+        if SVVorDisplay==0 {
+            if SVVModeType==0{
+                randomImage1.image=backImage
             }else{
-                randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+                randomImage1.image=backImage?.rotatedBy(degree: currentDotsDegree)
             }
             randomImage2.image=randomImage1.image
             if circleNumber==0{
@@ -763,45 +789,39 @@ class SetteiViewController: UIViewController {
                 self.view.bringSubviewToFront(randomImage2)
             }
         }else{//Display
-             if displayModeType>0{
+            if displayModeType==0{
+                image1=backImage?.rotatedBy(degree: currentDotsDegree)
+            }else{
                 var imgxy=CGFloat(Int(currentDotsDegree*5)%770)
                 if imgxy<0{
                     imgxy += 770
                 }
                 if displayModeType==1 || displayModeType==3{//horizontal
-                    image1=trimmingImage(randomImage.image!,CGRect(x:imgxy,y:0,width: 562,height: 562))
-                    // 画像を合成する.
-                    randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1!,image3D!], width: 562, height: 562)
+                    image1=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 690,height: 690))
                 }else{//vertical
-                    image1=trimmingImage(randomImage.image!,CGRect(x:0,y:imgxy,width: 562,height: 562))
-                    // 画像を合成する.
-                    randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1!,image3D!], width: 562, height: 562)
+                    image1=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 690,height: 690))
                 }
-//            }else{
-//                image1=randomImage.image?.rotatedBy(degree: currentDotsDegree)
             }
             if circleNumber==0{
-                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3D!], width: 562, height: 562)
+                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3D!], width: 690, height: 690)
                 randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
             }else{
-                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3D!], width: 562, height: 562)
+                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DRight!], width: 690, height: 690)
                 randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
-                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3D!], width: 562, height: 562)
+                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DLeft!], width: 690, height: 690)
                 randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage2)
             }
         }
     }
-    func drawBack1(){
+  /*  func drawBack1(){
         // 四角形を描画
         if initDrawBackFlag==true{
             initDrawBackFlag=false
             grayImage.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
         }
-        
-//        let r=wh*(70+13*CGFloat(circleDiameter))/400
         var x0=ww/2
         if circleNumber == 1{
             x0=ww/4 + CGFloat(locationX)
@@ -814,18 +834,16 @@ class SetteiViewController: UIViewController {
                     imgxy += 770
                 }
                 if displayModeType==1 || displayModeType==3{
-                    let image1=trimmingImage(randomImage.image!,CGRect(x:imgxy,y:0,width: 562,height: 562))
+                    let image1=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 562,height: 562))
                     // 画像を合成する.
-                    let image2=UIImage(named: "white_black562")
                     randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
                 }else{
-                    let image1=trimmingImage(randomImage.image!,CGRect(x:0,y:imgxy,width: 562,height: 562))
+                    let image1=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 562,height: 562))
                     // 画像を合成する.
-                    let image2=UIImage(named: "white_black562")
                     randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
                 }
             }else{
-                randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+                randomImage1.image=backImage?.rotatedBy(degree: currentDotsDegree)
             }
             randomImage2.image=randomImage1.image
             randomImage1.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
@@ -837,9 +855,9 @@ class SetteiViewController: UIViewController {
             }else{
                 randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
             }
-        }else if backImageType==0{
-            randomImage1.image=UIImage(named: "white_black")
-            randomImage2.image=UIImage(named: "white_black")
+        }else if SVVModeType==0{
+            randomImage1.image=backImage//UIImage(named: "white_black")
+            randomImage2.image=backImage//UIImage(named: "white_black")
             randomImage1.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
             self.view.bringSubviewToFront(randomImage1)
             if circleNumber==1{
@@ -850,7 +868,7 @@ class SetteiViewController: UIViewController {
                 randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
             }
         }else{//dot:rotation
-            randomImage1.image=randomImage.image?.rotatedBy(degree: currentDotsDegree)
+            randomImage1.image=backImage?.rotatedBy(degree: currentDotsDegree)
             randomImage2.image=randomImage1.image
             randomImage1.frame=CGRect(x:x0-radius,y:y0-radius,width: radius*2,height: radius*2)
             self.view.bringSubviewToFront(randomImage1)
@@ -862,5 +880,5 @@ class SetteiViewController: UIViewController {
                 randomImage2.frame=CGRect(x:0,y:0,width: 0,height: 0)
             }
         }
-    }
+    }*/
 }
