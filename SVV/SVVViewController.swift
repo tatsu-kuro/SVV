@@ -103,11 +103,11 @@ class SVVViewController: UIViewController {
             mainView.dateString=dateString
             mainView.savedFlag=false
         }
-        print("SVV:returnMain",mainView.sensorArray.count,mainView.displaySensorArray.count)
         stopAccelerometer()
         Globalmode=0
         stopDisplaylink()
-
+        mainView.startSVVtime=CFAbsoluteTimeGetCurrent()
+        print("SVV:returnMain",mainView.sensorArray.count,mainView.displaySensorArray.count)
         self.present(mainView, animated: false, completion: nil)
         return//iranasasou? <-kokotouruyo?
     }
@@ -666,22 +666,22 @@ class SVVViewController: UIViewController {
                     imgxy += 770
                 }
                 if displayModeType==1 || displayModeType==3{
-                    let image1=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 690,height: 690))
+                    let image1=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 562,height: 562))
                     // 画像を合成する.
                     if gyroOnOff==1{
                         let image3 = image1.rotatedBy(degree: getSensorDegree())
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 690, height: 690)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 562, height: 562)
                     }else{
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 690, height: 690)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
                     }
                 }else{
-                    let image1=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 690,height: 690))
+                    let image1=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 562,height: 562))
                     // 画像を合成する.
                     if gyroOnOff==1{
                         let image3 = image1.rotatedBy(degree: getSensorDegree())
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 690, height: 690)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 562, height: 562)
                     }else{
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 690, height: 690)
+                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
                     }
                 }
                 

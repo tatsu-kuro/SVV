@@ -795,20 +795,20 @@ class SetteiViewController: UIViewController {
                     imgxy += 770
                 }
                 if displayModeType==1 || displayModeType==3{//horizontal
-                    image1=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 690,height: 690))
+                    image1=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 562,height: 562))
                 }else{//vertical
-                    image1=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 690,height: 690))
+                    image1=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 562,height: 562))
                 }
             }
             if circleNumber==0{
-                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3D!], width: 690, height: 690)
+                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3D!], width: 562, height: 562)
                 randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
             }else{
-                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DRight!], width: 690, height: 690)
+                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DRight!], width: 562, height: 562)
                 randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
-                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DLeft!], width: 690, height: 690)
+                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DLeft!], width: 562, height: 562)
                 randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage2)
             }

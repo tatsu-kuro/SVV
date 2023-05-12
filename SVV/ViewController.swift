@@ -102,8 +102,8 @@ class ViewController: UIViewController {
             UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
             UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
             print("View:viewDidLayoutSubviews")
-            let left=UserDefaults.standard.integer(forKey:"leftPadding")
-            print(topPadding,bottomPadding,left,rightPadding)    // iPhoneXなら44, その他は20.0
+//            let left=UserDefaults.standard.integer(forKey:"leftPadding")
+//            print(topPadding,bottomPadding,left,rightPadding)    // iPhoneXなら44, その他は20.0
         }
 //        setButtons()
     }
@@ -413,16 +413,24 @@ class ViewController: UIViewController {
             soundPlayer?.play() // → これで音が鳴る
         }
     }
-    
+    var startSVVtime=CFAbsoluteTimeGetCurrent()
+
     @IBAction func startSVV(_ sender: Any) {
         //print("startSVV : ",savedFlag)
+        if CFAbsoluteTimeGetCurrent() - startSVVtime<2{//SVVViewから戻ってきて2秒間は再スタート不可能とした。
+            return
+        }
         sound(snd:"silence")
+        var titleStr:String="データは上書きされ\n消えます！"
 //リモートコントローラーからは”LIST"button.のときはsaveFlagをチェックしないとしていたが、
- //       let buttonTitle=(sender as! UIButton).currentTitle
-        if savedFlag == false{//} && buttonTitle=="START"{//チェックすることとした
+        let buttonTitle=(sender as! UIButton).currentTitle
+        if !Locale.preferredLanguages.first!.contains("ja"){
+            titleStr="Data will be overwritten\nand gone!"
+        }
+        if savedFlag == false && buttonTitle=="START"{//チェックすることとした
             //setButtons(mode: false)
             let alert = UIAlertController(
-                title: "You are erasing SVV Data.",
+                title: titleStr,/*"Data will be lost!"*/
                 message: "OK ?",
                 preferredStyle: .alert)
             // アラートにボタンをつける
@@ -486,7 +494,7 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func returnToMe(segue: UIStoryboardSegue) {
-        print("returnToMe")
+        print("returnToMe*******")
         if let vc = segue.source as? SetteiViewController {
             let SetteiViewController:SetteiViewController = vc
             if SetteiViewController.timer?.isValid == true {
