@@ -502,7 +502,7 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func returnToMe(segue: UIStoryboardSegue) {
-        print("returnToMe*******")
+        print("returnToMe*******",sensorArray.count)
         if let vc = segue.source as? SetteiViewController {
             let SetteiViewController:SetteiViewController = vc
             if SetteiViewController.timer?.isValid == true {

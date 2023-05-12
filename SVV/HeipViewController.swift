@@ -15,6 +15,10 @@ class HeipViewController: UIViewController {
     @IBOutlet weak var engButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//                let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
+//                print("HELP:DidLoad",mainView.sensorArray.count,mainView.displaySensorArray.count)
+
         if Locale.preferredLanguages.first!.contains("ja"){
             englishF=false
         }else{

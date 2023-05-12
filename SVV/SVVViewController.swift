@@ -109,7 +109,10 @@ class SVVViewController: UIViewController {
         mainView.startSVVtime=CFAbsoluteTimeGetCurrent()
         print("SVV:returnMain",mainView.sensorArray.count,mainView.displaySensorArray.count)
         self.present(mainView, animated: false, completion: nil)
-        return//iranasasou? <-kokotouruyo?
+//        return//iranasasou? <-kokotouruyo?
+        
+//        performSegue(withIdentifier: "fromSVV", sender: self)
+
     }
     @IBAction func singleTap(_ sender: UITapGestureRecognizer) {
         if sender.location(in: self.view).x < self.view.bounds.width/3{
@@ -373,7 +376,6 @@ class SVVViewController: UIViewController {
         super.viewDidLoad()
         //        let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
         //        print("SVV:DidLoad",mainView.sensorArray.count,mainView.displaySensorArray.count)
-        
         circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
         lineWidth=UserDefaults.standard.integer(forKey: "lineWidth")
         locationX=UserDefaults.standard.integer(forKey:"VRLocationX")
@@ -386,7 +388,8 @@ class SVVViewController: UIViewController {
         SVVModeType=UserDefaults.standard.integer(forKey:"SVVModeType")
         gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
         fps=UserDefaults.standard.integer(forKey: "fps")
-        
+//        degreeArray.removeAll()
+//        displayTimeArray.removeAll()
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
         if motionManager.isAccelerometerAvailable {
