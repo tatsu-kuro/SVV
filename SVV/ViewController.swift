@@ -419,9 +419,10 @@ class ViewController: UIViewController {
         //print("startSVV : ",savedFlag)
         sound(snd:"silence")
         var titleStr:String="データは上書きされ\n消えます！"
-        //リモートコントローラーからは”LIST"button.のときはsaveFlagをチェックしないとしていたが、
+        //リモートコントローラーからは”HELP"button.のときはsaveFlagをチェックしないとしていたが、
         let buttonTitle=(sender as! UIButton).currentTitle
-        if buttonTitle=="LIST"{
+        print("title:",buttonTitle)
+        if buttonTitle == "HELP" && savedFlag == false{
             if CFAbsoluteTimeGetCurrent() - startSVVtime<2{//SVVViewから戻ってきて2秒間は再スタート不可能とした。
                 return
             }
@@ -470,14 +471,14 @@ class ViewController: UIViewController {
             
             case .remoteControlPlay:
                 //               print("Play")
-                startSVV(listButton!)
+                startSVV(helpButton!)
             case .remoteControlPause:
                 print("Pause")
             case .remoteControlStop:
                 print("Stop")
             case .remoteControlTogglePlayPause:
                 //             print("TogglePlayPause")
-                startSVV(listButton!)
+                startSVV(helpButton!)
             case .remoteControlNextTrack:
                 print("NextTrack")
             case .remoteControlPreviousTrack:

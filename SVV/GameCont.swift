@@ -89,28 +89,28 @@ extension ViewController {
        }
    }
  
-   // Closure: Button
-   func printButtonValue(_ text:String) -> GCControllerButtonValueChangedHandler {
-       return {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
-        if(text=="buttonA"){
-            GlobalButtonAvalue=value
-        }else if(text=="buttonB"){
-            GlobalButtonBvalue=value
-        }else if(text=="buttonX"){
-            GlobalButtonXvalue=value
-        }else if(text=="buttonY"){
-            GlobalButtonYvalue=value
-             if(Globalmode==0){
-                if(GlobalButtonYvalue == 0.0 && GlobalButtonYvalueLast0 != 0.0){
+    // Closure: Button
+    func printButtonValue(_ text:String) -> GCControllerButtonValueChangedHandler {
+        return {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
+            if(text=="buttonA"){
+                GlobalButtonAvalue=value
+            }else if(text=="buttonB"){
+                GlobalButtonBvalue=value
+            }else if(text=="buttonX"){
+                GlobalButtonXvalue=value
+            }else if(text=="buttonY"){
+                GlobalButtonYvalue=value
+                if(Globalmode==0){
+                    if(GlobalButtonYvalue == 0.0 && GlobalButtonYvalueLast0 != 0.0){
+                        GlobalButtonYvalueLast0=GlobalButtonYvalue
+                        self.startSVV(self.helpButton!)
+                    }
                     GlobalButtonYvalueLast0=GlobalButtonYvalue
-                    self.startSVV(1)
                 }
-                GlobalButtonYvalueLast0=GlobalButtonYvalue
+                print("\(text) value:\(value), pressed:\(pressed)")
             }
-//            print("\(text) value:\(value), pressed:\(pressed)")
+            
         }
-      
     }
-   }
 }
 
