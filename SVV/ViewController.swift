@@ -463,6 +463,7 @@ class ViewController: UIViewController {
         let nextView = storyboard?.instantiateViewController(withIdentifier: "SVV") as! SVVViewController
         self.present(nextView, animated: true, completion: nil)
      }
+    var actionTimeLast=CFAbsoluteTimeGetCurrent()//tap or remoteController
 
     override func remoteControlReceived(with event: UIEvent?) {
         guard event?.type == .remoteControl else { return }
@@ -477,9 +478,13 @@ class ViewController: UIViewController {
             case .remoteControlStop:
                 print("Stop")
             case .remoteControlTogglePlayPause:
-                //             print("TogglePlayPause")
-                startSVV(helpButton!)
-            case .remoteControlNextTrack:
+                print("TogglePlayPause")
+                if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3 || savedFlag == true{
+                    startSVV(helpButton!)
+                }
+                actionTimeLast=CFAbsoluteTimeGetCurrent()
+                return
+              case .remoteControlNextTrack:
                 print("NextTrack")
             case .remoteControlPreviousTrack:
                 print("PreviousTrack")
