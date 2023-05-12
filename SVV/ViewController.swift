@@ -417,13 +417,15 @@ class ViewController: UIViewController {
 
     @IBAction func startSVV(_ sender: Any) {
         //print("startSVV : ",savedFlag)
-        if CFAbsoluteTimeGetCurrent() - startSVVtime<2{//SVVViewから戻ってきて2秒間は再スタート不可能とした。
-            return
-        }
         sound(snd:"silence")
         var titleStr:String="データは上書きされ\n消えます！"
-//リモートコントローラーからは”LIST"button.のときはsaveFlagをチェックしないとしていたが、
+        //リモートコントローラーからは”LIST"button.のときはsaveFlagをチェックしないとしていたが、
         let buttonTitle=(sender as! UIButton).currentTitle
+        if buttonTitle=="LIST"{
+            if CFAbsoluteTimeGetCurrent() - startSVVtime<2{//SVVViewから戻ってきて2秒間は再スタート不可能とした。
+                return
+            }
+        }
         if !Locale.preferredLanguages.first!.contains("ja"){
             titleStr="Data will be overwritten\nand gone!"
         }

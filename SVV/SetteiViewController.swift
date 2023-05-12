@@ -535,9 +535,9 @@ class SetteiViewController: UIViewController {
             if displayModeType==0{
                 backImage=UIImage(named: "random")
             }else if displayModeType==1{
-                backImage=UIImage(named: "dotsYoko")
+                backImage=UIImage(named: "dotYoko")
             }else if displayModeType==2{
-                backImage=UIImage(named:"dotsTate")
+                backImage=UIImage(named:"dotTate")
             }else if displayModeType==3{
                 backImage=UIImage(named: "bandYoko")
             }else{
