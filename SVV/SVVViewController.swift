@@ -524,14 +524,8 @@ class SVVViewController: UIViewController {
         if initUpdateFlag==true{
             initUpdateFlag=false
             blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
-//        }else{
-//            view.layer.sublayers?.removeLast()
-//            if circleNumber==1{
-//                view.layer.sublayers?.removeLast()
-//            }
         }
-//        drawDotsCircle()
-        //       print("sublayers:",view.layer.sublayers?.count)
+//        print("sublayers:",view.layer.sublayers?.count)
         degree += Double(GlobalStickXvalue)*2
         degree += Double(GlobalPadXvalue)/2
         degree += Double(GlobalButtonBvalue)/2
@@ -604,13 +598,12 @@ class SVVViewController: UIViewController {
                 GlobalButtonYvalueLast1=GlobalButtonYvalue
             }
         }
-        getLinePoint(degree: Float(degree))
-        if SVVorDisplay == 0{
+         if SVVorDisplay == 0{
+             getLinePoint(degree: Float(degree))
             drawCircle()
-//            drawLine(degree:Float(degree))
         }else{
+            getLinePoint(degree:0)
             drawCircle()
-//            drawLine(degree:Float(0))
         }
         if CFAbsoluteTimeGetCurrent()-actionTimeLast>300{
             returnMain()
@@ -619,72 +612,7 @@ class SVVViewController: UIViewController {
             returnMain()
         }
     }
-/*
- // 線
- let line = UIBezierPath()
- // 最初の位置
- line.move(to: CGPoint(x: 100, y: 100))
- // 次の位置
- line.addLine(to:CGPoint(x: 300, y: 150))
- // 終わる
- line.close()
- // 線の色
- UIColor.gray.setStroke()
- // 線の太さ
- line.lineWidth = 2.0
- // 線を塗りつぶす
- line.stroke()
- */
-    var initFlag:Bool=true
-    func drawLine(degree:Float){
-       //線を引く
-//        let ww=view.bounds.width
-//        let wh=view.bounds.height
-        var x0=ww/2
-        if circleNumber == 1{
-            x0=x0Left//ww*3/4 - CGFloat(locationX)
-        }
-        let y0=wh/2
-        var r=radius
-        if SVVModeType==1 && SVVorDisplay==0{
-            r=r*0.35
-        }
-        
-        let dd:Double=3.14159/900//3600//1800//900
-        let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
-        let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
-        let shapeLayer = CAShapeLayer.init()
-        let uiPath = UIBezierPath()
-//        uiPath.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
-//        uiPath.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
-        uiPath.move(to:CGPoint.init(x: x0 ,y: y0 ))
-        uiPath.addLine(to: CGPoint(x:x0 ,y:y0 ))
-        if movingBarFlag==true && SVVorDisplay==0{
-            shapeLayer.strokeColor = UIColor.red.cgColor
-        } else {
-            shapeLayer.strokeColor = UIColor.blue.cgColor
-        }
-        shapeLayer.path = uiPath.cgPath
-        shapeLayer.lineWidth=CGFloat(lineWidth)
-        self.view.layer.addSublayer(shapeLayer)
-        if circleNumber==1{
-            x0=x0Right//ww/4 + CGFloat(locationX)
-            let shapeLayer1 = CAShapeLayer.init()
-            let uiPath1 = UIBezierPath()
-//            uiPath1.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
-//            uiPath1.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
-            uiPath1.move(to:CGPoint.init(x: x0,y: y0 ))
-            uiPath1.addLine(to: CGPoint(x:x0 ,y:y0 ))
-            if movingBarFlag==true && SVVorDisplay==0{
-                shapeLayer1.strokeColor = UIColor.red.cgColor
-            } else {
-                shapeLayer1.strokeColor = UIColor.blue.cgColor
-            }
-            shapeLayer1.path = uiPath1.cgPath
-            shapeLayer1.lineWidth=CGFloat(lineWidth)
-            self.view.layer.addSublayer(shapeLayer1)
-        }
-    }
+
     var lineStartPoint:CGPoint!
     var lineEndPoint:CGPoint!
     var lineColor:UIColor!
