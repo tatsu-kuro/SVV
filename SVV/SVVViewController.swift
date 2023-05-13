@@ -524,7 +524,7 @@ class SVVViewController: UIViewController {
         if initUpdateFlag==true{
             initUpdateFlag=false
             blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
-        }else{
+//        }else{
 //            view.layer.sublayers?.removeLast()
 //            if circleNumber==1{
 //                view.layer.sublayers?.removeLast()
