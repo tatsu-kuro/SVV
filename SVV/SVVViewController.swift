@@ -378,7 +378,7 @@ class SVVViewController: UIViewController {
             displayLinkF=false
         }
     }
-    func pasteLine(orgImg:UIImage,startP:CGPoint,endP:CGPoint,color:UIColor,width:CGFloat) -> UIImage {
+    func pasteLine(orgImg:UIImage,startP:CGPoint,endP:CGPoint,color:UIColor) -> UIImage {
         UIGraphicsBeginImageContext(orgImg.size)
         orgImg.draw(at:CGPoint.zero)
         let line = UIBezierPath() // 線
@@ -386,7 +386,7 @@ class SVVViewController: UIViewController {
         line.addLine(to:endP)// 次の位置
         line.close()
         color.setStroke()
-        line.lineWidth = width// 線の太さ
+        line.lineWidth = CGFloat(lineWidth)//width// 線の太さ
         line.stroke()// 線を塗りつぶす
         let image = UIGraphicsGetImageFromCurrentImageContext()// イメージコンテキストからUIImageを作る
         UIGraphicsEndImageContext()  // イメージ処理の終了
@@ -525,10 +525,10 @@ class SVVViewController: UIViewController {
             initUpdateFlag=false
             blackImage.frame=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height)
         }else{
-            view.layer.sublayers?.removeLast()
-            if circleNumber==1{
-                view.layer.sublayers?.removeLast()
-            }
+//            view.layer.sublayers?.removeLast()
+//            if circleNumber==1{
+//                view.layer.sublayers?.removeLast()
+//            }
         }
 //        drawDotsCircle()
         //       print("sublayers:",view.layer.sublayers?.count)
@@ -604,12 +604,13 @@ class SVVViewController: UIViewController {
                 GlobalButtonYvalueLast1=GlobalButtonYvalue
             }
         }
+        getLinePoint(degree: Float(degree))
         if SVVorDisplay == 0{
-            drawDotsCircle()
-            drawLine(degree:Float(degree))
+            drawCircle()
+//            drawLine(degree:Float(degree))
         }else{
-            drawDotsCircle()
-            drawLine(degree:Float(0))
+            drawCircle()
+//            drawLine(degree:Float(0))
         }
         if CFAbsoluteTimeGetCurrent()-actionTimeLast>300{
             returnMain()
@@ -654,8 +655,10 @@ class SVVViewController: UIViewController {
         let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
         let shapeLayer = CAShapeLayer.init()
         let uiPath = UIBezierPath()
-        uiPath.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
-        uiPath.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
+//        uiPath.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
+//        uiPath.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
+        uiPath.move(to:CGPoint.init(x: x0 ,y: y0 ))
+        uiPath.addLine(to: CGPoint(x:x0 ,y:y0 ))
         if movingBarFlag==true && SVVorDisplay==0{
             shapeLayer.strokeColor = UIColor.red.cgColor
         } else {
@@ -668,8 +671,10 @@ class SVVViewController: UIViewController {
             x0=x0Right//ww/4 + CGFloat(locationX)
             let shapeLayer1 = CAShapeLayer.init()
             let uiPath1 = UIBezierPath()
-            uiPath1.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
-            uiPath1.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
+//            uiPath1.move(to:CGPoint.init(x: x0 + x1,y: y0 - y1))
+//            uiPath1.addLine(to: CGPoint(x:x0 - x1,y:y0 + y1))
+            uiPath1.move(to:CGPoint.init(x: x0,y: y0 ))
+            uiPath1.addLine(to: CGPoint(x:x0 ,y:y0 ))
             if movingBarFlag==true && SVVorDisplay==0{
                 shapeLayer1.strokeColor = UIColor.red.cgColor
             } else {
@@ -682,12 +687,12 @@ class SVVViewController: UIViewController {
     }
     var lineStartPoint:CGPoint!
     var lineEndPoint:CGPoint!
-    var lineColor:CGColor!
-    func drawLinePoint(degree:Float){
+    var lineColor:UIColor!
+    func getLinePoint(degree:Float){
        //線を引く
-        var x0=ww/2
-        let y0=wh/2
-        var r=radius
+        let x0:CGFloat=281
+        let y0:CGFloat=281
+        var r:CGFloat=281
         if SVVModeType==1 && SVVorDisplay==0{
             r=r*0.35
         }
@@ -697,9 +702,9 @@ class SVVViewController: UIViewController {
         lineStartPoint=CGPoint.init(x: x0 + x1,y: y0 - y1)
         lineEndPoint=CGPoint(x:x0 - x1,y:y0 + y1)
         if movingBarFlag==true && SVVorDisplay==0{
-            lineColor = UIColor.red.cgColor
+            lineColor = UIColor.red
         } else {
-            lineColor = UIColor.blue.cgColor
+            lineColor = UIColor.blue
         }
     }
     func trimmingImage(_ image: UIImage,_ trimmingArea: CGRect) -> UIImage {
@@ -708,8 +713,9 @@ class SVVViewController: UIViewController {
         return trimImage
     }
 
-    func drawDotsCircle(){//_ angle:CGFloat){
-        let image=getBackImage()
+    func drawCircle(){//_ angle:CGFloat){
+        let image1=getBackImage()
+        let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: lineEndPoint, color: lineColor)
         if circleNumber==0{
             randomImage1.image=image
             randomImage1.frame=CGRect(x:ww/2-radius,y:wh/2-radius,width: radius*2,height: radius*2)
