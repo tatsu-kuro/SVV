@@ -378,6 +378,30 @@ class SVVViewController: UIViewController {
             displayLinkF=false
         }
     }
+    func pasteImage(orgImg:UIImage,posx:CGFloat) -> UIImage {
+        // イメージ処理の開始]
+        //mailの時は直に貼り付ける
+        UIGraphicsBeginImageContext(orgImg.size)
+        orgImg.draw(at:CGPoint.zero)
+        
+
+        let circle = UIBezierPath(arcCenter: CGPoint(x: 281+posx, y: 281), radius: 281+1, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
+        // 線の色
+        UIColor(red: 0, green: 0, blue: 0, alpha: 1.0).setStroke()
+        // 線の太さ
+        circle.lineWidth = abs(posx*2)+2
+        // 線を塗りつぶす
+        circle.stroke()
+        // イメージコンテキストからUIImageを作る
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        // イメージ処理の終了
+        UIGraphicsEndImageContext()
+        return image!
+        
+        // 円弧
+  
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         //        let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
@@ -394,6 +418,7 @@ class SVVViewController: UIViewController {
         SVVModeType=UserDefaults.standard.integer(forKey:"SVVModeType")
         gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
         fps=UserDefaults.standard.integer(forKey: "fps")
+ 
 //        degreeArray.removeAll()
 //        displayTimeArray.removeAll()
         UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -444,8 +469,12 @@ class SVVViewController: UIViewController {
         }
         
         image3D=UIImage(named: "white_black_transparent")
-        image3DLeft=image3D
-        image3DRight=image3D
+        let depth3D=UserDefaults.standard.integer(forKey: "depth3D")
+        image3DRight=pasteImage(orgImg:image3D!,posx:CGFloat(depth3D))
+        image3DLeft=pasteImage(orgImg:image3D!,posx:-CGFloat(depth3D))
+
+//        image3DLeft=image3D
+//        image3DRight=image3D
         ww=view.bounds.width
         wh=view.bounds.height
         radius=wh*(70+13*CGFloat(circleDiameter)/5)/400
@@ -645,26 +674,27 @@ class SVVViewController: UIViewController {
         return trimImage
     }
     var initDrawBackBackFlag:Bool=true
-
+    var image1:UIImage!
+//    var image2:UIImage!
     func drawDotsCircle(){//_ angle:CGFloat){
         let y0=wh/2
         if SVVorDisplay==0{//SVV
             if SVVModeType==0{
-                randomImage1.image=backImage
+                image1=backImage
             }else{
-                randomImage1.image=backImage?.rotatedBy(degree: currentDotsDegree)
+                image1=backImage?.rotatedBy(degree: currentDotsDegree)
             }
-            randomImage2.image=randomImage1.image
+//            randomImage2.image=randomImage1.image
             if circleNumber==0{
                 randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
             }else{
                 //右を合成
-                
+                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1,image3DRight!], width: 562, height: 562)
                 randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
                 //左を合成
-                
+                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image1,image3DLeft!], width: 562, height: 562)
                 randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage2)
             }
@@ -675,38 +705,45 @@ class SVVViewController: UIViewController {
                     imgxy += 770
                 }
                 if displayModeType==1 || displayModeType==3{
-                    let image1=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 562,height: 562))
+                    let image3=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 562,height: 562))
                     // 画像を合成する.
                     if gyroOnOff==1{
-                        let image3 = image1.rotatedBy(degree: getSensorDegree())
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 562, height: 562)
+                        image1 = image3.rotatedBy(degree: getSensorDegree())
+//                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 562, height: 562)
                     }else{
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
+                        image1=image3
+//                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
                     }
                 }else{
-                    let image1=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 562,height: 562))
+                    let image3=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 562,height: 562))
                     // 画像を合成する.
                     if gyroOnOff==1{
-                        let image3 = image1.rotatedBy(degree: getSensorDegree())
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 562, height: 562)
+                        image1 = image3.rotatedBy(degree: getSensorDegree())
+                //        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image3,image3D!], width: 562, height: 562)
                     }else{
-                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
+                        image1=image3
+//                        randomImage1.image = UIImage.ComposeUIImage(UIImageArray: [image1,image3D!], width: 562, height: 562)
                     }
                 }
                 
             }else{
-                randomImage1.image=backImage?.rotatedBy(degree: currentDotsDegree)
+                image1=backImage?.rotatedBy(degree: currentDotsDegree)
             }
             if circleNumber==0{
-                randomImage2.image=randomImage1.image
+//                randomImage2.image=randomImage1.image
+                randomImage1.image=image1
                 randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
             }else{
-                randomImage2.image=randomImage1.image
+//                randomImage2.image=randomImage1.image
                 //右を合成
+                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1,image3DRight!], width: 562, height: 562)
+
                 randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
                 //左を合成
+                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image1,image3DLeft!], width: 562, height: 562)
+
                 randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage2)
             }

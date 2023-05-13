@@ -360,9 +360,9 @@ class ViewController: UIViewController {
         displayTextView.frame=CGRect(x:leftPadding+sp, y: topPadding+sp, width: ww-sp*2, height: wh-sp*3-bh)
     }
     func setViews(){
-        if sensorArray.count==0 && displaySensorArray.count==0{
-            SVVorDisplay = getUserDefault(str:"SVVorDisplay",ret:0)
-            if SVVorDisplay==0{
+        SVVorDisplay = getUserDefault(str:"SVVorDisplay",ret:0)
+        if (sensorArray.count==0 && SVVorDisplay==0)||(displaySensorArray.count==0 && SVVorDisplay==1){
+             if SVVorDisplay==0{
                 titleImage.image = UIImage(named: "svvhead")
             }else{
                 titleImage.image = UIImage(named: "svvheadDisplay")
@@ -370,7 +370,7 @@ class ViewController: UIViewController {
             titleImage.alpha=1
             resultView.alpha=0
             displayTextView.alpha=0
-        }else if sensorArray.count>0{
+        }else if sensorArray.count>0 && SVVorDisplay==0{
             titleImage.alpha=0
             resultView.alpha=0
             displayTextView.alpha=1
@@ -520,6 +520,21 @@ class ViewController: UIViewController {
             let SetteiViewController:SetteiViewController = vc
             if SetteiViewController.timer?.isValid == true {
                 SetteiViewController.timer.invalidate()
+            }
+            SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
+            if SVVorDisplay==0{
+                displayTimeArray.removeAll()
+                displaySensorArray.removeAll()
+                if svvArray.count==0{
+                    savedFlag=true
+                }
+            }else{
+                sensorArray.removeAll()
+                svvArray.removeAll()
+                degreeArray.removeAll()
+                if displayTimeArray.count==0{
+                    savedFlag=true
+                }
             }
         }
     }

@@ -153,18 +153,24 @@ class SetteiViewController: UIViewController {
         //mailの時は直に貼り付ける
         UIGraphicsBeginImageContext(orgImg.size)
         orgImg.draw(at:CGPoint.zero)
-        let drawPath = UIBezierPath()
-        let str = "2sec/scale"
-        str.draw(at: CGPoint(x: posx, y: 50), withAttributes: [
-                    NSAttributedString.Key.foregroundColor : UIColor.black,
-                    NSAttributedString.Key.font : UIFont.monospacedDigitSystemFont(ofSize: 150, weight: UIFont.Weight.regular)])
-    
-        drawPath.stroke()
+        
+
+        let circle = UIBezierPath(arcCenter: CGPoint(x: 281+posx, y: 281), radius: 281+1, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
+        // 線の色
+        UIColor(red: 0, green: 0, blue: 0, alpha: 1.0).setStroke()
+        // 線の太さ
+        circle.lineWidth = abs(posx*2)+2
+        // 線を塗りつぶす
+        circle.stroke()
         // イメージコンテキストからUIImageを作る
         let image = UIGraphicsGetImageFromCurrentImageContext()
         // イメージ処理の終了
         UIGraphicsEndImageContext()
         return image!
+        
+        // 円弧
+  
+        
     }
     @IBOutlet weak var samplingLabel: UILabel!
     @IBOutlet weak var fpsSwitch: UISegmentedControl!
@@ -273,22 +279,19 @@ class SetteiViewController: UIViewController {
 //        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
 //    }
     @IBAction func onDepthSlider(_ sender: UISlider) {
-        depth3D = Int(sender.value*20) - 10
+        depth3D = Int(sender.value*60) - 30
         print("depth:",depth3D)
         UserDefaults.standard.set(depth3D, forKey: "depth3D")
-//        setDotsRotationSpeedText()
         depthLabel.text="3Ddepth:" + String(depth3D)
-//        d.value=Float(depth3D+10)/20
+        image3DRight=pasteImage(orgImg:image3D!,posx:CGFloat(depth3D))
+        image3DLeft=pasteImage(orgImg:image3D!,posx:-CGFloat(depth3D))
     }
     
     @IBAction func onRotationSpeedSlider(_ sender: UISlider) {
         dotsRotationSpeed = Int(sender.value*144) - 72
         print("speed:",dotsRotationSpeed)
         UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
-//        setDotsRotationSpeedText()
         speedLabel.text=String(dotsRotationSpeed*5)
-//        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
-        
     }
     @IBOutlet weak var backImageSwitch: UISegmentedControl!
     
@@ -386,8 +389,6 @@ class SetteiViewController: UIViewController {
         }else{
             randomImage2.isHidden=false
         }
-//        randomImage.isHidden=true
-
     }
 
     override var prefersHomeIndicatorAutoHidden: Bool {
@@ -501,15 +502,16 @@ class SetteiViewController: UIViewController {
             selectedMenuType=MenuType.Display
         }
         configureMenu()
- //        setButtons()
+
         buttonsToFront()
         setVRsliderOnOff()
         setRotationSpeedSliderOnOff()
-//        setDotsRotationSpeedText()
+
         speedLabel.text=String(dotsRotationSpeed*5)
         rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
         depthLabel.text="3Ddepth:" + String(depth3D)
-        depthSlider.value=Float(depth3D+10)/20
+        depthSlider.value=Float(depth3D+30)/60
+  
         setBackImages()
         
         ww=view.bounds.width
@@ -518,17 +520,14 @@ class SetteiViewController: UIViewController {
         x0Right=ww/4 + CGFloat(locationX)
         x0Left=ww*3/4 - CGFloat(locationX)
         image3D=UIImage(named: "white_black_transparent")
-        image3DLeft=image3D
-        image3DRight=image3D
 
-  //      image3D=pasteImage(orgImg:image3Ds!,posx:50)
-  
+        image3DRight=pasteImage(orgImg:image3D!,posx:CGFloat(depth3D))
+        image3DLeft=pasteImage(orgImg:image3D!,posx:-CGFloat(depth3D))
+
         drawBack()
         drawLines(degree:0)
 
-        
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        
     }
     func setBackImages(){
         if SVVorDisplay==1{
@@ -720,17 +719,17 @@ class SetteiViewController: UIViewController {
         self.view.layer.addSublayer(shapeLayer)
     }
  
-    func drawCircle(x0:CGFloat,y0:CGFloat,r:CGFloat,color:CGColor){
-           // --- 円を描画 ---
-        let circleLayer = CAShapeLayer.init()
-        let circleFrame = CGRect.init(x:x0-r,y:y0-r,width:r*2,height:r*2)
-        circleLayer.frame = circleFrame
-        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
-        circleLayer.fillColor = color//UIColor.black.cgColor// 円の中の色
-        circleLayer.lineWidth = 0.5// 輪郭の太さ
-        circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
-        self.view.layer.addSublayer(circleLayer)
-    }
+//    func drawCircle(x0:CGFloat,y0:CGFloat,r:CGFloat,color:CGColor){
+//           // --- 円を描画 ---
+//        let circleLayer = CAShapeLayer.init()
+//        let circleFrame = CGRect.init(x:x0-r,y:y0-r,width:r*2,height:r*2)
+//        circleLayer.frame = circleFrame
+//        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
+//        circleLayer.fillColor = color//UIColor.black.cgColor// 円の中の色
+//        circleLayer.lineWidth = 0.5// 輪郭の太さ
+//        circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
+//        self.view.layer.addSublayer(circleLayer)
+//    }
     var initDrawBackFlag:Bool=true
     
     @IBAction func onTapGesture(_ sender: UITapGestureRecognizer) {
@@ -770,18 +769,24 @@ class SetteiViewController: UIViewController {
         let y0=wh/2
         if SVVorDisplay==0 {
             if SVVModeType==0{
-                randomImage1.image=backImage
+//                randomImage1.image=backImage
+                image1=backImage
             }else{
-                randomImage1.image=backImage?.rotatedBy(degree: currentDotsDegree)
+                image1=backImage?.rotatedBy(degree: currentDotsDegree)
+                
             }
-            randomImage2.image=randomImage1.image
+//            randomImage2.image=randomImage1.image
             if circleNumber==0{
+                randomImage1.image=image1
                 randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
                 self.view.bringSubviewToFront(randomImage1)
             }else{
+                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DRight!], width: 562, height: 562)
                 randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
+          
                 //右合成
                 self.view.bringSubviewToFront(randomImage1)
+                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DLeft!], width: 562, height: 562)
                 randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
                 //左合成
                 self.view.bringSubviewToFront(randomImage2)
