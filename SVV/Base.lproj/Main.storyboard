@@ -101,28 +101,10 @@
                                 <rect key="frame" x="200" y="0.0" width="132" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Qs-7N-DCf">
-                                <rect key="frame" x="895" y="392" width="1" height="1"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="1" id="b6m-LE-HgH"/>
-                                    <constraint firstAttribute="height" constant="1" id="vWi-SX-kJf"/>
-                                </constraints>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="segue"/>
-                                <connections>
-                                    <segue destination="sIv-ho-chZ" kind="unwind" identifier="fromSVV" unwindAction="returnToMeWithSegue:" id="Nzq-z8-8Ef"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="K8L-2f-BOA"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="3Qs-7N-DCf" secondAttribute="trailing" id="7ld-J6-Pb1"/>
-                            <constraint firstItem="3Qs-7N-DCf" firstAttribute="bottom" secondItem="K8L-2f-BOA" secondAttribute="bottom" id="ueo-G4-gHe"/>
-                        </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="xfS-fv-NRj" appends="YES" id="Eib-97-dG8"/>
                             <outletCollection property="gestureRecognizers" destination="IEv-3o-rzZ" appends="YES" id="Sm5-Sd-KFk"/>
@@ -135,7 +117,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U83-C4-0TU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="sIv-ho-chZ" userLabel="Exit" sceneMemberID="exit"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="IEv-3o-rzZ">
                     <connections>
                         <action selector="longPress:" destination="z3d-C3-FPM" id="cCZ-jJ-mzI"/>
