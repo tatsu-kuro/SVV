@@ -31,10 +31,14 @@ class SVVViewController: UIViewController {
     var resultf:Bool=false
     var directionR:Bool=true
     var dateString:String=""
+    var idString:String=""
     var lastrand:Int=0
  //   var tcount: Int = 0
     var degree:Double=0.0
     var curAcc:Double=0
+    var sensorArrayOld = Array<Double>()//sensor
+    var degreeArrayOld = Array<Double>()//degree
+    var svvArrayOld = Array<Double>()//delta Subjective Visual Vertical
     var sensorArray = Array<Double>()//sensor
     var degreeArray = Array<Double>()//degree
     var svvArray = Array<Double>()//delta Subjective Visual Vertical
@@ -81,28 +85,32 @@ class SVVViewController: UIViewController {
     }
     func returnMain(){
         let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
-        if degreeArray.count>0 || displayTimeArray.count > 0 {
-            mainView.svvArray.removeAll()
-            mainView.degreeArray.removeAll()
-            mainView.sensorArray.removeAll()
-            mainView.displaySensorArray.removeAll()
-            mainView.displayTimeArray.removeAll()
-            if SVVorDisplay==0{
+        if SVVorDisplay==0{
+            if svvArray.count>0{
                 for i in 0..<degreeArray.count{
                     mainView.svvArray.append(svvArray[i])
                     mainView.degreeArray.append(degreeArray[i])
                     mainView.sensorArray.append(sensorArray[i])
                 }
+                setDate()
             }else{
-                for i in 0..<displaySensorArray.count{
-                    mainView.displaySensorArray.append(displaySensorArray[i])
-                    mainView.displayTimeArray.append(displayTimeArray[i])
+                for i in 0..<degreeArrayOld.count{
+                    mainView.svvArray.append(svvArrayOld[i])
+                    mainView.degreeArray.append(degreeArrayOld[i])
+                    mainView.sensorArray.append(sensorArrayOld[i])
                 }
+                mainView.idString=idString
+            }
+        }else{
+            for i in 0..<displaySensorArray.count{
+                mainView.displaySensorArray.append(displaySensorArray[i])
+                mainView.displayTimeArray.append(displayTimeArray[i])
             }
             setDate()
-            mainView.dateString=dateString
-            mainView.savedFlag=false
         }
+        mainView.dateString=dateString
+        mainView.savedFlag=false
+
         stopAccelerometer()
         Globalmode=0
         stopDisplaylink()
@@ -110,9 +118,7 @@ class SVVViewController: UIViewController {
         print("SVV:returnMain",mainView.sensorArray.count,mainView.displaySensorArray.count)
         self.present(mainView, animated: false, completion: nil)
 //        return//iranasasou? <-kokotouruyo?
-        
 //        performSegue(withIdentifier: "fromSVV", sender: self)
-
     }
     @IBAction func singleTap(_ sender: UITapGestureRecognizer) {
         if sender.location(in: self.view).x < self.view.bounds.width/3{

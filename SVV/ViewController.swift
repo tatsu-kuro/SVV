@@ -107,11 +107,11 @@ class ViewController: UIViewController {
         }
 //        setButtons()
     }
-    func writeSVVdata(){
+    func writeSVVdata(){//
         var text:String=""
         //let str = self.dateString.components(separatedBy: " ")
         if svvArray.count>0{
-          text = setSVVData(type: 0) + "\n\n"
+          text = setSVVData(type: 0) + "\n\n"//0:save
         }else{
             text=dateString + "," + idString + "\n"
             text += "time,"
@@ -182,7 +182,7 @@ class ViewController: UIViewController {
         svvSd = sqrt(svvSd)
         return svvSd
     }
-    func setSVVData(type:Int) -> String {
+    func setSVVData(type:Int) -> String {//0:save 1:display
         var svvAvNor:Double = 0
         var svvSdNor:Double = 0
         var svvAvNeg:Double = 0
@@ -375,7 +375,7 @@ class ViewController: UIViewController {
             resultView.alpha=0
             displayTextView.alpha=1
             displayTextView.font=UIFont.monospacedSystemFont(ofSize: 16.0, weight: .regular)
-            displayTextView.text!=setSVVData(type:1)
+            displayTextView.text!=setSVVData(type:1)//1:display
 //            resultView.image=drawSVVData(width: 1000, height: 340)
         }else{
             titleImage.alpha=0
@@ -419,10 +419,10 @@ class ViewController: UIViewController {
         //print("startSVV : ",savedFlag)
         sound(snd:"silence")
         var titleStr:String="データは上書きされ\n消えます！"
-        //リモートコントローラーからは”HELP"button.のときはsaveFlagをチェックしないとしていたが、
+        //リモートコントローラーからは”HELP"button.のときはsaveFlagをチェックしない
         let buttonTitle=(sender as! UIButton).currentTitle
-        print("title:",buttonTitle)
-        if buttonTitle == "HELP" && savedFlag == false{
+//        print("title:",buttonTitle)
+        if buttonTitle == "HELP" && savedFlag == false{//コントローラーからで保存されてなければ
             if CFAbsoluteTimeGetCurrent() - startSVVtime<2{//SVVViewから戻ってきて2秒間は再スタート不可能とした。
                 return
             }
@@ -430,7 +430,7 @@ class ViewController: UIViewController {
         if !Locale.preferredLanguages.first!.contains("ja"){
             titleStr="Data will be overwritten\nand gone!"
         }
-        if savedFlag == false && buttonTitle=="START"{//チェックすることとした
+        if savedFlag == false && buttonTitle=="START"{//ボタンタップで保存されてなければ
             //setButtons(mode: false)
             let alert = UIAlertController(
                 title: titleStr,/*"Data will be lost!"*/
@@ -449,9 +449,9 @@ class ViewController: UIViewController {
             // アラート表示
             self.present(alert, animated: true, completion: nil)
             //１：直ぐここと２を通る
-        }else if savedFlag == false{
-            idString="temp"
-            writeSVVdata()
+        }else if savedFlag == false{//
+ //           idString="temp"
+//            writeSVVdata()
             self.segueSVV()
         }else{
             self.segueSVV()
@@ -461,8 +461,20 @@ class ViewController: UIViewController {
     func segueSVV(){
         print("segueSVV",sensorArray.count,displaySensorArray.count)
         let nextView = storyboard?.instantiateViewController(withIdentifier: "SVV") as! SVVViewController
+        nextView.dateString=dateString
+        nextView.idString=idString
+        if SVVorDisplay==0{
+            nextView.svvArrayOld.removeAll()
+            nextView.degreeArrayOld.removeAll()
+            nextView.sensorArrayOld.removeAll()
+            for i in 0..<degreeArray.count{
+                nextView.svvArrayOld.append(svvArray[i])
+                nextView.degreeArrayOld.append(degreeArray[i])
+                nextView.sensorArrayOld.append(sensorArray[i])
+            }
+        }
         self.present(nextView, animated: true, completion: nil)
-     }
+    }
     var actionTimeLast=CFAbsoluteTimeGetCurrent()//tap or remoteController
 
     override func remoteControlReceived(with event: UIEvent?) {
@@ -479,6 +491,7 @@ class ViewController: UIViewController {
                 print("Stop")
             case .remoteControlTogglePlayPause:
                 print("TogglePlayPause")
+                //保存されているか、もしくはダブルタップの時はstartSVV
                 if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3 || savedFlag == true{
                     startSVV(helpButton!)
                 }
@@ -502,7 +515,7 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func returnToMe(segue: UIStoryboardSegue) {
-        print("returnToMe*******",sensorArray.count)
+        print("returnToMe****:SVV:",sensorArray.count,displaySensorArray.count)
         if let vc = segue.source as? SetteiViewController {
             let SetteiViewController:SetteiViewController = vc
             if SetteiViewController.timer?.isValid == true {
