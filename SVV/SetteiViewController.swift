@@ -769,13 +769,11 @@ class SetteiViewController: UIViewController {
         let y0=wh/2
         if SVVorDisplay==0 {
             if SVVModeType==0{
-//                randomImage1.image=backImage
                 image1=backImage
             }else{
                 image1=backImage?.rotatedBy(degree: currentDotsDegree)
                 
             }
-//            randomImage2.image=randomImage1.image
             if circleNumber==0{
                 randomImage1.image=image1
                 randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
