@@ -378,29 +378,31 @@ class SVVViewController: UIViewController {
             displayLinkF=false
         }
     }
-    func pasteImage(orgImg:UIImage,posx:CGFloat) -> UIImage {
-        // イメージ処理の開始]
-        //mailの時は直に貼り付ける
+    func pasteLine(orgImg:UIImage,startP:CGPoint,endP:CGPoint,color:UIColor,width:CGFloat) -> UIImage {
         UIGraphicsBeginImageContext(orgImg.size)
         orgImg.draw(at:CGPoint.zero)
-        
-
-        let circle = UIBezierPath(arcCenter: CGPoint(x: 281+posx, y: 281), radius: 281+1, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
-        // 線の色
-        UIColor(red: 0, green: 0, blue: 0, alpha: 1.0).setStroke()
-        // 線の太さ
-        circle.lineWidth = abs(posx*2)+2
-        // 線を塗りつぶす
-        circle.stroke()
-        // イメージコンテキストからUIImageを作る
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        // イメージ処理の終了
-        UIGraphicsEndImageContext()
+        let line = UIBezierPath() // 線
+        line.move(to: startP) // 最初の位置
+        line.addLine(to:endP)// 次の位置
+        line.close()
+        color.setStroke()
+        line.lineWidth = width// 線の太さ
+        line.stroke()// 線を塗りつぶす
+        let image = UIGraphicsGetImageFromCurrentImageContext()// イメージコンテキストからUIImageを作る
+        UIGraphicsEndImageContext()  // イメージ処理の終了
         return image!
-        
-        // 円弧
-  
-        
+    }
+    func pasteImage(orgImg:UIImage,posx:CGFloat) -> UIImage {
+        // イメージ処理の開始]
+        UIGraphicsBeginImageContext(orgImg.size)
+        orgImg.draw(at:CGPoint.zero)
+        let circle = UIBezierPath(arcCenter: CGPoint(x: 281+posx, y: 281), radius: 281+1, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
+        UIColor(red: 0, green: 0, blue: 0, alpha: 1.0).setStroke() // 線の色
+        circle.lineWidth = abs(posx*2)+2 // 線の太さ
+        circle.stroke()// 線を塗りつぶす
+        let image = UIGraphicsGetImageFromCurrentImageContext()// イメージコンテキストからUIImageを作る
+        UIGraphicsEndImageContext()  // イメージ処理の終了
+        return image!
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -418,9 +420,6 @@ class SVVViewController: UIViewController {
         SVVModeType=UserDefaults.standard.integer(forKey:"SVVModeType")
         gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
         fps=UserDefaults.standard.integer(forKey: "fps")
- 
-//        degreeArray.removeAll()
-//        displayTimeArray.removeAll()
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
         if motionManager.isAccelerometerAvailable {
@@ -473,8 +472,6 @@ class SVVViewController: UIViewController {
         image3DRight=pasteImage(orgImg:image3D!,posx:CGFloat(depth3D))
         image3DLeft=pasteImage(orgImg:image3D!,posx:-CGFloat(depth3D))
 
-//        image3DLeft=image3D
-//        image3DRight=image3D
         ww=view.bounds.width
         wh=view.bounds.height
         radius=wh*(70+13*CGFloat(circleDiameter)/5)/400
@@ -497,7 +494,6 @@ class SVVViewController: UIViewController {
         }else{
             degree -= 1
         }
-//        print("didload")
     }
 
     func getRandom()->Double{
@@ -534,7 +530,7 @@ class SVVViewController: UIViewController {
                 view.layer.sublayers?.removeLast()
             }
         }
-        drawDotsCircle()
+//        drawDotsCircle()
         //       print("sublayers:",view.layer.sublayers?.count)
         degree += Double(GlobalStickXvalue)*2
         degree += Double(GlobalPadXvalue)/2
@@ -609,9 +605,11 @@ class SVVViewController: UIViewController {
             }
         }
         if SVVorDisplay == 0{
-            drawLine(degree:Float(degree),remove:true)
+            drawDotsCircle()
+            drawLine(degree:Float(degree))
         }else{
-            drawLine(degree:Float(0),remove:true)
+            drawDotsCircle()
+            drawLine(degree:Float(0))
         }
         if CFAbsoluteTimeGetCurrent()-actionTimeLast>300{
             returnMain()
@@ -620,9 +618,24 @@ class SVVViewController: UIViewController {
             returnMain()
         }
     }
-
+/*
+ // 線
+ let line = UIBezierPath()
+ // 最初の位置
+ line.move(to: CGPoint(x: 100, y: 100))
+ // 次の位置
+ line.addLine(to:CGPoint(x: 300, y: 150))
+ // 終わる
+ line.close()
+ // 線の色
+ UIColor.gray.setStroke()
+ // 線の太さ
+ line.lineWidth = 2.0
+ // 線を塗りつぶす
+ line.stroke()
+ */
     var initFlag:Bool=true
-    func drawLine(degree:Float,remove:Bool){
+    func drawLine(degree:Float){
        //線を引く
 //        let ww=view.bounds.width
 //        let wh=view.bounds.height
@@ -667,7 +680,28 @@ class SVVViewController: UIViewController {
             self.view.layer.addSublayer(shapeLayer1)
         }
     }
-  
+    var lineStartPoint:CGPoint!
+    var lineEndPoint:CGPoint!
+    var lineColor:CGColor!
+    func drawLinePoint(degree:Float){
+       //線を引く
+        var x0=ww/2
+        let y0=wh/2
+        var r=radius
+        if SVVModeType==1 && SVVorDisplay==0{
+            r=r*0.35
+        }
+        let dd:Double=3.14159/900//3600//1800//900
+        let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
+        let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
+        lineStartPoint=CGPoint.init(x: x0 + x1,y: y0 - y1)
+        lineEndPoint=CGPoint(x:x0 - x1,y:y0 + y1)
+        if movingBarFlag==true && SVVorDisplay==0{
+            lineColor = UIColor.red.cgColor
+        } else {
+            lineColor = UIColor.blue.cgColor
+        }
+    }
     func trimmingImage(_ image: UIImage,_ trimmingArea: CGRect) -> UIImage {
         let imgRef = image.cgImage?.cropping(to: trimmingArea)
         let trimImage = UIImage(cgImage: imgRef!, scale: image.scale, orientation: image.imageOrientation)
