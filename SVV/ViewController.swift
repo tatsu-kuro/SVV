@@ -225,6 +225,7 @@ class ViewController: UIViewController {
                     str += String(format: "10<=     , %02d, %.02f, %.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
                 }
                 str += "\n"
+                
             }else{
                 if svvArrayNeg.count>0{
                     str += String(format: " <-10,%d,%.02f,%.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
@@ -256,6 +257,14 @@ class ViewController: UIViewController {
         }
         for i in 0..<degreeArray.count{
             str += String(format:",%.1f",svvArray[i])
+        }
+        if type==1{
+            str += "\n\n"
+            if Locale.preferredLanguages.first!.contains("ja"){
+                str += "リモートコントローラー使用時は、データが保存してないとき、paue/play ボタンをダブルタップすると次の検査ができます。"
+            }else{
+                str += "When using the remote controller, double-tap the pause/play button to perform the next check when data has not yet been saved."
+            }
         }
         return str
     }
@@ -387,6 +396,12 @@ class ViewController: UIViewController {
                 str += "(" + String(format:"%.2f",numRound) + ")"
                 str += String(format:"%.1f",displaySensorArray[i]) + ","
             }
+            str += "\n\n"
+            if Locale.preferredLanguages.first!.contains("ja"){
+                str += "リモートコントローラー使用時は、データが保存してないとき、paue/play ボタンをダブルタップすると次の検査ができます。"
+            }else{
+                str += "When using the remote controller, double-tap the pause/play button to perform the next check when data has not yet been saved."
+            }
             displayTextView.font=UIFont.monospacedSystemFont(ofSize: 12.0, weight: .regular)
             displayTextView.text! = str
         }
@@ -423,12 +438,15 @@ class ViewController: UIViewController {
         let buttonTitle=(sender as! UIButton).currentTitle
 //        print("title:",buttonTitle)
         if buttonTitle == "HELP" && savedFlag == false{//コントローラーからで保存されてなければ
-            if CFAbsoluteTimeGetCurrent() - startSVVtime<2{//SVVViewから戻ってきて2秒間は再スタート不可能とした。
+            if CFAbsoluteTimeGetCurrent() - startSVVtime<1{//SVVViewから戻ってきて1秒間は再スタート不可能とした。
                 return
             }
         }
         if !Locale.preferredLanguages.first!.contains("ja"){
             titleStr="Data will be overwritten\nand gone!"
+        }
+        if svvArray.count==0 && SVVorDisplay==0{
+            savedFlag=true
         }
         if savedFlag == false && buttonTitle=="START"{//ボタンタップで保存されてなければ
             //setButtons(mode: false)
