@@ -247,37 +247,7 @@ class SetteiViewController: UIViewController {
         print("SVVModeType:",SVVModeType)
         setRotationSpeedSliderOnOff()
     }
-//    func setDotsRotationSpeedText(){
-//        if Locale.preferredLanguages.first!.contains("ja"){
-//            backImageSwitch.setTitle("背景白", forSegmentAt: 0)
-//            backImageSwitch.setTitle("半玉:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
-//            backImageSwitch.setTitle("水玉:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
-//        }else{
-//            backImageSwitch.setTitle("white", forSegmentAt: 0)
-//            backImageSwitch.setTitle("half:" + String(dotsRotationSpeed*5), forSegmentAt: 1)
-//            backImageSwitch.setTitle("dots:" + String(dotsRotationSpeed*5), forSegmentAt: 2)
-//        }
-//
-//        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
-//    }
-//    func setSwitchSpeedText(){
-//        if Locale.preferredLanguages.first!.contains("ja"){
-//            backImageSwitch.setTitle("背景白", forSegmentAt: 0)
-//            backImageSwitch.setTitle("半水玉", forSegmentAt: 1)
-//            backImageSwitch.setTitle("水玉", forSegmentAt: 2)
-//            displayModeSwitch.setTitle("水玉回転", forSegmentAt: 0)
-//            displayModeSwitch.setTitle("水玉左右", forSegmentAt: 1)
-//            displayModeSwitch.setTitle("帯左右", forSegmentAt: 2)
-//        }else{
-//            backImageSwitch.setTitle("white", forSegmentAt: 0)
-//            backImageSwitch.setTitle("dotsHalf", forSegmentAt: 1)
-//            backImageSwitch.setTitle("dotsAll", forSegmentAt: 2)
-//            displayModeSwitch.setTitle("dots:Rota", forSegmentAt: 0)
-//            displayModeSwitch.setTitle("dots:LtRt", forSegmentAt: 1)
-//            displayModeSwitch.setTitle("band:LtRt", forSegmentAt: 2)
-//        }
-//        rotationSpeedSlider.value=Float(dotsRotationSpeed+72)/144
-//    }
+
     @IBAction func onDepthSlider(_ sender: UISlider) {
         depth3D = Int(sender.value*60) - 30
         print("depth:",depth3D)
@@ -524,8 +494,8 @@ class SetteiViewController: UIViewController {
         image3DRight=pasteImage(orgImg:image3D!,posx:CGFloat(depth3D))
         image3DLeft=pasteImage(orgImg:image3D!,posx:-CGFloat(depth3D))
 
-        drawBack()
-        drawLines(degree:0)
+//        drawBack()
+//        drawLines(degree:0)
 
         timer = Timer.scheduledTimer(timeInterval: 1.0/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
     }
@@ -664,9 +634,7 @@ class SetteiViewController: UIViewController {
  
     func reDrawCirclesLines(){
         buttonsToBack()
-        self.view.layer.sublayers?.removeLast()
-        drawBack()
-        drawLines(degree: 0)
+        drawCircle()
         buttonsToFront()
     }
     func killTimer(){
@@ -678,58 +646,43 @@ class SetteiViewController: UIViewController {
     var currentDotsDegree:CGFloat=0
     @objc func update(tm: Timer) {//1/60sec
         if SVVModeType==0 && SVVorDisplay==0{
-//            return
         }
         currentDotsDegree=(CFAbsoluteTimeGetCurrent()-mainTime)*CGFloat(dotsRotationSpeed)*5
-
-//        currentDotsDegree += CGFloat(dotsRotationSpeed)/12.0
         reDrawCirclesLines()
-//        print("dotsRotationSpeed",dotsRotationSpeed)
     }
-    func drawLines(degree:Int){//remove:Bool){
-        //線を引く
-        let ww=view.bounds.width
-        let wh=view.bounds.height
-        let x0L=ww*1/4 + CGFloat(locationX)
-        let x0M=ww/2
-        let x0R=ww*3/4 - CGFloat(locationX)
-        let y0=wh/2
-        var r=wh*(70+13*CGFloat(circleDiameter)/5)/400
+    func pasteLine(orgImg:UIImage,startP:CGPoint,endP:CGPoint,color:UIColor) -> UIImage {
+        UIGraphicsBeginImageContext(orgImg.size)
+        orgImg.draw(at:CGPoint.zero)
+        let line = UIBezierPath() // 線
+        line.move(to: startP) // 最初の位置
+        line.addLine(to:endP)// 次の位置
+        line.close()
+        color.setStroke()
+        line.lineWidth = CGFloat(verticalLineWidth)
+        line.stroke()// 線を塗りつぶす
+        let image = UIGraphicsGetImageFromCurrentImageContext()// イメージコンテキストからUIImageを作る
+        UIGraphicsEndImageContext()  // イメージ処理の終了
+        return image!
+    }
+ 
+    var lineStartPoint:CGPoint!
+    var lineEndPoint:CGPoint!
+    var lineColor:UIColor!
+    func getLinePoint(degree:Float){
+       //線を引く
+        let x0:CGFloat=281
+        let y0:CGFloat=281
+        var r:CGFloat=281
         if SVVModeType==1 && SVVorDisplay==0{
             r=r*0.35
         }
-        let dd:Double=3.14159/900
+        let dd:Double=3.14159/900//3600//1800//900
         let x1=CGFloat(Double(r)*sin(Double(degree)*dd))
         let y1=CGFloat(Double(r)*cos(Double(degree)*dd))
-        let shapeLayer = CAShapeLayer.init()
-        let uiPath = UIBezierPath()
-        if circleNumber==1{
-            uiPath.move(to:CGPoint.init(x: x0L+x1,y: y0 - y1))
-            uiPath.addLine(to: CGPoint(x:x0L-x1,y:y0 + y1))
-            uiPath.move(to:CGPoint.init(x: x0R+x1,y: y0 - y1))
-            uiPath.addLine(to: CGPoint(x:x0R-x1,y:y0 + y1))
-        }else{
-            uiPath.move(to:CGPoint.init(x: x0M+x1,y: y0 - y1))
-            uiPath.addLine(to: CGPoint(x:x0M-x1,y:y0 + y1))
-        }
-        uiPath.lineWidth=5.0
-        shapeLayer.strokeColor = UIColor.blue.cgColor
-        shapeLayer.lineWidth=CGFloat(verticalLineWidth)//+0.5
-        shapeLayer.path = uiPath.cgPath
-        self.view.layer.addSublayer(shapeLayer)
+        lineStartPoint=CGPoint.init(x: x0 + x1,y: y0 - y1)
+        lineEndPoint=CGPoint(x:x0 - x1,y:y0 + y1)
+        lineColor = UIColor.red
     }
- 
-//    func drawCircle(x0:CGFloat,y0:CGFloat,r:CGFloat,color:CGColor){
-//           // --- 円を描画 ---
-//        let circleLayer = CAShapeLayer.init()
-//        let circleFrame = CGRect.init(x:x0-r,y:y0-r,width:r*2,height:r*2)
-//        circleLayer.frame = circleFrame
-//        circleLayer.strokeColor = UIColor.black.cgColor// 輪郭の色
-//        circleLayer.fillColor = color//UIColor.black.cgColor// 円の中の色
-//        circleLayer.lineWidth = 0.5// 輪郭の太さ
-//        circleLayer.path = UIBezierPath.init(ovalIn: CGRect.init(x: 0, y: 0, width: circleFrame.size.width, height: circleFrame.size.height)).cgPath
-//        self.view.layer.addSublayer(circleLayer)
-//    }
     var initDrawBackFlag:Bool=true
     
     @IBAction func onTapGesture(_ sender: UITapGestureRecognizer) {
@@ -759,63 +712,55 @@ class SetteiViewController: UIViewController {
     var image3DLeft:UIImage?
     var image3DRight:UIImage?
 
-    var image1:UIImage?
+    func getBackImage()->UIImage{
 
-    func drawBack(){//_ angle:CGFloat){
-        if initDrawBackFlag==true{
-            initDrawBackFlag=false
-            grayImage.frame=CGRect(x:0,y:0,width:ww,height:wh)
-        }
-        let y0=wh/2
-        if SVVorDisplay==0 {
+        var image:UIImage!
+        if SVVorDisplay==0{//SVV
             if SVVModeType==0{
-                image1=backImage
+                image=backImage
             }else{
-                image1=backImage?.rotatedBy(degree: currentDotsDegree)
-                
+                image=backImage?.rotatedBy(degree: currentDotsDegree)
             }
-            if circleNumber==0{
-                randomImage1.image=image1
-                randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
-                self.view.bringSubviewToFront(randomImage1)
-            }else{
-                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DRight!], width: 562, height: 562)
-                randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
-          
-                //右合成
-                self.view.bringSubviewToFront(randomImage1)
-                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DLeft!], width: 562, height: 562)
-                randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
-                //左合成
-                self.view.bringSubviewToFront(randomImage2)
-            }
-        }else{//Display
-            if displayModeType==0{
-                image1=backImage?.rotatedBy(degree: currentDotsDegree)
-            }else{
+        }else{//display
+            if displayModeType>0{
                 var imgxy=CGFloat(Int(currentDotsDegree*5)%770)
                 if imgxy<0{
                     imgxy += 770
                 }
-                if displayModeType==1 || displayModeType==3{//horizontal
-                    image1=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 562,height: 562))
-                }else{//vertical
-                    image1=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 562,height: 562))
+                if displayModeType==1 || displayModeType==3{
+                    image=trimmingImage(backImage!,CGRect(x:imgxy,y:0,width: 562,height: 562))
+                                    
+                }else{
+                    image=trimmingImage(backImage!,CGRect(x:0,y:imgxy,width: 562,height: 562))
                 }
-            }
-            if circleNumber==0{
-                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3D!], width: 562, height: 562)
-                randomImage1.frame=CGRect(x:ww/2-radius,y:y0-radius,width: radius*2,height: radius*2)
-                self.view.bringSubviewToFront(randomImage1)
+                
             }else{
-                randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DRight!], width: 562, height: 562)
-                randomImage1.frame=CGRect(x:x0Right-radius,y:y0-radius,width: radius*2,height: radius*2)
-                self.view.bringSubviewToFront(randomImage1)
-                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image1!,image3DLeft!], width: 562, height: 562)
-                randomImage2.frame=CGRect(x:x0Left-radius,y:y0-radius,width: radius*2,height: radius*2)
-                self.view.bringSubviewToFront(randomImage2)
+                image=backImage?.rotatedBy(degree: currentDotsDegree)
             }
         }
+        return image
     }
-  
+
+    func drawCircle(){//_ angle:CGFloat){
+        if initDrawBackFlag==true{
+            initDrawBackFlag=false
+            grayImage.frame=CGRect(x:0,y:0,width:ww,height:wh)
+        }
+        let image1=getBackImage()
+        getLinePoint(degree: 0)
+        let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: lineEndPoint, color: lineColor)
+        if circleNumber==0{
+            randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image,image3D!], width: 562, height: 562)
+            randomImage1.frame=CGRect(x:ww/2-radius,y:wh/2-radius,width: radius*2,height: radius*2)
+            self.view.bringSubviewToFront(randomImage1)
+        }else{
+            randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image,image3DRight!], width: 562, height: 562)
+            randomImage1.frame=CGRect(x:x0Right-radius,y:wh/2-radius,width: radius*2,height: radius*2)
+            self.view.bringSubviewToFront(randomImage1)
+            randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image,image3DLeft!], width: 562, height: 562)
+            randomImage2.frame=CGRect(x:x0Left-radius,y:wh/2-radius,width: radius*2,height: radius*2)
+            self.view.bringSubviewToFront(randomImage2)
+        }
+    }
+    
 }
