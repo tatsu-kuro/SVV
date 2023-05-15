@@ -143,7 +143,13 @@ class ViewController: UIViewController {
         if svvArray.count<1 && displaySensorArray.count<1{
             return
         }
-        let alert = UIAlertController(title: "SVV", message: "Input ID without space", preferredStyle: .alert)
+        var titleStr:String!
+        if Locale.preferredLanguages.first!.contains("ja"){
+            titleStr = "スペースを入れずにID入力"
+        }else{
+            titleStr = "Input ID without space"
+        }
+        let alert = UIAlertController(title: "", message: titleStr, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "OK", style: .default) { [self] (action:UIAlertAction!) -> Void in
             // 入力したテキストをコンソールに表示
             let textField = alert.textFields![0] as UITextField
