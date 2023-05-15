@@ -646,7 +646,7 @@ class SVVViewController: UIViewController {
         let image1=getBackImage()
         let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: lineEndPoint, color: lineColor)
         if circleNumber==0{
-            randomImage1.image=image
+            randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image,image3D!], width: 562, height: 562)
             randomImage1.frame=CGRect(x:ww/2-radius,y:wh/2-radius,width: radius*2,height: radius*2)
             self.view.bringSubviewToFront(randomImage1)
         }else{

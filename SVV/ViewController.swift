@@ -266,7 +266,7 @@ class ViewController: UIViewController {
     }
     func getExplanationText()->String{
         if Locale.preferredLanguages.first!.contains("ja"){
-            return "データが保存されていないとき、リモートコントローラーの paue/play ボタンをダブルタップすると次の検査ができます。"
+            return "データが保存されていないとき、リモートコントローラーの pause/play ボタンをダブルタップすると次の検査ができます。"
         }else{
             return "When data has not yet been saved, double-tap the pause/play button of the remote controller to perform the next examination."
         }
@@ -429,20 +429,23 @@ class ViewController: UIViewController {
     var startSVVtime=CFAbsoluteTimeGetCurrent()
 
     @IBAction func startSVV(_ sender: Any) {
-        //print("startSVV : ",savedFlag)
+        
         sound(snd:"silence")
-        var titleStr:String="データは上書きされ\n消えます！"
+        var titleStr:String!
+        if Locale.preferredLanguages.first!.contains("ja"){
+            titleStr="データは上書きされ\n消えます！"
+        }else{
+            titleStr="Data will be overwritten\nand gone!"
+        }
         //リモートコントローラーからは”HELP"button.のときはsaveFlagをチェックしない
         let buttonTitle=(sender as! UIButton).currentTitle
-//        print("title:",buttonTitle)
+
         if buttonTitle == "HELP" && savedFlag == false{//コントローラーからで保存されてなければ
             if CFAbsoluteTimeGetCurrent() - startSVVtime<1{//SVVViewから戻ってきて1秒間は再スタート不可能とした。
                 return
             }
         }
-        if !Locale.preferredLanguages.first!.contains("ja"){
-            titleStr="Data will be overwritten\nand gone!"
-        }
+
         if svvArray.count==0 && SVVorDisplay==0{
             savedFlag=true
         }

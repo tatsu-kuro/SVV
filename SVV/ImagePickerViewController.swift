@@ -77,8 +77,14 @@ class ImagePickerViewController: UIViewController, MFMailComposeViewControllerDe
     }
  
     @IBAction func deleOne(_ sender: Any) {
+        var titleStr:String!
+        if Locale.preferredLanguages.first!.contains("ja"){
+            titleStr="全データを消去します !"
+        }else{
+            titleStr="Erasing all Data !"
+        }
         let alert = UIAlertController(
-            title: "Erasing all Data !",
+            title: titleStr,
             message: "OK ?",
             preferredStyle: .alert)
         // アラートにボタンをつける
