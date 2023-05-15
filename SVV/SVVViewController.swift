@@ -52,6 +52,7 @@ class SVVViewController: UIViewController {
     var displayModeType:Int = 0
     var gyroOnOff:Int = 0
     var fps:Int = 0
+    var depth3D:Int = 0
 
 
     func setDate(){
@@ -468,7 +469,7 @@ class SVVViewController: UIViewController {
         }
         
         image3D=UIImage(named: "white_black_transparent")
-        let depth3D=UserDefaults.standard.integer(forKey: "depth3D")
+        depth3D=UserDefaults.standard.integer(forKey: "depth3D")
         image3DRight=pasteImage(orgImg:image3D!,posx:CGFloat(depth3D))
         image3DLeft=pasteImage(orgImg:image3D!,posx:-CGFloat(depth3D))
 
@@ -654,7 +655,11 @@ class SVVViewController: UIViewController {
             randomImage1.frame=CGRect(x:x0Right-radius,y:wh/2-radius,width: radius*2,height: radius*2)
             self.view.bringSubviewToFront(randomImage1)
             //左を合成
-            randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image,image3DLeft!], width: 562, height: 562)
+            if depth3D==0{
+                randomImage2.image=randomImage1.image
+            }else{
+                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image,image3DLeft!], width: 562, height: 562)
+            }
             randomImage2.frame=CGRect(x:x0Left-radius,y:wh/2-radius,width: radius*2,height: radius*2)
             self.view.bringSubviewToFront(randomImage2)
         }

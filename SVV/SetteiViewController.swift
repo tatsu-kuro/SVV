@@ -688,14 +688,18 @@ class SetteiViewController: UIViewController {
     @IBAction func onTapGesture(_ sender: UITapGestureRecognizer) {
         let loc=sender.location(in: self.view)
         if loc.x < rotationSpeedSlider.frame.maxX && loc.x>rotationSpeedSlider.frame.minX && loc.y>rotationSpeedSlider.frame.minY && loc.y<rotationSpeedSlider.frame.maxY{
-            
             print("tapGesture")
-            dotsRotationSpeed = 0//Int(sender.value*144) - 72
+            dotsRotationSpeed = 0
             rotationSpeedSlider.value=0.5
-//            print("speed:",dotsRotationSpeed)
             UserDefaults.standard.set(dotsRotationSpeed, forKey: "dotsRotationSpeed")
-            //        setDotsRotationSpeedText()
             speedLabel.text=String(dotsRotationSpeed*5)
+        }else if loc.x < depthSlider.frame.maxX && loc.x>depthSlider.frame.minX && loc.y>depthSlider.frame.minY && loc.y<depthSlider.frame.maxY{
+            depth3D = 0
+            depthSlider.value=0.5
+            UserDefaults.standard.set(depth3D, forKey: "depth3D")
+            depthLabel.text=String(0)
+            image3DRight=pasteImage(orgImg:image3D!,posx:CGFloat(depth3D))
+            image3DLeft=pasteImage(orgImg:image3D!,posx:-CGFloat(depth3D))
         }
     }
     func trimmingImage(_ image: UIImage,_ trimmingArea: CGRect) -> UIImage {
@@ -757,7 +761,11 @@ class SetteiViewController: UIViewController {
             randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image,image3DRight!], width: 562, height: 562)
             randomImage1.frame=CGRect(x:x0Right-radius,y:wh/2-radius,width: radius*2,height: radius*2)
             self.view.bringSubviewToFront(randomImage1)
-            randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image,image3DLeft!], width: 562, height: 562)
+            if depth3D==0{
+                randomImage2.image=randomImage1.image
+            }else{
+                randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image,image3DLeft!], width: 562, height: 562)
+            }
             randomImage2.frame=CGRect(x:x0Left-radius,y:wh/2-radius,width: radius*2,height: radius*2)
             self.view.bringSubviewToFront(randomImage2)
         }

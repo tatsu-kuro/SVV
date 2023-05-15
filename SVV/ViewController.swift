@@ -260,15 +260,17 @@ class ViewController: UIViewController {
         }
         if type==1{
             str += "\n\n"
-            if Locale.preferredLanguages.first!.contains("ja"){
-                str += "リモートコントローラー使用時は、データが保存してないとき、paue/play ボタンをダブルタップすると次の検査ができます。"
-            }else{
-                str += "When using the remote controller, double-tap the pause/play button to perform the next check when data has not yet been saved."
-            }
+            str += getExplanationText()
         }
         return str
     }
- 
+    func getExplanationText()->String{
+        if Locale.preferredLanguages.first!.contains("ja"){
+            return "データが保存されていないとき、リモートコントローラーの paue/play ボタンをダブルタップすると次の検査ができます。"
+        }else{
+            return "When data has not yet been saved, double-tap the pause/play button of the remote controller to perform the next examination."
+        }
+    }
 
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
@@ -385,7 +387,6 @@ class ViewController: UIViewController {
             displayTextView.alpha=1
             displayTextView.font=UIFont.monospacedSystemFont(ofSize: 16.0, weight: .regular)
             displayTextView.text!=setSVVData(type:1)//1:display
-//            resultView.image=drawSVVData(width: 1000, height: 340)
         }else{
             titleImage.alpha=0
             resultView.alpha=0
@@ -397,11 +398,8 @@ class ViewController: UIViewController {
                 str += String(format:"%.1f",displaySensorArray[i]) + ","
             }
             str += "\n\n"
-            if Locale.preferredLanguages.first!.contains("ja"){
-                str += "リモートコントローラー使用時は、データが保存してないとき、paue/play ボタンをダブルタップすると次の検査ができます。"
-            }else{
-                str += "When using the remote controller, double-tap the pause/play button to perform the next check when data has not yet been saved."
-            }
+            str += getExplanationText()
+            
             displayTextView.font=UIFont.monospacedSystemFont(ofSize: 12.0, weight: .regular)
             displayTextView.text! = str
         }
