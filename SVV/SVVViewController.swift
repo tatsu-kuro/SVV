@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreMotion
+//import AudioToolbox
+import AVFoundation
 
 class SVVViewController: UIViewController {
     @IBOutlet weak var randomImage1: UIImageView!
@@ -36,6 +38,7 @@ class SVVViewController: UIViewController {
  //   var tcount: Int = 0
     var degree:Double=0.0
     var curAcc:Double=0
+    var curAccz:Double=0
     var sensorArrayOld = Array<Double>()//sensor
     var degreeArrayOld = Array<Double>()//degree
     var svvArrayOld = Array<Double>()//delta Subjective Visual Vertical
@@ -45,12 +48,15 @@ class SVVViewController: UIViewController {
     var displayTimeArray = Array<Double>()
     var displaySensorArray = Array<Double>()
     var actionTimeLast=CFAbsoluteTimeGetCurrent()//tap or remoteController
+    var beepTimeLast=CFAbsoluteTimeGetCurrent()
+    var audioPlayer: AVAudioPlayer!
     var verticalLinef:Bool=false
     var tenTimesOnOff:Int = 1
     var lineMovingOnOff:Int = 1
     var SVVorDisplay:Int = 1
     var displayModeType:Int = 0
     var gyroOnOff:Int = 0
+    var beepOnOff:Int = 0
     var fps:Int = 0
     var depth3D:Int = 0
 
@@ -121,6 +127,20 @@ class SVVViewController: UIViewController {
 //        return//iranasasou? <-kokotouruyo?
 //        performSegue(withIdentifier: "fromSVV", sender: self)
     }
+    func tapKettei(){
+  //      print("1beepOnOff:",beepOnOff,curAccz,curAcc)
+        if(beepOnOff==0||(curAccz<5&&curAccz > -5 && curAcc<3&&curAcc > -3)){
+  //          print("2beepOnOff:",beepOnOff,curAccz,curAcc)
+            movingBarFlag=true
+            appendData()
+            if lineMovingOnOff==0{
+                degree=getRandom()
+            }
+            if(tenTimesOnOff==1 && sensorArray.count==10){
+                returnMain()
+            }
+        }
+    }
     @IBAction func singleTap(_ sender: UITapGestureRecognizer) {
         if sender.location(in: self.view).x < self.view.bounds.width/3{
             movingBarFlag=false
@@ -133,14 +153,7 @@ class SVVViewController: UIViewController {
                 actionTimeLast=CFAbsoluteTimeGetCurrent()
                 return
             }
-            movingBarFlag=true
-            appendData()
-            if lineMovingOnOff==0{
-               degree=getRandom()
-            }
-            if(tenTimesOnOff==1 && sensorArray.count==10){
-                returnMain()
-            }
+            tapKettei()
         }else{
             movingBarFlag=false
             degree += 1
@@ -203,15 +216,15 @@ class SVVViewController: UIViewController {
                     actionTimeLast=CFAbsoluteTimeGetCurrent()
                     return
                 }
-                movingBarFlag=true
-                appendData()
-                if lineMovingOnOff==0{
-                   degree=getRandom()
-                }
-                if(tenTimesOnOff==1 && sensorArray.count==10){
-                    returnMain()
-                }
- 
+                tapKettei()
+//                movingBarFlag=true
+//                appendData()
+//                if lineMovingOnOff==0{
+//                   degree=getRandom()
+//                }
+//                if(tenTimesOnOff==1 && sensorArray.count==10){
+//                    returnMain()
+//                }
             case .remoteControlPlay:
  //               print("Play")
                 if(movingBarFlag==true){
@@ -221,14 +234,15 @@ class SVVViewController: UIViewController {
                     actionTimeLast=CFAbsoluteTimeGetCurrent()
                     return
                 }
-                movingBarFlag=true
-                appendData()
-                if lineMovingOnOff==0{
-                   degree=getRandom()
-                }
-                if(tenTimesOnOff==1 && sensorArray.count==10){
-                    returnMain()
-                }
+                tapKettei()
+//                movingBarFlag=true
+//                appendData()
+//                if lineMovingOnOff==0{
+//                   degree=getRandom()
+//                }
+//                if(tenTimesOnOff==1 && sensorArray.count==10){
+//                    returnMain()
+//                }
             case .remoteControlNextTrack:
                 movingBarFlag=false
                 degree += 1
@@ -342,15 +356,14 @@ class SVVViewController: UIViewController {
     func outputAccelData(acceleration: CMAcceleration){
         var ax=acceleration.x
         var ay=acceleration.y
-  //      var az=acceleration.z
+        var az=acceleration.z
         ax=Kalupdate(measurement: ax)
         ay=Kalupdate1(measurement: ay)
-    //    az=Kalupdate2(measurement: az)
+        az=Kalupdate2(measurement: az)
         let len=sqrt(ax*ax+ay*ay)
-        var curAcc_temp=asin(ay/len)
-        
-        curAcc_temp=curAcc_temp*90.0/(Double.pi/2)
-        curAcc=curAcc_temp
+        let lenz=sqrt(ax*ax+az*az)
+        curAccz=asin(az/lenz)*90.0/(Double.pi/2)//前後への傾き
+        curAcc=asin(ay/len)*90.0/(Double.pi/2)
         if curAcc<0 && ax>0{
             curAcc = -180 - curAcc
         }else if curAcc>0 && ax>0{
@@ -361,7 +374,18 @@ class SVVViewController: UIViewController {
             displayTimeArray.append(CFAbsoluteTimeGetCurrent()-mainTime)
             displaySensorArray.append(curAcc)
         }
-//        print(String(format:"curAcc:%d,%.1f,%.1f,%.1f,%.1f",displaySensorArray.count,curAcc,ax,ay))
+        if(curAccz>5||curAccz < -5||curAcc>3||curAcc < -3){
+            if(beepOnOff==1){
+                if((CFAbsoluteTimeGetCurrent()-beepTimeLast)>0.2){
+                    if (audioPlayer.isPlaying) {
+                        audioPlayer.stop()
+                        audioPlayer.currentTime = 0
+                    }
+                    audioPlayer.play()
+                    beepTimeLast=CFAbsoluteTimeGetCurrent()
+                }
+            }
+        }
     }
     // センサー取得を止める場合
     func stopAccelerometer(){
@@ -420,6 +444,8 @@ class SVVViewController: UIViewController {
         displayModeType=UserDefaults.standard.integer(forKey: "displayModeType")
         SVVModeType=UserDefaults.standard.integer(forKey:"SVVModeType")
         gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
+        beepOnOff=UserDefaults.standard.integer(forKey: "beepOnOff")
+
         fps=UserDefaults.standard.integer(forKey: "fps")
         UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
@@ -495,8 +521,11 @@ class SVVViewController: UIViewController {
         }else{
             degree -= 1
         }
+        try! audioPlayer = AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "beep1", ofType: "wav")!))
+        //事前に一度再生をしておかないとず正しく再生されないことがあるのでこいつを呼び出しておく
+        audioPlayer.prepareToPlay()
     }
-
+ 
     func getRandom()->Double{
         var ret:Double=0
         while(ret < 150 && ret > -150){

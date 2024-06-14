@@ -302,6 +302,7 @@ class ViewController: UIViewController {
         _ = getUserDefault(str:"SVVorDisplay",ret:0)
         _ = getUserDefault(str:"dotsRotationSpeed", ret: 10)
         _ = getUserDefault(str: "gyroOnOff", ret: 0)
+        _ = getUserDefault(str: "beepOnOff", ret: 1)
         _ = getUserDefault(str: "displayModeType",ret:1)
         _ = getUserDefault(str: "fps", ret: 0)
         _ = getUserDefault(str:"depth3D",ret:0)

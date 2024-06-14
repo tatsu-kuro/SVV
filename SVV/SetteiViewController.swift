@@ -182,8 +182,11 @@ class SetteiViewController: UIViewController {
     @IBOutlet weak var lineMovingLabel: UILabel!
     @IBOutlet weak var lineMovingSwitch: UISwitch!
     @IBOutlet weak var stop10Label: UILabel!
-    @IBOutlet weak var gyroOnSwitch: UISwitch!
     @IBOutlet weak var gyroOnLabel: UILabel!
+    @IBOutlet weak var gyroOnSwitch: UISwitch!
+    @IBOutlet weak var beepOnLabel: UILabel!
+    @IBOutlet weak var beepOnSwitch: UISwitch!
+   
     @IBOutlet weak var speedLabel: UILabel!
     var circleDiameter:Int = 0
     var verticalLineWidth:Int = 0
@@ -199,6 +202,7 @@ class SetteiViewController: UIViewController {
     var dotsRotationSpeed:Int = 0
     var lineMovingOnOff:Int = 0
     var gyroOnOff:Int = 0
+    var beepOnOff:Int = 0
     var fps:Int = 0
     var depth3D:Int = 0
     var SVVorDisplay:Int = 0
@@ -221,6 +225,15 @@ class SetteiViewController: UIViewController {
         UserDefaults.standard.set(lineMovingOnOff,forKey: "lineMovingOnOff")
     }
 
+    @IBAction func onBeepOnSwitch(_ sender: UISwitch) {
+        if sender.isOn{
+            beepOnOff=1
+        }else{
+            beepOnOff=0
+        }
+        UserDefaults.standard.set(beepOnOff,forKey: "beepOnOff")
+
+    }
     @IBAction func onGyroOnSwitch(_ sender: UISwitch) {
         if sender.isOn{
             gyroOnOff=1
@@ -430,6 +443,7 @@ class SetteiViewController: UIViewController {
         SVVorDisplay=UserDefaults.standard.integer(forKey: "SVVorDisplay")
         dotsRotationSpeed=UserDefaults.standard.integer(forKey: "dotsRotationSpeed")
         gyroOnOff=UserDefaults.standard.integer(forKey: "gyroOnOff")
+        beepOnOff=UserDefaults.standard.integer(forKey: "beepOnOff")
         fps=UserDefaults.standard.integer(forKey: "fps")
         depth3D=UserDefaults.standard.integer(forKey: "depth3D")
         displayModeType=UserDefaults.standard.integer(forKey: "displayModeType")
@@ -561,11 +575,13 @@ class SetteiViewController: UIViewController {
         let switchHeight=stop10Switch.frame.height
         let delta=bh/2-switchHeight/2
         stop10Switch.frame=CGRect(x:x0,y:sp*2+delta,width: switchWidth,height: switchHeight)
-        setLabelProperty(stop10Label, x: x0+sp+switchWidth, y: sp*2, w: 150, h: bh, UIColor.white)
+        setLabelProperty(stop10Label, x: x0+switchWidth, y: sp*2, w: 150, h: bh, UIColor.white)
+        beepOnSwitch.frame=CGRect(x:stop10Label.frame.maxX+sp,y:sp*2+delta,width: switchWidth,height: switchHeight)
+        setLabelProperty(beepOnLabel, x: stop10Label.frame.maxX+sp+switchWidth, y: sp*2, w: 80, h: bh, UIColor.white)
         gyroOnSwitch.frame=CGRect(x:x0,y:sp+stop10Label.frame.maxY+delta,width: switchWidth,height: bh)
         lineMovingSwitch.frame=CGRect(x:x0,y:sp+delta+stop10Label.frame.maxY,width:switchWidth,height:bh)
-        setLabelProperty(lineMovingLabel,x:x0+sp+switchWidth,y:sp+stop10Label.frame.maxY,w:150,h:bh,UIColor.white)
-        setLabelProperty(gyroOnLabel, x: x0+sp+switchWidth, y: sp+stop10Label.frame.maxY, w: 150, h: bh, UIColor.white)
+        setLabelProperty(lineMovingLabel,x:x0+switchWidth,y:sp+stop10Label.frame.maxY,w:150,h:bh,UIColor.white)
+        setLabelProperty(gyroOnLabel, x: x0+switchWidth, y: sp+stop10Label.frame.maxY, w: 150, h: bh, UIColor.white)
         let exitX=x0+sp*5+sliderWidth*3+bw*2
         exitButton.frame = CGRect(x:exitX,y:by,width:bw,height: bh)
         exitButton.layer.cornerRadius=5
@@ -578,7 +594,8 @@ class SetteiViewController: UIViewController {
         rotationSpeedSlider.frame = CGRect(x:speedLabel.frame.maxX+sp,y:by,width:speedSliderW,height:bh)
         fpsSwitch.frame=CGRect(x:x0+bw+sp,y:2*sp,width:lineWidthLabel.frame.maxX-x0-bw-sp,height:bh)
         setLabelProperty(samplingLabel, x: x0, y: 2*sp, w: bw,h:bh,UIColor.white)
-        depthLabel.frame=CGRect(x:speedLabel.frame.minX,y:samplingLabel.frame.minY,width:bw,height: bh)
+//        depthLabel.frame=CGRect(x:speedLabel.frame.minX,y:samplingLabel.frame.minY,width:bw,height: bh)
+        depthLabel.frame=CGRect(x:beepOnLabel.frame.maxX+2*sp,y:samplingLabel.frame.minY,width:bw,height: bh)
         depthLabel.layer.masksToBounds=true
         depthLabel.layer.cornerRadius=5
         depthSlider.frame=CGRect(x:depthLabel.frame.maxX+sp,y:samplingLabel.frame.minY,width:exitButton.frame.minX-depthLabel.frame.maxX-2*sp,height: bh)
@@ -606,12 +623,19 @@ class SetteiViewController: UIViewController {
             gyroOnSwitch.isOn=false
         }else{
             gyroOnSwitch.isOn=true
+        }  
+        if beepOnOff==0{
+            beepOnSwitch.isOn=false
+        }else{
+            beepOnSwitch.isOn=true
         }
         if SVVorDisplay==0{
             lineMovingLabel.isHidden=false
             lineMovingSwitch.isHidden=false
             stop10Label.isHidden=false
-            stop10Switch.isHidden=false
+            stop10Switch.isHidden=false 
+            beepOnLabel.isHidden=false
+            beepOnSwitch.isHidden=false
             backImageSwitch.isHidden=false
             displayModeSwitch.isHidden=true
             gyroOnLabel.isHidden=true
@@ -623,6 +647,8 @@ class SetteiViewController: UIViewController {
             lineMovingSwitch.isHidden=true
             stop10Label.isHidden=true
             stop10Switch.isHidden=true
+            beepOnLabel.isHidden=true
+            beepOnSwitch.isHidden=true
             backImageSwitch.isHidden=true
             displayModeSwitch.isHidden=false
             gyroOnLabel.isHidden=false
@@ -697,7 +723,7 @@ class SetteiViewController: UIViewController {
             depth3D = 0
             depthSlider.value=0.5
             UserDefaults.standard.set(depth3D, forKey: "depth3D")
-            depthLabel.text=String(0)
+            depthLabel.text="3Ddepth:0"//String(0)
             image3DRight=pasteImage(orgImg:image3D!,posx:CGFloat(depth3D))
             image3DLeft=pasteImage(orgImg:image3D!,posx:-CGFloat(depth3D))
         }
