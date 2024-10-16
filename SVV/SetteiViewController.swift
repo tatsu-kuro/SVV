@@ -405,6 +405,8 @@ class SetteiViewController: UIViewController {
         self.view.bringSubviewToFront(depthLabel)
         self.view.bringSubviewToFront(depthSlider)
         self.view.bringSubviewToFront(samplingLabel)
+        self.view.bringSubviewToFront(beepOnSwitch)
+        self.view.bringSubviewToFront(beepOnLabel)
      }
     func buttonsToBack(){
         self.view.sendSubviewToBack(exitButton)

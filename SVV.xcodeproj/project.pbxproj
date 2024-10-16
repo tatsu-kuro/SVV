@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		690046E72C0A0A6C002D2F16 /* beep3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 690046E62C0A0A6C002D2F16 /* beep3.wav */; };
 		690046E92C0A110F002D2F16 /* beep1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 690046E82C0A110F002D2F16 /* beep1.wav */; };
-		690046EB2C0A111F002D2F16 /* beep2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 690046EA2C0A111F002D2F16 /* beep2.wav */; };
 		691B8F4F2789B09C00105E8B /* svvtop.png in Resources */ = {isa = PBXBuildFile; fileRef = 691B8F4E2789B09C00105E8B /* svvtop.png */; };
 		6930FC3323B55940004D6BCF /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6930FC3223B55940004D6BCF /* GameController.framework */; };
 		6937E9F923B7A83D000A55F3 /* GameCont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6937E9F823B7A83D000A55F3 /* GameCont.swift */; };
@@ -25,9 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		690046E62C0A0A6C002D2F16 /* beep3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = beep3.wav; path = Assets.xcassets/beep3.dataset/beep3.wav; sourceTree = "<group>"; };
 		690046E82C0A110F002D2F16 /* beep1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = beep1.wav; path = Assets.xcassets/beep1.dataset/beep1.wav; sourceTree = "<group>"; };
-		690046EA2C0A111F002D2F16 /* beep2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = beep2.wav; path = Assets.xcassets/beep2.dataset/beep2.wav; sourceTree = "<group>"; };
 		691B8F34278951CF00105E8B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		691B8F4E2789B09C00105E8B /* svvtop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = svvtop.png; path = Assets.xcassets/svvtop.imageset/svvtop.png; sourceTree = "<group>"; };
 		6930FC3223B55940004D6BCF /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
@@ -89,8 +85,6 @@
 				8E1CFE0F22CC8970008FF15A /* SVVViewController.swift */,
 				8E5DC53F22CCD7450033B059 /* HeipViewController.swift */,
 				690046E82C0A110F002D2F16 /* beep1.wav */,
-				690046EA2C0A111F002D2F16 /* beep2.wav */,
-				690046E62C0A0A6C002D2F16 /* beep3.wav */,
 				8E1CFDFF22CC8926008FF15A /* ViewController.swift */,
 				6937E9F823B7A83D000A55F3 /* GameCont.swift */,
 				8E30F4F722E2834B00739638 /* SetteiViewController.swift */,
@@ -166,10 +160,8 @@
 			files = (
 				690046E92C0A110F002D2F16 /* beep1.wav in Resources */,
 				8E1CFE0822CC8927008FF15A /* LaunchScreen.storyboard in Resources */,
-				690046EB2C0A111F002D2F16 /* beep2.wav in Resources */,
 				8E1CFE0522CC8927008FF15A /* Assets.xcassets in Resources */,
 				8E1CFE0322CC8926008FF15A /* Main.storyboard in Resources */,
-				690046E72C0A0A6C002D2F16 /* beep3.wav in Resources */,
 				691B8F4F2789B09C00105E8B /* svvtop.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,15 +331,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.4;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = SVV/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SVV;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6;
+				MARKETING_VERSION = 2.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.SVV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -360,15 +354,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.4;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = SVV/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SVV;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6;
+				MARKETING_VERSION = 2.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.SVV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

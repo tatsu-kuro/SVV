@@ -92,6 +92,7 @@ class SVVViewController: UIViewController {
     }
     func returnMain(){
         let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
+        print("doubleTap")
         if SVVorDisplay==0{
             if svvArray.count>0{
                 for i in 0..<degreeArray.count{
@@ -381,6 +382,7 @@ class SVVViewController: UIViewController {
                         audioPlayer.stop()
                         audioPlayer.currentTime = 0
                     }
+                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                     audioPlayer.play()
                     beepTimeLast=CFAbsoluteTimeGetCurrent()
                 }
