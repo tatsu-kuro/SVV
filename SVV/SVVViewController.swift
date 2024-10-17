@@ -15,6 +15,7 @@ class SVVViewController: UIViewController {
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
     @IBOutlet weak var blackImage: UIImageView!
+    var tiltFlag:Bool=false
     var backImage:UIImage!
     var lastSensorDegree:Double=0
     let motionManager = CMMotionManager()
@@ -363,7 +364,8 @@ class SVVViewController: UIViewController {
         az=Kalupdate2(measurement: az)
         let len=sqrt(ax*ax+ay*ay)
         let lenz=sqrt(ax*ax+az*az)
-        curAccz=asin(az/lenz)*90.0/(Double.pi/2)//前後への傾き
+  //      curAccz=asin(az/lenz)*90.0/(Double.pi/2)//前後への傾き
+        curAccz=asin(az)*90.0/(Double.pi/2)//前後への傾き、横になっても
         curAcc=asin(ay/len)*90.0/(Double.pi/2)
         if curAcc<0 && ax>0{
             curAcc = -180 - curAcc
@@ -375,18 +377,23 @@ class SVVViewController: UIViewController {
             displayTimeArray.append(CFAbsoluteTimeGetCurrent()-mainTime)
             displaySensorArray.append(curAcc)
         }
-        if(curAccz>5||curAccz < -5||curAcc>3||curAcc < -3){
+        if(curAccz>5||curAccz < -5){//}||curAcc>3||curAcc < -3){
             if(beepOnOff==1){
+                tiltFlag=true
                 if((CFAbsoluteTimeGetCurrent()-beepTimeLast)>0.2){
                     if (audioPlayer.isPlaying) {
                         audioPlayer.stop()
                         audioPlayer.currentTime = 0
                     }
-                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+       //             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                     audioPlayer.play()
                     beepTimeLast=CFAbsoluteTimeGetCurrent()
                 }
+            }else{
+                tiltFlag=false
             }
+        }else{
+            tiltFlag=false
         }
     }
     // センサー取得を止める場合
@@ -675,7 +682,8 @@ class SVVViewController: UIViewController {
 
     func drawCircle(){//_ angle:CGFloat){
         let image1=getBackImage()
-        let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: lineEndPoint, color: lineColor)
+ //       let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: lineEndPoint, color: lineColor)
+        let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: !tiltFlag ? lineEndPoint:lineStartPoint, color: lineColor)
         if circleNumber==0{
             randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image,image3D!], width: 562, height: 562)
             randomImage1.frame=CGRect(x:ww/2-radius,y:wh/2-radius,width: radius*2,height: radius*2)
