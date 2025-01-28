@@ -94,7 +94,7 @@ class SVVViewController: UIViewController {
     func returnMain(){
         let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
         print("doubleTap")
-        if SVVorDisplay==0{
+        if SVVorDisplay==0{//SVV
             if svvArray.count>0{
                 for i in 0..<degreeArray.count{
                     mainView.svvArray.append(svvArray[i])
@@ -131,7 +131,7 @@ class SVVViewController: UIViewController {
     }
     func tapKettei(){
   //      print("1beepOnOff:",beepOnOff,curAccz,curAcc)
-        if(beepOnOff==0||(curAccz<5&&curAccz > -5 && curAcc<3&&curAcc > -3)){
+        if(beepOnOff==0||(curAccz<5&&curAccz > -5 )){//}&& curAcc<3&&curAcc > -3)){
   //          print("2beepOnOff:",beepOnOff,curAccz,curAcc)
             movingBarFlag=true
             appendData()
