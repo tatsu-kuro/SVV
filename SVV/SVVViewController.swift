@@ -130,7 +130,7 @@ class SVVViewController: UIViewController {
     }
     func tapKettei(){
   //      print("1beepOnOff:",beepOnOff,curAccz,curAcc)
-        if(beepOnOff==0||(curAccz<5&&curAccz > -5 && curAcc<3&&curAcc > -3)){
+        if(beepOnOff==0||(curAccz<5&&curAccz > -5)){//} && curAcc<3&&curAcc > -3)){
   //          print("2beepOnOff:",beepOnOff,curAccz,curAcc)
             movingBarFlag=true
             appendData()
