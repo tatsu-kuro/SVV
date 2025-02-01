@@ -439,7 +439,7 @@ class ViewController: UIViewController {
 //    }
     var startSVVtime=CFAbsoluteTimeGetCurrent()
 
-    @IBAction func startSVV(_ sender: Any) {
+    @IBAction func startSVV(_ sender: Any) {//これを下のstartSVV()に変更すると、検査を繰り返すごとに次第に遅くなる
         
 //        sound(snd:"silence")
         var titleStr:String!
@@ -488,6 +488,26 @@ class ViewController: UIViewController {
         }
         //２：直ぐここを通る
     }
+   /*
+    @IBAction func startSVV(_ sender: Any) {
+        if savedFlag == false{//保存されてなければ
+            if CFAbsoluteTimeGetCurrent() - startSVVtime<1{//SVVViewから戻ってきて1秒間は再スタート不可能とした。
+                return
+            }
+        }
+        
+        if svvArray.count==0 && SVVorDisplay==0{
+            savedFlag=true
+        }
+        if savedFlag == false {//}&& buttonTitle=="START"{//ボタンタップで保存されてなければ
+            //setButtons(mode: false)
+            alertActiveFlag=true
+            showAlert()
+            
+        }else{
+            self.segueSVV()
+        }
+    }*/
     func segueSVV(){
         print("segueSVV",sensorArray.count,displaySensorArray.count)
         let nextView = storyboard?.instantiateViewController(withIdentifier: "SVV") as! SVVViewController
