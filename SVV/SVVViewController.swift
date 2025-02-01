@@ -202,7 +202,7 @@ class SVVViewController: UIViewController {
 //            displayTimeArray.append(CFAbsoluteTimeGetCurrent()-mainTime)
         }
     }
-    override func remoteControlReceived(with event: UIEvent?) {
+/*    override func remoteControlReceived(with event: UIEvent?) {
         guard event?.type == .remoteControl else { return }
         if let event = event {
             switch event.subtype {
@@ -270,7 +270,7 @@ class SVVViewController: UIViewController {
                 print("Others")
             }
         }
-    }
+    }*/
     let KalQ2:Double = 0.0001
     let KalR2:Double = 0.001
     var KalX2:Double = 0.0
@@ -449,8 +449,8 @@ class SVVViewController: UIViewController {
         beepOnOff=UserDefaults.standard.integer(forKey: "beepOnOff")
 
         fps=UserDefaults.standard.integer(forKey: "fps")
-        UIApplication.shared.beginReceivingRemoteControlEvents()
-        self.becomeFirstResponder()
+//        UIApplication.shared.beginReceivingRemoteControlEvents()
+//        self.becomeFirstResponder()
         if motionManager.isAccelerometerAvailable {
             // intervalの設定 [sec]
             //            if SVVorDisplay==0{

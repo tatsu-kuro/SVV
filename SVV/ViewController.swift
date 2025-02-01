@@ -8,7 +8,7 @@
 
 import UIKit
 //import AVFoundation
-//import MediaPlayer
+import MediaPlayer
 //import GameController
 
 extension UIImage {
@@ -288,8 +288,12 @@ class ViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIApplication.shared.beginReceivingRemoteControlEvents()
-        self.becomeFirstResponder()
+//        UIApplication.shared.beginReceivingRemoteControlEvents()
+//        self.becomeFirstResponder()
+        setupAudioSession()  // ① オーディオセッションの設定を最初に行う
+         self.becomeFirstResponder()  // ② その後、First Responder になる
+         setupRemoteControl()  // ③ 最後にリモートコントロールの設定
+
 //        sound(snd:"silence")
         _ = getUserDefault(str:"circleDiameter",ret:7)//if not exist, make
         _ = getUserDefault(str:"lineWidth",ret:3)
@@ -503,7 +507,7 @@ class ViewController: UIViewController {
     }
     var actionTimeLast=CFAbsoluteTimeGetCurrent()//tap or remoteController
 
-    override func remoteControlReceived(with event: UIEvent?) {
+ /*   override func remoteControlReceived(with event: UIEvent?) {
         guard event?.type == .remoteControl else { return }
         if let event = event {
             switch event.subtype {
@@ -539,7 +543,87 @@ class ViewController: UIViewController {
                 print("Others")
             }
         }
+    }*/
+    func setupAudioSession() {
+           let audioSession = AVAudioSession.sharedInstance()
+           do {
+               try audioSession.setCategory(.playback, mode: .default, options: [])
+               try audioSession.setActive(true)
+           } catch {
+               print("Failed to set up audio session: \(error)")
+           }
+       }
+    func setupRemoteControl() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.togglePlayPauseCommand.isEnabled = true
+        commandCenter.togglePlayPauseCommand.addTarget{ event in
+            print("TogglePlayPause_TopViewController")
+            self.startSVV(self.helpButton!)
+            self.actionTimeLast=CFAbsoluteTimeGetCurrent()
+            return .success
+        }
+        commandCenter.previousTrackCommand.addTarget { _ in
+            self.cancelAction()
+            return .success
+        }
+        
+        commandCenter.nextTrackCommand.addTarget { _ in
+            self.okAction()
+            return .success
+        }
+        
+        UIApplication.shared.beginReceivingRemoteControlEvents()
     }
+    var alertController: UIAlertController?
+      
+      func showAlert() {
+          var titleStr:String=""
+          if Locale.preferredLanguages.first!.contains("ja"){
+              titleStr="データは上書きされ\n消えます！ OK？"
+          }else{
+              titleStr="Data will be overwritten\nand gone! OK?"
+          }
+               
+          alertController = UIAlertController(title: "", message: titleStr, preferredStyle: .alert)
+          
+          alertController?.addAction(UIAlertAction(title: "OK (⏩ X)", style: .default, handler: { _ in
+              print("OK が選択されました")
+             
+          }))
+          
+          alertController?.addAction(UIAlertAction(title: "Cancel (⏪ A)", style: .cancel, handler: { _ in
+              print("キャンセル が選択されました")
+          }))
+          
+        
+          present(alertController!, animated: true)
+      }
+      var alertActiveFlag:Bool=false
+      // ✅ OKボタンをリモコンで押す処理
+      func okAction() {
+          guard let alert = alertController else { return }
+          if alert.actions.first(where: { $0.title == "OK (⏩ X)" }) != nil {
+              alert.dismiss(animated: true) { [self] in
+                  print("OK が選択されましたaction")
+                  if alertActiveFlag{
+                      alertActiveFlag=false
+                      self.segueSVV()
+                  }
+              }
+          }
+      }
+      
+      // ❌ キャンセルボタンをリモコンで押す処理
+      func cancelAction() {
+          guard let alert = alertController else { return }
+          if alert.actions.first(where: { $0.title == "Cancel (⏪ A)" }) != nil {
+              alert.dismiss(animated: true) {
+                  print("キャンセル が選択されましたaction")
+              }
+          }
+      }
+      
+       
     @IBAction func returnToMe(segue: UIStoryboardSegue) {
         print("returnToMe****:SVV:",sensorArray.count,displaySensorArray.count)
         if let vc = segue.source as? SetteiViewController {
