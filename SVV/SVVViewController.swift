@@ -13,7 +13,7 @@ import AVFoundation
 
 class SVVViewController: UIViewController {
 //    var soundPlayer: AVAudioPlayer? = nil
-
+    var motionmanagerFlag:Bool=false
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
     @IBOutlet weak var blackImage: UIImageView!
@@ -133,6 +133,7 @@ class SVVViewController: UIViewController {
         mainView.startSVVtime=CFAbsoluteTimeGetCurrent()
         print("SVV:returnMain",mainView.sensorArray.count,mainView.displaySensorArray.count)
         self.present(mainView, animated: false, completion: nil)
+        motionmanagerFlag=false
 //        return//iranasasou? <-kokotouruyo?
 //        performSegue(withIdentifier: "fromSVV", sender: self)
     }
@@ -147,6 +148,7 @@ class SVVViewController: UIViewController {
             if lineMovingOnOff==0{
                 degree=getRandom()
             }
+
             if(tenTimesOnOff==1 && sensorArray.count==10){
                 returnMain()
             }
@@ -396,12 +398,13 @@ class SVVViewController: UIViewController {
             displaySensorArray.append(curAcc)
         }
         if(curAccz>5||curAccz < -5){//}||curAcc>3||curAcc < -3){
-            if(beepOnOff==1){
+            if beepOnOff==1 && motionmanagerFlag{
                 if((CFAbsoluteTimeGetCurrent()-beepTimeLast)>0.5){
                     if (audioPlayer.isPlaying) {
                         audioPlayer.stop()
                         audioPlayer.currentTime = 0
                     }
+                    print("vibe_sound*****",motionmanagerFlag)
                     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                     audioPlayer.play()
                     beepTimeLast=CFAbsoluteTimeGetCurrent()
@@ -454,6 +457,7 @@ class SVVViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+//        motionmanagerFlag=true
         //        let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
         //        print("SVV:DidLoad",mainView.sensorArray.count,mainView.displaySensorArray.count)
         circleDiameter=UserDefaults.standard.integer(forKey: "circleDiameter")
