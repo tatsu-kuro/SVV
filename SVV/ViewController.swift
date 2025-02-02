@@ -266,7 +266,7 @@ class ViewController: UIViewController {
         }
         if type==1{
             str += "\n\n"
-            str += getExplanationText()
+//            str += getExplanationText()
         }
         return str
     }
@@ -409,7 +409,7 @@ class ViewController: UIViewController {
                 str += String(format:"%.1f",displaySensorArray[i]) + ","
             }
             str += "\n\n"
-            str += getExplanationText()
+//            str += getExplanationText()
             
             displayTextView.font=UIFont.monospacedSystemFont(ofSize: 12.0, weight: .regular)
             displayTextView.text! = str
