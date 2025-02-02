@@ -200,7 +200,9 @@ class SVVViewController: UIViewController {
     }
     override func viewDidDisappear(_ animated: Bool) {
         print("SVV:ViewDidDisapear")
-        motionManager.stopAccelerometerUpdates()
+//        motionManager.stopAccelerometerUpdates()
+        MotionManager.shared.stopAccelerometerUpdates()
+              print("🛑 加速度センサー停止")
     }
     func getSensorDegree()->Double{
         let s=round(curAcc*10)//shishagonyuu 90degree
@@ -521,11 +523,14 @@ class SVVViewController: UIViewController {
                 motionManager.accelerometerUpdateInterval = 1/100
             }
             // センサー値の取得開始
-            
-            motionManager.startAccelerometerUpdates(to: OperationQueue.main) { (accelData, error) in
-                guard let acceleration = accelData?.acceleration else { return }
-                self.outputAccelData(acceleration: acceleration)
-            }
+            // 加速度センサーを開始
+                MotionManager.shared.startAccelerometerUpdates { acceleration in
+                    self.outputAccelData(acceleration: acceleration) // 自分の関数を呼び出す
+                }
+//            motionManager.startAccelerometerUpdates(to: OperationQueue.main) { (accelData, error) in
+//                guard let acceleration = accelData?.acceleration else { return }
+//                self.outputAccelData(acceleration: acceleration)
+//            }
             
             
 //            motionManager.startAccelerometerUpdates(

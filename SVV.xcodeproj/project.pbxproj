@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		690046E92C0A110F002D2F16 /* beep1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 690046E82C0A110F002D2F16 /* beep1.wav */; };
 		6917F5262D4F7EC0008739E5 /* svvtop2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6917F5252D4F7EC0008739E5 /* svvtop2.png */; };
+		6917F5282D4FA626008739E5 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6917F5272D4FA626008739E5 /* MotionManager.swift */; };
 		6930FC3323B55940004D6BCF /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6930FC3223B55940004D6BCF /* GameController.framework */; };
 		6937E9F923B7A83D000A55F3 /* GameCont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6937E9F823B7A83D000A55F3 /* GameCont.swift */; };
 		8E1CFDFE22CC8926008FF15A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1CFDFD22CC8926008FF15A /* AppDelegate.swift */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		690046E82C0A110F002D2F16 /* beep1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = beep1.wav; path = Assets.xcassets/beep1.dataset/beep1.wav; sourceTree = "<group>"; };
 		6917F5252D4F7EC0008739E5 /* svvtop2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = svvtop2.png; sourceTree = "<group>"; };
+		6917F5272D4FA626008739E5 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		691B8F34278951CF00105E8B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		6930FC3223B55940004D6BCF /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		6937E9F823B7A83D000A55F3 /* GameCont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCont.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 			children = (
 				8E1CFDFD22CC8926008FF15A /* AppDelegate.swift */,
 				8E1CFE0F22CC8970008FF15A /* SVVViewController.swift */,
+				6917F5272D4FA626008739E5 /* MotionManager.swift */,
 				8E5DC53F22CCD7450033B059 /* HeipViewController.swift */,
 				690046E82C0A110F002D2F16 /* beep1.wav */,
 				8E1CFDFF22CC8926008FF15A /* ViewController.swift */,
@@ -180,6 +183,7 @@
 				8E1CFE0022CC8926008FF15A /* ViewController.swift in Sources */,
 				8E1CFDFE22CC8926008FF15A /* AppDelegate.swift in Sources */,
 				8E1CFE1022CC8970008FF15A /* SVVViewController.swift in Sources */,
+				6917F5282D4FA626008739E5 /* MotionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
