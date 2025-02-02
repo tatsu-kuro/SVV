@@ -12,6 +12,8 @@ import CoreMotion
 import AVFoundation
 
 class SVVViewController: UIViewController {
+    var soundPlayer: AVAudioPlayer? = nil
+
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
     @IBOutlet weak var blackImage: UIImageView!
@@ -59,7 +61,12 @@ class SVVViewController: UIViewController {
     var beepOnOff:Int = 0
     var fps:Int = 0
     var depth3D:Int = 0
-
+    func sound(snd:String){
+        if let soundharu = NSDataAsset(name: snd) {
+            soundPlayer = try? AVAudioPlayer(data: soundharu.data)
+            soundPlayer?.play() // → これで音が鳴る
+        }
+    }
 
     func setDate(){
         let dateFormatter = DateFormatter()
@@ -129,6 +136,8 @@ class SVVViewController: UIViewController {
 //        performSegue(withIdentifier: "fromSVV", sender: self)
     }
     func tapKettei(){
+        sound(snd:"silence")
+
   //      print("1beepOnOff:",beepOnOff,curAccz,curAcc)
         if(beepOnOff==0||(curAccz<5&&curAccz > -5)){//} && curAcc<3&&curAcc > -3)){
   //          print("2beepOnOff:",beepOnOff,curAccz,curAcc)
@@ -202,7 +211,7 @@ class SVVViewController: UIViewController {
 //            displayTimeArray.append(CFAbsoluteTimeGetCurrent()-mainTime)
         }
     }
-/*    override func remoteControlReceived(with event: UIEvent?) {
+    override func remoteControlReceived(with event: UIEvent?) {
         guard event?.type == .remoteControl else { return }
         if let event = event {
             switch event.subtype {
@@ -270,7 +279,7 @@ class SVVViewController: UIViewController {
                 print("Others")
             }
         }
-    }*/
+    }
     let KalQ2:Double = 0.0001
     let KalR2:Double = 0.001
     var KalX2:Double = 0.0
