@@ -438,7 +438,7 @@ class ViewController: UIViewController {
 //        }
 //    }
     var startSVVtime=CFAbsoluteTimeGetCurrent()
-
+/*
     @IBAction func startSVV(_ sender: Any) {//これを下のstartSVV()に変更すると、検査を繰り返すごとに次第に遅くなる
         
 //        sound(snd:"silence")
@@ -488,7 +488,7 @@ class ViewController: UIViewController {
         }
         //２：直ぐここを通る
     }
-   /*
+   */
     @IBAction func startSVV(_ sender: Any) {
         if savedFlag == false{//保存されてなければ
             if CFAbsoluteTimeGetCurrent() - startSVVtime<1{//SVVViewから戻ってきて1秒間は再スタート不可能とした。
@@ -503,11 +503,10 @@ class ViewController: UIViewController {
             //setButtons(mode: false)
             alertActiveFlag=true
             showAlert()
-            
         }else{
             self.segueSVV()
         }
-    }*/
+    }
     func segueSVV(){
         print("segueSVV",sensorArray.count,displaySensorArray.count)
         let nextView = storyboard?.instantiateViewController(withIdentifier: "SVV") as! SVVViewController
@@ -575,6 +574,8 @@ class ViewController: UIViewController {
        }
     func setupRemoteControl() {
         let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.togglePlayPauseCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）
+
         commandCenter.togglePlayPauseCommand.isEnabled = true
         commandCenter.togglePlayPauseCommand.addTarget{ event in
             print("TogglePlayPause_TopViewController")
@@ -582,11 +583,14 @@ class ViewController: UIViewController {
             self.actionTimeLast=CFAbsoluteTimeGetCurrent()
             return .success
         }
+        commandCenter.previousTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）
+
         commandCenter.previousTrackCommand.addTarget { _ in
             self.cancelAction()
             return .success
         }
-        
+        commandCenter.nextTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）
+
         commandCenter.nextTrackCommand.addTarget { _ in
             self.okAction()
             return .success
@@ -608,11 +612,12 @@ class ViewController: UIViewController {
           
           alertController?.addAction(UIAlertAction(title: "OK (⏩ X)", style: .default, handler: { _ in
               print("OK が選択されました")
+              self.segueSVV()
              
           }))
           
           alertController?.addAction(UIAlertAction(title: "Cancel (⏪ A)", style: .cancel, handler: { _ in
-              print("キャンセル が選択されました")
+              print("キャンセル が選択されました⏻⏯")
           }))
           
         
