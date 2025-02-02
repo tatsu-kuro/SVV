@@ -12,7 +12,7 @@ import CoreMotion
 import AVFoundation
 
 class SVVViewController: UIViewController {
-    var soundPlayer: AVAudioPlayer? = nil
+//    var soundPlayer: AVAudioPlayer? = nil
 
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
@@ -63,8 +63,8 @@ class SVVViewController: UIViewController {
     var depth3D:Int = 0
     func sound(snd:String){
         if let soundharu = NSDataAsset(name: snd) {
-            soundPlayer = try? AVAudioPlayer(data: soundharu.data)
-            soundPlayer?.play() // → これで音が鳴る
+            audioPlayer = try? AVAudioPlayer(data: soundharu.data)
+            audioPlayer?.play() // → これで音が鳴る
         }
     }
 
@@ -129,6 +129,7 @@ class SVVViewController: UIViewController {
         stopAccelerometer()
         Globalmode=0
         stopDisplaylink()
+        audioPlayer.stop()
         mainView.startSVVtime=CFAbsoluteTimeGetCurrent()
         print("SVV:returnMain",mainView.sensorArray.count,mainView.displaySensorArray.count)
         self.present(mainView, animated: false, completion: nil)
@@ -172,7 +173,10 @@ class SVVViewController: UIViewController {
  /// 画面が閉じる直前に呼ばれる
     override func viewWillDisappear(_ animated: Bool) {
      super.viewWillDisappear(animated)
-
+       
+            motionManager.stopAccelerometerUpdates()
+            print("Accelerometer updates stopped on back transition.")
+        
 //     // タイマーを停止する//二重に停止してもmainでも動く。どうして？
 //        if let workingTimer = timer{
 //         workingTimer.invalidate()
@@ -192,11 +196,16 @@ class SVVViewController: UIViewController {
     }
     override func viewDidDisappear(_ animated: Bool) {
         print("SVV:ViewDidDisapear")
+        motionManager.stopAccelerometerUpdates()
     }
     func getSensorDegree()->Double{
         let s=round(curAcc*10)//shishagonyuu 90degree
         return -s/10.0
     }
+//    func applicationDidEnterBackground(_ application: UIApplication) {
+//        motionManager.shared.stopUpdates()
+//    }
+
     func appendData(){
         let s=round(curAcc*10)//shishagonyuu 90degree
         if SVVorDisplay==0{
@@ -220,7 +229,9 @@ class SVVViewController: UIViewController {
   //              print("TogglePlayPause")
                 if(movingBarFlag==true){
                     if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
-           //             print("doubleTap")
+                        print("doubleTap,stopAccelerometeupdates")
+                        motionManager.stopAccelerometerUpdates()
+
                         returnMain()
                     }
                     actionTimeLast=CFAbsoluteTimeGetCurrent()
@@ -384,9 +395,9 @@ class SVVViewController: UIViewController {
             displayTimeArray.append(CFAbsoluteTimeGetCurrent()-mainTime)
             displaySensorArray.append(curAcc)
         }
-        if(curAccz>5||curAccz < -5||curAcc>3||curAcc < -3){
+        if(curAccz>5||curAccz < -5){//}||curAcc>3||curAcc < -3){
             if(beepOnOff==1){
-                if((CFAbsoluteTimeGetCurrent()-beepTimeLast)>0.2){
+                if((CFAbsoluteTimeGetCurrent()-beepTimeLast)>0.5){
                     if (audioPlayer.isPlaying) {
                         audioPlayer.stop()
                         audioPlayer.currentTime = 0
@@ -404,6 +415,7 @@ class SVVViewController: UIViewController {
             motionManager.stopAccelerometerUpdates()
         }
         print("StopMotionSensor",curAcc.description.count)
+        motionManager.stopDeviceMotionUpdates()
     }
     var mainTime=CFAbsoluteTimeGetCurrent()
     var displayLink:CADisplayLink?

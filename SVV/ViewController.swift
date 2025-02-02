@@ -674,5 +674,11 @@ class ViewController: UIViewController {
                 }
             }
         }
+//        if let vc = segue.source as? SVVViewController {
+//            if let vc = segue.source as? SVVViewController {
+//                SVVViewController.audioPlayer.stop()
+//                
+//            }
+//        }
     }
 }
