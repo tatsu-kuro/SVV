@@ -52,7 +52,7 @@ class ViewController: UIViewController {
 //    let width0:Int = 10
     var diameter:Int = 0
     var width:Int = 0
-//    var soundPlayer: AVAudioPlayer? = nil
+    var soundPlayer: AVAudioPlayer? = nil
     var sensorArray = Array<Double>()//sensor
     var degreeArray = Array<Double>()//degree
     var displaySensorArray = Array<Double>()
@@ -83,7 +83,7 @@ class ViewController: UIViewController {
     //    @IBOutlet weak var logoImage: UIImageView!
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("prepare")
-//        sound(snd:"silence")
+        sound(snd:"silence")
     }
     var topPadding:CGFloat = 0
     var bottomPadding:CGFloat = 0
@@ -139,7 +139,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func saveData(_ sender: Any) {
-//        sound(snd:"silence")
+        sound(snd:"silence")
         if svvArray.count<1 && displaySensorArray.count<1{
             return
         }
@@ -294,7 +294,7 @@ class ViewController: UIViewController {
          self.becomeFirstResponder()  // ② その後、First Responder になる
          setupRemoteControl()  // ③ 最後にリモートコントロールの設定
 
-//        sound(snd:"silence")
+        sound(snd:"silence")
         _ = getUserDefault(str:"circleDiameter",ret:7)//if not exist, make
         _ = getUserDefault(str:"lineWidth",ret:3)
         _ = getUserDefault(str:"circleNumber",ret:1)
@@ -431,12 +431,12 @@ class ViewController: UIViewController {
         setButtons()
         setViews()
      }
-//    func sound(snd:String){
-//        if let soundharu = NSDataAsset(name: snd) {
-//            soundPlayer = try? AVAudioPlayer(data: soundharu.data)
-//            soundPlayer?.play() // → これで音が鳴る
-//        }
-//    }
+    func sound(snd:String){
+        if let soundharu = NSDataAsset(name: snd) {
+            soundPlayer = try? AVAudioPlayer(data: soundharu.data)
+            soundPlayer?.play() // → これで音が鳴る
+        }
+    }
     var startSVVtime=CFAbsoluteTimeGetCurrent()
 /*
     @IBAction func startSVV(_ sender: Any) {//これを下のstartSVV()に変更すると、検査を繰り返すごとに次第に遅くなる
@@ -490,6 +490,8 @@ class ViewController: UIViewController {
     }
    */
     @IBAction func startSVV(_ sender: Any) {
+                sound(snd:"silence")
+
         if savedFlag == false{//保存されてなければ
             if CFAbsoluteTimeGetCurrent() - startSVVtime<1{//SVVViewから戻ってきて1秒間は再スタート不可能とした。
                 return
