@@ -13,7 +13,7 @@ import AVFoundation
 
 class SVVViewController: UIViewController {
 //    var soundPlayer: AVAudioPlayer? = nil
-    var motionmanagerFlag:Bool=false
+//    var motionmanagerFlag:Bool=false
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
     @IBOutlet weak var blackImage: UIImageView!
@@ -127,13 +127,15 @@ class SVVViewController: UIViewController {
         mainView.savedFlag=false
 
         stopAccelerometer()
+        motionManager.stopAccelerometerUpdates()
+        motionManager.accelerometerUpdateInterval = 0 // 更新間隔をゼロにする
         Globalmode=0
         stopDisplaylink()
         audioPlayer.stop()
         mainView.startSVVtime=CFAbsoluteTimeGetCurrent()
         print("SVV:returnMain",mainView.sensorArray.count,mainView.displaySensorArray.count)
         self.present(mainView, animated: false, completion: nil)
-        motionmanagerFlag=false
+//        motionmanagerFlag=false
 //        return//iranasasou? <-kokotouruyo?
 //        performSegue(withIdentifier: "fromSVV", sender: self)
     }
@@ -405,7 +407,7 @@ class SVVViewController: UIViewController {
                         audioPlayer.stop()
                         audioPlayer.currentTime = 0
                     }
-                    print("vibe_sound*****",motionmanagerFlag)
+                    print("vibe_sound*****")//,motionmanagerFlag)
                     //                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                     audioPlayer.play()
                     beepTimeLast=CFAbsoluteTimeGetCurrent()
@@ -446,6 +448,7 @@ class SVVViewController: UIViewController {
         }
         print("StopMotionSensor",curAcc.description.count)
         motionManager.stopDeviceMotionUpdates()
+//        motionManager.accelerometerData = nil
     }
     var mainTime=CFAbsoluteTimeGetCurrent()
     var displayLink:CADisplayLink?
@@ -518,12 +521,19 @@ class SVVViewController: UIViewController {
                 motionManager.accelerometerUpdateInterval = 1/100
             }
             // センサー値の取得開始
-            motionManager.startAccelerometerUpdates(
-                to: OperationQueue.current!,
-                withHandler: {(accelData: CMAccelerometerData?, errorOC: Error?) in
-                    self.outputAccelData(acceleration: accelData!.acceleration)
-                    //                    self.distance(acceleration: accelData!.acceleration)
-                })
+            
+            motionManager.startAccelerometerUpdates(to: OperationQueue.main) { (accelData, error) in
+                guard let acceleration = accelData?.acceleration else { return }
+                self.outputAccelData(acceleration: acceleration)
+            }
+            
+            
+//            motionManager.startAccelerometerUpdates(
+//                to: OperationQueue.current!,
+//                withHandler: {(accelData: CMAccelerometerData?, errorOC: Error?) in
+//                    self.outputAccelData(acceleration: accelData!.acceleration)
+//                    //                    self.distance(acceleration: accelData!.acceleration)
+//                })
         }
         if SVVorDisplay==1{
             UIApplication.shared.isIdleTimerDisabled = true//スリープしない
