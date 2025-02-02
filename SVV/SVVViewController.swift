@@ -398,20 +398,47 @@ class SVVViewController: UIViewController {
             displaySensorArray.append(curAcc)
         }
         if(curAccz>5||curAccz < -5){//}||curAcc>3||curAcc < -3){
-            if beepOnOff==1 && motionmanagerFlag{
+            if beepOnOff==1{//} && motionmanagerFlag{
+                tiltFlag=true
                 if((CFAbsoluteTimeGetCurrent()-beepTimeLast)>0.5){
                     if (audioPlayer.isPlaying) {
                         audioPlayer.stop()
                         audioPlayer.currentTime = 0
                     }
                     print("vibe_sound*****",motionmanagerFlag)
-                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                    //                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                     audioPlayer.play()
                     beepTimeLast=CFAbsoluteTimeGetCurrent()
                 }
+            }else{
+                tiltFlag=false
             }
+        }else{
+         tiltFlag=false
         }
     }
+    
+    
+    /*
+     if(curAccz>5||curAccz < -5){//}||curAcc>3||curAcc < -3){
+                if(beepOnOff==1){
+                    tiltFlag=true
+                    if((CFAbsoluteTimeGetCurrent()-beepTimeLast)>0.2){
+                        if (audioPlayer.isPlaying) {
+                            audioPlayer.stop()
+                            audioPlayer.currentTime = 0
+                        }
+           //             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                        audioPlayer.play()
+                        beepTimeLast=CFAbsoluteTimeGetCurrent()
+                    }
+                }else{
+                    tiltFlag=false
+                }
+            }else{
+                tiltFlag=false
+            }
+     */
     // センサー取得を止める場合
     func stopAccelerometer(){
         if (motionManager.isAccelerometerActive) {
@@ -697,8 +724,8 @@ class SVVViewController: UIViewController {
         let trimImage = UIImage(cgImage: imgRef!, scale: image.scale, orientation: image.imageOrientation)
         return trimImage
     }
-
-    func drawCircle(){//_ angle:CGFloat){
+    var tiltFlag:Bool=false
+    func drawCircle_(){//_ angle:CGFloat){
         let image1=getBackImage()
         let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: lineEndPoint, color: lineColor)
         if circleNumber==0{
@@ -720,7 +747,29 @@ class SVVViewController: UIViewController {
             self.view.bringSubviewToFront(randomImage2)
         }
     }
-
+    func drawCircle(){//_ angle:CGFloat){
+          let image1=getBackImage()
+          let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: lineEndPoint, color: !tiltFlag ? lineColor:UIColor.systemGray5)
+   //       let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: !tiltFlag ? lineEndPoint:lineStartPoint, color: lineColor)
+          if circleNumber==0{
+              randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image,image3D!], width: 562, height: 562)
+              randomImage1.frame=CGRect(x:ww/2-radius,y:wh/2-radius,width: radius*2,height: radius*2)
+              self.view.bringSubviewToFront(randomImage1)
+          }else{
+              //右を合成
+              randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image,image3DRight!], width: 562, height: 562)
+              randomImage1.frame=CGRect(x:x0Right-radius,y:wh/2-radius,width: radius*2,height: radius*2)
+              self.view.bringSubviewToFront(randomImage1)
+              //左を合成
+              if depth3D==0{
+                  randomImage2.image=randomImage1.image
+              }else{
+                  randomImage2.image=UIImage.ComposeUIImage(UIImageArray: [image,image3DLeft!], width: 562, height: 562)
+              }
+              randomImage2.frame=CGRect(x:x0Left-radius,y:wh/2-radius,width: radius*2,height: radius*2)
+              self.view.bringSubviewToFront(randomImage2)
+          }
+      }
     func getBackImage()->UIImage{
 
         var image:UIImage!
