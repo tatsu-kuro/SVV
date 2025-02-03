@@ -585,9 +585,11 @@ class ViewController: UIViewController {
         commandCenter.togglePlayPauseCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
         commandCenter.togglePlayPauseCommand.isEnabled = true
         commandCenter.togglePlayPauseCommand.addTarget{ event in
-            
-            self.startButton.sendActions(for: .touchUpInside)  // ⬅️ UIButton タップと同じ動作
-            
+            if self.alertController?.presentingViewController == nil{
+                
+           // }else{
+                self.startButton.sendActions(for: .touchUpInside)  // ⬅️ UIButton タップと同じ動作
+            }
 //            print("TogglePlayPause_TopViewController")
 //            self.startSVV(self.helpButton!)
             self.actionTimeLast=CFAbsoluteTimeGetCurrent()
