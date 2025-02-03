@@ -248,8 +248,9 @@ class SVVViewController: UIViewController {
                 }
                 actionTimeLast=CFAbsoluteTimeGetCurrent()
                 //    return
+            }else{
+                tapKettei()
             }
-            tapKettei()
             return .success
         }
         commandCenter.previousTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫

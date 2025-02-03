@@ -620,11 +620,11 @@ class ViewController: UIViewController {
           
           alertController?.addAction(UIAlertAction(title: "Cancel ⏪", style: .default, handler: { _ in
               print("Cancel が選択されました")
-              self.segueSVV()
-             
+  
           }))
           
           alertController?.addAction(UIAlertAction(title: "OK ⏩", style: .default, handler: { _ in
+              self.segueSVV()
               print("OK が選択されました⏻⏯")
           }))
           
