@@ -464,7 +464,7 @@
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="START⏯⏻"/>
+                                <state key="normal" title="START ⏯"/>
                                 <connections>
                                     <action selector="startSVV:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5n9-9S-Am6"/>
                                 </connections>

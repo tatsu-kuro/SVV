@@ -137,7 +137,12 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        commandCenter.togglePlayPauseCommand.removeTarget(nil)
+        commandCenter.nextTrackCommand.removeTarget(nil)
+        commandCenter.previousTrackCommand.removeTarget(nil)
+    }
     @IBAction func saveData(_ sender: Any) {
         sound(snd:"silence")
         if svvArray.count<1 && displaySensorArray.count<1{
@@ -292,7 +297,7 @@ class ViewController: UIViewController {
 //        self.becomeFirstResponder()
         setupAudioSession()  // ① オーディオセッションの設定を最初に行う
          self.becomeFirstResponder()  // ② その後、First Responder になる
-         setupRemoteControl()  // ③ 最後にリモートコントロールの設定
+//         setupRemoteControl()  // ③ 最後にリモートコントロールの設定
 
         sound(snd:"silence")
         _ = getUserDefault(str:"circleDiameter",ret:7)//if not exist, make
@@ -430,6 +435,7 @@ class ViewController: UIViewController {
         print("View:viewDidAppear",sensorArray.count,displaySensorArray.count)
         setButtons()
         setViews()
+        setupRemoteControl()
      }
     func sound(snd:String){
         if let soundharu = NSDataAsset(name: snd) {
@@ -574,25 +580,25 @@ class ViewController: UIViewController {
                print("Failed to set up audio session: \(error)")
            }
        }
+    let commandCenter = MPRemoteCommandCenter.shared()
     func setupRemoteControl() {
-        let commandCenter = MPRemoteCommandCenter.shared()
-        commandCenter.togglePlayPauseCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）
-
+        commandCenter.togglePlayPauseCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
         commandCenter.togglePlayPauseCommand.isEnabled = true
         commandCenter.togglePlayPauseCommand.addTarget{ event in
-            print("TogglePlayPause_TopViewController")
-            self.startSVV(self.helpButton!)
+            
+            self.startButton.sendActions(for: .touchUpInside)  // ⬅️ UIButton タップと同じ動作
+            
+//            print("TogglePlayPause_TopViewController")
+//            self.startSVV(self.helpButton!)
             self.actionTimeLast=CFAbsoluteTimeGetCurrent()
             return .success
         }
-        commandCenter.previousTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）
-
+        commandCenter.previousTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
         commandCenter.previousTrackCommand.addTarget { _ in
             self.cancelAction()
             return .success
         }
-        commandCenter.nextTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）
-
+        commandCenter.nextTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
         commandCenter.nextTrackCommand.addTarget { _ in
             self.okAction()
             return .success
@@ -612,14 +618,14 @@ class ViewController: UIViewController {
                
           alertController = UIAlertController(title: "", message: titleStr, preferredStyle: .alert)
           
-          alertController?.addAction(UIAlertAction(title: "OK (⏩ X)", style: .default, handler: { _ in
-              print("OK が選択されました")
+          alertController?.addAction(UIAlertAction(title: "Cancel ⏪", style: .default, handler: { _ in
+              print("Cancel が選択されました")
               self.segueSVV()
              
           }))
           
-          alertController?.addAction(UIAlertAction(title: "Cancel (⏪ A)", style: .cancel, handler: { _ in
-              print("キャンセル が選択されました⏻⏯")
+          alertController?.addAction(UIAlertAction(title: "OK ⏩", style: .default, handler: { _ in
+              print("OK が選択されました⏻⏯")
           }))
           
         
@@ -629,7 +635,7 @@ class ViewController: UIViewController {
       // ✅ OKボタンをリモコンで押す処理
       func okAction() {
           guard let alert = alertController else { return }
-          if alert.actions.first(where: { $0.title == "OK (⏩ X)" }) != nil {
+          if alert.actions.first(where: { $0.title == "OK ⏩" }) != nil {
               alert.dismiss(animated: true) { [self] in
                   print("OK が選択されましたaction")
                   if alertActiveFlag{
@@ -643,13 +649,13 @@ class ViewController: UIViewController {
       // ❌ キャンセルボタンをリモコンで押す処理
       func cancelAction() {
           guard let alert = alertController else { return }
-          if alert.actions.first(where: { $0.title == "Cancel (⏪ A)" }) != nil {
+          if alert.actions.first(where: { $0.title == "Cancel ⏪" }) != nil {
               alert.dismiss(animated: true) {
                   print("キャンセル が選択されましたaction")
               }
           }
       }
-      
+    
        
     @IBAction func returnToMe(segue: UIStoryboardSegue) {
         print("returnToMe****:SVV:",sensorArray.count,displaySensorArray.count)

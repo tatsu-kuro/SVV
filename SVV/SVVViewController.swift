@@ -10,6 +10,7 @@ import UIKit
 import CoreMotion
 //import AudioToolbox
 import AVFoundation
+import MediaPlayer
 
 class SVVViewController: UIViewController {
 //    var soundPlayer: AVAudioPlayer? = nil
@@ -180,6 +181,12 @@ class SVVViewController: UIViewController {
        
             motionManager.stopAccelerometerUpdates()
             print("Accelerometer updates stopped on back transition.")
+        commandCenter.togglePlayPauseCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.previousTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.nextTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.seekForwardCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.seekBackwardCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+
         
 //     // タイマーを停止する//二重に停止してもmainでも動く。どうして？
 //        if let workingTimer = timer{
@@ -197,6 +204,7 @@ class SVVViewController: UIViewController {
     var image3DRight:UIImage?
     override func viewDidAppear(_ animated: Bool) {
         print("didappear****")
+        setupRemoteControl()
     }
     override func viewDidDisappear(_ animated: Bool) {
         print("SVV:ViewDidDisapear")
@@ -226,33 +234,105 @@ class SVVViewController: UIViewController {
 //            displayTimeArray.append(CFAbsoluteTimeGetCurrent()-mainTime)
         }
     }
-    override func remoteControlReceived(with event: UIEvent?) {
-        guard event?.type == .remoteControl else { return }
-        if let event = event {
-            switch event.subtype {
-                
-            case .remoteControlTogglePlayPause:
-  //              print("TogglePlayPause")
-                if(movingBarFlag==true){
-                    if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
-                        print("doubleTap,stopAccelerometeupdates")
-                        motionManager.stopAccelerometerUpdates()
+    let commandCenter = MPRemoteCommandCenter.shared()
 
-                        returnMain()
-                    }
-                    actionTimeLast=CFAbsoluteTimeGetCurrent()
-                    return
+    func setupRemoteControl() {
+        commandCenter.togglePlayPauseCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.togglePlayPauseCommand.isEnabled = true
+        commandCenter.togglePlayPauseCommand.addTarget{ [self] event in
+            if(movingBarFlag==true){
+                if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
+                    print("doubleTap,stopAccelerometeupdates")
+                    motionManager.stopAccelerometerUpdates()
+                    returnMain()
                 }
-                tapKettei()
-//                movingBarFlag=true
-//                appendData()
-//                if lineMovingOnOff==0{
-//                   degree=getRandom()
-//                }
-//                if(tenTimesOnOff==1 && sensorArray.count==10){
-//                    returnMain()
-//                }
-            case .remoteControlPlay:
+                actionTimeLast=CFAbsoluteTimeGetCurrent()
+                //    return
+            }
+            tapKettei()
+            return .success
+        }
+        commandCenter.previousTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.previousTrackCommand.addTarget { [self] _ in
+            movingBarFlag=false
+            degree -= 1
+            return .success
+        }
+        commandCenter.nextTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.nextTrackCommand.addTarget { [self] _ in
+            movingBarFlag=false
+            degree += 1
+            return .success
+        }
+        commandCenter.seekForwardCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.seekForwardCommand.addTarget { [weak self] event in
+            guard let seekEvent = event as? MPSeekCommandEvent else {
+                return .commandFailed
+            }
+            
+            switch seekEvent.type{//}.positionTime == 0 {
+            case .beginSeeking:
+                print("⏪ 早送り開始！")
+                self!.rbf=true
+                self!.movingBarFlag=false
+                case .endSeeking://} else {
+                print("⏪ 早送り終了！")
+                self!.rbf=false
+            @unknown default:
+                print("ufo")
+            }
+            return .success
+        }
+        commandCenter.seekBackwardCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.seekBackwardCommand.addTarget { [weak self] event in
+            guard let seekEvent = event as? MPSeekCommandEvent else {
+                return .commandFailed
+            }
+            
+            switch seekEvent.type {
+            case .beginSeeking:
+                print("⏪ 巻き戻し開始！")
+                self!.lbf=true
+                self!.movingBarFlag=false
+            case .endSeeking:
+                print("⏹️ 巻き戻し終了！")
+                self!.lbf=false
+            @unknown default:
+                print("⚠️ 未知のイベント")
+            }
+            return .success
+        }
+        
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+    }
+    /*
+     override func remoteControlReceived(with event: UIEvent?) {
+     guard event?.type == .remoteControl else { return }
+     if let event = event {
+     switch event.subtype {
+     
+     case .remoteControlTogglePlayPause:
+     //              print("TogglePlayPause")
+     if(movingBarFlag==true){
+     if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
+     print("doubleTap,stopAccelerometeupdates")
+     motionManager.stopAccelerometerUpdates()
+     
+     returnMain()
+     }
+     actionTimeLast=CFAbsoluteTimeGetCurrent()
+     return
+     }
+     tapKettei()
+     //                movingBarFlag=true
+     //                appendData()
+     //                if lineMovingOnOff==0{
+     //                   degree=getRandom()
+     //                }
+     //                if(tenTimesOnOff==1 && sensorArray.count==10){
+     //                    returnMain()
+     //                }
+     case .remoteControlPlay:
  //               print("Play")
                 if(movingBarFlag==true){
                     if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3{
@@ -296,7 +376,7 @@ class SVVViewController: UIViewController {
                 print("Others")
             }
         }
-    }
+    }*/
     let KalQ2:Double = 0.0001
     let KalR2:Double = 0.001
     var KalX2:Double = 0.0
@@ -410,7 +490,7 @@ class SVVViewController: UIViewController {
                         audioPlayer.currentTime = 0
                     }
                     print("vibe_sound*****")//,motionmanagerFlag)
-                    //                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                                        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                     audioPlayer.play()
                     beepTimeLast=CFAbsoluteTimeGetCurrent()
                 }
