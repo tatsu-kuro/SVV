@@ -483,9 +483,9 @@ class SVVViewController: UIViewController {
             displaySensorArray.append(curAcc)
         }
         if(curAccz>5||curAccz < -5){//}||curAcc>3||curAcc < -3){
+            tiltFlag=true
             if beepOnOff==1{//} && motionmanagerFlag{
-                tiltFlag=true
-                if((CFAbsoluteTimeGetCurrent()-beepTimeLast)>0.5){
+                    if((CFAbsoluteTimeGetCurrent()-beepTimeLast)>0.5){
                     if (audioPlayer.isPlaying) {
                         audioPlayer.stop()
                         audioPlayer.currentTime = 0
@@ -495,8 +495,8 @@ class SVVViewController: UIViewController {
                     audioPlayer.play()
                     beepTimeLast=CFAbsoluteTimeGetCurrent()
                 }
-            }else{
-                tiltFlag=false
+//            }else{
+//                tiltFlag=false
             }
         }else{
          tiltFlag=false
@@ -846,7 +846,7 @@ class SVVViewController: UIViewController {
     func drawCircle(){//_ angle:CGFloat){
           let image1=getBackImage()
           let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: lineEndPoint, color: !tiltFlag ? lineColor:UIColor.systemGray5)
-   //       let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: !tiltFlag ? lineEndPoint:lineStartPoint, color: lineColor)
+//          let image=pasteLine(orgImg: image1, startP: lineStartPoint, endP: lineEndPoint,color: UIColor.systemGray5)
           if circleNumber==0{
               randomImage1.image=UIImage.ComposeUIImage(UIImageArray: [image,image3D!], width: 562, height: 562)
               randomImage1.frame=CGRect(x:ww/2-radius,y:wh/2-radius,width: radius*2,height: radius*2)

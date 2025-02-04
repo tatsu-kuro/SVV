@@ -271,7 +271,7 @@ class ViewController: UIViewController {
         }
         if type==1{
             str += "\n\n"
-            //            str += getExplanationText()
+//                        str += getExplanationText()
         }
         return str
     }
@@ -495,16 +495,13 @@ class ViewController: UIViewController {
     }
     let commandCenter = MPRemoteCommandCenter.shared()
     func setupRemoteControl() {
-        commandCenter.togglePlayPauseCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.togglePlayPauseCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、無駄に繰り返しても大丈夫
         commandCenter.togglePlayPauseCommand.isEnabled = true
         commandCenter.togglePlayPauseCommand.addTarget{ event in
-            if self.alertController?.presentingViewController == nil{
-                
-                // }else{
-                self.startButton.sendActions(for: .touchUpInside)  // ⬅️ UIButton タップと同じ動作
+            if self.alertController?.presentingViewController == nil{//alertが表示されてなければ
+                self.startButton.sendActions(for: .touchUpInside)  // startButtonタップと同じ動作
             }
-            //            print("TogglePlayPause_TopViewController")
-            //            self.startSVV(self.helpButton!)
+            self.sound(snd: "silence")
             self.actionTimeLast=CFAbsoluteTimeGetCurrent()
             return .success
         }
@@ -526,9 +523,9 @@ class ViewController: UIViewController {
     func showAlert() {
         var titleStr:String=""
         if Locale.preferredLanguages.first!.contains("ja"){
-            titleStr="データは上書きされ\n消えます！ OK？"
+            titleStr="データは上書きされ\n消えます！  OK？"
         }else{
-            titleStr="Data will be overwritten\nand gone! OK?"
+            titleStr="Data will be overwritten\nand gone!  OK?"
         }
         
         alertController = UIAlertController(title: "", message: titleStr, preferredStyle: .alert)
@@ -550,12 +547,16 @@ class ViewController: UIViewController {
     // ✅ OKボタンをリモコンで押す処理
     func okAction() {
         guard let alert = alertController else { return }
-        if alert.actions.first(where: { $0.title == "OK ⏩" }) != nil {
-            alert.dismiss(animated: true) { [self] in
-                print("OK が選択されましたaction")
-                if alertActiveFlag{
-                    alertActiveFlag=false
-                    self.segueSVV()
+        
+        if self.alertController?.presentingViewController != nil{//アラートが表示されていれば
+            
+            if alert.actions.first(where: { $0.title == "OK ⏩" }) != nil {
+                alert.dismiss(animated: true) { [self] in
+                    print("OK が選択されましたaction")
+                    if alertActiveFlag{
+                        alertActiveFlag=false
+                        self.segueSVV()
+                    }
                 }
             }
         }
