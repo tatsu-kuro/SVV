@@ -18,38 +18,38 @@ extension UIImage {
         let context = UIGraphicsGetCurrentContext()!
         context.translateBy(x: self.size.width / 2, y: self.size.height / 2)
         context.scaleBy(x: 1.0, y: -1.0)
-
+        
         context.rotate(by: radian)
         context.draw(self.cgImage!, in: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: self.size.height))
-
+        
         let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return rotatedImage
     }
 }
 /*
-extension DateFormatter {
-    // テンプレートの定義(例)
-    enum Template: String {
-        case date = "yMd"     // 2017/1/1
-        case time = "Hms"     // 12:39:22
-        case full = "yMdkHms" // 2017/1/1,12:39:22
-        case onlyHour = "k"   // 17時
-        case era = "GG"       // "西暦" (default) or "平成" (本体設定で和暦を指定している場合)
-        case weekDay = "EEEE" // 日曜日
-    }
-    
-    func setTemplate(_ template: Template) {
-        // optionsは拡張用の引数だが使用されていないため常に0
-        dateFormat = DateFormatter.dateFormat(fromTemplate: template.rawValue, options: 0, locale: .current)
-    }
-}
-*/
+ extension DateFormatter {
+ // テンプレートの定義(例)
+ enum Template: String {
+ case date = "yMd"     // 2017/1/1
+ case time = "Hms"     // 12:39:22
+ case full = "yMdkHms" // 2017/1/1,12:39:22
+ case onlyHour = "k"   // 17時
+ case era = "GG"       // "西暦" (default) or "平成" (本体設定で和暦を指定している場合)
+ case weekDay = "EEEE" // 日曜日
+ }
+ 
+ func setTemplate(_ template: Template) {
+ // optionsは拡張用の引数だが使用されていないため常に0
+ dateFormat = DateFormatter.dateFormat(fromTemplate: template.rawValue, options: 0, locale: .current)
+ }
+ }
+ */
 // テンプレートから時刻を表示
 class ViewController: UIViewController {
- //let fromAppDelegate: AppDelegate = NSApplication.shared().delegate as! AppDelegate
-//    let diameter0:Int = 7
-//    let width0:Int = 10
+    //let fromAppDelegate: AppDelegate = NSApplication.shared().delegate as! AppDelegate
+    //    let diameter0:Int = 7
+    //    let width0:Int = 10
     var diameter:Int = 0
     var width:Int = 0
     var soundPlayer: AVAudioPlayer? = nil
@@ -69,7 +69,7 @@ class ViewController: UIViewController {
     var svvStrNeg:String = ""
     var svvStrPos:String = ""
     var SVVorDisplay:Int = 0
-
+    
     @IBOutlet weak var resultView: UIImageView!
     var idString:String = ""
     @IBOutlet weak var listButton: UIButton!
@@ -102,16 +102,16 @@ class ViewController: UIViewController {
             UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
             UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
             print("View:viewDidLayoutSubviews")
-//            let left=UserDefaults.standard.integer(forKey:"leftPadding")
-//            print(topPadding,bottomPadding,left,rightPadding)    // iPhoneXなら44, その他は20.0
+            //            let left=UserDefaults.standard.integer(forKey:"leftPadding")
+            //            print(topPadding,bottomPadding,left,rightPadding)    // iPhoneXなら44, その他は20.0
         }
-//        setButtons()
+        //        setButtons()
     }
     func writeSVVdata(){//
         var text:String=""
         //let str = self.dateString.components(separatedBy: " ")
         if svvArray.count>0{
-          text = setSVVData(type: 0) + "\n\n"//0:save
+            text = setSVVData(type: 0) + "\n\n"//0:save
         }else{
             text=dateString + "," + idString + "\n"
             text += "time,"
@@ -271,18 +271,18 @@ class ViewController: UIViewController {
         }
         if type==1{
             str += "\n\n"
-//            str += getExplanationText()
+            //            str += getExplanationText()
         }
         return str
     }
-    func getExplanationText()->String{
-        if Locale.preferredLanguages.first!.contains("ja"){
-            return "データが保存されていないとき、リモートコントローラーの pause/play ボタンをダブルタップすると次の検査ができます。"
-        }else{
-            return "When data has not yet been saved, double-tap the pause/play button of the remote controller to perform the next examination."
-        }
-    }
-
+//    func getExplanationText()->String{
+//        if Locale.preferredLanguages.first!.contains("ja"){
+//            return "データが保存されていないとき、リモートコントローラーの pause/play ボタンをダブルタップすると次の検査ができます。"
+//        }else{
+//            return "When data has not yet been saved, double-tap the pause/play button of the remote controller to perform the next examination."
+//        }
+//    }
+    
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
             return UserDefaults.standard.integer(forKey:str)
@@ -293,12 +293,12 @@ class ViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-//        UIApplication.shared.beginReceivingRemoteControlEvents()
-//        self.becomeFirstResponder()
+        //        UIApplication.shared.beginReceivingRemoteControlEvents()
+        //        self.becomeFirstResponder()
         setupAudioSession()  // ① オーディオセッションの設定を最初に行う
-         self.becomeFirstResponder()  // ② その後、First Responder になる
-//         setupRemoteControl()  // ③ 最後にリモートコントロールの設定
-
+        self.becomeFirstResponder()  // ② その後、First Responder になる
+        //         setupRemoteControl()  // ③ 最後にリモートコントロールの設定
+        
         sound(snd:"silence")
         _ = getUserDefault(str:"circleDiameter",ret:7)//if not exist, make
         _ = getUserDefault(str:"lineWidth",ret:3)
@@ -315,7 +315,7 @@ class ViewController: UIViewController {
         _ = getUserDefault(str: "displayModeType",ret:1)
         _ = getUserDefault(str: "fps", ret: 0)
         _ = getUserDefault(str:"depth3D",ret:0)
-//        setupGameController()
+        //        setupGameController()
     }
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
@@ -325,14 +325,14 @@ class ViewController: UIViewController {
     }
     func loadSVVdata(filename:String)->String{
         if let dir = FileManager.default.urls( for: .documentDirectory, in: .userDomainMask ).first {
-
+            
             let path_file_name = dir.appendingPathComponent( filename )
-
+            
             do {
-
+                
                 let text = try String( contentsOf: path_file_name, encoding: String.Encoding.utf8 )
                 return text
-
+                
             } catch {
                 print("SVVdata read error")//エラー処理
             }
@@ -340,29 +340,29 @@ class ViewController: UIViewController {
         return ""
     }
     // Setup: Game Controller
-//    func setupGameController() {
-//        NotificationCenter.default.addObserver(
-//                self, selector: #selector(self.handleControllerDidConnect),
-//                name: NSNotification.Name.GCControllerDidConnect, object: nil)
-//          
-//        NotificationCenter.default.addObserver(
-//              self, selector: #selector(self.handleControllerDidDisconnect),
-//              name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
-//          
-//        guard let controller = GCController.controllers().first else {
-//              return
-//        }
-//        registerGameController(controller)
-//    }
-//    func setRight(but:UIButton){
-//        let ww=view.bounds.width
-//        let wh=view.bounds.height
-//        let bw=ww/6
-//        let bh=bw*15/44
-//        let sp=(ww/6)/6
-//        let by=wh-bh-sp*2/3
-//        but.frame = CGRect(x: sp*5+bw*4, y: by, width: bw, height: bh)
-//    }
+    //    func setupGameController() {
+    //        NotificationCenter.default.addObserver(
+    //                self, selector: #selector(self.handleControllerDidConnect),
+    //                name: NSNotification.Name.GCControllerDidConnect, object: nil)
+    //
+    //        NotificationCenter.default.addObserver(
+    //              self, selector: #selector(self.handleControllerDidDisconnect),
+    //              name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
+    //
+    //        guard let controller = GCController.controllers().first else {
+    //              return
+    //        }
+    //        registerGameController(controller)
+    //    }
+    //    func setRight(but:UIButton){
+    //        let ww=view.bounds.width
+    //        let wh=view.bounds.height
+    //        let bw=ww/6
+    //        let bh=bw*15/44
+    //        let sp=(ww/6)/6
+    //        let by=wh-bh-sp*2/3
+    //        but.frame = CGRect(x: sp*5+bw*4, y: by, width: bw, height: bh)
+    //    }
     func setButtons(){
         let ww=view.bounds.width-leftPadding-rightPadding
         let wh=view.bounds.height-topPadding-bottomPadding//topPadding is 0 anytime?
@@ -371,7 +371,7 @@ class ViewController: UIViewController {
         let bw=(ww-sp*6)/5
         let bh=bw/3.5
         let by=wh-bh-sp
-//        logoImage.frame = CGRect(x:leftPadding+0,y:0,width:ww,height:logoh)
+        //        logoImage.frame = CGRect(x:leftPadding+0,y:0,width:ww,height:logoh)
         listButton.frame = CGRect(x:leftPadding+sp, y: by, width: bw, height: bh)
         saveButton.frame = CGRect(x:leftPadding+sp*2+bw*1,y:by,width:bw,height:bh)
         startButton.frame = CGRect(x:leftPadding+sp*3+bw*2, y: by, width: bw, height: bh)//440*150
@@ -389,7 +389,7 @@ class ViewController: UIViewController {
     func setViews(){
         SVVorDisplay = getUserDefault(str:"SVVorDisplay",ret:0)
         if (sensorArray.count==0 && SVVorDisplay==0)||(displaySensorArray.count==0 && SVVorDisplay==1){
-             if SVVorDisplay==0{
+            if SVVorDisplay==0{
                 titleImage.image = UIImage(named: "svvhead")
             }else{
                 titleImage.image = UIImage(named: "svvheadDisplay")
@@ -414,7 +414,7 @@ class ViewController: UIViewController {
                 str += String(format:"%.1f",displaySensorArray[i]) + ","
             }
             str += "\n\n"
-//            str += getExplanationText()
+            //            str += getExplanationText()
             
             displayTextView.font=UIFont.monospacedSystemFont(ofSize: 12.0, weight: .regular)
             displayTextView.text! = str
@@ -436,7 +436,7 @@ class ViewController: UIViewController {
         setButtons()
         setViews()
         setupRemoteControl()
-     }
+    }
     func sound(snd:String){
         if let soundharu = NSDataAsset(name: snd) {
             soundPlayer = try? AVAudioPlayer(data: soundharu.data)
@@ -444,60 +444,10 @@ class ViewController: UIViewController {
         }
     }
     var startSVVtime=CFAbsoluteTimeGetCurrent()
-/*
-    @IBAction func startSVV(_ sender: Any) {//これを下のstartSVV()に変更すると、検査を繰り返すごとに次第に遅くなる
-        
-//        sound(snd:"silence")
-        var titleStr:String!
-        if Locale.preferredLanguages.first!.contains("ja"){
-            titleStr="データは上書きされ\n消えます！"
-        }else{
-            titleStr="Data will be overwritten\nand gone!"
-        }
-        //リモートコントローラーからは”HELP"button.のときはsaveFlagをチェックしない
-        let buttonTitle=(sender as! UIButton).currentTitle
-
-        if buttonTitle == "HELP" && savedFlag == false{//コントローラーからで保存されてなければ
-            if CFAbsoluteTimeGetCurrent() - startSVVtime<1{//SVVViewから戻ってきて1秒間は再スタート不可能とした。
-                return
-            }
-        }
-
-        if svvArray.count==0 && SVVorDisplay==0{
-            savedFlag=true
-        }
-        if savedFlag == false && buttonTitle=="START"{//ボタンタップで保存されてなければ
-            //setButtons(mode: false)
-            let alert = UIAlertController(
-                title: titleStr,/*"Data will be lost!"*/
-                message: "OK ?",
-                preferredStyle: .alert)
-            // アラートにボタンをつける
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                //self.setButtons(mode: false)
-                self.savedFlag=false
-                self.segueSVV()
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel,handler:{ action in
-                //self.setButtons(mode: true)
-                //         print("****cancel")
-            }))
-            // アラート表示
-            self.present(alert, animated: true, completion: nil)
-            //１：直ぐここと２を通る
-        }else if savedFlag == false{//
- //           idString="temp"
-//            writeSVVdata()
-            self.segueSVV()
-        }else{
-            self.segueSVV()
-        }
-        //２：直ぐここを通る
-    }
-   */
+    
     @IBAction func startSVV(_ sender: Any) {
-                sound(snd:"silence")
-
+        sound(snd:"silence")
+        
         if savedFlag == false{//保存されてなければ
             if CFAbsoluteTimeGetCurrent() - startSVVtime<1{//SVVViewから戻ってきて1秒間は再スタート不可能とした。
                 return
@@ -533,53 +483,16 @@ class ViewController: UIViewController {
         self.present(nextView, animated: true, completion: nil)
     }
     var actionTimeLast=CFAbsoluteTimeGetCurrent()//tap or remoteController
-
- /*   override func remoteControlReceived(with event: UIEvent?) {
-        guard event?.type == .remoteControl else { return }
-        if let event = event {
-            switch event.subtype {
-            
-            case .remoteControlPlay:
-                //               print("Play")
-                startSVV(helpButton!)
-            case .remoteControlPause:
-                print("Pause")
-            case .remoteControlStop:
-                print("Stop")
-            case .remoteControlTogglePlayPause:
-                print("TogglePlayPause")
-                //保存されているか、もしくはダブルタップの時はstartSVV
-                if (CFAbsoluteTimeGetCurrent()-actionTimeLast)<0.3 || savedFlag == true{
-                    startSVV(helpButton!)
-                }
-                actionTimeLast=CFAbsoluteTimeGetCurrent()
-                return
-              case .remoteControlNextTrack:
-                print("NextTrack")
-            case .remoteControlPreviousTrack:
-                print("PreviousTrack")
-            case .remoteControlBeginSeekingBackward:
-                print("BeginSeekingBackward")
-            case .remoteControlEndSeekingBackward:
-                print("EndSeekingBackward")
-            case .remoteControlBeginSeekingForward:
-                print("BeginSeekingForward")
-            case .remoteControlEndSeekingForward:
-                print("EndSeekingForward")
-            default:
-                print("Others")
-            }
-        }
-    }*/
+    
     func setupAudioSession() {
-           let audioSession = AVAudioSession.sharedInstance()
-           do {
-               try audioSession.setCategory(.playback, mode: .default, options: [])
-               try audioSession.setActive(true)
-           } catch {
-               print("Failed to set up audio session: \(error)")
-           }
-       }
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playback, mode: .default, options: [])
+            try audioSession.setActive(true)
+        } catch {
+            print("Failed to set up audio session: \(error)")
+        }
+    }
     let commandCenter = MPRemoteCommandCenter.shared()
     func setupRemoteControl() {
         commandCenter.togglePlayPauseCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
@@ -587,11 +500,11 @@ class ViewController: UIViewController {
         commandCenter.togglePlayPauseCommand.addTarget{ event in
             if self.alertController?.presentingViewController == nil{
                 
-           // }else{
+                // }else{
                 self.startButton.sendActions(for: .touchUpInside)  // ⬅️ UIButton タップと同じ動作
             }
-//            print("TogglePlayPause_TopViewController")
-//            self.startSVV(self.helpButton!)
+            //            print("TogglePlayPause_TopViewController")
+            //            self.startSVV(self.helpButton!)
             self.actionTimeLast=CFAbsoluteTimeGetCurrent()
             return .success
         }
@@ -609,56 +522,56 @@ class ViewController: UIViewController {
         UIApplication.shared.beginReceivingRemoteControlEvents()
     }
     var alertController: UIAlertController?
-      
-      func showAlert() {
-          var titleStr:String=""
-          if Locale.preferredLanguages.first!.contains("ja"){
-              titleStr="データは上書きされ\n消えます！ OK？"
-          }else{
-              titleStr="Data will be overwritten\nand gone! OK?"
-          }
-               
-          alertController = UIAlertController(title: "", message: titleStr, preferredStyle: .alert)
-          
-          alertController?.addAction(UIAlertAction(title: "Cancel ⏪", style: .default, handler: { _ in
-              print("Cancel が選択されました")
-  
-          }))
-          
-          alertController?.addAction(UIAlertAction(title: "OK ⏩", style: .default, handler: { _ in
-              self.segueSVV()
-              print("OK が選択されました⏻⏯")
-          }))
-          
-        
-          present(alertController!, animated: true)
-      }
-      var alertActiveFlag:Bool=false
-      // ✅ OKボタンをリモコンで押す処理
-      func okAction() {
-          guard let alert = alertController else { return }
-          if alert.actions.first(where: { $0.title == "OK ⏩" }) != nil {
-              alert.dismiss(animated: true) { [self] in
-                  print("OK が選択されましたaction")
-                  if alertActiveFlag{
-                      alertActiveFlag=false
-                      self.segueSVV()
-                  }
-              }
-          }
-      }
-      
-      // ❌ キャンセルボタンをリモコンで押す処理
-      func cancelAction() {
-          guard let alert = alertController else { return }
-          if alert.actions.first(where: { $0.title == "Cancel ⏪" }) != nil {
-              alert.dismiss(animated: true) {
-                  print("キャンセル が選択されましたaction")
-              }
-          }
-      }
     
-       
+    func showAlert() {
+        var titleStr:String=""
+        if Locale.preferredLanguages.first!.contains("ja"){
+            titleStr="データは上書きされ\n消えます！ OK？"
+        }else{
+            titleStr="Data will be overwritten\nand gone! OK?"
+        }
+        
+        alertController = UIAlertController(title: "", message: titleStr, preferredStyle: .alert)
+        
+        alertController?.addAction(UIAlertAction(title: "Cancel ⏪", style: .default, handler: { _ in
+            print("Cancel が選択されました")
+            
+        }))
+        
+        alertController?.addAction(UIAlertAction(title: "OK ⏩", style: .default, handler: { _ in
+            self.segueSVV()
+            print("OK が選択されました⏻⏯")
+        }))
+        
+        
+        present(alertController!, animated: true)
+    }
+    var alertActiveFlag:Bool=false
+    // ✅ OKボタンをリモコンで押す処理
+    func okAction() {
+        guard let alert = alertController else { return }
+        if alert.actions.first(where: { $0.title == "OK ⏩" }) != nil {
+            alert.dismiss(animated: true) { [self] in
+                print("OK が選択されましたaction")
+                if alertActiveFlag{
+                    alertActiveFlag=false
+                    self.segueSVV()
+                }
+            }
+        }
+    }
+    
+    // ❌ キャンセルボタンをリモコンで押す処理
+    func cancelAction() {
+        guard let alert = alertController else { return }
+        if alert.actions.first(where: { $0.title == "Cancel ⏪" }) != nil {
+            alert.dismiss(animated: true) {
+                print("キャンセル が選択されましたaction")
+            }
+        }
+    }
+    
+    
     @IBAction func returnToMe(segue: UIStoryboardSegue) {
         print("returnToMe****:SVV:",sensorArray.count,displaySensorArray.count)
         if let vc = segue.source as? SetteiViewController {
@@ -682,11 +595,12 @@ class ViewController: UIViewController {
                 }
             }
         }
-//        if let vc = segue.source as? SVVViewController {
-//            if let vc = segue.source as? SVVViewController {
-//                SVVViewController.audioPlayer.stop()
-//                
-//            }
-//        }
+        
+        //        if let vc = segue.source as? SVVViewController {
+        //            if let vc = segue.source as? SVVViewController {
+        //                SVVViewController.audioPlayer.stop()
+        //
+        //            }
+        //        }
     }
 }
