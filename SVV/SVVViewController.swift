@@ -13,7 +13,7 @@ import AVFoundation
 import MediaPlayer
 
 class SVVViewController: UIViewController {
-//    var soundPlayer: AVAudioPlayer? = nil
+    var soundPlayer: AVAudioPlayer? = nil
 //    var motionmanagerFlag:Bool=false
     @IBOutlet weak var randomImage1: UIImageView!
     @IBOutlet weak var randomImage2: UIImageView!
@@ -64,8 +64,8 @@ class SVVViewController: UIViewController {
     var depth3D:Int = 0
     func sound(snd:String){
         if let soundharu = NSDataAsset(name: snd) {
-            audioPlayer = try? AVAudioPlayer(data: soundharu.data)
-            audioPlayer?.play() // → これで音が鳴る
+            soundPlayer = try? AVAudioPlayer(data: soundharu.data)
+            soundPlayer?.play() // → これで音が鳴る
         }
     }
 
@@ -491,7 +491,7 @@ class SVVViewController: UIViewController {
                         audioPlayer.currentTime = 0
                     }
                     print("vibe_sound*****")//,motionmanagerFlag)
-                                        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+//                                        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                     audioPlayer.play()
                     beepTimeLast=CFAbsoluteTimeGetCurrent()
                 }
