@@ -204,10 +204,11 @@ class ViewController: UIViewController {
         var svvAvPos:Double = 0
         var svvSdPos:Double = 0
         var str=dateString + "," + idString + "\n"
-        str +=  "range,n,average,SD\n"
+        str +=  "Head_Tilt,N,Average,SD\n"
         if type==1{
             str=dateString + "   ID:" + idString + "\n\n"
-            str += "range    ,  n,average,SD\n"
+//            str += "range    ,  n,average,SD\n"
+            str += "Head_Tilt,  N, Average, SD\n"
         }
         if svvArray.count > 0 {
             var svvArrayNor = Array<Double>()
@@ -230,25 +231,25 @@ class ViewController: UIViewController {
             svvSdPos=getSD(array:svvArrayPos,svvAv: svvAvPos)
             if type==1{
                 if svvArrayNeg.count>0{
-                    str += String(format: "     <-10, %02d, %.02f, %.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
+                    str += String(format: "    T<-10, %02d,  %06.02f, %.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
                 }
                 if svvArrayNor.count>0{
-                    str += String(format: "-10<= <10, %02d, %.02f, %.02f\n",svvArrayNor.count,svvAvNor,svvSdNor)
+                    str += String(format: "-10<=T<10, %02d,  %06.02f, %.02f\n",svvArrayNor.count,svvAvNor,svvSdNor)
                 }
                 if svvArrayPos.count>0{
-                    str += String(format: "10<=     , %02d, %.02f, %.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
+                    str += String(format: "10<=T    , %02d,  %06.02f, %.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
                 }
                 str += "\n"
                 
             }else{
                 if svvArrayNeg.count>0{
-                    str += String(format: " <-10,%d,%.02f,%.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
+                    str += String(format: "T<-10,%d,%.02f,%.02f\n",svvArrayNeg.count,svvAvNeg,svvSdNeg)
                 }
                 if svvArrayNor.count>0{
-                    str += String(format: "-10<= <10,%d,%.02f,%.02f\n",svvArrayNor.count,svvAvNor,svvSdNor)
+                    str += String(format: "-10<=T<10,%d,%.02f,%.02f\n",svvArrayNor.count,svvAvNor,svvSdNor)
                 }
                 if svvArrayPos.count>0{
-                    str += String(format: "10<= ,%d,%.02f,%.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
+                    str += String(format: "10<=T,%d,%.02f,%.02f\n",svvArrayPos.count,svvAvPos,svvSdPos)
                 }
             }
         }
@@ -274,17 +275,24 @@ class ViewController: UIViewController {
         }
         if type==1{
             str += "\n\n"
-//                        str += getExplanationText()
+            str += getExplanationText()
         }
         return str
     }
-//    func getExplanationText()->String{
-//        if Locale.preferredLanguages.first!.contains("ja"){
-//            return "データが保存されていないとき、リモートコントローラーの pause/play ボタンをダブルタップすると次の検査ができます。"
-//        }else{
-//            return "When data has not yet been saved, double-tap the pause/play button of the remote controller to perform the next examination."
-//        }
-//    }
+    func getExplanationText()->String{
+        if svvArray.count==0 && SVVorDisplay==0{
+            savedFlag=true
+        }
+        if !savedFlag{
+            if Locale.preferredLanguages.first!.contains("ja"){
+                return "結果が保存されていない時、リモートコントローラーの ⏪ の長押しで結果保存できます。"
+            }else{
+                return "If the result is not saved, long-pressing ⏪ on the remote controller saves it."
+            }
+        }else{
+            return ""
+        }
+    }
     
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
@@ -515,7 +523,7 @@ class ViewController: UIViewController {
         }
         commandCenter.seekBackwardCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
         commandCenter.seekBackwardCommand.addTarget { _ in
-            self.cancelAction()
+            self.cancelAction_seekBackward()
             return .success
         }
         commandCenter.nextTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
@@ -576,15 +584,39 @@ class ViewController: UIViewController {
     }
     
     // ❌ キャンセルボタンをリモコンで押す処理
-    func cancelAction() {
-        guard let alert = alertController else { return }
+    func cancelAction_seekBackward() {
+        guard let alert = alertController else {//アラートが表示されていない時
+            print("cancelAction_seekBackward****")
+            if svvArray.count==0 && SVVorDisplay==0{
+                savedFlag=true
+            }
+            if !savedFlag{
+                idString="remote"
+                viewDidAppear(true)
+                // イメージビューに設定する
+                savedFlag = true //解析結果がsaveされた
+                setViews()
+                writeSVVdata()
+            }
+            return
+        }
         if alert.actions.first(where: { $0.title == "Cancel ⏪" }) != nil {
-            alert.dismiss(animated: true) {
-                print("キャンセル がリモコンで選択されましたaction")
+            alert.dismiss(animated: true) { [self] in
+                print("キャンセル seekBackがリモコンで選択されましたaction")
+                alertController=nil
             }
         }
     }
-    
+    func cancelAction() {
+        guard let alert = alertController else {
+            return
+        }
+        if alert.actions.first(where: { $0.title == "Cancel ⏪" }) != nil {
+            alert.dismiss(animated: true) {
+                print("キャンセル previousがリモコンで選択されましたaction")
+            }
+        }
+    }
     
     @IBAction func returnToMe(segue: UIStoryboardSegue) {
         print("returnToMe****:SVV:",sensorArray.count,displaySensorArray.count)
