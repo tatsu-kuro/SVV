@@ -275,24 +275,24 @@ class ViewController: UIViewController {
         }
         if type==1{
             str += "\n\n"
-            str += getExplanationText()
+//            str += getExplanationText()
         }
         return str
     }
-    func getExplanationText()->String{
-        if svvArray.count==0 && SVVorDisplay==0{
-            savedFlag=true
-        }
-        if !savedFlag{
-            if Locale.preferredLanguages.first!.contains("ja"){
-                return "結果が保存されていない時、リモートコントローラーの ⏪ の長押しで結果保存できます。"
-            }else{
-                return "If the result is not saved, long-pressing ⏪ on the remote controller saves it."
-            }
-        }else{
-            return ""
-        }
-    }
+//    func getExplanationText()->String{
+//        if svvArray.count==0 && SVVorDisplay==0{
+//            savedFlag=true
+//        }
+//        if !savedFlag{
+//            if Locale.preferredLanguages.first!.contains("ja"){
+//                return "結果が保存されていない時、リモートコントローラーの ⏪ の長押しで結果保存できます。"
+//            }else{
+//                return "If the result is not saved, long-pressing ⏪ on the remote controller saves it."
+//            }
+//        }else{
+//            return ""
+//        }
+//    }
     
     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
@@ -587,6 +587,30 @@ class ViewController: UIViewController {
     func cancelAction_seekBackward() {
         guard let alert = alertController else {//アラートが表示されていない時
             print("cancelAction_seekBackward****")
+//            if svvArray.count==0 && SVVorDisplay==0{
+//                savedFlag=true
+//            }
+//            if !savedFlag{
+//                idString="remote"
+//                viewDidAppear(true)
+//                // イメージビューに設定する
+//                savedFlag = true //解析結果がsaveされた
+//                setViews()
+//                writeSVVdata()
+//            }
+            return
+        }
+        if alert.actions.first(where: { $0.title == "Cancel ⏪" }) != nil {
+            alert.dismiss(animated: true) { [self] in
+                print("キャンセル seekBackがリモコンで選択されましたaction")
+                alertController=nil
+            }
+        }
+    }
+    func cancelAction() {
+        guard let alert = alertController else {
+            print("cancelAction****")
+
             if svvArray.count==0 && SVVorDisplay==0{
                 savedFlag=true
             }
@@ -602,18 +626,8 @@ class ViewController: UIViewController {
         }
         if alert.actions.first(where: { $0.title == "Cancel ⏪" }) != nil {
             alert.dismiss(animated: true) { [self] in
-                print("キャンセル seekBackがリモコンで選択されましたaction")
-                alertController=nil
-            }
-        }
-    }
-    func cancelAction() {
-        guard let alert = alertController else {
-            return
-        }
-        if alert.actions.first(where: { $0.title == "Cancel ⏪" }) != nil {
-            alert.dismiss(animated: true) {
                 print("キャンセル previousがリモコンで選択されましたaction")
+                alertController=nil
             }
         }
     }
