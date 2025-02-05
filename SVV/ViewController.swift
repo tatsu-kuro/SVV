@@ -167,9 +167,12 @@ class ViewController: UIViewController {
             self.savedFlag = true //解析結果がsaveされた
             self.setViews()
             self.writeSVVdata()
+            self.sound(snd:"silence")
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (action:UIAlertAction!) -> Void in
+            print("canel_save")
+            self.sound(snd:"silence")
             //         self.idNumber = 1//キャンセルしてもここは通らない？
         }
         // UIAlertControllerにtextFieldを追加
@@ -448,7 +451,7 @@ class ViewController: UIViewController {
         setViews()
         setupRemoteControl()
     }
-    func sound(snd:String){
+    func sound(snd:String){//リモコンの制御権を取得できるようだ
         if let soundharu = NSDataAsset(name: snd) {
             soundPlayer = try? AVAudioPlayer(data: soundharu.data)
             soundPlayer?.play() // → これで音が鳴る
@@ -512,7 +515,7 @@ class ViewController: UIViewController {
             if self.alertController?.presentingViewController == nil{//alertが表示されてなければ
                 self.startButton.sendActions(for: .touchUpInside)  // startButtonタップと同じ動作
             }
-            self.sound(snd: "silence")
+            self.sound(snd:"silence")
             self.actionTimeLast=CFAbsoluteTimeGetCurrent()
             return .success
         }
@@ -655,6 +658,7 @@ class ViewController: UIViewController {
                 }
             }
         }
+        sound(snd:"silence")
         
         //        if let vc = segue.source as? SVVViewController {
         //            if let vc = segue.source as? SVVViewController {
