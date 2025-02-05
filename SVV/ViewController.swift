@@ -142,6 +142,9 @@ class ViewController: UIViewController {
         commandCenter.togglePlayPauseCommand.removeTarget(nil)
         commandCenter.nextTrackCommand.removeTarget(nil)
         commandCenter.previousTrackCommand.removeTarget(nil)
+        commandCenter.seekBackwardCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.seekForwardCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+
     }
     @IBAction func saveData(_ sender: Any) {
         sound(snd:"silence")
@@ -510,8 +513,18 @@ class ViewController: UIViewController {
             self.cancelAction()
             return .success
         }
+        commandCenter.seekBackwardCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.seekBackwardCommand.addTarget { _ in
+            self.cancelAction()
+            return .success
+        }
         commandCenter.nextTrackCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
         commandCenter.nextTrackCommand.addTarget { _ in
+            self.okAction()
+            return .success
+        }
+        commandCenter.seekForwardCommand.removeTarget(nil) // 既存のターゲットを削除（重複防止）、削除されていても大丈夫
+        commandCenter.seekForwardCommand.addTarget { _ in
             self.okAction()
             return .success
         }
@@ -537,7 +550,7 @@ class ViewController: UIViewController {
         
         alertController?.addAction(UIAlertAction(title: "OK ⏩", style: .default, handler: { _ in
             self.segueSVV()
-            print("OK が選択されました⏻⏯")
+            print("OK が選択されました")
         }))
         
         
@@ -552,7 +565,7 @@ class ViewController: UIViewController {
             
             if alert.actions.first(where: { $0.title == "OK ⏩" }) != nil {
                 alert.dismiss(animated: true) { [self] in
-                    print("OK が選択されましたaction")
+                    print("OK がリモコンで選択されましたaction")
                     if alertActiveFlag{
                         alertActiveFlag=false
                         self.segueSVV()
@@ -567,7 +580,7 @@ class ViewController: UIViewController {
         guard let alert = alertController else { return }
         if alert.actions.first(where: { $0.title == "Cancel ⏪" }) != nil {
             alert.dismiss(animated: true) {
-                print("キャンセル が選択されましたaction")
+                print("キャンセル がリモコンで選択されましたaction")
             }
         }
     }
